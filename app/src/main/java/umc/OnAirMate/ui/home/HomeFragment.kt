@@ -1,11 +1,11 @@
-package umc.OnAirMate.ui.home
+package umc.onairmate.ui.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import umc.OnAirMate.databinding.FragmentHomeBinding
+import umc.onairmate.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
 

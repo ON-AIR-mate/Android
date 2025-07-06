@@ -1,11 +1,11 @@
-package umc.OnAirMate.ui.friend
+package umc.onairmate.ui.friend
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import umc.OnAirMate.databinding.FragmentFriendBinding
+import umc.onairmate.databinding.FragmentFriendBinding
 
 class FriendFragment : Fragment() {
 

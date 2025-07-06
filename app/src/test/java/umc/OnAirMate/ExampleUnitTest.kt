@@ -1,4 +1,4 @@
-package umc.OnAirMate
+package umc.onairmate
 
 import org.junit.Test
 
