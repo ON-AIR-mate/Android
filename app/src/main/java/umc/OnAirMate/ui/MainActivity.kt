@@ -1,4 +1,4 @@
-package umc.onairmate
+package umc.onairmate.ui
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -6,8 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import dagger.hilt.android.AndroidEntryPoint
+import umc.onairmate.R
 import umc.onairmate.databinding.ActivityMainBinding
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -25,7 +28,10 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_lounge, R.id.navigation_friend, R.id.navigation_profile
+                R.id.navigation_home,
+                R.id.navigation_lounge,
+                R.id.navigation_friend,
+                R.id.navigation_profile
             )
         )
 

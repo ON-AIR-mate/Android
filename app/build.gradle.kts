@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.hilt.android)
+    kotlin("kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -51,4 +54,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Hilt 의존성 주입
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+
+
 }
