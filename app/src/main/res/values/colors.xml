@@ -2,10 +2,18 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="primary">#DB1E32</color>
+    <color name="main">#DB1E32</color>
     <color name="sub">#F8D2D6</color>
-    <color name="select">#9FA4A9</color>
+    <color name="disable">#9FA4A9</color>
     <color name="input">#F7F8F9</color>
-    <color name="font1">#464C52</color>
-    <color name="font2">#73787E</color>
+
+    <color name="text1">#1B1D1F</color>
+    <color name="text2">#26282B</color>
+    <color name="text3">#454C53</color>
+    <color name="text4">#72787F</color>
+    <color name="text5">#9EA4AA</color>
+    <color name="text6">#C9CDD2</color>
+    <color name="text7">#E8EBED</color>
+    <color name="text8">#F78F9</color>
+
 </resources>
