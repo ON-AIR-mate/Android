@@ -8,11 +8,20 @@ TargetSDK : 35
 minSDK : 26
 
 &nbsp; &nbsp; 
+## Library  
+- android-youtube-player : 유튜브 영상 재생 
+- io.socket:socket.io-client : 실시간 채팅
+- com.google.dagger:hilt-android : 의존성 주입
+- com.squareup.retrofit2:retrofit : 네트워크 연결
+- com.squareup.retrofit2:converter-gson : 데이터 파싱
+- com.google.android.flexbox : 유연한 UI 구성 
+&nbsp; &nbsp; 
+
 ## branch 전략 (**github-flow)**
 
 ```
 ├─main
-    ├─[화면 이름] : 기능 이름  
+    ├─feature/화면이름-기능이름   
 ```
   
 - 모든 브랜치는 main에서 만든다
@@ -29,7 +38,7 @@ ex) feat: 채팅 기능 구현
 
 **🏷️타입**
 
-- **feature** : 새로운 기능 구현
+- **feat** : 새로운 기능 구현
 - **fix** : 버그 및 오류 수정
 - **style**: 스타일, 포멧 등에 관한 커밋
 - **chore** : 자잘한 수정
