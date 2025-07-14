@@ -1,4 +1,4 @@
-package umc.OnAirMate.ui.home
+package umc.onairmate.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
