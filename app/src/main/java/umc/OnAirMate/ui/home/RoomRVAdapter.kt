@@ -6,11 +6,16 @@ import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.databinding.RvItemRoomBinding
 
 class RoomRVAdapter(
-    private val items : List<String>
+    private val items : List<String>,
+    private val itemClick: (String) -> Unit
 ) : RecyclerView.Adapter<RoomRVAdapter.ViewHolder>() {
     inner class ViewHolder(private val binding: RvItemRoomBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(pos : Int){
             binding.tvRoomName.text = items[pos]
+
+            binding.root.setOnClickListener {
+                itemClick(items[pos])
+            }
         }
     }
 

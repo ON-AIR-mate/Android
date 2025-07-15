@@ -34,7 +34,6 @@ class SearchTypeSpinnerAdapter(
         return binding.root
     }
 
-    // 클릭 리스너 추가해야함 
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         // 선택된 항목을 표시할 때는 기본 TextView만 필요하므로 따로 작성
