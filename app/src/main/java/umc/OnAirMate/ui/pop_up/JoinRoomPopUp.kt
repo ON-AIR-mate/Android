@@ -49,6 +49,9 @@ class JoinRoomPopup (
             // 모든 함수 수행 후 팝업 닫기
             dismiss()
         }
+        binding.btnCancel.setOnClickListener {
+            dismiss()
+        }
     }
 
     // 방 정보 주입
