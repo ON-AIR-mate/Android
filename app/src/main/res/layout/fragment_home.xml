@@ -77,12 +77,13 @@
             android:layout_height="0dp"
             android:layout_weight="1"/>
 
-        <Spinner
+        <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/spinner_search_type"
-            android:layout_width="58dp"
+            android:layout_width="64dp"
             android:layout_height="16dp"
             android:dropDownWidth="wrap_content"
-            android:background="@color/sub"
+            android:background="@drawable/custom_spinner_search_type"
+            android:drawableEnd="@drawable/ic_arrow_down"
             android:spinnerMode="dropdown"
             android:layout_marginEnd="2dp"/>
     </LinearLayout>
@@ -148,6 +149,7 @@
             android:layout_height="0dp"
             android:orientation="vertical"
             android:layout_marginTop="7dp"
+
             tools:listitem="@layout/rv_item_room"/>
     </LinearLayout>
 
