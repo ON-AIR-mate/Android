@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import umc.onairmate.data.RoomData
 import umc.onairmate.databinding.FragmentHomeBinding
-import umc.onairmate.ui.home.room.ItemClick
+import umc.onairmate.ui.home.room.HomeEventListener
 import umc.onairmate.ui.home.room.RoomRVAdapter
 import umc.onairmate.ui.pop_up.JoinRoomPopup
 import umc.onairmate.ui.pop_up.PopupClick
@@ -33,9 +33,13 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        adapter = RoomRVAdapter(requireContext(), object : ItemClick{
+        adapter = RoomRVAdapter(requireContext(), object : HomeEventListener{
             override fun joinRoom(data : RoomData){
                 showJoinRoomPopup(data.roomId.toString())
+            }
+
+            override fun selectSortType(type: String) {
+                Log.d(TAG, "정렬 기준 : ${type}")
             }
         })
         binding.rvContents.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)

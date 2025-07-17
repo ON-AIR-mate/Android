@@ -12,7 +12,7 @@ import umc.onairmate.databinding.RvItemRoomHeaderBinding
 
 class RoomRVAdapter(
     private val context : Context,
-    private val itemClick: ItemClick
+    private val homeEventListener: HomeEventListener
 ) : ListAdapter<RoomRVAdapter.RecyclerItem, RecyclerView.ViewHolder>(RoomRVAdapterDiffCallback) {
 
     companion object {
@@ -42,12 +42,12 @@ class RoomRVAdapter(
             VIEW_TYPE_HEADER ->{
                 val binding = RvItemRoomHeaderBinding.inflate(inflater,parent, false)
                 binding.root.layoutParams = layoutParams
-                return RoomHeaderViewHolder(binding, context, itemClick)
+                return RoomHeaderViewHolder(binding, context, homeEventListener)
             }
             VIEW_TYPE_ROOM -> {
                 val binding = RvItemRoomBinding.inflate(inflater, parent, false)
                 binding.root.layoutParams = layoutParams
-                return RoomViewHolder(binding, context, itemClick)
+                return RoomViewHolder(binding, context, homeEventListener)
             }
             else -> throw IllegalArgumentException("Unknown viewType: $viewType")
         }

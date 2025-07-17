@@ -8,12 +8,12 @@ import umc.onairmate.databinding.RvItemRoomBinding
 class RoomViewHolder(
     private val binding : RvItemRoomBinding,
     private val context: Context,
-    private val itemClick: ItemClick
+    private val homeEventListener: HomeEventListener
 ):  RecyclerView.ViewHolder(binding.root) {
     fun bind(data : RoomData){
         binding.tvRoomName.text = data.roomId.toString()
         binding.root.setOnClickListener {
-            itemClick.joinRoom(data)
+            homeEventListener.joinRoom(data)
         }
     }
 }

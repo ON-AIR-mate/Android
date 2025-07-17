@@ -1,6 +1,9 @@
 package umc.onairmate.ui.home.room
 
 import android.content.Context
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.R
@@ -9,7 +12,7 @@ import umc.onairmate.databinding.RvItemRoomHeaderBinding
 class RoomHeaderViewHolder(
     private val binding : RvItemRoomHeaderBinding,
     private val context: Context,
-    private val itemClick: ItemClick
+    private val homeEventListener: HomeEventListener
 ):  RecyclerView.ViewHolder(binding.root) {
 
     fun bind(type: Int){
@@ -22,5 +25,22 @@ class RoomHeaderViewHolder(
         binding.tvHeaderTitle.setTextColor(ContextCompat.getColor(context, textColor[type]))
         binding.tvHeaderTitle.setBackgroundColor(ContextCompat.getColor(context, backgroundColor[type]))
         binding.line.setBackgroundColor(ContextCompat.getColor(context, lineColor[type]))
+
+        val sortTypeList = listOf("최신순", "방장 인기 순")
+        val adapter =HomeSortTypeSpinnerAdapter(context, sortTypeList)
+        binding.spinnerSortType.adapter = adapter
+        binding.spinnerSortType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedItem = parent?.getItemAtPosition(position) as String
+                homeEventListener.selectSortType(selectedItem)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
     }
 }
