@@ -11,7 +11,12 @@ class RoomViewHolder(
     private val homeEventListener: HomeEventListener
 ):  RecyclerView.ViewHolder(binding.root) {
     fun bind(data : RoomData){
-        binding.tvRoomName.text = data.roomId.toString()
+        binding.tvRoomName.text = data.roomTitle
+        binding.tvRoomUserNum.text = "${data.currentParticipants} / ${data.maxParticipants}"
+        binding.tvPlayTime.text = data.duration
+        binding.tvManagerNickname.text = data.hostNickname
+
+
         binding.root.setOnClickListener {
             homeEventListener.joinRoom(data)
         }

@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
 
         adapter = RoomRVAdapter(requireContext(), object : HomeEventListener{
             override fun joinRoom(data : RoomData){
-                showJoinRoomPopup(data.roomId.toString())
+                showJoinRoomPopup(data)
             }
 
             override fun selectSortType(type: String) {
@@ -107,10 +107,10 @@ class HomeFragment : Fragment() {
     }
 
     // 방 참여 팝업 띄우기
-    private fun showJoinRoomPopup(info : String){
-        val dialog = JoinRoomPopup(info, object : PopupClick {
+    private fun showJoinRoomPopup(data : RoomData){
+        val dialog = JoinRoomPopup(data, object : PopupClick {
             override fun rightClickFunction() {
-
+                // 방 액티비티로 전환
             }
 
         })
@@ -120,7 +120,7 @@ class HomeFragment : Fragment() {
 
     // 검색결과 없을 경우 추천 영상 띄우기
     private fun recommendVideo(videoList: List<String>){
-        val videoAdapter = RecommendedVideoRVAdapter(videoList){ info ->
+        val videoAdapter = RecommendedVideoRVAdapter(videoList){ _ ->
             Log.d(TAG,"추천 영상 클릭")
         }
         binding.rvVideos.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)

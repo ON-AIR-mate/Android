@@ -22,7 +22,17 @@ class SearchRoomViewModel @Inject constructor(
 
     private fun getDummyRoom(n : Int) : List<RoomData>{
         val dummy = arrayListOf<RoomData>()
-        for(i in 0.. n) dummy.add(RoomData(i))
+        for(i in 0.. n) dummy.add(RoomData(
+            roomId = i,
+            roomTitle = "dummy ${i}",
+            videoTitle = "",
+            videoThumbnail = null,
+            hostNickname = "host${i}",
+            hostProfileImage = null,
+            currentParticipants = i,
+            maxParticipants = 10,
+            duration = "00:45:20"
+        ))
         return dummy
     }
     private fun getDummyString(n : Int) : List<String>{

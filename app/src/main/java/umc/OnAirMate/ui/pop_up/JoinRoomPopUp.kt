@@ -8,11 +8,13 @@ import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
+import umc.onairmate.R
+import umc.onairmate.data.RoomData
 import umc.onairmate.databinding.PopupJoinRoomBinding
 
 
 class JoinRoomPopup (
-    private val roomInfo : String ,
+    private val data : RoomData  ,
     private val clickFunc : PopupClick
 ): DialogFragment(){
     lateinit var binding : PopupJoinRoomBinding
@@ -56,13 +58,19 @@ class JoinRoomPopup (
 
     // 방 정보 주입
     private fun initData(){
-        binding.tvRoomName.text = roomInfo
+        val message = if(data.isPrivate) R.string.join_room_private else R.string.join_room_public
+        binding.tvMessage.setText(message)
+
+        binding.tvRoomName.text = data.roomTitle
+        binding.tvManagerNickname.text = data.hostNickname
+        binding.tvPlayTime.text = data.duration
+        binding.tvRoomUserNum.text = "${data.currentParticipants} / ${data.maxParticipants}"
     }
 
 
     // 팝업 띄우는 화면용 함수 -> 복붙하여 사용
-    private fun test(info : String){
-        val dialog = JoinRoomPopup(info, object : PopupClick {
+    private fun test(data : RoomData){
+        val dialog = JoinRoomPopup(data, object : PopupClick {
             override fun rightClickFunction() {
 
             }

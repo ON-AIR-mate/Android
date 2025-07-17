@@ -54,6 +54,12 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.gson)
+
+
     // Hilt 의존성 주입
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
