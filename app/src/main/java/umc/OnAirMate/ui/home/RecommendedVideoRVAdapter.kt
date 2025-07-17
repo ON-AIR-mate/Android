@@ -8,12 +8,10 @@ import umc.onairmate.databinding.RvItemRecommendedVideoBinding
 class RecommendedVideoRVAdapter(
     private val items : List<String>,
     private val itemClick: (String) -> Unit
-) : RecyclerView.Adapter<RecommendedVideoRVAdapter.ViewHolder> (){
-
-
+) : RecyclerView.Adapter<RecommendedVideoRVAdapter.ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT)
         val binding = RvItemRecommendedVideoBinding.inflate(inflater,parent,false)
         binding.root.layoutParams = layoutParams
         return ViewHolder(binding)

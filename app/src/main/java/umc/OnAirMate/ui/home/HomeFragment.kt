@@ -8,14 +8,18 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import umc.onairmate.data.RoomData
 import umc.onairmate.databinding.FragmentHomeBinding
+import umc.onairmate.ui.home.room.ItemClick
+import umc.onairmate.ui.home.room.RoomRVAdapter
 import umc.onairmate.ui.pop_up.JoinRoomPopup
 import umc.onairmate.ui.pop_up.PopupClick
 
 class HomeFragment : Fragment() {
     private val TAG = javaClass.simpleName
+
+    lateinit var adapter: RoomRVAdapter
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -29,19 +33,15 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        val list : ArrayList<String> = arrayListOf()
-        for(i in 1..5) list.add("room${i}")
+        adapter = RoomRVAdapter(requireContext(), object : ItemClick{
+            override fun joinRoom(data : RoomData){
+                showJoinRoomPopup(data.roomId.toString())
+            }
+        })
+        binding.rvContents.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+        binding.rvContents.adapter = adapter
 
-        val adapter = RoomRVAdapter(list) {info ->
-            showJoinRoomPopup(info)
-        }
-        binding.rvContinuingRooms.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
-        binding.rvContinuingRooms.adapter = adapter
 
-        binding.rvOnairRooms.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
-        binding.rvOnairRooms.adapter = adapter
-
-        setUpObserver()
         setUpObserver()
         setSearchSpinner()
         initClickListener()
@@ -55,37 +55,21 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpObserver(){
-        searchViewModel.testData.observe(viewLifecycleOwner){ list ->
+        searchViewModel.roomData.observe(viewLifecycleOwner){ list ->
             if (list == null) return@observe
             if (list.isEmpty()) {
-                binding.layoutOnAir.visibility = View.GONE
-                binding.rvOnairRooms.visibility = View.GONE
-
-                binding.layoutEmpty.visibility = View.VISIBLE
                 searchViewModel.getRecommendedVideo()
+                binding.layoutEmpty.visibility = View.VISIBLE
             }else{
-                binding.layoutOnAir.visibility = View.VISIBLE
-                binding.rvOnairRooms.visibility = View.VISIBLE
-
-                binding.layoutContinuing.visibility = View.GONE
-                binding.rvContinuingRooms.visibility = View.GONE
                 binding.layoutEmpty.visibility = View.GONE
-
-
-                val adapter = RoomRVAdapter(list) {info ->
-                    showJoinRoomPopup(info)
-                }
-                binding.rvOnairRooms.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
-                binding.rvOnairRooms.adapter = adapter
             }
+            adapter.initData(list,list)
         }
-
         searchViewModel.recommendedVideo.observe(viewLifecycleOwner) {videos ->
             if(videos == null) return@observe
             recommendVideo(videos)
         }
     }
-
 
     // 상단 버튼들
     private fun initClickListener(){
@@ -132,14 +116,10 @@ class HomeFragment : Fragment() {
 
     // 검색결과 없을 경우 추천 영상 띄우기
     private fun recommendVideo(videoList: List<String>){
-        binding.tvContinue.text = "추천영상"
-        binding.layoutContinuing.visibility = View.VISIBLE
-        binding.rvContinuingRooms.visibility = View.VISIBLE
-
-        val adapter = RecommendedVideoRVAdapter(videoList){ info ->
+        val videoAdapter = RecommendedVideoRVAdapter(videoList){ info ->
             Log.d(TAG,"추천 영상 클릭")
         }
-        binding.rvContinuingRooms.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvContinuingRooms.adapter = adapter
+        binding.rvVideos.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvVideos.adapter =  videoAdapter
     }
 }
