@@ -24,7 +24,7 @@ class RoomRVAdapter(
     }
 
     sealed class RecyclerItem {
-        data class HeaderTypeItem(val type : Int): RecyclerItem()
+        data class HeaderTypeItem(val type : Int, val sortFlag : Boolean = true): RecyclerItem()
         data class RoomTypeItem(val data: RoomData)  : RecyclerItem()
     }
 
@@ -56,7 +56,7 @@ class RoomRVAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
        when(val item = getItem(position)){
-           is RecyclerItem.HeaderTypeItem -> (holder as RoomHeaderViewHolder).bind(item.type)
+           is RecyclerItem.HeaderTypeItem -> (holder as RoomHeaderViewHolder).bind(item.type, item.sortFlag)
            is RecyclerItem.RoomTypeItem -> (holder as RoomViewHolder).bind(item.data)
        }
     }
@@ -73,7 +73,7 @@ class RoomRVAdapter(
         }
 
         if (onAirRooms.isNotEmpty()) {
-            itemList.add(RecyclerItem.HeaderTypeItem(ROOM_ON_AIR)) // onAir 방 헤더
+            itemList.add(RecyclerItem.HeaderTypeItem(ROOM_ON_AIR, continuingRooms.isEmpty())) // onAir 방 헤더
             itemList.addAll(onAirRooms.map { RecyclerItem.RoomTypeItem(it) })
         }
         submitList(emptyList())

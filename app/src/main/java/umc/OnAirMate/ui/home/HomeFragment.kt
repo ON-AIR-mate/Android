@@ -49,9 +49,11 @@ class HomeFragment : Fragment() {
         setUpObserver()
         setSearchSpinner()
         initClickListener()
-
+        searchViewModel.getRoomList(1)
         return binding.root
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

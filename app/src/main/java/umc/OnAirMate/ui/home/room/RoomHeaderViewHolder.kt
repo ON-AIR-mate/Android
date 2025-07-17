@@ -3,7 +3,6 @@ package umc.onairmate.ui.home.room
 import android.content.Context
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.R
@@ -15,7 +14,7 @@ class RoomHeaderViewHolder(
     private val homeEventListener: HomeEventListener
 ):  RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(type: Int){
+    fun bind(type: Int, sortFlag: Boolean){
         val textColor = listOf( R.color.white, R.color.disable)
         val backgroundColor= listOf(R.color.main, R.color.transparent)
         val lineColor = listOf(R.color.main, R.color.disable)
@@ -25,6 +24,9 @@ class RoomHeaderViewHolder(
         binding.tvHeaderTitle.setTextColor(ContextCompat.getColor(context, textColor[type]))
         binding.tvHeaderTitle.setBackgroundColor(ContextCompat.getColor(context, backgroundColor[type]))
         binding.line.setBackgroundColor(ContextCompat.getColor(context, lineColor[type]))
+
+        // 맨위에 헤더가 아니면 정렬 드롭다운 숨기기
+        binding.spinnerSortType.visibility = if(sortFlag)View.VISIBLE else View.GONE
 
         val sortTypeList = listOf("최신순", "방장 인기 순")
         val adapter =HomeSortTypeSpinnerAdapter(context, sortTypeList)
