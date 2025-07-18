@@ -1,4 +1,4 @@
-package umc.onairmate.ui.home
+package umc.OnAirMate.ui.home
 
 import android.os.Bundle
 import android.util.Log
@@ -9,17 +9,17 @@ import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import umc.onairmate.data.RoomData
-import umc.onairmate.databinding.FragmentHomeBinding
-import umc.onairmate.ui.home.room.HomeEventListener
-import umc.onairmate.ui.home.room.RoomRVAdapter
-import umc.onairmate.ui.pop_up.JoinRoomPopup
-import umc.onairmate.ui.pop_up.PopupClick
+import umc.OnAirMate.data.RoomData
+import umc.OnAirMate.databinding.FragmentHomeBinding
+import umc.OnAirMate.ui.home.room.HomeEventListener
+import umc.OnAirMate.ui.home.room.RoomRVAdapter
+import umc.OnAirMate.ui.pop_up.JoinRoomPopup
+import umc.OnAirMate.ui.pop_up.PopupClick
 
 class HomeFragment : Fragment() {
     private val TAG = javaClass.simpleName
 
-    lateinit var adapter: RoomRVAdapter
+    private lateinit var adapter: RoomRVAdapter
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -127,7 +127,9 @@ class HomeFragment : Fragment() {
             }
 
         })
-        dialog.show(activity?.supportFragmentManager!!, "JoinRoomPopup")
+        activity?.supportFragmentManager?.let { fm ->
+            dialog.show(fm, "JoinRoomPopup")
+        }
     }
 
 

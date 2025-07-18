@@ -1,12 +1,12 @@
-package umc.onairmate.ui.home.room
+package umc.OnAirMate.ui.home.room
 
 import android.content.Context
 import android.view.View
 import android.widget.AdapterView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import umc.onairmate.R
-import umc.onairmate.databinding.RvItemRoomHeaderBinding
+import umc.OnAirMate.R
+import umc.OnAirMate.databinding.RvItemRoomHeaderBinding
 
 class RoomHeaderViewHolder(
     private val binding : RvItemRoomHeaderBinding,

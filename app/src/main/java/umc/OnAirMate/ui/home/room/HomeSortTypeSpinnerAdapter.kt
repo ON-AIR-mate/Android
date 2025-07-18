@@ -1,4 +1,4 @@
-package umc.onairmate.ui.home.room
+package umc.OnAirMate.ui.home.room
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import umc.onairmate.R
-import umc.onairmate.databinding.SpItemHomeSortTypeBinding
+import umc.OnAirMate.R
+import umc.OnAirMate.databinding.SpItemHomeSortTypeBinding
 
 // 방 정렬 타입 드롭다운 어댑터
 class HomeSortTypeSpinnerAdapter(

@@ -1,4 +1,4 @@
-package umc.onairmate.ui.home.room
+package umc.OnAirMate.ui.home.room
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import umc.onairmate.data.RoomData
-import umc.onairmate.databinding.RvItemRoomBinding
-import umc.onairmate.databinding.RvItemRoomHeaderBinding
+import umc.OnAirMate.data.RoomData
+import umc.OnAirMate.databinding.RvItemRoomBinding
+import umc.OnAirMate.databinding.RvItemRoomHeaderBinding
 
 class RoomRVAdapter(
     private val context : Context,

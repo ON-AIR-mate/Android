@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -18,7 +19,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.App.Bold.8sp"
         android:textColor="@color/white"
-        android:text="text"
+        tools:text="Sort"
         android:gravity="center_vertical"
         android:paddingHorizontal="8dp"
         android:paddingVertical="2dp"

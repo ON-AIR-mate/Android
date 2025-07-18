@@ -1,4 +1,4 @@
-package umc.onairmate.ui.home
+package umc.OnAirMate.ui.home
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import umc.onairmate.R
-import umc.onairmate.databinding.SpItemSearchTypeBinding
+import umc.OnAirMate.R
+import umc.OnAirMate.databinding.SpItemSearchTypeBinding
 
 class SearchTypeSpinnerAdapter(
     private val context: Context,

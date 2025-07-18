@@ -1,9 +1,9 @@
-package umc.onairmate.ui.home.room
+package umc.OnAirMate.ui.home.room
 
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
-import umc.onairmate.data.RoomData
-import umc.onairmate.databinding.RvItemRoomBinding
+import umc.OnAirMate.data.RoomData
+import umc.OnAirMate.databinding.RvItemRoomBinding
 
 class RoomViewHolder(
     private val binding : RvItemRoomBinding,

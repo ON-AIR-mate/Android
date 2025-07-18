@@ -1,9 +1,9 @@
-package umc.onairmate.ui.home
+package umc.OnAirMate.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import umc.onairmate.data.RoomData
+import umc.OnAirMate.data.RoomData
 import javax.inject.Inject
 
 class SearchRoomViewModel @Inject constructor(

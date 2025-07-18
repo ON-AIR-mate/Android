@@ -1,4 +1,4 @@
-package umc.onairmate.data
+package umc.OnAirMate.data
 
 import com.google.gson.annotations.SerializedName
 

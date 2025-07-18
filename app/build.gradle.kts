@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "umc.onairmate"
+    namespace = "umc.OnAirMate"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "umc.onairmate"
+        applicationId = "umc.OnAirMate"
         minSdk = 26
         targetSdk = 35
         versionCode = 1

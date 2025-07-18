@@ -1,9 +1,9 @@
-package umc.onairmate.ui.home
+package umc.OnAirMate.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import umc.onairmate.databinding.RvItemRecommendedVideoBinding
+import umc.OnAirMate.databinding.RvItemRecommendedVideoBinding
 
 class RecommendedVideoRVAdapter(
     private val items : List<String>,
