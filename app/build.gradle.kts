@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "umc.onairmate"
+    namespace = "umc.OnAirMate"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "umc.onairmate"
+        applicationId = "umc.OnAirMate"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
@@ -53,6 +53,12 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.gson)
+
 
     // Hilt 의존성 주입
     implementation(libs.hilt.android)
