@@ -33,6 +33,28 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
+        setView()
+        setUpObserver()
+        setSearchSpinner()
+        initClickListener()
+
+        return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // 초기 데이터 삽입
+        searchViewModel.getRoomList(1)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+
+    // 리사이클러뷰 adapter설정
+    private fun setView() {
         adapter = RoomRVAdapter(requireContext(), object : HomeEventListener{
             override fun joinRoom(data : RoomData){
                 showJoinRoomPopup(data)
@@ -44,22 +66,10 @@ class HomeFragment : Fragment() {
         })
         binding.rvContents.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
         binding.rvContents.adapter = adapter
-
-
-        setUpObserver()
-        setSearchSpinner()
-        initClickListener()
-        searchViewModel.getRoomList(1)
-        return binding.root
     }
 
 
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
+    // viewHolder속 데이터 변화 감지
     private fun setUpObserver(){
         searchViewModel.roomData.observe(viewLifecycleOwner){ list ->
             if (list == null) return@observe
@@ -78,6 +88,7 @@ class HomeFragment : Fragment() {
     }
 
     // 상단 버튼들
+    // 일단 데이터 변화를 테스트 하는데 활용 -> 나중에 Intent로 변환할 예정
     private fun initClickListener(){
         binding.ivYoutubeSearch.setOnClickListener {
             searchViewModel.getRoomList(0)

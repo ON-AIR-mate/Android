@@ -14,6 +14,7 @@ class RoomHeaderViewHolder(
     private val homeEventListener: HomeEventListener
 ):  RecyclerView.ViewHolder(binding.root) {
 
+    // sortFlag : 정렬 드롭다운 표시 여부 -> 맨 위의 리스트가 아님 숨김
     fun bind(type: Int, sortFlag: Boolean){
         val textColor = listOf( R.color.white, R.color.disable)
         val backgroundColor= listOf(R.color.main, R.color.transparent)
@@ -28,6 +29,8 @@ class RoomHeaderViewHolder(
         // 맨위에 헤더가 아니면 정렬 드롭다운 숨기기
         binding.spinnerSortType.visibility = if(sortFlag)View.VISIBLE else View.GONE
 
+
+        // 정렬 드롭다운 세팅
         val sortTypeList = listOf("최신순", "방장 인기 순")
         val adapter =HomeSortTypeSpinnerAdapter(context, sortTypeList)
         binding.spinnerSortType.adapter = adapter
@@ -38,6 +41,7 @@ class RoomHeaderViewHolder(
                 position: Int,
                 id: Long
             ) {
+                // 선택된 값의 String (정렬 타입) 리턴
                 val selectedItem = parent?.getItemAtPosition(position) as String
                 homeEventListener.selectSortType(selectedItem)
             }

@@ -24,6 +24,7 @@ class RecommendedVideoRVAdapter(
     override fun getItemCount(): Int  = items.size
 
     inner class ViewHolder(private val binding : RvItemRecommendedVideoBinding) : RecyclerView.ViewHolder(binding.root){
+        // 임시로 클릭리스너만 할당 -> 추후 데이터 타입 결정되면 반영 예정
         fun bind(pos: Int){
             binding.root.setOnClickListener {
                 itemClick(items[pos])

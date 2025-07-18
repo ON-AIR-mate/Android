@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import umc.onairmate.R
 import umc.onairmate.databinding.SpItemHomeSortTypeBinding
 
+// 방 정렬 타입 드롭다운 어댑터
 class HomeSortTypeSpinnerAdapter(
     private val context: Context,
     private val items: List<String>
@@ -27,6 +28,7 @@ class HomeSortTypeSpinnerAdapter(
 
 
 
+    // 선택된 값을 보여주는 textView 디자인 세팅
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         // 선택된 항목을 표시할 때는 기본 TextView만 필요하므로 따로 작성
         val view = convertView ?: LayoutInflater.from(context).inflate(android.R.layout.simple_spinner_item, parent, false)
