@@ -13,6 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import umc.OnAirMate.OnAirMateApplication
 import umc.OnAirMate.R
+import umc.OnAirMate.BuildConfig
 import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -32,7 +33,8 @@ object NetworkModule {
     @BaseRetrofit
     fun provideOKHttpClient(): OkHttpClient {
         val interceptor = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
+            level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
+                    else  HttpLoggingInterceptor.Level.NONE
         }
 
         val closeInterceptor = Interceptor { chain ->
