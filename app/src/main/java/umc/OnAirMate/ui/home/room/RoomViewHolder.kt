@@ -2,7 +2,7 @@ package umc.OnAirMate.ui.home.room
 
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
-import umc.OnAirMate.data.RoomData
+import umc.OnAirMate.data.model.entity.RoomData
 import umc.OnAirMate.databinding.RvItemRoomBinding
 
 class RoomViewHolder(
