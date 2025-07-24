@@ -1,4 +1,4 @@
-package umc.onairmate.ui
+package umc.OnAirMate.ui
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -7,8 +7,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
-import umc.onairmate.R
-import umc.onairmate.databinding.ActivityMainBinding
+import umc.OnAirMate.R
+import umc.OnAirMate.databinding.ActivityMainBinding
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

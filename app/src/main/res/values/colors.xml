@@ -6,6 +6,8 @@
     <color name="sub">#F8D2D6</color>
     <color name="disable">#9FA4A9</color>
     <color name="input">#F7F8F9</color>
+    <color name="transparent">#00FFFFFF</color>
+
 
     <color name="text1">#1B1D1F</color>
     <color name="text2">#26282B</color>
