@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import umc.OnAirMate.databinding.FragmentFriendBinding
+import umc.OnAirMate.ui.home.SearchRoomViewModel
+import kotlin.getValue
 
 @AndroidEntryPoint
 class FriendFragment : Fragment() {
@@ -16,6 +19,7 @@ class FriendFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val tabList = arrayListOf("친구 목록", "받은 요청", "친구 찾기")
+    private val viewModel: FriendViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,6 +31,7 @@ class FriendFragment : Fragment() {
 
         val adapter = FriendVPAdapter(this)
         binding.vpFriend.adapter = adapter
+        binding.vpFriend.setUserInputEnabled(false);
         TabLayoutMediator(binding.tbFriend, binding.vpFriend){
                 tab, position ->
             tab.text = tabList[position]

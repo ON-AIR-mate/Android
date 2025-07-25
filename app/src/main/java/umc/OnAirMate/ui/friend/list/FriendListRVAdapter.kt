@@ -14,13 +14,17 @@ import umc.OnAirMate.ui.friend.list.FriendListRVAdapter.RecyclerItem
 
 class FriendListRVAdapter(
     private val context : Context,
-    private val itemClick : ItemClick
 ): ListAdapter<RecyclerItem, RecyclerView.ViewHolder>(FriendRVAdapterDiffCallback) {
+    private lateinit var itemClick: ItemClickListener
 
-    interface ItemClick{
+    interface ItemClickListener{
         fun clickMessage()
         fun clickMore()
         fun acceptRequest()
+    }
+
+    fun setItemClickListener(listener : ItemClickListener){
+        itemClick = listener
     }
 
     companion object{
@@ -68,6 +72,19 @@ class FriendListRVAdapter(
             is RecyclerItem.ListTypeItem -> (holder as FriendViewHolder).bind(item.data)
             is RecyclerItem.RequestTypeItem -> (holder as FriendRequestViewHolder).bind(item.data)
         }
+    }
+
+    fun initFriendList(items : List<FriendData>){
+        submitList(emptyList())
+        val itemList = mutableListOf<RecyclerItem>()
+        itemList.addAll(items .map { RecyclerItem.ListTypeItem(it)}) // 방 리스트 아이템
+        submitList(itemList)
+    }
+    fun initRequestList(items : List<RequestedFriendData>){
+        submitList(emptyList())
+        val itemList = mutableListOf<RecyclerItem>()
+        itemList.addAll(items.map { RecyclerItem.RequestTypeItem(it)}) // 방 리스트 아이템
+        submitList(itemList)
     }
 
     object FriendRVAdapterDiffCallback : DiffUtil.ItemCallback<RecyclerItem>() {
