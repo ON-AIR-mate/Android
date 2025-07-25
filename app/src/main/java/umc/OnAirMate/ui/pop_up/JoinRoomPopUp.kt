@@ -9,12 +9,12 @@ import android.view.Window
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import umc.OnAirMate.R
-import umc.OnAirMate.data.RoomData
+import umc.OnAirMate.data.model.entity.RoomData
 import umc.OnAirMate.databinding.PopupJoinRoomBinding
 
 
 class JoinRoomPopup (
-    private val data : RoomData  ,
+    private val data : RoomData,
     private val clickFunc : PopupClick
 ): DialogFragment(){
     lateinit var binding : PopupJoinRoomBinding
