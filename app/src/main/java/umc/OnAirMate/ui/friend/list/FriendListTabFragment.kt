@@ -1,10 +1,11 @@
-package umc.OnAirMate.ui.friend
+package umc.OnAirMate.ui.friend.list
 
 import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.OnAirMate.databinding.FragmentFriendListTabBinding
 
@@ -21,6 +22,23 @@ class FriendListTabFragment: Fragment() {
     ): View {
         _binding = FragmentFriendListTabBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        val adapter = FriendListRVAdapter(requireContext(), object: FriendListRVAdapter.ItemClick{
+            override fun clickMessage() {
+                // TODO("Not yet implemented")
+            }
+
+            override fun clickMore() {
+                // TODO("Not yet implemented")
+            }
+
+            override fun acceptRequest() {
+                // TODO("Not yet implemented")
+            }
+
+        })
+        binding.rvFriendList.adapter = adapter
+        binding.rvFriendList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         return root
     }
