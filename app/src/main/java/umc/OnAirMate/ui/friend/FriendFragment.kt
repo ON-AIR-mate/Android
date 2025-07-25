@@ -5,24 +5,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 import umc.OnAirMate.databinding.FragmentFriendBinding
 
+@AndroidEntryPoint
 class FriendFragment : Fragment() {
-
+    private val TAG = this.javaClass.simpleName
     private var _binding: FragmentFriendBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+
+    private val tabList = arrayListOf("친구 목록", "받은 요청", "친구 찾기")
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentFriendBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        val adapter = FriendVPAdapter(this)
+        binding.vpFriend.adapter = adapter
+        TabLayoutMediator(binding.tbFriend, binding.vpFriend){
+                tab, position ->
+            tab.text = tabList[position]
+        }.attach()
 
         return root
     }
@@ -31,4 +39,5 @@ class FriendFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }
