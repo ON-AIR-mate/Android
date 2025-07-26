@@ -1,0 +1,99 @@
+[33mcommit 3ef33f8e50a14ad19d0fcd8f0ce04e41c59fa5e6[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: sungahbak <pasunga12@naver.com>
+Date:   Sat Jul 19 18:35:30 2025 +0900
+
+    feat: 라운지 전체목록 화면 및 북마크 팝업 기능 구현
+    
+    - 라운지 전체목록 RecyclerView 연결
+    - 북마크 팝업 및 삭제 버튼 추가
+    - 관련 XML 및 어댑터 수정
+
+[33mcommit a15a0a5a96208d91be6ec1d73db595f3fe9eb501[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: jiyeong <110177589+jiyoung02@users.noreply.github.com>
+Date:   Wed Jul 9 13:48:17 2025 +0900
+
+    docs: 필요 라이브러리 추가
+
+[33mcommit 48da4161bc521b77e9cf9323f79720c6090b4842[m
+Author: iwannacat <ju0808lie@naver.com>
+Date:   Tue Jul 8 14:56:24 2025 +0900
+
+    feat: hilt 의존성 주입
+
+[33mcommit 5b1262dd9174e29f457a3744409f296c258ad7f7[m
+Author: iwannacat <ju0808lie@naver.com>
+Date:   Tue Jul 8 14:04:25 2025 +0900
+
+    feat: 바텀네비 아이콘 추가
+
+[33mcommit 945e2a6c4fb5bbe6911a6ed45f2e04308025ef1d[m
+Author: iwannacat <ju0808lie@naver.com>
+Date:   Tue Jul 8 14:03:31 2025 +0900
+
+    style: 텍스트 추가
+
+[33mcommit cd4d3c7953f220a5d9db297eaeb889e0059d34aa[m
+Author: iwannacat <ju0808lie@naver.com>
+Date:   Tue Jul 8 12:00:52 2025 +0900
+
+    style: textstyle 작성
+
+[33mcommit bf99a6e16432aac11353da899bb4bca5374c1acb[m
+Author: iwannacat <ju0808lie@naver.com>
+Date:   Tue Jul 8 11:33:59 2025 +0900
+
+    style: 색상 변경사항 적용
+
+[33mcommit 085ebc19201713078bf039786b84772dca4f365c[m
+Author: tama <rufina130@naver.com>
+Date:   Mon Jul 7 17:44:27 2025 +0900
+
+    style: color & themes 수정
+
+[33mcommit 6708011255654ccb332c37f15fef6456107cc032[m
+Author: iwannacat <ju0808lie@naver.com>
+Date:   Sun Jul 6 20:27:51 2025 +0900
+
+    docs: pr 탬플릿 초안 작성
+
+[33mcommit e5212ae0d025136b85cc6f59f282d39d1febcb8f[m
+Author: iwannacat <ju0808lie@naver.com>
+Date:   Sun Jul 6 17:08:02 2025 +0900
+
+    chore: 패키지 이름 수정
+
+[33mcommit 24b96a2dad956d86e8a5f08bcc9de703922f5e17[m
+Author: jiyeong <110177589+jiyoung02@users.noreply.github.com>
+Date:   Sun Jul 6 17:00:43 2025 +0900
+
+    docs: 컨벤션 등록
+
+[33mcommit d31e59427973cbea2b681254b2f1b3b03e6c5517[m
+Author: iwannacat <ju0808lie@naver.com>
+Date:   Sat Jul 5 22:40:22 2025 +0900
+
+    프로젝트 생성
+
+[33mcommit 955bc389c9d9cc70884feb15102de3a878855c0d[m
+Author: iwannacat <ju0808lie@naver.com>
+Date:   Sat Jul 5 22:39:02 2025 +0900
+
+    gitignore 수정
+
+[33mcommit 8d93e300dc43babc46848a9f2ff6246a677b9263[m
+Author: iwannacat <ju0808lie@naver.com>
+Date:   Sat Jul 5 22:33:54 2025 +0900
+
+    gitignore 등록
+
+[33mcommit cb239db2b3c5f5183508ddad6009403ea9711617[m
+Author: iwannacat <ju0808lie@naver.com>
+Date:   Fri Jun 27 16:26:59 2025 +0900
+
+    Docs : 컨벤션 등록 테스트
+
+[33mcommit 2d0e65175ada1f749ae98cbac1f250a76de01d4d[m
+Author: superdupercom <107748637+superdupercom@users.noreply.github.com>
+Date:   Wed Jun 25 15:39:06 2025 +0900
+
+    Initial commit
