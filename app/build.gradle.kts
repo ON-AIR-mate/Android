@@ -73,5 +73,6 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
 
-
+    // 네트워크 이미지 로딩
+    implementation(libs.coil)
 }
