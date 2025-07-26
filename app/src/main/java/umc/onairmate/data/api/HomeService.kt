@@ -1,4 +1,4 @@
-package umc.OnAirMate.data.api
+package umc.onairmate.data.api
 
 interface HomeService {
 }

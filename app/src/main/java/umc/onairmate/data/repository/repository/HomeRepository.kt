@@ -1,4 +1,4 @@
-package umc.OnAirMate.data.repository.repository
+package umc.onairmate.data.repository.repository
 
 interface HomeRepository {
 }

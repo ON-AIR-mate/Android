@@ -1,11 +1,11 @@
-package umc.OnAirMate.module
+package umc.onairmate.module
 
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import umc.OnAirMate.data.api.HomeService
+import umc.onairmate.data.api.HomeService
 import javax.inject.Singleton
 
 

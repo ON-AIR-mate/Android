@@ -1,4 +1,4 @@
-package umc.OnAirMate.ui.pop_up
+package umc.onairmate.ui.pop_up
 
 interface PopupClick {
 

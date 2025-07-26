@@ -1,4 +1,4 @@
-package umc.OnAirMate.module
+package umc.onairmate.module
 
 import dagger.Module
 import dagger.Provides
@@ -11,9 +11,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import umc.OnAirMate.OnAirMateApplication
-import umc.OnAirMate.R
-import umc.OnAirMate.BuildConfig
+import umc.onairmate.OnAirMateApplication
+import umc.onairmate.R
+import umc.onairmate.BuildConfig
 import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton

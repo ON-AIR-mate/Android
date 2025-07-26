@@ -1,11 +1,11 @@
-package umc.OnAirMate.ui.friend
+package umc.onairmate.ui.friend
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import umc.OnAirMate.data.FriendData
-import umc.OnAirMate.data.RequestedFriendData
+import umc.onairmate.data.FriendData
+import umc.onairmate.data.RequestedFriendData
 import javax.inject.Inject
 
 class FriendViewModel @Inject constructor(

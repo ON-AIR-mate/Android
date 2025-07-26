@@ -1,4 +1,4 @@
-package umc.OnAirMate
+package umc.onairmate
 
 import android.annotation.SuppressLint
 import android.app.Application

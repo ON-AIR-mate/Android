@@ -1,4 +1,4 @@
-package umc.OnAirMate.data.model.response
+package umc.onairmate.data.model.response
 
 data class DefaultResponse<T> (
     val success: Boolean,

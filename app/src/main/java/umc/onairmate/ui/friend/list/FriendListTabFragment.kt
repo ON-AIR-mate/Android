@@ -1,4 +1,4 @@
-package umc.OnAirMate.ui.friend.list
+package umc.onairmate.ui.friend.list
 
 import androidx.fragment.app.Fragment
 import android.os.Bundle
@@ -9,8 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import umc.OnAirMate.databinding.FragmentFriendListTabBinding
-import umc.OnAirMate.ui.friend.FriendViewModel
+import umc.onairmate.databinding.FragmentFriendListTabBinding
+import umc.onairmate.ui.friend.FriendViewModel
 import kotlin.getValue
 
 @AndroidEntryPoint

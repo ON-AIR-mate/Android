@@ -1,4 +1,4 @@
-package umc.OnAirMate.ui.friend.search
+package umc.onairmate.ui.friend.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
-import umc.OnAirMate.databinding.FragmentSearchFriendTabBinding
+import umc.onairmate.databinding.FragmentSearchFriendTabBinding
 
 @AndroidEntryPoint
 class SearchFriendTabFragment: Fragment() {

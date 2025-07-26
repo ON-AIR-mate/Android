@@ -1,4 +1,4 @@
-package umc.OnAirMate.ui.pop_up
+package umc.onairmate.ui.pop_up
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -8,9 +8,9 @@ import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
-import umc.OnAirMate.R
-import umc.OnAirMate.data.model.entity.RoomData
-import umc.OnAirMate.databinding.PopupJoinRoomBinding
+import umc.onairmate.R
+import umc.onairmate.data.model.entity.RoomData
+import umc.onairmate.databinding.PopupJoinRoomBinding
 
 
 class JoinRoomPopup (

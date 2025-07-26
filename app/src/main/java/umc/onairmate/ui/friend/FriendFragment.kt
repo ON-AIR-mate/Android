@@ -1,4 +1,4 @@
-package umc.OnAirMate.ui.friend
+package umc.onairmate.ui.friend
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,8 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import umc.OnAirMate.databinding.FragmentFriendBinding
-import umc.OnAirMate.ui.home.SearchRoomViewModel
+import umc.onairmate.databinding.FragmentFriendBinding
 import kotlin.getValue
 
 @AndroidEntryPoint

@@ -1,11 +1,11 @@
-package umc.OnAirMate.ui.lounge
+package umc.onairmate.ui.lounge
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import umc.OnAirMate.databinding.FragmentLoungeBinding
+import umc.onairmate.databinding.FragmentLoungeBinding
 
 class LoungeFragment : Fragment() {
 

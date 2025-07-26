@@ -1,8 +1,8 @@
-package umc.OnAirMate.ui.util
+package umc.onairmate.ui.util
 
 import android.widget.ImageView
 import coil.load
-import umc.OnAirMate.R
+import umc.onairmate.R
 
 /**
  * 네트워크 이미지 로더 (썸네일 유틸)

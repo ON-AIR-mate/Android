@@ -1,10 +1,10 @@
-package umc.OnAirMate.ui.friend.list
+package umc.onairmate.ui.friend.list
 
 import android.content.Context
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import umc.OnAirMate.data.FriendData
-import umc.OnAirMate.databinding.RvItemFriendBinding
+import umc.onairmate.data.FriendData
+import umc.onairmate.databinding.RvItemFriendBinding
 
 class FriendViewHolder(
     private val binding: RvItemFriendBinding,

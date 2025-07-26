@@ -1,4 +1,4 @@
-package umc.OnAirMate.ui.home
+package umc.onairmate.ui.home
 
 import android.os.Bundle
 import android.util.Log
@@ -9,12 +9,12 @@ import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import umc.OnAirMate.data.model.entity.RoomData
-import umc.OnAirMate.databinding.FragmentHomeBinding
-import umc.OnAirMate.ui.home.room.HomeEventListener
-import umc.OnAirMate.ui.home.room.RoomRVAdapter
-import umc.OnAirMate.ui.pop_up.JoinRoomPopup
-import umc.OnAirMate.ui.pop_up.PopupClick
+import umc.onairmate.data.model.entity.RoomData
+import umc.onairmate.databinding.FragmentHomeBinding
+import umc.onairmate.ui.home.room.HomeEventListener
+import umc.onairmate.ui.home.room.RoomRVAdapter
+import umc.onairmate.ui.pop_up.JoinRoomPopup
+import umc.onairmate.ui.pop_up.PopupClick
 
 class HomeFragment : Fragment() {
     private val TAG = javaClass.simpleName
