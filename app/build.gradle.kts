@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "umc.OnAirMate"
+    namespace = "umc.onairmate"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "umc.OnAirMate"
+        applicationId = "umc.onairmate"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
@@ -73,5 +73,6 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
 
-
+    // 네트워크 이미지 로딩
+    implementation(libs.coil)
 }
