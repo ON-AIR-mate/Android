@@ -9,7 +9,7 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import umc.OnAirMate.R
+import umc.onairmate.R
 import umc.onairmate.model.Bookmark
 
 class BookmarkAdapter(private val bookmarkList: List<Bookmark>) :

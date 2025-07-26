@@ -3,7 +3,7 @@ package umc.OnAirMate.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import umc.OnAirMate.databinding.ItemBookmarkBinding
+import umc.onairmate.databinding.ItemBookmarkBinding
 import umc.onairmate.model.VideoItem
 
 class InnerAdapter(
