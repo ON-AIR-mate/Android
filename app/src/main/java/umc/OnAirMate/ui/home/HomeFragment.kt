@@ -57,7 +57,7 @@ class HomeFragment : Fragment() {
     private fun setView() {
         adapter = RoomRVAdapter(requireContext(), object : HomeEventListener{
             override fun joinRoom(data : RoomData){
-                showJoinRoomPopup(data)
+                searchViewModel.getRoomDetailInfo(data.roomId)
             }
 
             override fun selectSortType(type: String) {
@@ -69,7 +69,7 @@ class HomeFragment : Fragment() {
     }
 
 
-    // viewHolder속 데이터 변화 감지
+    // viewModel 속 데이터 변화 감지
     private fun setUpObserver(){
         searchViewModel.roomData.observe(viewLifecycleOwner){ list ->
             if (list == null) return@observe
@@ -81,6 +81,17 @@ class HomeFragment : Fragment() {
             }
             adapter.initData(list,list)
         }
+
+        searchViewModel.roomListResponse.observe(viewLifecycleOwner){response ->
+            if (response == null) return@observe
+            adapter.initData(response.continueWatching, response.onAirRooms)
+        }
+
+        searchViewModel.roomDetailInfo.observe(viewLifecycleOwner){data ->
+            if (data == null) return@observe
+            showJoinRoomPopup(data)
+        }
+
         searchViewModel.recommendedVideo.observe(viewLifecycleOwner) {videos ->
             if(videos == null) return@observe
             recommendVideo(videos)
