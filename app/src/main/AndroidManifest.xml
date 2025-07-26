@@ -14,7 +14,12 @@
         android:theme="@style/Theme.OnAirMate"
         tools:targetApi="31">
         <activity
-            android:name="umc.OnAirMate.ui.chat_room.ChatRoomActivity"
+            android:name=".ui.chat_room.ChatRoomLayoutActivity"
+            android:exported="false"
+            android:label="@string/title_activity_chat_room_layout"
+            android:theme="@style/Theme.OnAirMate.NoActionBar" />
+        <activity
+            android:name=".ui.chat_room.ChatRoomActivity"
             android:exported="false" />
         <activity
             android:name=".ui.MainActivity"

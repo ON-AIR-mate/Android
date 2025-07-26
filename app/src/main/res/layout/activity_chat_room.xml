@@ -20,8 +20,8 @@
 
         <ImageView
             android:id="@+id/iv_go_back"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:src="@drawable/ic_exit"/>
 
         <TextView
@@ -35,20 +35,22 @@
 
         <ImageView
             android:id="@+id/iv_setting"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:src="@drawable/ic_menu"/>
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_menu" />
 
     </LinearLayout>
 
     <!--todo: 유튜브 영상 자리-->
+
     <View
         android:id="@+id/video"
         android:layout_width="match_parent"
         android:layout_height="220dp"
         android:layout_marginTop="5dp"
+        android:background="@color/text6"
         app:layout_constraintTop_toBottomOf="@+id/layout_title"
-        android:background="@color/text6" />
+        tools:layout_editor_absoluteX="-112dp" />
 
     <TextView
         android:id="@+id/tv_room_title"
