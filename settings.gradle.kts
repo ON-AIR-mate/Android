@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "OnAirMate"
+rootProject.name = "onairmate"
 include(":app")
  
