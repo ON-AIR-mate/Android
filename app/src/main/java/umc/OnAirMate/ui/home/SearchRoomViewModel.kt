@@ -3,7 +3,7 @@ package umc.OnAirMate.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import umc.OnAirMate.data.RoomData
+import umc.OnAirMate.data.model.entity.RoomData
 import javax.inject.Inject
 
 class SearchRoomViewModel @Inject constructor(
@@ -24,7 +24,8 @@ class SearchRoomViewModel @Inject constructor(
     // 테스트용 더미데이터 생성
     private fun getDummyRoom(n : Int) : List<RoomData>{
         val dummy = arrayListOf<RoomData>()
-        for(i in 0.. n) dummy.add(RoomData(
+        for(i in 0.. n) dummy.add(
+            RoomData(
             roomId = i,
             roomTitle = "dummy ${i}",
             videoTitle = "",
@@ -34,7 +35,8 @@ class SearchRoomViewModel @Inject constructor(
             currentParticipants = i,
             maxParticipants = 10,
             duration = "00:45:20"
-        ))
+        )
+        )
         return dummy
     }
     private fun getDummyString(n : Int) : List<String>{

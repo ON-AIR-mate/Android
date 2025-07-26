@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import umc.OnAirMate.data.RoomData
+import umc.OnAirMate.data.model.entity.RoomData
 import umc.OnAirMate.databinding.RvItemRoomBinding
 import umc.OnAirMate.databinding.RvItemRoomHeaderBinding
 
