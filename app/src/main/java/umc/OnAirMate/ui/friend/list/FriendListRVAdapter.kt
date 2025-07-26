@@ -92,7 +92,13 @@ class FriendListRVAdapter(
             oldItem: RecyclerItem,
             newItem: RecyclerItem
         ): Boolean {
-            return oldItem == newItem
+            return when {
+                oldItem is RecyclerItem.ListTypeItem && newItem is RecyclerItem.ListTypeItem ->
+                    oldItem.data.userId == newItem.data.userId
+                oldItem is RecyclerItem.RequestTypeItem && newItem is RecyclerItem.RequestTypeItem ->
+                    oldItem.data.userId == newItem.data.userId
+                else -> false
+            }
         }
 
         override fun areContentsTheSame(

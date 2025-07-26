@@ -20,10 +20,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_online_user"
-        app:layout_constraintTop_toTopOf="@id/iv_online"
-        app:layout_constraintStart_toStartOf="@id/iv_online"
-        app:layout_constraintEnd_toEndOf="@id/iv_online"
-        app:layout_constraintBottom_toBottomOf="@id/iv_online"/>
+        app:layout_constraintTop_toTopOf="@id/iv_profile"
+        app:layout_constraintStart_toStartOf="@id/iv_profile"
+        app:layout_constraintEnd_toEndOf="@id/iv_profile"
+        app:layout_constraintBottom_toBottomOf="@id/iv_profile"/>
 
     <TextView
         android:id="@+id/tv_user_nickname"
