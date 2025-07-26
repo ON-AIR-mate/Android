@@ -6,16 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-<<<<<<< HEAD:app/src/main/java/umc/OnAirMate/ui/friend/FriendFragment.kt
 import dagger.hilt.android.AndroidEntryPoint
-
-@AndroidEntryPoint
-class FriendFragment : Fragment() {
-=======
 import umc.onairmate.databinding.FragmentProfileBinding
 
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
->>>>>>> origin/main:app/src/main/java/umc/onairmate/ui/profile/ProfileFragment.kt
 
     private var _binding: FragmentProfileBinding? = null
 

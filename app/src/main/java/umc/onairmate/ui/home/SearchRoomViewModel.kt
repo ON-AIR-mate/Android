@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-<<<<<<< HEAD:app/src/main/java/umc/OnAirMate/ui/home/SearchRoomViewModel.kt
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -13,8 +12,6 @@ import kotlinx.coroutines.launch
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.response.RoomListResponse
 import umc.onairmate.data.repository.repository.HomeRepository
-=======
->>>>>>> origin/main:app/src/main/java/umc/onairmate/ui/home/SearchRoomViewModel.kt
 import javax.inject.Inject
 
 @HiltViewModel

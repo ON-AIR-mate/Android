@@ -1,13 +1,13 @@
-package umc.OnAirMate.data.repository.repositoryImpl
+package umc.onairmate.data.repository.repositoryImpl
 
 import retrofit2.Response
-import umc.OnAirMate.data.api.HomeService
-import umc.OnAirMate.data.model.DefaultResponse
-import umc.OnAirMate.data.model.entity.RoomData
-import umc.OnAirMate.data.model.request.CreateRoomRequest
-import umc.OnAirMate.data.model.response.CreateRoomResponse
-import umc.OnAirMate.data.model.response.RoomListResponse
-import umc.OnAirMate.data.repository.repository.HomeRepository
+import umc.onairmate.data.api.HomeService
+import umc.onairmate.data.model.entity.RoomData
+import umc.onairmate.data.model.request.CreateRoomRequest
+import umc.onairmate.data.model.response.CreateRoomResponse
+import umc.onairmate.data.model.response.DefaultResponse
+import umc.onairmate.data.model.response.RoomListResponse
+import umc.onairmate.data.repository.repository.HomeRepository
 import javax.inject.Inject
 
 class HomeRepositoryImpl  @Inject constructor(
