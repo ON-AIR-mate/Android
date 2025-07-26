@@ -1,17 +1,16 @@
-package umc.onairmate.ui  // ← 패키지명 정확히 수정!
+package umc.OnAirMate.ui.lounge
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.PopupMenu    // 추가!
+import android.widget.PopupMenu
 import android.widget.TextView
-import android.widget.Toast       // 추가!
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import umc.onairmate.R
+import umc.OnAirMate.R
 import umc.onairmate.model.Bookmark
-
 
 class BookmarkAdapter(private val bookmarkList: List<Bookmark>) :
     RecyclerView.Adapter<BookmarkAdapter.BookmarkViewHolder>() {
@@ -56,4 +55,3 @@ class BookmarkAdapter(private val bookmarkList: List<Bookmark>) :
 
     override fun getItemCount(): Int = bookmarkList.size
 }
-

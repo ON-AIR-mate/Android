@@ -1,10 +1,11 @@
-package umc.onairmate.adapter
+package umc.OnAirMate.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import umc.onairmate.databinding.ItemSectionBinding
+import umc.OnAirMate.databinding.ItemSectionBinding
+
 import umc.onairmate.model.BookmarkSection
 
 class OuterAdapter(

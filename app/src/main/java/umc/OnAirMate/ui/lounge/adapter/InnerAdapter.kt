@@ -1,12 +1,10 @@
-package umc.onairmate.adapter
+package umc.OnAirMate.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import umc.bumptech.glide.Glide
-import umc.onairmate.databinding.ItemBookmarkBinding
+import umc.OnAirMate.databinding.ItemBookmarkBinding
 import umc.onairmate.model.VideoItem
-import umc.onairmate.R
 
 class InnerAdapter(
     private val videoList: List<VideoItem>
@@ -32,10 +30,10 @@ class InnerAdapter(
             descText.text = video.host        // 영상 제목
             timeText.text = video.time
 
-            Glide.with(thumbnailImage.context)
-                .load(video.thumbnailUrl)
-                .placeholder(R.drawable.ic_launcher_background)
-                .into(thumbnailImage)
+//            Glide.with(thumbnailImage.context)
+//                .load(video.thumbnailUrl)
+//                .placeholder(R.drawable.ic_launcher_background)
+//                .into(thumbnailImage)
 
             // 더보기 버튼 이벤트 (필요 시 추가)
             moreButton.setOnClickListener {

@@ -29,9 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="My Lounge"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="" />
+                android:textAppearance="@style/TextAppearance.App.Bold.24sp" />
 
             <ImageButton
                 android:id="@+id/giftButton"
@@ -48,9 +46,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="모든 콘텐츠는 Youtube API를 통해 불러옵니다."
-            android:textSize="12sp"
-            android:textColor="#666666" />
+            android:text="@string/info_youtube_api"
+            android:textColor="@color/text4"
+            android:textAppearance="@style/TextAppearance.App.Regular.8sp"
+             />
 
         <!-- 탭 버튼 -->
         <LinearLayout

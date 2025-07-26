@@ -9,6 +9,7 @@ import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import umc.OnAirMate.data.model.entity.RoomData
 import umc.OnAirMate.databinding.FragmentHomeBinding
 import umc.OnAirMate.ui.home.room.HomeEventListener
@@ -16,6 +17,7 @@ import umc.OnAirMate.ui.home.room.RoomRVAdapter
 import umc.OnAirMate.ui.pop_up.JoinRoomPopup
 import umc.OnAirMate.ui.pop_up.PopupClick
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
     private val TAG = javaClass.simpleName
 
