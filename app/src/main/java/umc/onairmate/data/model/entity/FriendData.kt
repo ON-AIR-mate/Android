@@ -1,10 +1,8 @@
-package umc.onairmate.data
+package umc.onairmate.data.model.entity
 
 import com.google.gson.annotations.SerializedName
 
-data class RequestedFriendData (
-    @SerializedName("requestId")
-    val requestId : Int,
+data class FriendData(
     @SerializedName("userId")
     val userId : Int,
     @SerializedName("nickname")
@@ -13,6 +11,6 @@ data class RequestedFriendData (
     val profileImage : String,
     @SerializedName("popularity")
     val popularity : Int,
-    @SerializedName("requestedAt")
-    val requestedAt : String
+    @SerializedName("isOnline")
+    val isOnline : Boolean
 )
