@@ -148,7 +148,7 @@
 
 
 
-    <!-- 바텀뷰만큼 띄우기위한 코드입니다^^ -->
+    <!-- 바텀뷰만큼 띄우기위한 코드입니다 -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_bottom"
         android:layout_width="match_parent"

@@ -6,17 +6,21 @@ plugins {
 }
 
 android {
-    namespace = "umc.OnAirMate"
+    namespace = "umc.onairmate"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "umc.OnAirMate"
+        applicationId = "umc.onairmate"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures{
+        buildConfig = true
     }
 
     buildTypes {
@@ -59,11 +63,17 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.gson)
+    implementation(libs.converter.scalars)
+
+    // OkHttp
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
 
 
     // Hilt 의존성 주입
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
 
-
+    // 네트워크 이미지 로딩
+    implementation(libs.coil)
 }
