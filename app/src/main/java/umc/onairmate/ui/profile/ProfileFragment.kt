@@ -16,7 +16,7 @@ import kotlin.getValue
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
-    private var num : Int = 0
+    private var num : Int = 10
     private val viewModel: TestViewModel by viewModels()
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -32,7 +32,10 @@ class ProfileFragment : Fragment() {
         val root: View = binding.root
 
         binding.tvSignUp.setOnClickListener {
-            viewModel.signUp(num++)
+            viewModel.signUp(num)
+        }
+        binding.tvLogin.setOnClickListener {
+            viewModel.login(num++)
         }
         return root
     }

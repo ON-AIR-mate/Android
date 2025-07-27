@@ -3,8 +3,8 @@ package umc.onairmate.data.model.request
 import com.google.gson.annotations.SerializedName
 
 data class TestRequest(
-    @SerializedName("loginId")
-    val loginId : String,
+    @SerializedName("username")
+    val username : String,
     @SerializedName("password")
     val password : String,
     @SerializedName("nickname")
