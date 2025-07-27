@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="umc.OnAirMate.ui.chat_room.ChatRoomActivity">
+    tools:context="umc.onairmate.ui.chat_room.ChatRoomActivity">
 
     <LinearLayout
         android:id="@+id/layout_title"

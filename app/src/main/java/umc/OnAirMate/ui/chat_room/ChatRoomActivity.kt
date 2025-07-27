@@ -1,4 +1,4 @@
-package umc.OnAirMate.ui.chat_room
+package umc.onairmate.ui.chat_room
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import umc.onairmate.R
+
 
 class ChatRoomActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import umc.onairmate.data.FriendData
-import umc.onairmate.data.RequestedFriendData
+import umc.onairmate.data.model.entity.FriendData
+import umc.onairmate.data.model.entity.RequestedFriendData
 import umc.onairmate.databinding.RvItemFriendBinding
 import umc.onairmate.databinding.RvItemFriendRequestBinding
 import umc.onairmate.ui.friend.list.FriendListRVAdapter.RecyclerItem
