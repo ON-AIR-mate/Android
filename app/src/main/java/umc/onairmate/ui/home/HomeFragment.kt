@@ -132,7 +132,12 @@ class HomeFragment : Fragment() {
             ) {
                 val selectedItem = parent?.getItemAtPosition(position) as String
                 Log.d(TAG,"pos : ${position} / selected Item ${selectedItem}")
-                searchType = selectedItem
+                searchType = when(position) {
+                    0 -> "video_title"
+                    1 -> "room_title"
+                    2 -> "host_nickname"
+                    else -> ""
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}

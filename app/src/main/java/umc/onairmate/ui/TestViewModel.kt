@@ -12,6 +12,7 @@ import umc.onairmate.data.model.request.TestRequest
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.repository.repository.TestRepository
 import javax.inject.Inject
+import androidx.core.content.edit
 
 @HiltViewModel
 class TestViewModel @Inject constructor(
@@ -48,7 +49,7 @@ class TestViewModel @Inject constructor(
             when (result) {
                 is DefaultResponse.Success -> {
                     Log.d(TAG,"응답 성공 : ${result.data}")
-                    spf.edit().putString("access_token","Bearer " + result.data.accessToken).commit()
+                    spf.edit { putString("access_token", "Bearer " + result.data.accessToken) }
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
