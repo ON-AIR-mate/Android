@@ -79,11 +79,11 @@ class SearchRoomViewModel @Inject constructor(
             }
             try{
                 val response  = repository.getRoomList(token)
-                if(response.isSuccessful){
-                    Log.d(TAG, "getRoomList 응답 성공: ${response.body()!!}")
-                    _roomListResponse.postValue(response.body()!!.data!!)
+                if(response.success){
+                    Log.d(TAG, "getRoomList 응답 성공: ${response!!}")
+                    _roomListResponse.postValue(response.data!!)
                 }
-                else Log.d(TAG, "getRoomList 응답 실패: ${response.body()!!}")
+                else Log.d(TAG, "getRoomList 응답 실패: ${response.error}")
             }catch (e: Exception){
                 Log.d(TAG, "getRoomList api 요청 실패: ${e}")
             }finally {
@@ -105,11 +105,11 @@ class SearchRoomViewModel @Inject constructor(
             }
             try{
                 val response  = repository.getRoomInfo(token, roomId)
-                if(response.isSuccessful){
-                    Log.d(TAG, "getRoomDetailInfo 응답 성공: ${response.body()!!}")
-                    _roomDetailInfo.postValue(response.body()!!.data!!)
+                if(response.success){
+                    Log.d(TAG, "getRoomDetailInfo 응답 성공: ${response}")
+                    _roomDetailInfo.postValue(response.data!!)
                 }
-                else Log.d(TAG, "getRoomDetailInfo 응답 실패: ${response.body()!!}")
+                else Log.d(TAG, "getRoomDetailInfo 응답 실패: ${response.error}")
             }catch (e: Exception){
                 Log.d(TAG, "getRoomDetailInfo api 요청 실패: ${e}")
             }finally {

@@ -1,6 +1,5 @@
 package umc.onairmate.data.api
 
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -13,20 +12,20 @@ import umc.onairmate.data.model.response.CreateRoomResponse
 import umc.onairmate.data.model.response.DefaultResponse
 
 interface HomeService {
-    @GET("/rooms")
+    @GET("rooms")
     suspend fun getRoomList(
         @Header("Authorization") accessToken: String
-    ): Response<DefaultResponse<RoomListResponse>>
+    ): DefaultResponse<RoomListResponse>
 
-    @GET("/rooms/{roomId}")
+    @GET("rooms/{roomId}")
     suspend fun getRoomInfo(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId : Int
-    ) : Response<DefaultResponse<RoomData>>
+    ) : DefaultResponse<RoomData>
 
-    @POST("/rooms")
+    @POST("rooms")
     suspend fun createRoom(
         @Header("Authorization") accessToken: String,
         @Body body : CreateRoomRequest
-    ): Response<DefaultResponse<CreateRoomResponse>>
+    ): DefaultResponse<CreateRoomResponse>
 }

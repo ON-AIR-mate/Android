@@ -1,6 +1,6 @@
 package umc.onairmate.data.api
 
-import retrofit2.Response
+
 import retrofit2.http.Body
 import retrofit2.http.POST
 import umc.onairmate.data.model.entity.LoginData
@@ -10,12 +10,12 @@ import umc.onairmate.data.model.response.LoginResponse
 import umc.onairmate.data.model.response.SignUpResponse
 
 interface TestService {
-    @POST("/api/auth/register")
+    @POST("auth/register")
     suspend fun signUp(
         @Body body : TestRequest
     ) : DefaultResponse<SignUpResponse>
 
-    @POST("/api/auth/login")
+    @POST("auth/login")
     suspend fun login(
         @Body body : LoginData
     ) : DefaultResponse<LoginResponse>
