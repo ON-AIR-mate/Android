@@ -7,17 +7,17 @@ import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.model.response.LoginResponse
 import umc.onairmate.data.model.response.MessageResponse
 import umc.onairmate.data.repository.repository.TestRepository
+import umc.onairmate.data.util.safeApiCall
 import javax.inject.Inject
 
 class TestRepositoryImpl @Inject constructor(
     private val api : TestService
 ) : TestRepository {
     override suspend fun signUp(body: TestRequest): DefaultResponse<MessageResponse> {
-        return api.signUp(body)
+        return safeApiCall{api.signUp(body)}
     }
 
     override suspend fun login(body: LoginData): DefaultResponse<LoginResponse> {
-        return api.login(body)
+        return safeApiCall{api.login(body)}
     }
-
 }

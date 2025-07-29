@@ -10,7 +10,7 @@ import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.response.RoomListResponse
 import umc.onairmate.data.model.request.CreateRoomRequest
 import umc.onairmate.data.model.response.CreateRoomResponse
-import umc.onairmate.data.model.response.DefaultResponse
+import umc.onairmate.data.model.response.RawDefaultResponse
 import umc.onairmate.data.model.response.MessageResponse
 
 interface HomeService {
@@ -20,30 +20,30 @@ interface HomeService {
         @Query ("sortBy") sortBy : String,
         @Query ("searchType") searchType : String,
         @Query (value = "keyword") keyword : String
-    ): DefaultResponse<RoomListResponse>
+    ): RawDefaultResponse<RoomListResponse>
 
     @GET("rooms/{roomId}")
-    suspend fun getRoomInfo(
+    suspend fun getRoomDetailInfo(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId : Int
-    ) : DefaultResponse<RoomData>
+    ) : RawDefaultResponse<RoomData>
 
     @POST("rooms")
     suspend fun createRoom(
         @Header("Authorization") accessToken: String,
         @Body body : CreateRoomRequest
-    ): DefaultResponse<CreateRoomResponse>
+    ): RawDefaultResponse<CreateRoomResponse>
 
     @POST("rooms/{roomId}/join")
     suspend fun joinRoom(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId : Int
-    ): DefaultResponse<MessageResponse>
+    ): RawDefaultResponse<MessageResponse>
 
     @POST("rooms/{roomId}/leave")
     suspend fun leaveRoom(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId : Int
-    ): DefaultResponse<MessageResponse>
+    ): RawDefaultResponse<MessageResponse>
 
 }

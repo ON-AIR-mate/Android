@@ -9,6 +9,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import umc.onairmate.data.model.entity.LoginData
 import umc.onairmate.data.model.request.TestRequest
+import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.repository.repository.TestRepository
 import javax.inject.Inject
 
@@ -24,33 +25,35 @@ class TestViewModel @Inject constructor(
 
     fun signUp(num : Int){
         viewModelScope.launch {
-            try{
-                val body = TestRequest(username = "qwer${num}", password = "!Qwer111${num}", nickname = "user${num}","1", TestRequest.Agreement())
-                val response  = repository.signUp(body)
-                if(response.success){
-                    Log.d(TAG, "signUp 응답 성공: ${response}")
+            val body = TestRequest(username = "qwer${num}", password = "!Qwer111${num}", nickname = "user${num}","1", TestRequest.Agreement())
+            val result = repository.signUp(body)
+            Log.d(TAG, "signUp api 호출")
+            when (result) {
+                is DefaultResponse.Success -> {
+                    Log.d(TAG,"응답 성공 : ${result.data}")
+                }
+                is DefaultResponse.Error -> {
+                    Log.e(TAG, "에러: ${result.code} - ${result.message} ")
 
                 }
-                else Log.d(TAG, "signUp 응답 실패: ${response}")
-            }catch (e: Exception){
-                Log.d(TAG, "signUp api 요청 실패: ${e}")
             }
         }
     }
 
     fun login(num : Int){
         viewModelScope.launch {
-            try{
-                val body = LoginData(username = "qwer${num}", password = "!Qwer111${num}")
-                val response  = repository.login(body)
-                if(response.success){
-                    Log.d(TAG, "signUp 응답 성공: ${response}")
-                    spf.edit().putString("access_token","Bearer " + response.data!!.accessToken).commit()
+            val body = LoginData(username = "qwer${num}", password = "!Qwer111${num}")
+            val result = repository.login(body)
+            Log.d(TAG, "login api 호출")
+            when (result) {
+                is DefaultResponse.Success -> {
+                    Log.d(TAG,"응답 성공 : ${result.data}")
+                    spf.edit().putString("access_token","Bearer " + result.data.accessToken).commit()
+                }
+                is DefaultResponse.Error -> {
+                    Log.e(TAG, "에러: ${result.code} - ${result.message} ")
 
                 }
-                else Log.d(TAG, "signUp 응답 실패: ${response.error}")
-            }catch (e: Exception){
-                Log.d(TAG, "signUp api 요청 실패: ${e}")
             }
         }
     }

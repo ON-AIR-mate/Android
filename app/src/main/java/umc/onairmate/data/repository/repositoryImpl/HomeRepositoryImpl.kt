@@ -8,6 +8,7 @@ import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.model.response.MessageResponse
 import umc.onairmate.data.model.response.RoomListResponse
 import umc.onairmate.data.repository.repository.HomeRepository
+import umc.onairmate.data.util.safeApiCall
 import javax.inject.Inject
 
 class HomeRepositoryImpl  @Inject constructor(
@@ -19,35 +20,35 @@ class HomeRepositoryImpl  @Inject constructor(
         searchType: String,
         keyword: String
     ): DefaultResponse<RoomListResponse> {
-       return api.getRoomList(accessToken, sortBy, searchType, keyword)
+       return safeApiCall{api.getRoomList(accessToken, sortBy, searchType, keyword)}
     }
 
-    override suspend fun getRoomInfo(
+    override suspend fun getRoomDetailInfo(
         accessToken: String,
         roomId: Int
     ): DefaultResponse<RoomData> {
-        return api.getRoomInfo(accessToken, roomId)
+        return safeApiCall{api.getRoomDetailInfo(accessToken, roomId)}
     }
 
     override suspend fun createRoom(
         accessToken: String,
         body: CreateRoomRequest
     ): DefaultResponse<CreateRoomResponse> {
-        return api.createRoom(accessToken, body)
+        return safeApiCall{api.createRoom(accessToken, body)}
     }
 
     override suspend fun joinRoom(
         accessToken: String,
         roomId: Int
     ): DefaultResponse<MessageResponse> {
-        return api.joinRoom(accessToken, roomId)
+        return safeApiCall{api.joinRoom(accessToken, roomId)}
     }
 
     override suspend fun leaveRoom(
         accessToken: String,
         roomId: Int
     ): DefaultResponse<MessageResponse> {
-        return api.leaveRoom(accessToken, roomId)
+        return safeApiCall{api.leaveRoom(accessToken, roomId)}
     }
 
 }

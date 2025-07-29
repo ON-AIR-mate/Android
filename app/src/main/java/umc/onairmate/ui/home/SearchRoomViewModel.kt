@@ -74,27 +74,24 @@ class SearchRoomViewModel @Inject constructor(
         viewModelScope.launch {
             _isLoading.value = true
             val token = getToken()
-            Log.d(TAG,"token ${token}")
             if (token == null) {
                 Log.e(TAG, "토큰이 없습니다")
                 _isLoading.value = false
                 return@launch
             }
-            try{
-                val response  = repository.getRoomList(token, sortBy, searchType, keyword)
-                if(response.success){
-                    Log.d(TAG, "getRoomList 응답 성공: ${response!!}")
-                    _roomListResponse.postValue(response.data!!)
+            val result = repository.getRoomList(token, sortBy, searchType, keyword)
+            Log.d(TAG, "getRoomList api 호출")
+            when (result) {
+                is DefaultResponse.Success -> {
+                    Log.d(TAG,"응답 성공 : ${result.data}")
+                    _roomListResponse.postValue(result.data)
                 }
-                else {
-                    Log.d(TAG, "getRoomList 응답 실패: ${response.error}")
+                is DefaultResponse.Error -> {
+                    Log.e(TAG, "에러: ${result.code} - ${result.message} ")
                     _roomData.value = getDummyRoom(5)
                 }
-            }catch (e: Exception){
-                Log.d(TAG, "getRoomList api 요청 실패: ${e}")
-            }finally {
-                _isLoading.value = false
             }
+            _isLoading.value = false
         }
     }
 
@@ -107,18 +104,19 @@ class SearchRoomViewModel @Inject constructor(
                 _isLoading.value = false
                 return@launch
             }
-            try{
-                val response  = repository.getRoomInfo(token, roomId)
-                if(response.success){
-                    Log.d(TAG, "getRoomDetailInfo 응답 성공: ${response}")
-                    _roomDetailInfo.postValue(response.data!!)
+            val result = repository.getRoomDetailInfo(token, roomId)
+            Log.d(TAG, "getRoomDetailInfo api 호출")
+            when (result) {
+                is DefaultResponse.Success -> {
+                    Log.d(TAG,"응답 성공 : ${result.data}")
+                    _roomDetailInfo.postValue(result.data)
                 }
-                else Log.d(TAG, "getRoomDetailInfo 응답 실패: ${response.error}")
-            }catch (e: Exception){
-                Log.d(TAG, "getRoomDetailInfo api 요청 실패: ${e}")
-            }finally {
-                _isLoading.value = false
+                is DefaultResponse.Error -> {
+                    Log.e(TAG, "에러: ${result.code} - ${result.message} ")
+                    _roomData.value = getDummyRoom(5)
+                }
             }
+            _isLoading.value = false
         }
     }
 
@@ -131,17 +129,19 @@ class SearchRoomViewModel @Inject constructor(
                _isLoading.value = false
                return@launch
            }
-           try{
-               val response  = repository.joinRoom(token, roomId)
-               if(response.success){
-                   Log.d(TAG, "joinRoom 응답 성공: ${response}")
+           val result = repository.joinRoom(token, roomId)
+           Log.d(TAG, "joinRoom api 호출")
+           when (result) {
+               is DefaultResponse.Success -> {
+                   Log.d(TAG,"응답 성공 : ${result.data}")
+
                }
-               else Log.d(TAG, "joinRoom 응답 실패: ${response.error}")
-           }catch (e: Exception){
-               Log.d(TAG, "joinRoom api 요청 실패: ${e}")
-           }finally {
-               _isLoading.value = false
+               is DefaultResponse.Error -> {
+                   Log.e(TAG, "에러: ${result.code} - ${result.message} ")
+
+               }
            }
+           _isLoading.value = false
        }
    }
    fun leaveRoom(roomId : Int){
@@ -153,18 +153,18 @@ class SearchRoomViewModel @Inject constructor(
                _isLoading.value = false
                return@launch
            }
-           try{
-               val response  = repository.leaveRoom(token, roomId)
-               if(response.success){
-                   Log.d(TAG, "leaveRoom 응답 성공: ${response}")
+           val result = repository.leaveRoom(token, roomId)
+           Log.d(TAG, "leaveRoom api 호출")
+           when (result) {
+               is DefaultResponse.Success -> {
+                   Log.d(TAG,"응답 성공 : ${result.data}")
 
                }
-               else Log.d(TAG, "leaveRoom 응답 실패: ${response.error}")
-           }catch (e: Exception){
-               Log.d(TAG, "leaveRoom api 요청 실패: ${e}")
-           }finally {
-               _isLoading.value = false
+               is DefaultResponse.Error -> {
+                   Log.e(TAG, "에러: ${result.code} - ${result.message} ")
+               }
            }
+           _isLoading.value = false
        }
    }
 

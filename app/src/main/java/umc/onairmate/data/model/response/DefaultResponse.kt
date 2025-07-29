@@ -1,12 +1,17 @@
 package umc.onairmate.data.model.response
 
-data class DefaultResponse<T> (
-    val success: Boolean,
-    val data: T?, // 성공 시에만 존재
-    val error: ErrorResponse? // 실패 시에만 존재
-){
-    data class ErrorResponse(
-        val code: String,
-        val message: String
-    )
+
+sealed class DefaultResponse<out T> {
+    data class Success<out T>(
+        val data: T,
+        val timestamp: String? = null
+    ) : DefaultResponse<T>()
+
+    data class Error(
+        val code: String? = null,
+        val message: String,
+        val timestamp: String? = null
+    ) : DefaultResponse<Nothing>()
+
 }
+
