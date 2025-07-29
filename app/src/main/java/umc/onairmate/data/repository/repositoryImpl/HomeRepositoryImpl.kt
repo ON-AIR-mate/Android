@@ -5,15 +5,21 @@ import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.request.CreateRoomRequest
 import umc.onairmate.data.model.response.CreateRoomResponse
 import umc.onairmate.data.model.response.DefaultResponse
+import umc.onairmate.data.model.response.MessageResponse
 import umc.onairmate.data.model.response.RoomListResponse
 import umc.onairmate.data.repository.repository.HomeRepository
 import javax.inject.Inject
 
 class HomeRepositoryImpl  @Inject constructor(
-    val api : HomeService
+    private val api : HomeService
 ): HomeRepository {
-    override suspend fun getRoomList(accessToken: String):DefaultResponse<RoomListResponse> {
-        return api.getRoomList(accessToken)
+    override suspend fun getRoomList(
+        accessToken: String,
+        sortBy: String,
+        searchType: String,
+        keyword: String
+    ): DefaultResponse<RoomListResponse> {
+       return api.getRoomList(accessToken, sortBy, searchType, keyword)
     }
 
     override suspend fun getRoomInfo(
@@ -28,6 +34,20 @@ class HomeRepositoryImpl  @Inject constructor(
         body: CreateRoomRequest
     ): DefaultResponse<CreateRoomResponse> {
         return api.createRoom(accessToken, body)
+    }
+
+    override suspend fun joinRoom(
+        accessToken: String,
+        roomId: Int
+    ): DefaultResponse<MessageResponse> {
+        return api.joinRoom(accessToken, roomId)
+    }
+
+    override suspend fun leaveRoom(
+        accessToken: String,
+        roomId: Int
+    ): DefaultResponse<MessageResponse> {
+        return api.leaveRoom(accessToken, roomId)
     }
 
 }

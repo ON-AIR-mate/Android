@@ -10,6 +10,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import umc.onairmate.data.model.entity.RoomData
+import umc.onairmate.data.model.response.DefaultResponse
+import umc.onairmate.data.model.response.MessageResponse
 import umc.onairmate.data.model.response.RoomListResponse
 import umc.onairmate.data.repository.repository.HomeRepository
 import javax.inject.Inject
@@ -55,7 +57,7 @@ class SearchRoomViewModel @Inject constructor(
             currentParticipants = i,
             maxParticipants = 10,
             duration = "00:45:20"
-        )
+            )
         )
         return dummy
     }
@@ -68,30 +70,32 @@ class SearchRoomViewModel @Inject constructor(
 
     // 방 목록 가져오기
     // type : 0 -> 빈 데이터 테스트 / 1 -> 데이터 있는 경우 테스트
-    fun getRoomList(type : Int ){
+    fun getRoomList(sortBy : String, searchType : String, keyword : String){
         viewModelScope.launch {
             _isLoading.value = true
             val token = getToken()
+            Log.d(TAG,"token ${token}")
             if (token == null) {
                 Log.e(TAG, "토큰이 없습니다")
                 _isLoading.value = false
                 return@launch
             }
             try{
-                val response  = repository.getRoomList(token)
+                val response  = repository.getRoomList(token, sortBy, searchType, keyword)
                 if(response.success){
                     Log.d(TAG, "getRoomList 응답 성공: ${response!!}")
                     _roomListResponse.postValue(response.data!!)
                 }
-                else Log.d(TAG, "getRoomList 응답 실패: ${response.error}")
+                else {
+                    Log.d(TAG, "getRoomList 응답 실패: ${response.error}")
+                    _roomData.value = getDummyRoom(5)
+                }
             }catch (e: Exception){
                 Log.d(TAG, "getRoomList api 요청 실패: ${e}")
             }finally {
                 _isLoading.value = false
             }
         }
-        if(type == 0) _roomData.value = emptyList<RoomData>()
-        else _roomData.value = getDummyRoom(5)
     }
 
     fun getRoomDetailInfo(roomId : Int){
@@ -117,6 +121,52 @@ class SearchRoomViewModel @Inject constructor(
             }
         }
     }
+
+   fun joinRoom( roomId : Int){
+       viewModelScope.launch {
+           _isLoading.value = true
+           val token = getToken()
+           if (token == null) {
+               Log.e(TAG, "토큰이 없습니다")
+               _isLoading.value = false
+               return@launch
+           }
+           try{
+               val response  = repository.joinRoom(token, roomId)
+               if(response.success){
+                   Log.d(TAG, "joinRoom 응답 성공: ${response}")
+               }
+               else Log.d(TAG, "joinRoom 응답 실패: ${response.error}")
+           }catch (e: Exception){
+               Log.d(TAG, "joinRoom api 요청 실패: ${e}")
+           }finally {
+               _isLoading.value = false
+           }
+       }
+   }
+   fun leaveRoom(roomId : Int){
+       viewModelScope.launch {
+           _isLoading.value = true
+           val token = getToken()
+           if (token == null) {
+               Log.e(TAG, "토큰이 없습니다")
+               _isLoading.value = false
+               return@launch
+           }
+           try{
+               val response  = repository.leaveRoom(token, roomId)
+               if(response.success){
+                   Log.d(TAG, "leaveRoom 응답 성공: ${response}")
+
+               }
+               else Log.d(TAG, "leaveRoom 응답 실패: ${response.error}")
+           }catch (e: Exception){
+               Log.d(TAG, "leaveRoom api 요청 실패: ${e}")
+           }finally {
+               _isLoading.value = false
+           }
+       }
+   }
 
     // 추천영상 가져오기
     fun getRecommendedVideo(){

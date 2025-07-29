@@ -45,7 +45,8 @@ class TestViewModel @Inject constructor(
                 val response  = repository.login(body)
                 if(response.success){
                     Log.d(TAG, "signUp 응답 성공: ${response}")
-                    spf.edit().putString("access_token",response.data!!.accessToken).commit()
+                    spf.edit().putString("access_token","Bearer " + response.data!!.accessToken).commit()
+
                 }
                 else Log.d(TAG, "signUp 응답 실패: ${response.error}")
             }catch (e: Exception){

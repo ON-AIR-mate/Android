@@ -29,6 +29,10 @@ class HomeFragment : Fragment() {
 
     private val searchViewModel: SearchRoomViewModel by viewModels()
 
+    private var sortBy : String = ""
+    private var searchType : String = ""
+    private var keyword : String = ""
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,7 +51,7 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         // 초기 데이터 삽입
-        searchViewModel.getRoomList(1)
+        searchViewModel.getRoomList(sortBy, searchType, keyword)
     }
 
     override fun onDestroyView() {
@@ -105,11 +109,11 @@ class HomeFragment : Fragment() {
     // 일단 데이터 변화를 테스트 하는데 활용 -> 나중에 Intent로 변환할 예정
     private fun initClickListener(){
         binding.ivYoutubeSearch.setOnClickListener {
-            searchViewModel.getRoomList(0)
+
         }
 
         binding.ivNotification.setOnClickListener {
-            searchViewModel.getRoomList(1)
+
         }
     }
 
@@ -126,7 +130,8 @@ class HomeFragment : Fragment() {
                 id: Long
             ) {
                 val selectedItem = parent?.getItemAtPosition(position) as String
-                Log.d(TAG,"selected Item ${selectedItem}")
+                Log.d(TAG,"pos : ${position} / selected Item ${selectedItem}")
+                searchType = selectedItem
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -137,7 +142,7 @@ class HomeFragment : Fragment() {
     private fun showJoinRoomPopup(data : RoomData){
         val dialog = JoinRoomPopup(data, object : PopupClick {
             override fun rightClickFunction() {
-                // 방 액티비티로 전환
+                searchViewModel.joinRoom(data.roomId)
             }
 
         })
