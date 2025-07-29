@@ -34,7 +34,7 @@ class HomeSortTypeSpinnerAdapter(
         val view = convertView ?: LayoutInflater.from(context).inflate(android.R.layout.simple_spinner_item, parent, false)
         val textView = view.findViewById<TextView>(android.R.id.text1)
         textView.text = items[position]
-        textView.setTextAppearance(R.style.TextAppearance_App_Medium_10sp)
+        textView.setTextAppearance(R.style.TextAppearance_App_Medium_12sp)
         textView.setTextColor(ContextCompat.getColor(context, R.color.main))
         return view
     }

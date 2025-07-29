@@ -69,6 +69,7 @@ class HomeFragment : Fragment() {
 
             override fun selectSortType(type: String) {
                 Log.d(TAG, "정렬 기준 : ${type}")
+                sortBy = type
             }
         })
         binding.rvContents.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
