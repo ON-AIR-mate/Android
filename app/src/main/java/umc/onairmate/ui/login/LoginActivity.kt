@@ -1,11 +1,14 @@
 package umc.onairmate.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.ui.join.JoinProfileFragment
 import umc.onairmate.R
 import umc.onairmate.databinding.ActivityLoginBinding
+import umc.onairmate.ui.MainActivity
+import umc.onairmate.ui.MainActivity_GeneratedInjector
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -30,5 +33,13 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
              */
         }
+
+        binding.btnLogin.setOnClickListener {
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+
+
     }
 }

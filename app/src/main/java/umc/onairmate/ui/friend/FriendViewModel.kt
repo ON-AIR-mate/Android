@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import umc.onairmate.data.model.entity.FriendData
@@ -14,6 +15,8 @@ import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.repository.repository.FriendRepository
 import javax.inject.Inject
 
+
+@HiltViewModel
 class FriendViewModel @Inject constructor(
     private val repository: FriendRepository,
     @ApplicationContext private val context: Context

@@ -6,6 +6,7 @@ import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
+import umc.onairmate.ui.login.LoginActivity
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
@@ -14,11 +15,11 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
         //타이머 종료 후 내부 실행
         Handler().postDelayed(Runnable {
-            //앱의 mainActivity로 넘어가기
-            val intent = Intent(this@SplashActivity, MainActivity::class.java)
+            //앱의 loginActivity로 넘어가기
+            val intent = Intent(this@SplashActivity, LoginActivity::class.java)
             startActivity(intent)
             //현재 activity 닫기
             finish()
-        }, 500) //5sec
+        }, 500) //0.5sec
     }
 }
