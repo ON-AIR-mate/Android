@@ -25,7 +25,7 @@ class ChatRoomParticipantsFragment : Fragment() {
     lateinit var binding: FragmentChatRoomParticipantsBinding
 
     private lateinit var adapter: ChatRoomParticipantRVAdapter
-     var roomData: RoomData? = null
+    var roomData: RoomData? = null
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreateView(
@@ -36,10 +36,10 @@ class ChatRoomParticipantsFragment : Fragment() {
         binding = FragmentChatRoomParticipantsBinding.inflate(layoutInflater)
 
         roomData = arguments?.getParcelable("room_data", RoomData::class.java)
-
         Log.d("data", "room : ${roomData}")
-//        initScreen()
-//        setParticipants()
+        
+        initScreen()
+        setParticipants()
 
         return binding.root
     }

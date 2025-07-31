@@ -46,6 +46,11 @@ class ChatRoomDrawerFragment : Fragment() {
 
     fun initScreen() {
         isSettingScreen = false
+
+        bundle.putParcelable("room_data", roomData)
+        val setting = ChatRoomSettingFragment()
+        setting.arguments = bundle
+
         childFragmentManager.beginTransaction()
             .replace(R.id.fl_drawer_layout, ChatRoomParticipantsFragment())
             .commit()
