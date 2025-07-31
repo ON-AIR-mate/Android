@@ -31,8 +31,8 @@ class HomeFragment : Fragment() {
 
     private val searchViewModel: SearchRoomViewModel by viewModels()
 
-    private var sortBy : String = ""
-    private var searchType : String = ""
+    private var sortBy : String = "latest"
+    private var searchType : String = "videoTitle"
     private var keyword : String = ""
 
     override fun onCreateView(
@@ -135,9 +135,9 @@ class HomeFragment : Fragment() {
                 val selectedItem = parent?.getItemAtPosition(position) as String
                 Log.d(TAG,"pos : ${position} / selected Item ${selectedItem}")
                 searchType = when(position) {
-                    0 -> "video_title"
-                    1 -> "room_title"
-                    2 -> "host_nickname"
+                    0 -> "videoTitle"
+                    1 -> "roomTitle"
+                    2 -> "hostNickname"
                     else -> ""
                 }
             }

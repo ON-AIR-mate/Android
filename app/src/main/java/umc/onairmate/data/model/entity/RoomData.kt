@@ -13,11 +13,11 @@ data class RoomData(
     @SerializedName("videoTitle")
     val videoTitle: String = "",
     @SerializedName("videoThumbnail")
-    val videoThumbnail : String?,
+    val videoThumbnail : String = "",
     @SerializedName("hostNickname")
     val hostNickname : String = "",
     @SerializedName("hostProfileImage")
-    val hostProfileImage : String?,
+    val hostProfileImage : String ="",
     @SerializedName("hostPopularity")
     val hostPopularity : Int = 0,
     @SerializedName("currentParticipants")
@@ -27,7 +27,7 @@ data class RoomData(
     @SerializedName("duration")
     val duration : String = "",
     @SerializedName("isPrivate")
-    val  isPrivate : Boolean = true,
+    val isPrivate : Boolean = true,
     @SerializedName("isActive")
     val isActive : Boolean? = null,
     @SerializedName("autoArchiving")
