@@ -9,8 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import umc.onairmate.data.FriendData
-import umc.onairmate.data.RequestedFriendData
+import umc.onairmate.data.model.entity.RequestedFriendData
 import umc.onairmate.databinding.FragmentFriendListTabBinding
 import umc.onairmate.ui.friend.FriendViewModel
 import umc.onairmate.ui.pop_up.PopupClick
