@@ -1,0 +1,30 @@
+package umc.onairmate.data.api
+
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.PUT
+import retrofit2.http.Path
+import umc.onairmate.data.model.entity.RoomSettingData
+import umc.onairmate.data.model.response.MessageResponse
+import umc.onairmate.data.model.response.ParticipantResponse
+import umc.onairmate.data.model.response.RawDefaultResponse
+
+interface ChatRoomService {
+    // 방 설정 수정
+    @PUT("rooms/{roomId}/setting")
+    suspend fun setRoomSetting(
+        @Header("Authorization") accessToken: String,
+        @Path("roomId") roomId: Int,
+        @Body body: RoomSettingData
+    ): RawDefaultResponse<MessageResponse>
+
+    // 방 참여자 목록 조회
+    @GET("rooms/{roomId}/participants")
+    suspend fun getParticipants(
+        @Header("Authorization") accessToken: String,
+        @Path("roomId") roomId: Int,
+    ): RawDefaultResponse<ParticipantResponse>
+
+    // ai 요약이랑 북마크 생성도 여긴가?
+}

@@ -7,21 +7,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import umc.onairmate.R
 import umc.onairmate.data.model.entity.ParticipantData
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.databinding.FragmentChatRoomSidePannelBinding
+import umc.onairmate.ui.chat_room.drawer.ChatRoomParticipantRVAdapter
+import umc.onairmate.ui.chat_room.drawer.ChatRoomParticipantsFragment
+import umc.onairmate.ui.chat_room.drawer.ChatRoomSettingFragment
 
 class ChatRoomDrawerFragment : Fragment() {
 
     lateinit var binding: FragmentChatRoomSidePannelBinding
-    private lateinit var adapter: ChatRoomParticipantRVAdapter
     lateinit var roomData: RoomData
+    private val bundle = Bundle()
+
+    private var isSettingScreen = false
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // roomData = arguments?.getParcelable("room_data", RoomData::class.java)!!
+        roomData = arguments?.getParcelable("room_data", RoomData::class.java)!!
     }
 
     override fun onCreateView(
@@ -30,24 +37,44 @@ class ChatRoomDrawerFragment : Fragment() {
     ): View {
         binding = FragmentChatRoomSidePannelBinding.inflate(inflater, container, false)
 
-        // initScreen()
-        setParticipants()
+        initScreen()
         onClickMenu()
+        onClickSetting()
 
         return binding.root
     }
 
     fun initScreen() {
-        binding.itemRoomManager.tvUserNickname.text = roomData.hostNickname
-        // todo: 썸네일 로더 이름 바꾸고 이미지 로딩하기
+        isSettingScreen = false
+        childFragmentManager.beginTransaction()
+            .replace(R.id.fl_drawer_layout, ChatRoomParticipantsFragment())
+            .commit()
     }
 
-    // 방 참가자 명단의 어댑터와 뷰 연결
-    private fun setParticipants() {
-        // todo: 진짜 user list는 api에서 받아오기
-        adapter = ChatRoomParticipantRVAdapter(userList)
-        binding.rvParticipants.adapter = adapter
-        binding.rvParticipants.layoutManager = LinearLayoutManager(context)
+    fun onClickSetting() {
+        binding.ivSetting.setOnClickListener {
+            bundle.putParcelable("room_data", roomData)
+
+            if (isSettingScreen == false) {
+                isSettingScreen = true
+
+                val setting = ChatRoomSettingFragment()
+                setting.arguments = bundle
+
+                childFragmentManager.beginTransaction()
+                    .replace(R.id.fl_drawer_layout, setting)
+                    .commit()
+            } else {
+                isSettingScreen = false
+
+                val participants = ChatRoomParticipantsFragment()
+                participants.arguments = bundle
+
+                childFragmentManager.beginTransaction()
+                    .replace(R.id.fl_drawer_layout, participants)
+                    .commit()
+            }
+        }
     }
 
     // 좌상단 메뉴버튼 클릭시 drawer 접기
@@ -56,40 +83,10 @@ class ChatRoomDrawerFragment : Fragment() {
             (activity as? ChatRoomLayoutActivity)?.closeDrawer()
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        isSettingScreen = false
+    }
 }
 
-// 더미데이터
-val userList: List<ParticipantData> = listOf(
-    ParticipantData(
-        nickname = "참가자1",
-        isHost = false,
-        joinedAt = "",
-        popularity = 0,
-        profileImage = "",
-        userId = 0
-    ),
-    ParticipantData(
-        nickname = "참가자2",
-        isHost = false,
-        joinedAt = "",
-        popularity = 0,
-        profileImage = "",
-        userId = 0
-    ),
-    ParticipantData(
-        nickname = "참가자3",
-        isHost = false,
-        joinedAt = "",
-        popularity = 0,
-        profileImage = "",
-        userId = 0
-    ),
-    ParticipantData(
-        nickname = "참가자4",
-        isHost = false,
-        joinedAt = "",
-        popularity = 0,
-        profileImage = "",
-        userId = 0
-    )
-)

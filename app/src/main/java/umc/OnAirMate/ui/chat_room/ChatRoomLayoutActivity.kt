@@ -20,20 +20,20 @@ class ChatRoomLayoutActivity : AppCompatActivity() {
         binding = ActivityChatRoomLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initScreen()
-
         roomData = intent.getParcelableExtra("room_data", RoomData::class.java)!!
+
+        initScreen()
     }
 
     private fun initScreen() {
-        /*val bundle = Bundle()
-        bundle.putParcelable("room_data", roomData)*/
+        val bundle = Bundle()
+        bundle.putParcelable("room_data", roomData)
 
         val chatRoom = ChatRoomFragment()
         val drawer = ChatRoomDrawerFragment()
 
-        /*chatRoom.arguments = bundle
-        drawer.arguments = bundle*/
+        chatRoom.arguments = bundle
+        drawer.arguments = bundle
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, chatRoom)

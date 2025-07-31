@@ -49,31 +49,10 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_room_manager_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="방장"
-            android:layout_marginBottom="15dp"
-            android:textAppearance="@style/TextAppearance.App.Medium.14sp"/>
-
-        <include
-            android:id="@+id/item_room_manager"
-            layout="@layout/rv_item_chat_room_user"/>
-
-        <TextView
-            android:id="@+id/tv_room_attendant_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="참여자"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="15dp"
-            android:textAppearance="@style/TextAppearance.App.Medium.14sp"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_participants"
+        <FrameLayout
+            android:id="@+id/fl_drawer_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
