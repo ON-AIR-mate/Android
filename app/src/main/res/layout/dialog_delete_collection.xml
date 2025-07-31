@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:drawableStart="@drawable/ic_lock"
+
         android:drawablePadding="4dp"
         android:text="웃긴 장면"
         android:textStyle="bold" />

@@ -110,7 +110,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginStart="7dp"
-            android:src="@drawable/ic_plus" />
+            android:src="@drawable/ic_bell" />
     </LinearLayout>
 
     <!-- 북마크 리스트 -->

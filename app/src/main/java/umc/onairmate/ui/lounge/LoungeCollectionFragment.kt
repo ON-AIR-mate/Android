@@ -36,8 +36,8 @@ class LoungeCollectionFragment : Fragment() {
 
         // 예시 데이터
         val collections = listOf(
-            Collection("웃긴 장면", "2025.03.24", "2025.06.23", "비공개"),
-            Collection("감동 모음", "2025.01.10", "2025.04.01", "공유하기")
+            Collection("웃긴 장면", "2025.03.24", "2025.06.23", "비공개", ""),
+            Collection("감동 모음", "2025.01.10", "2025.04.01", "공유하기", " ")
         )
 
         collectionAdapter = CollectionAdapter(
