@@ -6,18 +6,61 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import umc.onairmate.R
+import umc.onairmate.data.model.entity.ParticipantData
+import umc.onairmate.databinding.FragmentChatRoomSidePannelBinding
 
 class ChatRoomDrawerFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    lateinit var binding: FragmentChatRoomSidePannelBinding
+    private lateinit var adapter: ChatRoomParticipantRVAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chat_room_side_pannel, container, false)
+    ): View {
+        binding = FragmentChatRoomSidePannelBinding.inflate(inflater, container, false)
+
+        setParticipantView()
+
+        return binding.root
+    }
+
+    private fun setParticipantView() {
+        adapter = ChatRoomParticipantRVAdapter(requireContext(), userList)
     }
 }
+
+val userList: List<ParticipantData> = listOf(
+    ParticipantData(
+        nickname = "참가자1",
+        isHost = false,
+        joinedAt = "",
+        popularity = 0,
+        profileImage = "",
+        userId = 0
+    ),
+    ParticipantData(
+        nickname = "참가자2",
+        isHost = false,
+        joinedAt = "",
+        popularity = 0,
+        profileImage = "",
+        userId = 0
+    ),
+    ParticipantData(
+        nickname = "참가자3",
+        isHost = false,
+        joinedAt = "",
+        popularity = 0,
+        profileImage = "",
+        userId = 0
+    ),
+    ParticipantData(
+        nickname = "참가자4",
+        isHost = false,
+        joinedAt = "",
+        popularity = 0,
+        profileImage = "",
+        userId = 0
+    )
+)

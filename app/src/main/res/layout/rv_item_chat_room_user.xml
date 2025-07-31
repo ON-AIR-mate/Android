@@ -30,6 +30,7 @@
 
         <!--닉네임 들어갈 자리-->
         <TextView
+            android:id="@+id/tv_user_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
