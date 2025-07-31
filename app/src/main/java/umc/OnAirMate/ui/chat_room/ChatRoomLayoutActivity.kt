@@ -2,13 +2,16 @@ package umc.onairmate.ui.chat_room
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.databinding.ActivityChatRoomLayoutBinding
 
+@AndroidEntryPoint
 class ChatRoomLayoutActivity : AppCompatActivity() {
 
     lateinit var roomData: RoomData
@@ -21,6 +24,7 @@ class ChatRoomLayoutActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         roomData = intent.getParcelableExtra("room_data", RoomData::class.java)!!
+        Log.d("data", "room : ${roomData}")
 
         initScreen()
     }

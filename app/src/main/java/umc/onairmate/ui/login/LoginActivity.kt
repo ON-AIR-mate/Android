@@ -42,7 +42,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
-            viewModel.login(10)
+//            viewModel.signUp(13)
+            viewModel.login(13)
             val intent = Intent(this@LoginActivity, MainActivity::class.java)
             startActivity(intent)
         }
