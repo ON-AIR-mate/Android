@@ -22,7 +22,7 @@ class SearchRoomViewModel @Inject constructor(
     @ApplicationContext private val context: Context
 ) : ViewModel(){
     private val TAG = this.javaClass.simpleName
-    private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    private val spf = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
     private val _roomData = MutableLiveData<List<RoomData>>()
     val roomData : LiveData<List<RoomData>> get() = _roomData
@@ -40,7 +40,7 @@ class SearchRoomViewModel @Inject constructor(
     val isLoading: LiveData<Boolean> = _isLoading
 
     fun getToken(): String? {
-        return sharedPreferences.getString("access_token", null)
+        return spf.getString("access_token", null)
     }
 
     // 테스트용 더미데이터 생성

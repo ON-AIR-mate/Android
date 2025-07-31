@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import umc.onairmate.data.api.FriendService
 import umc.onairmate.data.api.HomeService
 import umc.onairmate.data.api.TestService
 import javax.inject.Singleton
@@ -28,6 +29,12 @@ object ServiceModule {
     @Provides
     @Singleton
     fun testApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): TestService {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun friendApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): FriendService{
         return retrofit.buildService()
     }
 }
