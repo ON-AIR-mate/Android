@@ -57,8 +57,8 @@
 
             <NumberPicker
                 android:id="@+id/np_maximum_participant"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp" />
+                android:layout_width="50dp"
+                android:layout_height="30dp" />
 
         </LinearLayout>
 
@@ -80,8 +80,8 @@
 
             <Spinner
                 android:id="@+id/sp_invite_setting"
-                android:layout_width="100dp"
-                android:layout_height="30dp"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
                 android:textAlignment="viewEnd"/>
 
         </LinearLayout>

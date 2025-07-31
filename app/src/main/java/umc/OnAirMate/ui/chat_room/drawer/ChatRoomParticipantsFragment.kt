@@ -51,8 +51,8 @@ class ChatRoomParticipantsFragment : Fragment() {
 
     // 방 참가자 명단의 어댑터와 뷰 연결
     private fun setParticipants() {
-        chatRoomViewModel.participantDataInfo.observe(viewLifecycleOwner) { response ->
-            val userList = response.participants ?: emptyList()
+        chatRoomViewModel.participantDataInfo.observe(viewLifecycleOwner) { data ->
+            val userList = data ?: emptyList()
 
             adapter = ChatRoomParticipantRVAdapter(userList)
             binding.rvParticipants.adapter = adapter

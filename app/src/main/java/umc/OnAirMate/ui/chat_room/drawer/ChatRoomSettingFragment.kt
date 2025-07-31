@@ -15,7 +15,7 @@ import umc.onairmate.data.model.entity.RoomSettingData
 import umc.onairmate.databinding.FragmentChatRoomSettingBinding
 import umc.onairmate.ui.chat_room.ChatRoomViewModel
 
-val inviteOptions = listOf("방장만", "모두")
+val inviteOptions = listOf("방장만 허용", "모두 허용")
 
 class ChatRoomSettingFragment : Fragment() {
 
@@ -47,13 +47,9 @@ class ChatRoomSettingFragment : Fragment() {
         binding.npMaximumParticipant.minValue = 1
         binding.npMaximumParticipant.maxValue = 15
 
-        val adapter = ArrayAdapter(
-            requireContext(),
-            R.layout.sp_item_invite_permission_type,
-            inviteOptions
-        )
-        adapter.setDropDownViewResource(R.layout.sp_item_invite_permission_type)
+        val adapter = RoomInviteSettingSpAdapter(requireContext(), inviteOptions)
         binding.spInviteSetting.adapter = adapter
+        binding.spInviteSetting.dropDownVerticalOffset = 50
 
     }
 

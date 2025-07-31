@@ -1,4 +1,4 @@
-package umc.onairmate.ui.home
+package umc.onairmate.ui.chat_room.drawer
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,42 +9,41 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import umc.onairmate.R
 import umc.onairmate.databinding.SpItemSearchTypeBinding
+import umc.onairmate.databinding.SpItemSettingBinding
 
-class SearchTypeSpinnerAdapter(
+
+class RoomInviteSettingSpAdapter(
     private val context: Context,
     private val items: List<String>
-    ) : ArrayAdapter<String>(context, 0, items) {
+) : ArrayAdapter<String>(context, 0, items) {
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val binding: SpItemSearchTypeBinding = if (convertView == null) {
-            SpItemSearchTypeBinding.inflate(LayoutInflater.from(context), parent, false)
+        val binding: SpItemSettingBinding = if (convertView == null) {
+            SpItemSettingBinding.inflate(LayoutInflater.from(context), parent, false)
+
         } else {
-            SpItemSearchTypeBinding.bind(convertView)
+            SpItemSettingBinding.bind(convertView)
         }
 
-        binding.tvSearchType.text = items[position]
-        binding.tvSearchType.setTextColor(ContextCompat.getColor(context, R.color.black))
-        binding.tvSearchType.setTextAppearance(R.style.TextAppearance_App_Medium_12sp)
+        binding.tvItemSetting.text = items[position]
 
         // 첫번째 요소 구분선 제거
         if (position == 0) {
-            binding.line.visibility = View.GONE
+            binding.tvItemSetting.visibility = View.GONE
         } else {
-            binding.line.visibility = View.VISIBLE
+            binding.tvItemSetting.visibility = View.VISIBLE
         }
 
         return binding.root
     }
-    
-
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         // 선택된 항목을 표시할 때는 기본 TextView만 필요하므로 따로 작성
         val view = convertView ?: LayoutInflater.from(context).inflate(android.R.layout.simple_spinner_item, parent, false)
         val textView = view.findViewById<TextView>(android.R.id.text1)
         textView.text = items[position]
-        textView.setTextAppearance(R.style.TextAppearance_App_Bold_10sp)
-        textView.setTextColor(ContextCompat.getColor(context, R.color.white))
+        textView.setTextAppearance(R.style.TextAppearance_App_Medium_12sp)
+        textView.setTextColor(ContextCompat.getColor(context, R.color.black))
         return view
     }
 }
