@@ -46,14 +46,8 @@ class ChatRoomDrawerFragment : Fragment() {
 
     fun initScreen() {
         isSettingScreen = false
-
         bundle.putParcelable("room_data", roomData)
-        val participants = ChatRoomParticipantsFragment()
-        participants.arguments = bundle
-
-        childFragmentManager.beginTransaction()
-            .replace(R.id.fl_drawer_layout, participants)
-            .commit()
+        changeFrameToParticipant()
     }
 
     fun onClickSetting() {
@@ -63,23 +57,31 @@ class ChatRoomDrawerFragment : Fragment() {
             if (isSettingScreen == false) {
                 isSettingScreen = true
 
-                val setting = ChatRoomSettingFragment()
-                setting.arguments = bundle
-
-                childFragmentManager.beginTransaction()
-                    .replace(R.id.fl_drawer_layout, setting)
-                    .commit()
+                changeFrameToSetting()
             } else {
                 isSettingScreen = false
 
-                val participants = ChatRoomParticipantsFragment()
-                participants.arguments = bundle
-
-                childFragmentManager.beginTransaction()
-                    .replace(R.id.fl_drawer_layout, participants)
-                    .commit()
+                changeFrameToParticipant()
             }
         }
+    }
+
+    fun changeFrameToParticipant() {
+        val participants = ChatRoomParticipantsFragment()
+        participants.arguments = bundle
+
+        childFragmentManager.beginTransaction()
+            .replace(R.id.fl_drawer_layout, participants)
+            .commit()
+    }
+
+    fun changeFrameToSetting() {
+        val setting = ChatRoomSettingFragment()
+        setting.arguments = bundle
+
+        childFragmentManager.beginTransaction()
+            .replace(R.id.fl_drawer_layout, setting)
+            .commit()
     }
 
     // 좌상단 메뉴버튼 클릭시 drawer 접기

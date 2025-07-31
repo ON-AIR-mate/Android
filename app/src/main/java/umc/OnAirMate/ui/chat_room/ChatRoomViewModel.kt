@@ -13,7 +13,6 @@ import umc.onairmate.data.model.entity.ParticipantData
 import umc.onairmate.data.model.entity.RoomSettingData
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.model.response.MessageResponse
-import umc.onairmate.data.model.response.ParticipantResponse
 import umc.onairmate.data.repository.repository.ChatRoomRepository
 import javax.inject.Inject
 
@@ -28,8 +27,8 @@ class ChatRoomViewModel @Inject constructor(
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
     // 채팅방 참가자 데이터
-    private val _participantDataInfo = MutableLiveData<ParticipantResponse>()
-    val participantDataInfo : LiveData<ParticipantResponse> get() = _participantDataInfo
+    private val _participantDataInfo = MutableLiveData<List<ParticipantData>>()
+    val participantDataInfo : LiveData<List<ParticipantData>> get() = _participantDataInfo
 
     // 방 데이터 수정 여부 확인
     private val _isRoomSettingModifyDone = MutableLiveData<MessageResponse>()

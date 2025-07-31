@@ -5,9 +5,9 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import umc.onairmate.data.model.entity.ParticipantData
 import umc.onairmate.data.model.entity.RoomSettingData
 import umc.onairmate.data.model.response.MessageResponse
-import umc.onairmate.data.model.response.ParticipantResponse
 import umc.onairmate.data.model.response.RawDefaultResponse
 
 interface ChatRoomService {
@@ -24,7 +24,7 @@ interface ChatRoomService {
     suspend fun getParticipants(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId: Int,
-    ): RawDefaultResponse<ParticipantResponse>
+    ): RawDefaultResponse<List<ParticipantData>>
 
     // ai 요약이랑 북마크 생성도 여긴가?
 }
