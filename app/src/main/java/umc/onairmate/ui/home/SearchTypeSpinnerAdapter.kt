@@ -41,7 +41,7 @@ class SearchTypeSpinnerAdapter(
         val view = convertView ?: LayoutInflater.from(context).inflate(android.R.layout.simple_spinner_item, parent, false)
         val textView = view.findViewById<TextView>(android.R.id.text1)
         textView.text = items[position]
-        textView.setTextAppearance(R.style.TextAppearance_App_Bold_8sp)
+        textView.setTextAppearance(R.style.TextAppearance_App_Bold_10sp)
         textView.setTextColor(ContextCompat.getColor(context, R.color.white))
         return view
     }

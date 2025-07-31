@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import umc.onairmate.data.FriendData
-import umc.onairmate.data.RequestedFriendData
+import umc.onairmate.data.model.entity.FriendData
+import umc.onairmate.data.model.entity.RequestedFriendData
 import javax.inject.Inject
 
 class FriendViewModel @Inject constructor(

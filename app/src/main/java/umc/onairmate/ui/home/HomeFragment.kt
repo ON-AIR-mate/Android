@@ -9,6 +9,7 @@ import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.databinding.FragmentHomeBinding
 import umc.onairmate.ui.home.room.HomeEventListener
@@ -16,6 +17,8 @@ import umc.onairmate.ui.home.room.RoomRVAdapter
 import umc.onairmate.ui.pop_up.JoinRoomPopup
 import umc.onairmate.ui.pop_up.PopupClick
 
+
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
     private val TAG = javaClass.simpleName
 
@@ -25,6 +28,10 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val searchViewModel: SearchRoomViewModel by viewModels()
+
+    private var sortBy : String = ""
+    private var searchType : String = ""
+    private var keyword : String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,7 +51,7 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         // 초기 데이터 삽입
-        searchViewModel.getRoomList(1)
+        searchViewModel.getRoomList(sortBy, searchType, keyword)
     }
 
     override fun onDestroyView() {
@@ -57,11 +64,12 @@ class HomeFragment : Fragment() {
     private fun setView() {
         adapter = RoomRVAdapter(requireContext(), object : HomeEventListener{
             override fun joinRoom(data : RoomData){
-                showJoinRoomPopup(data)
+                searchViewModel.getRoomDetailInfo(data.roomId)
             }
 
             override fun selectSortType(type: String) {
                 Log.d(TAG, "정렬 기준 : ${type}")
+                sortBy = type
             }
         })
         binding.rvContents.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
@@ -69,7 +77,7 @@ class HomeFragment : Fragment() {
     }
 
 
-    // viewHolder속 데이터 변화 감지
+    // viewModel 속 데이터 변화 감지
     private fun setUpObserver(){
         searchViewModel.roomData.observe(viewLifecycleOwner){ list ->
             if (list == null) return@observe
@@ -81,6 +89,17 @@ class HomeFragment : Fragment() {
             }
             adapter.initData(list,list)
         }
+
+        searchViewModel.roomListResponse.observe(viewLifecycleOwner){response ->
+            if (response == null) return@observe
+            adapter.initData(response.continueWatching, response.onAirRooms)
+        }
+
+        searchViewModel.roomDetailInfo.observe(viewLifecycleOwner){data ->
+            if (data == null) return@observe
+            showJoinRoomPopup(data)
+        }
+
         searchViewModel.recommendedVideo.observe(viewLifecycleOwner) {videos ->
             if(videos == null) return@observe
             recommendVideo(videos)
@@ -91,11 +110,11 @@ class HomeFragment : Fragment() {
     // 일단 데이터 변화를 테스트 하는데 활용 -> 나중에 Intent로 변환할 예정
     private fun initClickListener(){
         binding.ivYoutubeSearch.setOnClickListener {
-            searchViewModel.getRoomList(0)
+
         }
 
         binding.ivNotification.setOnClickListener {
-            searchViewModel.getRoomList(1)
+
         }
     }
 
@@ -112,7 +131,13 @@ class HomeFragment : Fragment() {
                 id: Long
             ) {
                 val selectedItem = parent?.getItemAtPosition(position) as String
-                Log.d(TAG,"selected Item ${selectedItem}")
+                Log.d(TAG,"pos : ${position} / selected Item ${selectedItem}")
+                searchType = when(position) {
+                    0 -> "video_title"
+                    1 -> "room_title"
+                    2 -> "host_nickname"
+                    else -> ""
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -123,7 +148,7 @@ class HomeFragment : Fragment() {
     private fun showJoinRoomPopup(data : RoomData){
         val dialog = JoinRoomPopup(data, object : PopupClick {
             override fun rightClickFunction() {
-                // 방 액티비티로 전환
+                searchViewModel.joinRoom(data.roomId)
             }
 
         })

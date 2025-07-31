@@ -2,7 +2,7 @@ package umc.onairmate.ui.friend.list
 
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
-import umc.onairmate.data.RequestedFriendData
+import umc.onairmate.data.model.entity.RequestedFriendData
 import umc.onairmate.databinding.RvItemFriendRequestBinding
 
 class FriendRequestViewHolder(

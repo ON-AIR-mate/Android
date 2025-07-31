@@ -3,7 +3,7 @@ package umc.onairmate.ui.friend.list
 import android.content.Context
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import umc.onairmate.data.FriendData
+import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.databinding.RvItemFriendBinding
 
 class FriendViewHolder(
