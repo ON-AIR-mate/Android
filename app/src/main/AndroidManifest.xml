@@ -14,7 +14,10 @@
         android:theme="@style/Theme.OnAirMate"
         tools:targetApi="31">
         <activity
-            android:name="umc.onairmate.ui.MainActivity"
+            android:name="umc.OnAirMate.ui.login.LoginActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.MainActivity"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
@@ -23,6 +26,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="umc.OnAirMate.ui.SplashActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>

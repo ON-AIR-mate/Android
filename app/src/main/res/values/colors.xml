@@ -6,6 +6,10 @@
     <color name="sub">#F8D2D6</color>
     <color name="disable">#9FA4A9</color>
     <color name="input">#F7F8F9</color>
+    <color name="box">#FF7272</color>
+    <color name="login">#D9D9D9</color>
+    <color name="line">#D5D5D5</color>
+    <color name="canuse">#1D6617</color>
 
     <color name="text1">#1B1D1F</color>
     <color name="text2">#26282B</color>
@@ -15,5 +19,7 @@
     <color name="text6">#C9CDD2</color>
     <color name="text7">#E8EBED</color>
     <color name="text8">#F7F8F9</color>
+    <color name="text9">#595959</color>
+    <color name="text10">#717171</color>
 
 </resources>
