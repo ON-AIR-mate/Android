@@ -19,6 +19,9 @@ class FriendViewModel @Inject constructor(
     private val _requestedFriendList = MutableLiveData<List<RequestedFriendData>>()
     val requestedFriendList : LiveData<List<RequestedFriendData>> get() = _requestedFriendList
 
+    private val _searchedUserList =  MutableLiveData<List<FriendData>>()
+    val searchedUserList : LiveData<List<FriendData>> get() = _searchedUserList
+
     private fun initDummyFriend() : List<FriendData>{
         val dummy = arrayListOf<FriendData>()
         for(i in 1..5){
@@ -43,6 +46,12 @@ class FriendViewModel @Inject constructor(
     fun getRequestedFriendList(){
         Log.d(TAG,"getRequestList")
         _requestedFriendList.value = initDummyRequest()
+    }
+
+    fun searchUser(nickname: String){
+        Log.d(TAG,"searchUser")
+        _searchedUserList.value = initDummyFriend()
+
     }
 
 
