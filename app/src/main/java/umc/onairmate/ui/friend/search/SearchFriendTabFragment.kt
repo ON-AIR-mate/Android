@@ -44,10 +44,10 @@ class SearchFriendTabFragment: Fragment() {
                 }
 
                 override fun leftClickFunction() {
-
+                    viewModel.requestFriend(data.userId)
                 }
             }, false) // 뒤로 가기 막고 싶으면 false 넣어주세요, 아니면 생략가능합니다.
-            dialog.show(activity?.supportFragmentManager!!, "testPopup")
+            dialog.show(activity?.supportFragmentManager!!, "requestFriendPopup")
         }
         binding.rvUserList.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL, false)
         binding.rvUserList.adapter = adapter
