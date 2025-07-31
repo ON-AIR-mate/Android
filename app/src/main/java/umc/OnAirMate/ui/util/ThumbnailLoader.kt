@@ -7,9 +7,9 @@ import umc.OnAirMate.R
 /**
  * 네트워크 이미지 로더 (썸네일 유틸)
  *
- * 사용법: ThumbnailLoader.load(이미지뷰, url)
+ * 사용법: NetworkImageLoader.load(이미지뷰, url)
  */
-object ThumbnailLoader {
+object NetworkImageLoader {
     fun load(imageView: ImageView, url: String) {
         imageView.load(url) {
             // todo: 로딩중 이미지 넣기
