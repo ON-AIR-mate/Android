@@ -12,10 +12,10 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.databinding.FragmentProfileBinding
-import umc.onairmate.ui.TestViewModel
-import kotlin.getValue
+
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {

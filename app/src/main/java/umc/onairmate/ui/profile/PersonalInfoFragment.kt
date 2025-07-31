@@ -31,13 +31,13 @@ class PersonalInfoFragment : Fragment() {
             Toast.makeText(requireContext(), "로그아웃 클릭", Toast.LENGTH_SHORT).show()
         }
 
-        binding.ivTooltip.setOnClickListener {
-            showTooltip(it, "추천 및 제재에 따라 인기도가 조정됩니다.")
-        }
-
-        binding.btnEditNickname.setOnClickListener {
-            Toast.makeText(requireContext(), "닉네임 수정 클릭", Toast.LENGTH_SHORT).show()
-        }
+//        binding.ivTooltip.setOnClickListener {
+//            showTooltip(it, "추천 및 제재에 따라 인기도가 조정됩니다.")
+//        }
+//
+//        binding.btnEditNickname.setOnClickListener {
+//            Toast.makeText(requireContext(), "닉네임 수정 클릭", Toast.LENGTH_SHORT).show()
+//        }
 
         binding.btnBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
