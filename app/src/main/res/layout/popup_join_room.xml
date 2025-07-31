@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="방장 닉네임"
-            android:textAppearance="@style/TextAppearance.App.Regular.10sp"
+            android:textAppearance="@style/TextAppearance.App.Regular.12sp"
             android:layout_marginStart="8dp"/>
         <TextView
             android:id="@+id/tv_room_user_num"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:text="10 / 15명"
             android:layout_marginStart="14dp"
-            android:textAppearance="@style/TextAppearance.App.Medium.10sp"/>
+            android:textAppearance="@style/TextAppearance.App.Medium.12sp"/>
     </LinearLayout>
     <ImageView
         android:id="@+id/iv_thumbnail"
@@ -59,13 +59,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1:06:15"
-            android:textAppearance="@style/TextAppearance.App.Medium.8sp" />
+            android:textAppearance="@style/TextAppearance.App.Medium.12sp" />
         <TextView
             android:id="@+id/tv_room_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="방 제목"
-            android:textAppearance="@style/TextAppearance.App.Medium.12sp"
+            android:textAppearance="@style/TextAppearance.App.Medium.18sp"
             android:layout_marginTop="3dp" />
     </LinearLayout>
     <TextView
