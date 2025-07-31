@@ -1,6 +1,7 @@
 package umc.onairmate.ui.home.room
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import androidx.core.content.ContextCompat
@@ -41,9 +42,12 @@ class RoomHeaderViewHolder(
                 position: Int,
                 id: Long
             ) {
-                // 선택된 값의 String (정렬 타입) 리턴
-                val selectedItem = parent?.getItemAtPosition(position) as String
-                homeEventListener.selectSortType(selectedItem)
+                val searchType = when(position) {
+                    0 -> "latest"
+                    1 -> "popularity"
+                    else -> ""
+                }
+                homeEventListener.selectSortType(searchType)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
