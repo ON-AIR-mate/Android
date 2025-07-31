@@ -76,11 +76,15 @@ class FriendListTabFragment() : Fragment() {
     private fun setObservers() {
         viewModel.friendList.observe(viewLifecycleOwner, Observer { list ->
             if (list == null) return@Observer
+            binding.tvEmptyMessage.text = "아직 친구가 없습니다.\n함께할 친구를 초대해보세요!"
+            binding.layoutEmpty.visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
             adapter.initFriendList(list)
         })
 
         viewModel.requestedFriendList.observe(viewLifecycleOwner, Observer { list ->
             if (list == null) return@Observer
+            binding.tvEmptyMessage.text = "받은 친구 요청이 아직 없어요."
+            binding.layoutEmpty.visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
             adapter.initRequestList(list)
         })
     }
