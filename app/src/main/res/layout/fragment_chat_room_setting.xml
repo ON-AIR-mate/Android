@@ -44,8 +44,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="start"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="18dp">
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="14dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -53,11 +53,11 @@
                 android:text="최대 인원"
                 android:layout_marginStart="15dp"
                 android:layout_weight="1"
-                android:textAppearance="@style/TextAppearance.App.Medium.16sp" />
+                android:textAppearance="@style/TextAppearance.App.Medium.14sp" />
 
             <NumberPicker
                 android:id="@+id/np_maximum_participant"
-                android:layout_width="50dp"
+                android:layout_width="130dp"
                 android:layout_height="30dp" />
 
         </LinearLayout>
@@ -67,8 +67,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="18dp">
+            android:layout_marginBottom="14dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -76,12 +75,12 @@
                 android:text="초대 권한"
                 android:layout_marginStart="15dp"
                 android:layout_weight="1"
-                android:textAppearance="@style/TextAppearance.App.Medium.16sp" />
+                android:textAppearance="@style/TextAppearance.App.Medium.14sp" />
 
             <Spinner
                 android:id="@+id/sp_invite_setting"
-                android:layout_width="150dp"
-                android:layout_height="50dp"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
                 android:textAlignment="viewEnd"/>
 
         </LinearLayout>
@@ -91,8 +90,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="18dp">
+            android:layout_marginBottom="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -100,7 +98,7 @@
                 android:text="비공개 방"
                 android:layout_marginStart="15dp"
                 android:layout_weight="1"
-                android:textAppearance="@style/TextAppearance.App.Medium.16sp" />
+                android:textAppearance="@style/TextAppearance.App.Medium.14sp" />
 
             <ImageView
                 android:id="@+id/iv_private_room_on"
@@ -122,9 +120,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="18dp">
+            android:gravity="center_vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -132,7 +128,7 @@
                 android:text="북마크 자동 아카이빙"
                 android:layout_marginStart="15dp"
                 android:layout_weight="1"
-                android:textAppearance="@style/TextAppearance.App.Medium.16sp" />
+                android:textAppearance="@style/TextAppearance.App.Medium.14sp" />
 
             <ImageView
                 android:id="@+id/iv_auto_archive_on"

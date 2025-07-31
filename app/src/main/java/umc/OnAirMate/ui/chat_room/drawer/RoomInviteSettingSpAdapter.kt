@@ -20,19 +20,11 @@ class RoomInviteSettingSpAdapter(
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         val binding: SpItemSettingBinding = if (convertView == null) {
             SpItemSettingBinding.inflate(LayoutInflater.from(context), parent, false)
-
         } else {
             SpItemSettingBinding.bind(convertView)
         }
 
         binding.tvItemSetting.text = items[position]
-
-        // 첫번째 요소 구분선 제거
-        if (position == 0) {
-            binding.tvItemSetting.visibility = View.GONE
-        } else {
-            binding.tvItemSetting.visibility = View.VISIBLE
-        }
 
         return binding.root
     }
