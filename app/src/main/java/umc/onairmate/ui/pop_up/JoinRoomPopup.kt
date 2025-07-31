@@ -11,6 +11,7 @@ import androidx.fragment.app.DialogFragment
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.databinding.PopupJoinRoomBinding
+import umc.onairmate.ui.util.NetworkImageLoader
 
 
 class JoinRoomPopup (
@@ -65,6 +66,9 @@ class JoinRoomPopup (
         binding.tvManagerNickname.text = data.hostNickname
         binding.tvPlayTime.text = data.duration
         binding.tvRoomUserNum.text = "${data.currentParticipants} / ${data.maxParticipants}"
+
+        NetworkImageLoader.profileLoad(binding.ivManagerProfile, data.hostProfileImage!!)
+        NetworkImageLoader.thumbnailLoad(binding.ivThumbnail,data.videoThumbnail!!)
     }
 
 

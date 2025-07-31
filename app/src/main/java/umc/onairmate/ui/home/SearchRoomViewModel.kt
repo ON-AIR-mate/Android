@@ -51,9 +51,9 @@ class SearchRoomViewModel @Inject constructor(
             roomId = i,
             roomTitle = "dummy ${i}",
             videoTitle = "",
-            videoThumbnail = null,
+            videoThumbnail = "",
             hostNickname = "host${i}",
-            hostProfileImage = null,
+            hostProfileImage = "",
             currentParticipants = i,
             maxParticipants = 10,
             duration = "00:45:20"

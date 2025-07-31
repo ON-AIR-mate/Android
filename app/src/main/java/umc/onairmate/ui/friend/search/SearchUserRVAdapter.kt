@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.databinding.RvItemSearchFriendBinding
+import umc.onairmate.ui.util.NetworkImageLoader
 
 class SearchUserRVAdapter(
     private val itemClick : (FriendData) ->Unit
@@ -30,6 +31,7 @@ class SearchUserRVAdapter(
     inner class ViewHolder( val binding : RvItemSearchFriendBinding ) : RecyclerView.ViewHolder(binding.root){
         fun bind(data : FriendData){
             binding.tvUserNickname.text = data.nickname
+            NetworkImageLoader.profileLoad(binding.ivProfile, data.profileImage)
             binding.btnRequestFriend.isEnabled
             binding.btnRequestFriend.setOnClickListener {
                 itemClick(data)
