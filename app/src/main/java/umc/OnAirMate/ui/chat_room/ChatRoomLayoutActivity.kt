@@ -26,12 +26,21 @@ class ChatRoomLayoutActivity : AppCompatActivity() {
     }
 
     private fun initScreen() {
+        val bundle = Bundle()
+        bundle.putParcelable("room_data", roomData)
+
+        val chatRoom = ChatRoomFragment()
+        val drawer = ChatRoomDrawerFragment()
+
+        chatRoom.arguments = bundle
+        drawer.arguments = bundle
+
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, ChatRoomFragment())
+            .replace(R.id.fragment_container, chatRoom)
             .commit()
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_drawer, ChatRoomDrawerFragment())
+            .replace(R.id.fragment_drawer, drawer)
             .commit()
     }
 
