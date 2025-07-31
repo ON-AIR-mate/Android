@@ -37,7 +37,7 @@ class ChatRoomParticipantsFragment : Fragment() {
 
         roomData = arguments?.getParcelable("room_data", RoomData::class.java)
         Log.d("data", "room : ${roomData}")
-        
+
         initScreen()
         setParticipants()
 
