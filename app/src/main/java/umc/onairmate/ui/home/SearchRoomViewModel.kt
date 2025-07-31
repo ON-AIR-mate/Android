@@ -113,7 +113,6 @@ class SearchRoomViewModel @Inject constructor(
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
-                    _roomData.value = getDummyRoom(5)
                 }
             }
             _isLoading.value = false

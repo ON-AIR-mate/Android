@@ -67,8 +67,8 @@ class JoinRoomPopup (
         binding.tvPlayTime.text = data.duration
         binding.tvRoomUserNum.text = "${data.currentParticipants} / ${data.maxParticipants}"
 
-        NetworkImageLoader.profileLoad(binding.ivManagerProfile, data.hostProfileImage!!)
-        NetworkImageLoader.thumbnailLoad(binding.ivThumbnail,data.videoThumbnail!!)
+        NetworkImageLoader.profileLoad(binding.ivManagerProfile, data.hostProfileImage)
+        NetworkImageLoader.thumbnailLoad(binding.ivThumbnail,data.videoThumbnail)
     }
 
 
