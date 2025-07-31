@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="32dp"
+        android:gravity="start">
+
+        <!-- 닫기 버튼 & 타이틀 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/ivClose"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/btn_close"
+                android:contentDescription="닫기 버튼" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="ON AIR mate"
+                android:textColor="@color/main"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- 로고 이미지 (왼쪽 정렬) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingVertical="24dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="24dp"
+            android:paddingLeft="20dp"
+            android:gravity="start">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="32dp"
+                android:src="@drawable/logo_onairmate_typo"
+                android:layout_gravity="start" />
+
+            <!-- 회원가입 완료 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="회원가입 완료"
+                android:textColor="@color/main"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:textAlignment="viewStart"
+                android:gravity="start" />
+
+            <!-- 안내 메시지 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="함께해서 더 즐거운 시간 ON AIR mate\n같이보는 재미, 실시간 반응의 즐거움을 느껴보세요!"
+                android:textSize="12sp"
+                android:textColor="@android:color/black"
+                android:gravity="start"
+                android:textAlignment="viewStart"
+                android:lineSpacingExtra="4dp" />
+        </LinearLayout>
+
+        <!-- 붉은 안내문 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:text="ON AIR mate는 여러분의 멋진 채팅활동으로 완성됩니다.\n\n타인에게 피해가 가는 행동을 자제해주세요!\n\n채팅도중에는 절대 개인 정보를 공유하지 마세요!\n특히 아이디와 비밀번호, 주민등록번호, 계좌번호 등 신상정보를 공유하시면 안됩니다.\n\n* 악성 채팅 및 비정상적인 활동은 운영정책에 따라 제재되며\n심각한 경우 법적 책임이 따를 수 있습니다."
+            android:textSize="12sp"
+            android:textColor="@color/main"
+            android:lineSpacingExtra="4dp"
+            android:paddingLeft="20dp"
+            android:gravity="start"
+            android:textAlignment="viewStart" />
+
+        <!-- 로그인 버튼 -->
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="로그인 하러가기"
+            android:background="@color/main"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:paddingVertical="12dp"/>
+    </LinearLayout>
+</ScrollView>
