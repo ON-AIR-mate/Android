@@ -57,8 +57,6 @@ class FriendViewModel @Inject constructor(
     }
 
     fun getFriendList(){
-        _friendList.value = initDummyFriend()
-
         viewModelScope.launch {
             _isLoading.value = true
             val token = getToken()
@@ -72,7 +70,7 @@ class FriendViewModel @Inject constructor(
             when (result) {
                 is DefaultResponse.Success -> {
                     Log.d(TAG,"응답 성공 : ${result.data}")
-
+                    _friendList.postValue(result.data)
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
@@ -85,9 +83,6 @@ class FriendViewModel @Inject constructor(
     }
 
     fun getRequestedFriendList(){
-        Log.d(TAG,"getRequestList")
-        _requestedFriendList.value = initDummyRequest()
-
         viewModelScope.launch {
             _isLoading.value = true
             val token = getToken()
@@ -101,7 +96,7 @@ class FriendViewModel @Inject constructor(
             when (result) {
                 is DefaultResponse.Success -> {
                     Log.d(TAG,"응답 성공 : ${result.data}")
-
+                    _requestedFriendList.postValue(result.data)
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
