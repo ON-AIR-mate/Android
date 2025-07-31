@@ -25,6 +25,11 @@
         <item name="android:fontFamily">@font/pretendard_bold</item>
         <item name="android:textColor">@color/black</item>
     </style>
+    <style name="TextAppearance.App.Bold.8sp" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">8sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 
 
     <style name="TextAppearance.App.SemiBold.20sp" parent="TextAppearance.AppCompat">
@@ -47,8 +52,23 @@
         <item name="android:fontFamily">@font/pretendard_semi_bold</item>
         <item name="android:textColor">@color/black</item>
     </style>
+    <style name="TextAppearance.App.SemiBold.12sp" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/pretendard_semi_bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 
 
+    <style name="TextAppearance.App.Medium.18sp" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="TextAppearance.App.Medium.16sp" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
     <style name="TextAppearance.App.Medium.14sp" parent="TextAppearance.AppCompat">
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">@font/pretendard_medium</item>
@@ -69,6 +89,7 @@
         <item name="android:fontFamily">@font/pretendard_medium</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
 
 
     <style name="TextAppearance.App.Regular.14sp" parent="TextAppearance.AppCompat">

@@ -5,14 +5,71 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.friend.FriendFragment">
+    tools:context=".ui.friend.FriendFragment"
+    android:paddingHorizontal="30dp">
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title_friend"
-        android:textColor="@color/black"
-        android:textSize="40sp"
+        android:text="ON AIR mate"
+        android:textColor="@color/main"
+        android:textAppearance="@style/TextAppearance.App.Bold.26sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="10dp"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <ImageView
+        android:id="@+id/iv_notification"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:src="@drawable/ic_bell"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageView
+        android:id="@+id/iv_youtube_search"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:src="@drawable/ic_door"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintTop_toTopOf="@id/iv_notification"
+        app:layout_constraintEnd_toStartOf="@id/iv_notification"/>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tb_friend"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="15dp"
+        android:background="@android:color/transparent"
+        app:tabMinWidth="80dp"
+        app:tabGravity="center"
+        app:tabTextAppearance="@style/TextAppearance.App.Medium.12sp"
+        app:tabTextColor="@color/black"
+        app:tabSelectedTextColor="@color/black"
+        app:tabRippleColor="@android:color/transparent"
+        app:tabIndicatorGravity="bottom"
+        app:tabIndicatorColor="@color/main"
+        app:tabIndicatorHeight="3dp"
+        app:tabIndicatorFullWidth="true"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_friend"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/tb_friend"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
+    <!-- 바텀뷰만큼 띄우기위한 코드입니다 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
