@@ -40,10 +40,14 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
              */
         }
+        binding.findid.setOnClickListener {
+            val id = binding.etId.text.toString()
+            viewModel.signUp(id)
+        }
 
         binding.btnLogin.setOnClickListener {
-//            viewModel.signUp(13)
-            viewModel.login(13)
+            val id = binding.etId.text.toString()
+            viewModel.login(id)
             val intent = Intent(this@LoginActivity, MainActivity::class.java)
             startActivity(intent)
         }
