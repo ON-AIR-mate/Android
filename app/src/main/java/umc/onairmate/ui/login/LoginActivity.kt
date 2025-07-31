@@ -5,11 +5,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.onairmate.ui.join.JoinProfileFragment
+//import kotlinx.coroutines.flow.internal.NoOpContinuation.context
 import kotlinx.coroutines.launch
-import umc.onairmate.data.model.request.TestRequest
+import umc.onairmate.data.model.entity.LoginData
+//import umc.onairmate.data.model.request.TestRequest
+import umc.onairmate.data.model.response.LoginResponse
+import umc.onairmate.data.model.response.RawDefaultResponse
 import umc.onairmate.databinding.ActivityLoginBinding
-import umc.onairmate.ui.login.LoginRequest
 import umc.onairmate.ui.login.RetrofitClient
+//import kotlin.coroutines.jvm.internal.CompletedContinuation.context
 
 
 class LoginActivity : AppCompatActivity() {
@@ -40,6 +44,29 @@ class LoginActivity : AppCompatActivity() {
                 .addToBackStack(null)
                 .commit()
         }
+
+        //아이디 비밀번호 입력 시 버튼 활성화 코드
+        val textWatcher = object : android.text.TextWatcher {
+            override fun afterTextChanged(s: android.text.Editable?) {
+                val idInput = binding.etId.text.toString()
+                val pwInput = binding.etPassword.text.toString()
+                val isEnabled = idInput.isNotBlank() && pwInput.isNotBlank()
+
+                binding.btnLogin.isEnabled = isEnabled
+                binding.btnLogin.backgroundTintList = android.content.res.ColorStateList.valueOf(
+                    androidx.core.content.ContextCompat.getColor(
+                        this@LoginActivity,
+                        if (isEnabled) umc.onairmate.R.color.main else umc.onairmate.R.color.disable
+                    )
+                )
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
+
+        binding.etId.addTextChangedListener(textWatcher)
+        binding.etPassword.addTextChangedListener(textWatcher)
     }
 
     /*
@@ -71,10 +98,11 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+    */
 
-     */
     private fun login(username: String, password: String) {
-        // TestRequest에 미리 넣어둔 임의 데이터
+        /*
+        // 임시 테스트용 로컬 로그인 코드 주석 처리
         val testUser = TestRequest(
             username = "testuser",
             password = "1234",
@@ -83,16 +111,12 @@ class LoginActivity : AppCompatActivity() {
             agreements = TestRequest.Agreement()
         )
 
-        // 입력값과 비교
         if (username == testUser.username && password == testUser.password) {
-            // 로그인 성공 처리 (예: 토스트, 화면 전환 등)
             Toast.makeText(
                 this,
                 "로그인 성공! ${testUser.nickname}님 환영합니다.",
                 Toast.LENGTH_SHORT
             ).show()
-
-            // TODO: 필요시 메인 화면으로 이동하거나 토큰 저장 코드 추가
         } else {
             Toast.makeText(
                 this,
@@ -100,6 +124,63 @@ class LoginActivity : AppCompatActivity() {
                 Toast.LENGTH_SHORT
             ).show()
         }
-    }
+        */
 
+        // 실제 Retrofit API 호출로 로그인 처리
+        /*
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.instance.login(LoginRequest(username, password))
+                if (response.isSuccessful && response.body()?.success == true) {
+                    val loginData = response.body()!!.data!!
+                    // TODO: 로그인 성공 후 토큰 저장 등 필요한 작업 진행
+                    Toast.makeText(
+                        this@LoginActivity,
+                        "로그인 성공! ${loginData.user.nickname}님 환영합니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(
+                        this@LoginActivity,
+                        "로그인 실패: 아이디 또는 비밀번호를 확인하세요.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(
+                    this@LoginActivity,
+                    "네트워크 오류: ${e.localizedMessage}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+         */
+        lifecycleScope.launch {
+            try {
+                val request = LoginData(username, password)
+                val response: RawDefaultResponse<LoginResponse> = RetrofitClient.instance.login(request)
+                if (response.success /* 또는 response.isSuccess 등 */ && response.data != null) {
+                    val loginData = response.data
+                    Toast.makeText(
+                        this@LoginActivity,
+                        "로그인 성공! ${loginData.user.nickname}님 환영합니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    // TODO: 토큰 저장, 화면 전환 처리
+                } else {
+                    Toast.makeText(
+                        this@LoginActivity,
+                        "로그인 실패: 아이디 또는 비밀번호를 확인하세요.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(
+                    this@LoginActivity,
+                    "네트워크 오류: ${e.localizedMessage}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
 }
