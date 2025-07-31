@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.databinding.FragmentSearchFriendTabBinding
 import umc.onairmate.ui.friend.FriendViewModel
+import umc.onairmate.ui.pop_up.PopupClick
+import umc.onairmate.ui.pop_up.TwoButtonPopup
 import kotlin.getValue
 
 @AndroidEntryPoint
@@ -22,7 +24,7 @@ class SearchFriendTabFragment: Fragment() {
     private var _binding: FragmentSearchFriendTabBinding? = null
     private val binding get() = _binding!!
     private val viewModel: FriendViewModel by viewModels()
-    private val adapter = SearchUserRVAdapter()
+    lateinit private var adapter : SearchUserRVAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +34,21 @@ class SearchFriendTabFragment: Fragment() {
         _binding = FragmentSearchFriendTabBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        adapter = SearchUserRVAdapter() { data ->
+            val text = data.nickname+"님에게 친구요청을 보내시겠습니까?"
+            val textList = listOf(text,"예","아니오")
+            val dialog = TwoButtonPopup(textList,object : PopupClick{
+                override fun rightClickFunction() {
+                    // 실행하고자 하는 함수 있으면 overriding
 
+                }
+
+                override fun leftClickFunction() {
+
+                }
+            }, false) // 뒤로 가기 막고 싶으면 false 넣어주세요, 아니면 생략가능합니다.
+            dialog.show(activity?.supportFragmentManager!!, "testPopup")
+        }
         binding.rvUserList.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL, false)
         binding.rvUserList.adapter = adapter
 

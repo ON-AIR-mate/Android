@@ -8,7 +8,7 @@ import umc.onairmate.data.FriendData
 import umc.onairmate.databinding.RvItemSearchFriendBinding
 
 class SearchUserRVAdapter(
-
+    private val itemClick : (FriendData) ->Unit
 ) : RecyclerView.Adapter<SearchUserRVAdapter.ViewHolder>() {
     private val items = ArrayList<FriendData>()
     override fun onCreateViewHolder(
@@ -33,7 +33,7 @@ class SearchUserRVAdapter(
             binding.tvUserNickname.text = data.nickname
             binding.btnRequestFriend.isEnabled
             binding.btnRequestFriend.setOnClickListener {
-
+                itemClick(data)
             }
         }
     }

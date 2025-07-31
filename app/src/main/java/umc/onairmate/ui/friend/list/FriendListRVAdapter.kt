@@ -20,7 +20,7 @@ class FriendListRVAdapter(
     interface ItemClickListener{
         fun clickMessage()
         fun clickMore()
-        fun acceptRequest()
+        fun acceptRequest(data: RequestedFriendData)
     }
 
     fun setItemClickListener(listener : ItemClickListener){
