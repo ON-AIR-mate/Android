@@ -74,7 +74,7 @@ class FriendViewModel @Inject constructor(
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
-
+                    _friendList.postValue(emptyList<FriendData>())
                 }
             }
             _isLoading.value = false
@@ -100,7 +100,7 @@ class FriendViewModel @Inject constructor(
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
-
+                    _requestedFriendList.postValue(emptyList<RequestedFriendData>())
                 }
             }
             _isLoading.value = false

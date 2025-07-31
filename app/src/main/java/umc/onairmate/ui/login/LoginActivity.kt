@@ -2,17 +2,24 @@ package umc.onairmate.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.ui.join.JoinProfileFragment
 import umc.onairmate.R
 import umc.onairmate.databinding.ActivityLoginBinding
 import umc.onairmate.ui.MainActivity
 import umc.onairmate.ui.MainActivity_GeneratedInjector
+import umc.onairmate.ui.TestViewModel
+import umc.onairmate.ui.home.SearchRoomViewModel
+import kotlin.getValue
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
+    private val viewModel: TestViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -35,6 +42,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
+            viewModel.login(10)
             val intent = Intent(this@LoginActivity, MainActivity::class.java)
             startActivity(intent)
         }
