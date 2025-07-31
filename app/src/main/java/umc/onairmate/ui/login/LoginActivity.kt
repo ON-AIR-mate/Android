@@ -1,12 +1,13 @@
-package umc.OnAirMate.ui.login
+package umc.onairmate.ui.login
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.onairmate.ui.join.JoinProfileFragment
+import dagger.hilt.android.AndroidEntryPoint
+import umc.onairmate.ui.join.JoinProfileFragment
 import umc.onairmate.R
 import umc.onairmate.databinding.ActivityLoginBinding
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 

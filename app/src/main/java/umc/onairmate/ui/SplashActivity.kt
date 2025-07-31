@@ -1,12 +1,13 @@
-package umc.OnAirMate.ui
+package umc.onairmate.ui
 
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
-import umc.onairmate.ui.MainActivity
 
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -18,6 +19,6 @@ class SplashActivity : AppCompatActivity() {
             startActivity(intent)
             //현재 activity 닫기
             finish()
-        }, 5000) //5sec
+        }, 500) //5sec
     }
 }

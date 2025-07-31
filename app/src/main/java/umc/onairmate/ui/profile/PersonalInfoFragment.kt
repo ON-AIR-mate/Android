@@ -8,9 +8,11 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.databinding.FragmentPersonalInfoBinding
 
+@AndroidEntryPoint
 class PersonalInfoFragment : Fragment() {
 
     private var _binding: FragmentPersonalInfoBinding? = null

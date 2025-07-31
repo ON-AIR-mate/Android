@@ -1,4 +1,4 @@
-package com.example.onairmate.ui.join
+package umc.onairmate.ui.join
 
 import android.os.Bundle
 import android.text.Editable
@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.databinding.FragmentJoinProfileBinding
 
+@AndroidEntryPoint
 class JoinProfileFragment : Fragment() {
 
     private var _binding: FragmentJoinProfileBinding? = null

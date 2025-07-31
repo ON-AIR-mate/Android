@@ -1,12 +1,14 @@
-package umc.OnAirMate.ui.join
+package umc.onairmate.ui.join
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.databinding.FragmentHowToUseBinding
 
+@AndroidEntryPoint
 class HowToUseFragment : Fragment() {
 
     private var _binding: FragmentHowToUseBinding? = null

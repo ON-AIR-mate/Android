@@ -4,7 +4,7 @@
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="umc.OnAirMate.ui.join.JoinFragment">
+    tools:context=".ui.join.JoinFragment">
 
     <LinearLayout
         android:id="@+id/linearLayoutRoot"
