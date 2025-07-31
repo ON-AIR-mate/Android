@@ -7,7 +7,9 @@ import umc.onairmate.R
 /**
  * 네트워크 이미지 로더 (썸네일 유틸)
  *
- * 사용법: NetworkImageLoader.~~Load(이미지뷰, url)
+ * 사용법
+ * - 썸네일 로더: NetworkImageLoader.thumbnailLoad(이미지뷰, url)
+ * - 프로필 로더: NetworkImageLoader.profileLoad(이미지뷰, url)
  */
 object NetworkImageLoader {
     // 사용법: NetworkImageLoader.thumbnailLoad(이미지뷰, url)
