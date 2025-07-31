@@ -2,6 +2,8 @@ package umc.onairmate.ui.pop_up
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -11,6 +13,7 @@ import androidx.fragment.app.DialogFragment
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.databinding.PopupJoinRoomBinding
+import umc.onairmate.ui.chat_room.ChatRoomLayoutActivity
 
 
 class JoinRoomPopup (
@@ -48,6 +51,7 @@ class JoinRoomPopup (
     private fun setOnClickListener() {
         binding.btnOk.setOnClickListener {
             clickFunc.rightClickFunction()
+
             // 모든 함수 수행 후 팝업 닫기
             dismiss()
         }

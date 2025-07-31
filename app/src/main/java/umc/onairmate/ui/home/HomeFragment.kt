@@ -1,5 +1,6 @@
 package umc.onairmate.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.databinding.FragmentHomeBinding
+import umc.onairmate.ui.chat_room.ChatRoomLayoutActivity
 import umc.onairmate.ui.home.room.HomeEventListener
 import umc.onairmate.ui.home.room.RoomRVAdapter
 import umc.onairmate.ui.pop_up.JoinRoomPopup
@@ -124,6 +126,10 @@ class HomeFragment : Fragment() {
         val dialog = JoinRoomPopup(data, object : PopupClick {
             override fun rightClickFunction() {
                 // 방 액티비티로 전환
+                val intent = Intent(requireActivity(), ChatRoomLayoutActivity::class.java).apply {
+                    putExtra("room_data", data)
+                }
+                startActivity(intent)
             }
 
         })

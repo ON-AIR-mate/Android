@@ -1,6 +1,5 @@
 package umc.onairmate.ui.chat_room
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,7 +7,6 @@ import umc.onairmate.data.model.entity.ParticipantData
 import umc.onairmate.databinding.RvItemChatRoomUserBinding
 
 class ChatRoomParticipantRVAdapter(
-    private val context: Context,
     private var userList: List<ParticipantData>
 ) : RecyclerView.Adapter<ChatRoomParticipantRVAdapter.ViewHolder>() {
 

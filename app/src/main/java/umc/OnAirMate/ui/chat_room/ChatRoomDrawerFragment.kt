@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import umc.onairmate.R
+import androidx.recyclerview.widget.LinearLayoutManager
 import umc.onairmate.data.model.entity.ParticipantData
 import umc.onairmate.databinding.FragmentChatRoomSidePannelBinding
 
@@ -21,12 +21,21 @@ class ChatRoomDrawerFragment : Fragment() {
         binding = FragmentChatRoomSidePannelBinding.inflate(inflater, container, false)
 
         setParticipantView()
+        onClickMenu()
 
         return binding.root
     }
 
     private fun setParticipantView() {
-        adapter = ChatRoomParticipantRVAdapter(requireContext(), userList)
+        adapter = ChatRoomParticipantRVAdapter(userList)
+        binding.rvParticipants.adapter = adapter
+        binding.rvParticipants.layoutManager = LinearLayoutManager(context)
+    }
+
+    fun onClickMenu() {
+        binding.ivMenu.setOnClickListener {
+            (activity as? ChatRoomLayoutActivity)?.closeDrawer()
+        }
     }
 }
 

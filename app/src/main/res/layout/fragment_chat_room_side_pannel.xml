@@ -71,6 +71,7 @@
             android:textAppearance="@style/TextAppearance.App.Medium.14sp"/>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_participants"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

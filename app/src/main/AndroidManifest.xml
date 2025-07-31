@@ -23,9 +23,6 @@
             android:label="@string/title_activity_chat_room_layout"
             android:theme="@style/Theme.OnAirMate.NoActionBar" />
         <activity
-            android:name=".ui.chat_room.ChatRoomActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.MainActivity"
             android:exported="true"
             android:label="@string/app_name">

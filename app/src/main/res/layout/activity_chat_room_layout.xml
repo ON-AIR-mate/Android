@@ -8,7 +8,11 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="end">
 
-    <include layout="@layout/activity_chat_room"/>
+    <include
+        android:id="@+id/fragment_container"
+        layout="@layout/fragment_chat_room"/>
 
-    <include layout="@layout/fragment_chat_room_side_pannel"/>
+    <include
+        android:id="@+id/fragment_drawer"
+        layout="@layout/fragment_chat_room_side_pannel"/>
 </androidx.drawerlayout.widget.DrawerLayout>

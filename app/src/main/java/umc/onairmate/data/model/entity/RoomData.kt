@@ -1,7 +1,10 @@
 package umc.onairmate.data.model.entity
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class RoomData(
     @SerializedName("roomId")
     val roomId : Int = 0,
@@ -25,4 +28,4 @@ data class RoomData(
     val duration : String = "",
     @SerializedName("isPrivate")
     val  isPrivate : Boolean = true
-)
+) : Parcelable

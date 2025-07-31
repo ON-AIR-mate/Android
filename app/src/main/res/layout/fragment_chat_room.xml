@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="umc.onairmate.ui.chat_room.ChatRoomActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.chat_room.ChatRoomFragment">
 
     <LinearLayout
         android:id="@+id/layout_title"
@@ -63,16 +62,23 @@
         android:layout_marginVertical="8dp" />
 
     <!--todo: 채팅방 들어갈 자리-->
-    <fragment
+    <!--<fragment
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_room_title"
+        app:layout_constraintBottom_toBottomOf="parent" />-->
+
+    <!-- 임시 뷰. 지우고 채팅방 연결부탁합니다!! -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/cardview_light_background"
         app:layout_constraintTop_toBottomOf="@id/tv_room_title"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 
     <!-- todo: 키보드 넣기 -->
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
