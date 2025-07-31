@@ -1,10 +1,9 @@
 package umc.onairmate.ui.friend.search
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import umc.onairmate.data.FriendData
+import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.databinding.RvItemSearchFriendBinding
 
 class SearchUserRVAdapter(
