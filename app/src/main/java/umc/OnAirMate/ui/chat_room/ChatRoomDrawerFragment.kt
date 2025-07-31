@@ -21,7 +21,7 @@ class ChatRoomDrawerFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        roomData = arguments?.getParcelable("room_data", RoomData::class.java)!!
+        // roomData = arguments?.getParcelable("room_data", RoomData::class.java)!!
     }
 
     override fun onCreateView(

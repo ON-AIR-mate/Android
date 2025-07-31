@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.activity)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -77,4 +78,7 @@ dependencies {
 
     // 네트워크 이미지 로딩
     implementation(libs.coil)
+
+    // 유튜브 플레이어 라이브러리
+    implementation(libs.core)
 }
