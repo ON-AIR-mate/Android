@@ -11,6 +11,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.data.model.entity.RequestedFriendData
+import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.repository.repository.FriendRepository
 import javax.inject.Inject
@@ -30,11 +31,14 @@ class FriendViewModel @Inject constructor(
     private val _requestedFriendList = MutableLiveData<List<RequestedFriendData>>()
     val requestedFriendList : LiveData<List<RequestedFriendData>> get() = _requestedFriendList
 
-    private val _searchedUserList =  MutableLiveData<List<FriendData>>()
-    val searchedUserList : LiveData<List<FriendData>> get() = _searchedUserList
+    private val _searchedUserList =  MutableLiveData<List<UserData>>()
+    val searchedUserList : LiveData<List<UserData>> get() = _searchedUserList
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
+
+    private val _isSuccess = MutableLiveData<Boolean>()
+    val isSuccess: LiveData<Boolean> = _isSuccess
 
     fun getToken(): String? {
         return spf.getString("access_token", null)
@@ -108,10 +112,78 @@ class FriendViewModel @Inject constructor(
     }
 
     fun searchUser(nickname: String){
-        Log.d(TAG,"searchUser")
-        _searchedUserList.value = initDummyFriend()
-
+        viewModelScope.launch {
+            _isLoading.value = true
+            val token = getToken()
+            if (token == null) {
+                Log.e(TAG, "토큰이 없습니다")
+                _isLoading.value = false
+                return@launch
+            }
+            val result = repository.searchUser(token,nickname)
+            Log.d(TAG, "searchUser api 호출")
+            when (result) {
+                is DefaultResponse.Success -> {
+                    Log.d(TAG,"응답 성공 : ${result.data}")
+                    _searchedUserList.postValue(result.data)
+                }
+                is DefaultResponse.Error -> {
+                    Log.e(TAG, "에러: ${result.code} - ${result.message} ")
+                    _searchedUserList.postValue(emptyList<UserData>())
+                }
+            }
+            _isLoading.value = false
+        }
     }
 
+    fun requestFriend(userId : Int){
+        viewModelScope.launch {
+            _isLoading.value = true
+            val token = getToken()
+            if (token == null) {
+                Log.e(TAG, "토큰이 없습니다")
+                _isLoading.value = false
+                return@launch
+            }
+            val result = repository.requestFriend(token,userId)
+            Log.d(TAG, "requestFriend api 호출")
+            when (result) {
+                is DefaultResponse.Success -> {
+                    Log.d(TAG,"응답 성공 : ${result.data}")
+                    _isSuccess.postValue(true)
+                }
+                is DefaultResponse.Error -> {
+                    Log.e(TAG, "에러: ${result.code} - ${result.message} ")
+                    _isSuccess.postValue(false)
+                }
+            }
+            _isLoading.value = false
+        }
+    }
+
+    fun acceptFriend(userId : Int, action: String){
+        viewModelScope.launch {
+            _isLoading.value = true
+            val token = getToken()
+            if (token == null) {
+                Log.e(TAG, "토큰이 없습니다")
+                _isLoading.value = false
+                return@launch
+            }
+            val result = repository.acceptFriend(token,userId, action)
+            Log.d(TAG, "acceptFriend api 호출")
+            when (result) {
+                is DefaultResponse.Success -> {
+                    Log.d(TAG,"응답 성공 : ${result.data}")
+                    _isSuccess.postValue(true)
+                }
+                is DefaultResponse.Error -> {
+                    Log.e(TAG, "에러: ${result.code} - ${result.message} ")
+                    _isSuccess.postValue(false)
+                }
+            }
+            _isLoading.value = false
+        }
+    }
 
 }
