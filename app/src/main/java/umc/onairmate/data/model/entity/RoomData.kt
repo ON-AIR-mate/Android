@@ -27,5 +27,14 @@ data class RoomData(
     @SerializedName("duration")
     val duration : String = "",
     @SerializedName("isPrivate")
-    val isPrivate : Boolean = true
+    val  isPrivate : Boolean = true,
+    @SerializedName("isActive")
+    val isActive : Boolean? = null,
+    @SerializedName("autoArchiving")
+    val autoArchiving : Boolean? = null,
+    @SerializedName("invitePermission")
+    val invitePermission : String? = null,
+    @SerializedName("createdAt")
+    val createdAt : String? = null
+)
 ) : Parcelable

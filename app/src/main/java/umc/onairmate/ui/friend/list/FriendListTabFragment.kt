@@ -9,8 +9,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import umc.onairmate.data.model.entity.RequestedFriendData
 import umc.onairmate.databinding.FragmentFriendListTabBinding
 import umc.onairmate.ui.friend.FriendViewModel
+import umc.onairmate.ui.pop_up.PopupClick
+import umc.onairmate.ui.pop_up.TwoButtonPopup
 import kotlin.getValue
 
 @AndroidEntryPoint
@@ -92,12 +95,30 @@ class FriendListTabFragment() : Fragment() {
                 // TODO("Not yet implemented")
             }
 
-            override fun acceptRequest() {
-                // TODO("Not yet implemented")
+            override fun acceptRequest(data: RequestedFriendData) {
+                val text = data.nickname+"님의 친구요청을 수락하시겠습니까?"
+                val textList = listOf(text,"수락","거절")
+                val dialog = TwoButtonPopup(textList,object : PopupClick{
+                    override fun rightClickFunction() {
+                        // 실행하고자 하는 함수 있으면 overriding
+
+                    }
+
+                    override fun leftClickFunction() {
+
+                    }
+                }, false) // 뒤로 가기 막고 싶으면 false 넣어주세요, 아니면 생략가능합니다.
+                dialog.show(activity?.supportFragmentManager!!, "FriendAcceptPopup")
             }
 
         })
         binding.rvFriendList.adapter = adapter
         binding.rvFriendList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
+
+    // 팝업창 실행할 곳에 넣을 함수 예시 (팝업 띄울 위치에 복붙해서 사용하면 됩니다!
+    private fun popup() {
+
+    }
+
 }

@@ -1,0 +1,45 @@
+package umc.onairmate.ui.friend.search
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import umc.onairmate.data.model.entity.FriendData
+import umc.onairmate.databinding.RvItemSearchFriendBinding
+
+class SearchUserRVAdapter(
+    private val itemClick : (FriendData) ->Unit
+) : RecyclerView.Adapter<SearchUserRVAdapter.ViewHolder>() {
+    private val items = ArrayList<FriendData>()
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val binding = RvItemSearchFriendBinding.inflate(inflater,parent,false)
+        binding.root.layoutParams = layoutParams
+        return ViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(items[position])
+    }
+
+    override fun getItemCount(): Int = items.size
+
+    inner class ViewHolder( val binding : RvItemSearchFriendBinding ) : RecyclerView.ViewHolder(binding.root){
+        fun bind(data : FriendData){
+            binding.tvUserNickname.text = data.nickname
+            binding.btnRequestFriend.isEnabled
+            binding.btnRequestFriend.setOnClickListener {
+                itemClick(data)
+            }
+        }
+    }
+
+    fun initData(data : List<FriendData>){
+        items.clear()
+        items.addAll(data)
+        notifyDataSetChanged()
+    }
+}

@@ -15,7 +15,7 @@ class FriendRequestViewHolder(
         binding.tvRequestedTime.text = data.requestedAt
 
         binding.root.setOnClickListener {
-            itemClick.acceptRequest()
+            itemClick.acceptRequest(data)
         }
     }
 }
