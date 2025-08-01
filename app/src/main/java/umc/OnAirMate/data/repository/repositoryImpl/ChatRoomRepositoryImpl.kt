@@ -1,6 +1,5 @@
 package umc.onairmate.data.repository.repositoryImpl
 
-import android.util.Log
 import umc.onairmate.data.api.ChatRoomService
 import umc.onairmate.data.model.entity.ParticipantData
 import umc.onairmate.data.model.entity.RoomSettingData
@@ -13,6 +12,16 @@ import javax.inject.Inject
 class ChatRoomRepositoryImpl @Inject constructor(
     private val api: ChatRoomService
 ): ChatRoomRepository {
+
+    override suspend fun getRoomSetting(
+        accessToken: String,
+        roomId: Int
+    ): DefaultResponse<RoomSettingData> {
+        return safeApiCall {
+            api.getRoomSetting(accessToken, roomId)
+        }
+    }
+
     override suspend fun setRoomSetting(
         accessToken: String,
         roomId: Int,

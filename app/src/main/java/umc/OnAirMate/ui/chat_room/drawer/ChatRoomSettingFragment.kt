@@ -8,15 +8,18 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import umc.onairmate.data.model.entity.InvitePermission
+import umc.onairmate.data.model.entity.ParticipantPreset
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.entity.RoomSettingData
 import umc.onairmate.databinding.FragmentChatRoomSettingBinding
 import umc.onairmate.ui.chat_room.ChatRoomDrawerFragment
 import umc.onairmate.ui.chat_room.ChatRoomViewModel
 
-val inviteOptions = listOf("방장만 허용", "모두 허용")
-val maxParticipants = listOf("8", "15", "30")
+val inviteOptions = InvitePermission.entries.map { it.label }
+val maxParticipants = ParticipantPreset.entries.map { it.count.toString() }
 
 // 이 화면은 추후 방장만 보이게 해야 함
 // 이 화면으로 들어가는 버튼에서 제어 필요
@@ -40,30 +43,45 @@ class ChatRoomSettingFragment : Fragment() {
         roomData = arguments?.getParcelable("room_data", RoomData::class.java)!!
 
         initScreen()
-        onAutoArchiveButtonClick()
-        onPrivateRoomButtonClick()
+        handleToggle()
         onClickGoBack()
 
         return binding.root
     }
 
     private fun initScreen() {
-        // todo: room setting api에 get 추가되면 초기화 구현하기
         val maxParticipantsAdapter = RoomSettingSpAdapter(requireContext(), maxParticipants)
         binding.spMaximumParticipant.adapter = maxParticipantsAdapter
-        //binding.spInviteSetting.dropDownVerticalOffset = 50
 
         val inviteSettingAdapter = RoomSettingSpAdapter(requireContext(), inviteOptions)
         binding.spInviteSetting.adapter = inviteSettingAdapter
-        //binding.spInviteSetting.dropDownVerticalOffset = 50
+
+        chatRoomViewModel.getRoomSetting(roomData.roomId)
+
+        chatRoomViewModel.roomSettingDataInfo.observe(viewLifecycleOwner) { data ->
+            val roomSetting = data ?: RoomSettingData()
+
+            val currentMaxParticipant = roomSetting.maxParticipants.toString()
+            var position = maxParticipants.indexOf(currentMaxParticipant).takeIf { it >= 0 } ?: 0
+            binding.spMaximumParticipant.setSelection(position)
+
+            val currentInVitePreset = roomSetting.invitePermission
+            position = inviteOptions.indexOf(currentInVitePreset).takeIf { it >= 0 } ?: 0
+            binding.spInviteSetting.setSelection(position)
+
+            if (roomSetting.autoArchiving) enableAutoArchive() else disableAutoArchive()
+            if (roomSetting.isPrivate) enablePrivateRoom() else disablePrivateRoom()
+        }
     }
 
-    fun onAutoArchiveButtonClick() {
-        binding.ivAutoArchiveOn.setOnClickListener {
-            binding.ivAutoArchiveOn.visibility = View.GONE
-            binding.ivAutoArchiveOff.visibility = View.VISIBLE
-            isAutoArchived = false
-        }
+    fun handleToggle() {
+        enableAutoArchive()
+        disableAutoArchive()
+        enablePrivateRoom()
+        disablePrivateRoom()
+    }
+
+    fun enableAutoArchive() {
         binding.ivAutoArchiveOff.setOnClickListener {
             binding.ivAutoArchiveOn.visibility = View.VISIBLE
             binding.ivAutoArchiveOff.visibility = View.GONE
@@ -71,16 +89,27 @@ class ChatRoomSettingFragment : Fragment() {
         }
     }
 
-    fun onPrivateRoomButtonClick() {
-        binding.ivPrivateRoomOn.setOnClickListener {
-            binding.ivPrivateRoomOn.visibility = View.GONE
-            binding.ivPrivateRoomOff.visibility = View.VISIBLE
-            isPrivate = false
+    fun disableAutoArchive() {
+        binding.ivAutoArchiveOn.setOnClickListener {
+            binding.ivAutoArchiveOn.visibility = View.GONE
+            binding.ivAutoArchiveOff.visibility = View.VISIBLE
+            isAutoArchived = false
         }
+    }
+
+    fun enablePrivateRoom() {
         binding.ivPrivateRoomOff.setOnClickListener {
             binding.ivPrivateRoomOn.visibility = View.VISIBLE
             binding.ivPrivateRoomOff.visibility = View.GONE
             isPrivate = true
+        }
+    }
+
+    fun disablePrivateRoom() {
+        binding.ivPrivateRoomOn.setOnClickListener {
+            binding.ivPrivateRoomOn.visibility = View.GONE
+            binding.ivPrivateRoomOff.visibility = View.VISIBLE
+            isPrivate = false
         }
     }
 
