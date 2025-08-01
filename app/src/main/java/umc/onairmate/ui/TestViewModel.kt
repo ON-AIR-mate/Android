@@ -24,9 +24,9 @@ class TestViewModel @Inject constructor(
     private val spf = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
 
-    fun signUp(num : Int){
+    fun signUp(id: String){
         viewModelScope.launch {
-            val body = TestRequest(username = "qwer${num}", password = "!Qwer111${num}", nickname = "user${num}","1", TestRequest.Agreement())
+            val body = TestRequest(username = id, password = "!Q111${id}", nickname = "user"+id,"1", TestRequest.Agreement())
             val result = repository.signUp(body)
             Log.d(TAG, "signUp api 호출")
             when (result) {
@@ -41,9 +41,9 @@ class TestViewModel @Inject constructor(
         }
     }
 
-    fun login(num : Int){
+    fun login(id: String){
         viewModelScope.launch {
-            val body = LoginData(username = "qwer${num}", password = "!Qwer111${num}")
+            val body = LoginData(username = id, password = "!Q111${id}")
             val result = repository.login(body)
             Log.d(TAG, "login api 호출")
             when (result) {

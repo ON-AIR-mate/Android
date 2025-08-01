@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.chat_room.ChatRoomFragment">
+
+    <LinearLayout
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" >
+
+        <ImageView
+            android:id="@+id/iv_go_back"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_exit"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="ON AIR mate"
+            android:textAlignment="center"
+            android:textColor="@color/main"
+            android:textAppearance="@style/TextAppearance.App.Bold.26sp"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/iv_setting"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_menu" />
+
+    </LinearLayout>
+
+    <!-- 유튜브 플레이어 -->
+    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+        android:id="@+id/youtube_player"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/text6"
+        app:layout_constraintTop_toBottomOf="@+id/layout_title"/>
+
+    <TextView
+        android:id="@+id/tv_room_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textAppearance="@style/TextAppearance.App.Medium.16sp"
+        app:layout_constraintTop_toBottomOf="@id/youtube_player"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp" />
+
+
+    <!-- 채팅 모듈 -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fg_chat_module"
+        android:name="umc.onairmate.ui.chat_room.message.FragmentVideoChat"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_room_title"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

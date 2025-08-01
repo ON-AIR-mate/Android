@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.chat_room.drawer.ChatRoomParticipantsFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="start"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_room_manager_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="방장"
+            android:layout_marginBottom="15dp"
+            android:textAppearance="@style/TextAppearance.App.Medium.14sp"/>
+
+        <include
+            android:id="@+id/item_room_manager"
+            layout="@layout/rv_item_chat_room_user"/>
+
+        <TextView
+            android:id="@+id/tv_room_attendant_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="참여자"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="15dp"
+            android:textAppearance="@style/TextAppearance.App.Medium.14sp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_participants"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

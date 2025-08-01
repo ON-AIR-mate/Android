@@ -4,12 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.data.model.entity.FriendData
+import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.databinding.RvItemSearchFriendBinding
+import umc.onairmate.ui.util.NetworkImageLoader
 
 class SearchUserRVAdapter(
-    private val itemClick : (FriendData) ->Unit
+    private val itemClick : (UserData) ->Unit
 ) : RecyclerView.Adapter<SearchUserRVAdapter.ViewHolder>() {
-    private val items = ArrayList<FriendData>()
+    private val items = ArrayList<UserData>()
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -28,8 +30,9 @@ class SearchUserRVAdapter(
     override fun getItemCount(): Int = items.size
 
     inner class ViewHolder( val binding : RvItemSearchFriendBinding ) : RecyclerView.ViewHolder(binding.root){
-        fun bind(data : FriendData){
+        fun bind(data : UserData){
             binding.tvUserNickname.text = data.nickname
+            NetworkImageLoader.profileLoad(binding.ivProfile, data.profileImage)
             binding.btnRequestFriend.isEnabled
             binding.btnRequestFriend.setOnClickListener {
                 itemClick(data)
@@ -37,7 +40,7 @@ class SearchUserRVAdapter(
         }
     }
 
-    fun initData(data : List<FriendData>){
+    fun initData(data : List<UserData>){
         items.clear()
         items.addAll(data)
         notifyDataSetChanged()

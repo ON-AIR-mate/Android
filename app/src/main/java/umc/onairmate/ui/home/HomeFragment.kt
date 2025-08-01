@@ -1,5 +1,6 @@
 package umc.onairmate.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.databinding.FragmentHomeBinding
+import umc.onairmate.ui.chat_room.ChatRoomLayoutActivity
 import umc.onairmate.ui.home.room.HomeEventListener
 import umc.onairmate.ui.home.room.RoomRVAdapter
 import umc.onairmate.ui.pop_up.JoinRoomPopup
@@ -29,8 +31,8 @@ class HomeFragment : Fragment() {
 
     private val searchViewModel: SearchRoomViewModel by viewModels()
 
-    private var sortBy : String = ""
-    private var searchType : String = ""
+    private var sortBy : String = "latest"
+    private var searchType : String = "videoTitle"
     private var keyword : String = ""
 
     override fun onCreateView(
@@ -133,9 +135,9 @@ class HomeFragment : Fragment() {
                 val selectedItem = parent?.getItemAtPosition(position) as String
                 Log.d(TAG,"pos : ${position} / selected Item ${selectedItem}")
                 searchType = when(position) {
-                    0 -> "video_title"
-                    1 -> "room_title"
-                    2 -> "host_nickname"
+                    0 -> "videoTitle"
+                    1 -> "roomTitle"
+                    2 -> "hostNickname"
                     else -> ""
                 }
             }
@@ -149,6 +151,11 @@ class HomeFragment : Fragment() {
         val dialog = JoinRoomPopup(data, object : PopupClick {
             override fun rightClickFunction() {
                 searchViewModel.joinRoom(data.roomId)
+                // 방 액티비티로 전환
+                val intent = Intent(requireActivity(), ChatRoomLayoutActivity::class.java).apply {
+                    putExtra("room_data", data)
+                }
+                startActivity(intent)
             }
 
         })

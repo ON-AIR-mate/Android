@@ -40,6 +40,7 @@ class FriendListTabFragment() : Fragment() {
 
         const val LIST_TYPE = 0
         const val REQUEST_TYPE = 1
+
     }
 
     override fun onCreateView(
@@ -75,11 +76,15 @@ class FriendListTabFragment() : Fragment() {
     private fun setObservers() {
         viewModel.friendList.observe(viewLifecycleOwner, Observer { list ->
             if (list == null) return@Observer
+            binding.tvEmptyMessage.text = "아직 친구가 없습니다.\n함께할 친구를 초대해보세요!"
+            binding.layoutEmpty.visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
             adapter.initFriendList(list)
         })
 
         viewModel.requestedFriendList.observe(viewLifecycleOwner, Observer { list ->
             if (list == null) return@Observer
+            binding.tvEmptyMessage.text = "받은 친구 요청이 아직 없어요."
+            binding.layoutEmpty.visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
             adapter.initRequestList(list)
         })
     }
@@ -101,11 +106,11 @@ class FriendListTabFragment() : Fragment() {
                 val dialog = TwoButtonPopup(textList,object : PopupClick{
                     override fun rightClickFunction() {
                         // 실행하고자 하는 함수 있으면 overriding
-
+                        viewModel.acceptFriend(data.userId, "ACCEPT")
                     }
 
                     override fun leftClickFunction() {
-
+                        viewModel.acceptFriend(data.userId, "REJECT")
                     }
                 }, false) // 뒤로 가기 막고 싶으면 false 넣어주세요, 아니면 생략가능합니다.
                 dialog.show(activity?.supportFragmentManager!!, "FriendAcceptPopup")
