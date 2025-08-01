@@ -30,6 +30,7 @@ class FragmentVideoChat: Fragment() {
         binding.btnSend.setOnClickListener {
             val text = binding.etInputChat.text.toString()
             adapter.addChat(text)
+            binding.etInputChat.setText("")
         }
 
         return binding.root
