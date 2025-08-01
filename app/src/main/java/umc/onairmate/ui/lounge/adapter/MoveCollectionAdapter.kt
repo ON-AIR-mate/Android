@@ -26,18 +26,18 @@ class MoveCollectionAdapter(
         holder.bind(item, position == selectedPosition)
 
         holder.itemView.setOnClickListener {
-            val newPos = holder.bindingAdapterPosition
-            if (newPos == RecyclerView.NO_POSITION) return@setOnClickListener
-
-            val previous = selectedPosition
-            if (previous != newPos) {
-                selectedPosition = newPos
-                if (previous != RecyclerView.NO_POSITION) {
-                    notifyItemChanged(previous)
-                }
-                notifyItemChanged(selectedPosition)
-                onSelect(getItem(newPos))
-            }
+//            val newPos = holder.bindingAdapterPosition
+//            if (newPos == RecyclerView.NO_POSITION) return@setOnClickListener
+//
+//            val previous = selectedPosition
+//            if (previous != newPos) {
+//                selectedPosition = newPos
+//                if (previous != RecyclerView.NO_POSITION) {
+//                    notifyItemChanged(previous)
+//                }
+//                notifyItemChanged(selectedPosition)
+//                onSelect(getItem(newPos))
+//            }
         }
     }
 

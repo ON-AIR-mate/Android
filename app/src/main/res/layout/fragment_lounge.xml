@@ -82,14 +82,14 @@
                 style="@style/TextAppearance.App.Medium.14sp" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/bookmarkTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="정리되지 않은 북마크"
-            android:textColor="@color/black"
-            style="style/TextAppearance.App.Medium.12sp"
-            android:layout_marginTop="16dp"/>
+<!--        <TextView-->
+<!--            android:id="@+id/bookmarkTitle"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="정리되지 않은 북마크"-->
+<!--            android:textColor="@color/black"-->
+<!--            style="style/TextAppearance.App.Medium.12sp"-->
+<!--            android:layout_marginTop="16dp"/>-->
 
 
     </LinearLayout>
@@ -123,18 +123,18 @@
             android:layout_height="80dp"
             android:src="@drawable/ic_empty_collection" />
 
-        <TextView
-            android:layout_marginTop="12dp"
-            android:text="저장한 북마크가 없습니다."
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+<!--        <TextView-->
+<!--            android:layout_marginTop="12dp"-->
+<!--            android:text="저장한 북마크가 없습니다."-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="16sp"-->
+<!--            android:textStyle="bold" />-->
 
-        <TextView
-            android:layout_marginTop="4dp"
-            android:text="mate들과 함께 영상을 저장하고 나만의 순간을 남겨보세요!"
-            android:textColor="@color/text4"
-            android:textSize="14sp" />
+<!--        <TextView-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:text="mate들과 함께 영상을 저장하고 나만의 순간을 남겨보세요!"-->
+<!--            android:textColor="@color/text4"-->
+<!--            android:textSize="14sp" />-->
     </LinearLayout>
 
     <!-- 콘텐츠 표시 영역 -->

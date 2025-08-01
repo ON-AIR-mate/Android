@@ -82,6 +82,7 @@ dependencies {
 
     // 유튜브 플레이어 라이브러리
     implementation(libs.core)
+    
     // CardView 의존성 추가
     implementation("androidx.cardview:cardview:1.0.0")
 }
