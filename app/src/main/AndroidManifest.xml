@@ -18,6 +18,7 @@
         android:theme="@style/Theme.OnAirMate"
         tools:targetApi="31"
         android:networkSecurityConfig="@xml/network_security_config">
+
         <activity
             android:name=".ui.chat_room.ChatRoomLayoutActivity"
             android:exported="false"
