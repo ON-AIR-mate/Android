@@ -91,6 +91,7 @@ class ChatRoomViewModel @Inject constructor(
                     Log.d("에러", "${result.code} - ${result.message}")
                 }
             }
+            _isLoading.value = false
         }
     }
 }

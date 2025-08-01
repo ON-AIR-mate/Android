@@ -60,23 +60,16 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="8dp" />
 
-    <!--todo: 채팅방 들어갈 자리-->
-    <!--<fragment
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_room_title"
-        app:layout_constraintBottom_toBottomOf="parent" />-->
 
-    <!-- 임시 뷰. 지우고 채팅방 연결부탁합니다!! -->
-    <View
+    <!-- 채팅 모듈 -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fg_chat_module"
+        android:name="umc.onairmate.ui.chat_room.message.FragmentVideoChat"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:background="@color/cardview_light_background"
         app:layout_constraintTop_toBottomOf="@id/tv_room_title"
         app:layout_constraintBottom_toBottomOf="parent" />
-
 
     <!-- todo: 키보드 넣기 -->
 

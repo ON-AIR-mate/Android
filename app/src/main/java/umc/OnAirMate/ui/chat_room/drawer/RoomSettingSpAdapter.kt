@@ -8,14 +8,13 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import umc.onairmate.R
-import umc.onairmate.databinding.SpItemSearchTypeBinding
 import umc.onairmate.databinding.SpItemSettingBinding
 
 
-class RoomInviteSettingSpAdapter(
+class RoomSettingSpAdapter(
     private val context: Context,
     private val items: List<String>
-) : ArrayAdapter<String>(context, 0, items) {
+) : ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, R.id.tv_item_setting, items) {
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         val binding: SpItemSettingBinding = if (convertView == null) {

@@ -1,5 +1,6 @@
 package umc.onairmate.data.repository.repositoryImpl
 
+import android.util.Log
 import umc.onairmate.data.api.ChatRoomService
 import umc.onairmate.data.model.entity.ParticipantData
 import umc.onairmate.data.model.entity.RoomSettingData
@@ -17,6 +18,8 @@ class ChatRoomRepositoryImpl @Inject constructor(
         roomId: Int,
         body: RoomSettingData
     ): DefaultResponse<MessageResponse> {
+
+        Log.d("setRoomSetting 잘 왔습니다~", "$body")
         return safeApiCall {
             api.setRoomSetting(accessToken, roomId, body)
         }
