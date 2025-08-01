@@ -12,6 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.entity.RoomSettingData
 import umc.onairmate.databinding.FragmentChatRoomSettingBinding
+import umc.onairmate.ui.chat_room.ChatRoomDrawerFragment
 import umc.onairmate.ui.chat_room.ChatRoomViewModel
 
 val inviteOptions = listOf("방장만 허용", "모두 허용")
@@ -41,6 +42,7 @@ class ChatRoomSettingFragment : Fragment() {
         initScreen()
         onAutoArchiveButtonClick()
         onPrivateRoomButtonClick()
+        onClickGoBack()
 
         return binding.root
     }
@@ -79,6 +81,13 @@ class ChatRoomSettingFragment : Fragment() {
             binding.ivPrivateRoomOn.visibility = View.VISIBLE
             binding.ivPrivateRoomOff.visibility = View.GONE
             isPrivate = true
+        }
+    }
+
+    fun onClickGoBack() {
+        binding.ivGoBack.setOnClickListener {
+            val parent = parentFragment as? ChatRoomDrawerFragment
+            parent?.changeFrameToParticipant()
         }
     }
 
