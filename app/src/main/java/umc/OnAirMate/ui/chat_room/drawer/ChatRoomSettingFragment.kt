@@ -120,8 +120,8 @@ class ChatRoomSettingFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onPause() {
+        super.onPause()
 
         // 각 스피너에서 선택된 인덱스를 추출
         val inviteSettingPosition = binding.spInviteSetting.selectedItemPosition

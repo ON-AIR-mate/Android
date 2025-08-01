@@ -88,7 +88,7 @@ class ChatRoomViewModel @Inject constructor(
 
             when (result) {
                 is DefaultResponse.Success -> {
-                    Log.d("get 응답 성공", "${result.data}")
+                    Log.d("응답 성공", "${result.data}")
                     _roomSettingDataInfo.postValue(result.data)
                 }
                 is DefaultResponse.Error -> {
@@ -114,7 +114,7 @@ class ChatRoomViewModel @Inject constructor(
 
             when (result) {
                 is DefaultResponse.Success -> {
-                    Log.d("set 응답 성공", "${result.data}")
+                    Log.d("응답 성공", "${result.data}")
                     _isRoomSettingModifyDone.postValue(result.data)
                 }
                 is DefaultResponse.Error -> {
