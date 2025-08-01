@@ -18,8 +18,6 @@ class ChatRoomRepositoryImpl @Inject constructor(
         roomId: Int,
         body: RoomSettingData
     ): DefaultResponse<MessageResponse> {
-
-        Log.d("setRoomSetting 잘 왔습니다~", "$body")
         return safeApiCall {
             api.setRoomSetting(accessToken, roomId, body)
         }

@@ -10,7 +10,7 @@
 
     <include
         android:id="@+id/fragment_container"
-        layout="@layout/fragment_chat_room"/>
+        layout="@layout/fragment_chat_room" />
 
     <include
         android:id="@+id/fragment_drawer"
