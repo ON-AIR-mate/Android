@@ -1,17 +1,15 @@
 package umc.onairmate.ui.login
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.ui.join.JoinProfileFragment
-import umc.onairmate.R
 import umc.onairmate.databinding.ActivityLoginBinding
 import umc.onairmate.ui.MainActivity
-import umc.onairmate.ui.MainActivity_GeneratedInjector
 import umc.onairmate.ui.TestViewModel
-import umc.onairmate.ui.home.SearchRoomViewModel
 import kotlin.getValue
 
 @AndroidEntryPoint
@@ -35,7 +33,8 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            login(userId, userPw)
+            viewModel.signUp(userId,userPw)
+
         }
 
         // 회원가입 화면 이동
@@ -44,6 +43,11 @@ class LoginActivity : AppCompatActivity() {
                 .replace(umc.onairmate.R.id.fragment_container, JoinProfileFragment())
                 .addToBackStack(null)
                 .commit()
+        }
+
+        viewModel.isSuccess.observe(this){
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+            startActivity(intent)
         }
 
         //아이디 비밀번호 입력 시 버튼 활성화 코드
@@ -68,132 +72,9 @@ class LoginActivity : AppCompatActivity() {
 
         binding.etId.addTextChangedListener(textWatcher)
         binding.etPassword.addTextChangedListener(textWatcher)
-        binding.findid.setOnClickListener {
-            val id = binding.etId.text.toString()
-            viewModel.signUp(id)
-        }
-
-        binding.btnLogin.setOnClickListener {
-            val id = binding.etId.text.toString()
-            viewModel.login(id)
-            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-            startActivity(intent)
-        }
 
     }
 
-    /*
-    private fun login(username: String, password: String) {
-        lifecycleScope.launch {
-            try {
-                val response = RetrofitClient.instance.login(LoginRequest(username, password))
-                if (response.isSuccessful && response.body()?.success == true) {
-                    val loginData = response.body()!!.data!!
-                    // TODO: 로그인 성공 후 토큰 저장...?
-                    Toast.makeText(
-                        this@LoginActivity,
-                        "로그인 성공! ${loginData.user.nickname}님 환영합니다.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    Toast.makeText(
-                        this@LoginActivity,
-                        "로그인 실패: 아이디 또는 비밀번호를 확인하세요.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            } catch (e: Exception) {
-                Toast.makeText(
-                    this@LoginActivity,
-                    "네트워크 오류: ${e.localizedMessage}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
-    */
 
-    private fun login(username: String, password: String) {
-        /*
-        // 임시 테스트용 로컬 로그인 코드 주석 처리
-        val testUser = TestRequest(
-            username = "testuser",
-            password = "1234",
-            nickname = "테스트닉네임",
-            profileImage = "https://example.com/profile.jpg",
-            agreements = TestRequest.Agreement()
-        )
 
-        if (username == testUser.username && password == testUser.password) {
-            Toast.makeText(
-                this,
-                "로그인 성공! ${testUser.nickname}님 환영합니다.",
-                Toast.LENGTH_SHORT
-            ).show()
-        } else {
-            Toast.makeText(
-                this,
-                "로그인 실패: 아이디 또는 비밀번호가 일치하지 않습니다.",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-        */
-
-        // 실제 Retrofit API 호출로 로그인 처리
-        /*
-        lifecycleScope.launch {
-            try {
-                val response = RetrofitClient.instance.login(LoginRequest(username, password))
-                if (response.isSuccessful && response.body()?.success == true) {
-                    val loginData = response.body()!!.data!!
-                    // TODO: 로그인 성공 후 토큰 저장 등 필요한 작업 진행
-                    Toast.makeText(
-                        this@LoginActivity,
-                        "로그인 성공! ${loginData.user.nickname}님 환영합니다.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    Toast.makeText(
-                        this@LoginActivity,
-                        "로그인 실패: 아이디 또는 비밀번호를 확인하세요.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            } catch (e: Exception) {
-                Toast.makeText(
-                    this@LoginActivity,
-                    "네트워크 오류: ${e.localizedMessage}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-         */
-        lifecycleScope.launch {
-            try {
-                val request = LoginData(username, password)
-                val response: RawDefaultResponse<LoginResponse> = RetrofitClient.instance.login(request)
-                if (response.success /* 또는 response.isSuccess 등 */ && response.data != null) {
-                    val loginData = response.data
-                    Toast.makeText(
-                        this@LoginActivity,
-                        "로그인 성공! ${loginData.user.nickname}님 환영합니다.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    // TODO: 토큰 저장, 화면 전환 처리
-                } else {
-                    Toast.makeText(
-                        this@LoginActivity,
-                        "로그인 실패: 아이디 또는 비밀번호를 확인하세요.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            } catch (e: Exception) {
-                Toast.makeText(
-                    this@LoginActivity,
-                    "네트워크 오류: ${e.localizedMessage}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
 }

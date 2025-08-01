@@ -13,6 +13,8 @@ import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.repository.repository.TestRepository
 import javax.inject.Inject
 import androidx.core.content.edit
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 
 @HiltViewModel
 class TestViewModel @Inject constructor(
@@ -23,15 +25,18 @@ class TestViewModel @Inject constructor(
     private val TAG = this.javaClass.simpleName
     private val spf = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
+    private val _isSuccess = MutableLiveData<Boolean>()
+    val isSuccess: LiveData<Boolean> = _isSuccess
 
-    fun signUp(id: String){
+    fun signUp(id: String, pw: String){
         viewModelScope.launch {
-            val body = TestRequest(username = id, password = "!Q111${id}", nickname = "user"+id,"1", TestRequest.Agreement())
+            val body = TestRequest(username = id, password = pw, nickname = "user"+id,"1", TestRequest.Agreement())
             val result = repository.signUp(body)
             Log.d(TAG, "signUp api 호출")
             when (result) {
                 is DefaultResponse.Success -> {
                     Log.d(TAG,"응답 성공 : ${result.data}")
+                    login(id,pw)
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
@@ -41,15 +46,19 @@ class TestViewModel @Inject constructor(
         }
     }
 
-    fun login(id: String){
+    fun login(id: String, pw: String){
         viewModelScope.launch {
-            val body = LoginData(username = id, password = "!Q111${id}")
+            val body = LoginData(username = id, password = pw)
             val result = repository.login(body)
             Log.d(TAG, "login api 호출")
             when (result) {
                 is DefaultResponse.Success -> {
                     Log.d(TAG,"응답 성공 : ${result.data}")
-                    spf.edit { putString("access_token", "Bearer " + result.data.accessToken) }
+                    spf.edit {
+                        putString("access_token", "Bearer " + result.data.accessToken)
+                        putString("nickname", result.data.user.nickname)
+                    }
+                    _isSuccess.postValue(true)
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
