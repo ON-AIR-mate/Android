@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.databinding.RvItemChatBinding
 
-class ChatRVAdapter()
+class ChatRVAdapter(
+    private val nickname: String
+)
     : RecyclerView.Adapter<ChatRVAdapter.ViewHolder>() {
         private val items = arrayListOf<String>()
 
@@ -34,6 +36,7 @@ class ChatRVAdapter()
     inner class ViewHolder(val binding : RvItemChatBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(data : String, type: Int){
             binding.tvContent.text = data
+            binding.tvNickname.text = nickname
             when(type){
                 0 -> {
                     binding.root.gravity = Gravity.END
