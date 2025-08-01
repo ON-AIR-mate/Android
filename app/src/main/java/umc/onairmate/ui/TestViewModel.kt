@@ -30,7 +30,7 @@ class TestViewModel @Inject constructor(
 
     fun signUp(id: String, pw: String){
         viewModelScope.launch {
-            val body = TestRequest(username = id, password = pw, nickname = "user"+id,"1", TestRequest.Agreement())
+            val body = TestRequest(username = id, password = pw, nickname = "컴포즈","1", TestRequest.Agreement())
             val result = repository.signUp(body)
             Log.d(TAG, "signUp api 호출")
             when (result) {
@@ -48,7 +48,7 @@ class TestViewModel @Inject constructor(
 
     fun login(id: String, pw: String){
         viewModelScope.launch {
-            val body = LoginData(username = id, password = pw)
+            val body = LoginData(username = "onairmate1", password = "onairmate1Q!")
             val result = repository.login(body)
             Log.d(TAG, "login api 호출")
             when (result) {

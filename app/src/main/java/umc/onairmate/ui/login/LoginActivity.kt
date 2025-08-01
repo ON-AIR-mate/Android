@@ -33,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            viewModel.signUp(userId,userPw)
+            viewModel.login(userId,userPw)
 
         }
 

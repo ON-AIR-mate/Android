@@ -46,10 +46,8 @@ class FriendViewModel @Inject constructor(
 
     private fun initDummyFriend() : List<FriendData>{
         val dummy = arrayListOf<FriendData>()
-        for(i in 1..5){
-            val online = if (i%2 == 0 ) true else false
-            dummy.add(FriendData(i,"friend${i}","",0,online))
-        }
+        dummy.add(FriendData(19,"이현서","",0,false))
+        dummy.add(FriendData(20,"맥그로우","",0,true))
         return dummy
     }
     private fun initDummyRequest() : List<RequestedFriendData>{
@@ -78,7 +76,7 @@ class FriendViewModel @Inject constructor(
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
-                    _friendList.postValue(emptyList<FriendData>())
+                    _friendList.postValue(initDummyFriend())
                 }
             }
             _isLoading.value = false
@@ -129,7 +127,9 @@ class FriendViewModel @Inject constructor(
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
-                    _searchedUserList.postValue(emptyList<UserData>())
+                    val dummy = listOf<UserData>(UserData(12,"red","",1))
+                    if(nickname == "red")  _searchedUserList.postValue(dummy)
+                    else _searchedUserList.postValue(emptyList<UserData>())
                 }
             }
             _isLoading.value = false

@@ -33,9 +33,10 @@ class SearchUserRVAdapter(
         fun bind(data : UserData){
             binding.tvUserNickname.text = data.nickname
             NetworkImageLoader.profileLoad(binding.ivProfile, data.profileImage)
-            binding.btnRequestFriend.isEnabled
             binding.btnRequestFriend.setOnClickListener {
                 itemClick(data)
+                binding.btnRequestFriend.isEnabled = false
+                binding.btnRequestFriend.text = "요청 완료"
             }
         }
     }
