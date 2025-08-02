@@ -27,8 +27,8 @@ class SearchRoomViewModel @Inject constructor(
     private val _roomData = MutableLiveData<List<RoomData>>()
     val roomData : LiveData<List<RoomData>> get() = _roomData
 
-    private val _roomDetailInfo = MutableLiveData<RoomData>()
-    val roomDetailInfo : LiveData<RoomData> get() = _roomDetailInfo
+    private val _roomDetailInfo = MutableLiveData<RoomData?>()
+    val roomDetailInfo : LiveData<RoomData?> get() = _roomDetailInfo
 
     private val _roomListResponse = MutableLiveData<RoomListResponse>()
     val roomListResponse : LiveData<RoomListResponse> get() = _roomListResponse
@@ -117,6 +117,9 @@ class SearchRoomViewModel @Inject constructor(
             }
             _isLoading.value = false
         }
+    }
+    fun clearRoomDetailInfo(){
+        _roomDetailInfo.value=null
     }
 
    fun joinRoom( roomId : Int){

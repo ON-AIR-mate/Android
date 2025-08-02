@@ -59,6 +59,7 @@ class HomeFragment : Fragment() {
         super.onResume()
         // 초기 데이터 삽입
         searchViewModel.getRoomList(sortBy, searchType, keyword)
+        Log.d(TAG,"Resume")
     }
 
     override fun onDestroyView() {
@@ -116,7 +117,9 @@ class HomeFragment : Fragment() {
 
         searchViewModel.roomDetailInfo.observe(viewLifecycleOwner){data ->
             if (data == null) return@observe
+            Log.d(TAG,"emit : ${data}")
             showJoinRoomPopup(data)
+            searchViewModel.clearRoomDetailInfo()
         }
 
         searchViewModel.recommendedVideo.observe(viewLifecycleOwner) {videos ->
