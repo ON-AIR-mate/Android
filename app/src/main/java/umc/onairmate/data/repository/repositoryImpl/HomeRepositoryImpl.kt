@@ -58,7 +58,7 @@ class HomeRepositoryImpl  @Inject constructor(
         limit: Int
     ): DefaultResponse<List<VideoData>> {
         return safeApiCall {
-            api.searchVideoList(query, limit)
+            api.searchVideoList(accessToken, query, limit)
         }
     }
 
