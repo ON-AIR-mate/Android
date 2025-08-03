@@ -11,7 +11,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.response.DefaultResponse
-import umc.onairmate.data.model.response.MessageResponse
 import umc.onairmate.data.model.response.RoomListResponse
 import umc.onairmate.data.repository.repository.HomeRepository
 import javax.inject.Inject
