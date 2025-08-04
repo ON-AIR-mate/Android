@@ -1,17 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.lounge.LoungeFragment">
 
-    <TextView
-        android:layout_width="match_parent"
+    <!-- 전체 상단 영역 -->
+    <LinearLayout
+        android:id="@+id/loungeHeaderLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/title_lounge"
-        android:textColor="@color/black"
-        android:textSize="40sp"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="24dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- 상단 타이틀 & 선물 아이콘 -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/loungeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My Lounge"
+                android:textAppearance="@style/TextAppearance.App.Bold.24sp" />
+
+            <ImageButton
+                android:id="@+id/giftButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@null"
+                android:src="@drawable/ic_gift"
+                android:contentDescription="선물 아이콘" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/loungeSubText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/info_youtube_api"
+            android:textColor="@color/text4"
+            android:textAppearance="@style/TextAppearance.App.Regular.8sp"
+             />
+
+        <!-- 탭 버튼 -->
+        <LinearLayout
+            android:id="@+id/filterTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/btnAllList"
+                style="@style/TextAppearance.App.Medium.14sp"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/frame_7461"
+                android:text="전체 목록"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/btnCollectionList"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/frame_7464"
+                android:text="컬렉션별 목록"
+                android:textColor="@color/text5"
+                style="@style/TextAppearance.App.Medium.14sp" />
+        </LinearLayout>
+
+<!--        <TextView-->
+<!--            android:id="@+id/bookmarkTitle"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="정리되지 않은 북마크"-->
+<!--            android:textColor="@color/black"-->
+<!--            style="style/TextAppearance.App.Medium.12sp"-->
+<!--            android:layout_marginTop="16dp"/>-->
+
+
+    </LinearLayout>
+
+    <!-- 북마크 리스트 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/bookmarkRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/loungeHeaderLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/emptyBookmarkView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        android:padding="24dp"
+        app:layout_constraintTop_toBottomOf="@id/loungeHeaderLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_empty_collection" />
+
+<!--        <TextView-->
+<!--            android:layout_marginTop="12dp"-->
+<!--            android:text="저장한 북마크가 없습니다."-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="16sp"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <TextView-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:text="mate들과 함께 영상을 저장하고 나만의 순간을 남겨보세요!"-->
+<!--            android:textColor="@color/text4"-->
+<!--            android:textSize="14sp" />-->
+    </LinearLayout>
+
+    <!-- 콘텐츠 표시 영역 -->
+    <FrameLayout
+        android:id="@+id/loungeContentContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/loungeHeaderLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

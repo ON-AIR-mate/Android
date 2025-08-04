@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.chat_room.drawer.ChatRoomSettingFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="start"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="18dp">
+
+            <ImageView
+                android:id="@+id/iv_go_back"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_back_arrow" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="설정"
+                android:layout_marginStart="15dp"
+                android:textAppearance="@style/TextAppearance.App.SemiBold.16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="start"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="최대 인원"
+                android:layout_marginStart="15dp"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.App.Medium.14sp" />
+
+            <Spinner
+                android:id="@+id/sp_maximum_participant"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:textAlignment="viewEnd"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="14dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="초대 권한"
+                android:layout_marginStart="15dp"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.App.Medium.14sp" />
+
+            <Spinner
+                android:id="@+id/sp_invite_setting"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:textAlignment="viewEnd"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="비공개 방"
+                android:layout_marginStart="15dp"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.App.Medium.14sp" />
+
+            <ImageView
+                android:id="@+id/iv_private_room_on"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_switch_on"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/iv_private_room_off"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_switch_off"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="북마크 자동 아카이빙"
+                android:layout_marginStart="15dp"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.App.Medium.14sp" />
+
+            <ImageView
+                android:id="@+id/iv_auto_archive_on"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_switch_on"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/iv_auto_archive_off"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_switch_off"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

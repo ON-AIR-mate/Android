@@ -5,6 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.databinding.RvItemFriendBinding
+import umc.onairmate.ui.util.NetworkImageLoader
 
 class FriendViewHolder(
     private val binding: RvItemFriendBinding,
@@ -14,7 +15,7 @@ class FriendViewHolder(
     fun bind(data : FriendData ){
         binding.tvUserNickname.text = data.nickname
         binding.ivOnline.visibility = if(data.isOnline) View.VISIBLE else View.GONE
-
+        NetworkImageLoader.profileLoad(binding.ivProfile, data.profileImage)
 
         binding.ivMore.setOnClickListener {
             itemClick.clickMore()
