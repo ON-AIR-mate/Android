@@ -40,20 +40,22 @@
             android:layout_weight="1"/>
         <!-- todo: 디자인팀에서 변경사항 발생시 수정해야할 곳 -->
         <TextView
-            android:id="@+id/tv_room_user_num"
+            android:id="@+id/tv_view_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10 / 15명"
+            android:text="10k"
             android:textAppearance="@style/TextAppearance.App.Medium.12sp"/>
     </LinearLayout>
     <TextView
-        android:id="@+id/tv_room_name"
+        android:id="@+id/tv_video_title"
         android:layout_width="0dp"
-        android:layout_height="15dp"
+        android:layout_height="20dp"
         android:text="방 제목"
         android:textAppearance="@style/TextAppearance.App.Medium.14sp"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="3dp"
+        android:maxLines="1"
+        android:ellipsize="end"
         app:layout_constraintTop_toBottomOf="@id/layout_play_time"
         app:layout_constraintStart_toEndOf = "@id/iv_thumbnail"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -76,17 +78,11 @@
             android:layout_height="18dp"
             android:layout_marginEnd="2dp"
             android:src="@drawable/ic_empty_profile"/>
-        <ImageView
-            android:id="@+id/iv_manager_popularity"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_empty_profile"/>
         <TextView
-            android:id="@+id/tv_manager_nickname"
+            android:id="@+id/tv_channel_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="방장 닉네임"
+            android:text="채널명"
             android:textAppearance="@style/TextAppearance.App.Regular.12sp"
             android:layout_marginStart="5dp"/>
 

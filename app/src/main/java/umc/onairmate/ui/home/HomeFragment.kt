@@ -20,10 +20,8 @@ import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.databinding.FragmentHomeBinding
 import umc.onairmate.ui.chat_room.ChatRoomLayoutActivity
-import umc.onairmate.databinding.FragmentVideoSearchBinding
 import umc.onairmate.ui.home.room.HomeEventListener
 import umc.onairmate.ui.home.room.RoomRVAdapter
-import umc.onairmate.ui.home.video.VideoSearchFragment
 import umc.onairmate.ui.pop_up.JoinRoomPopup
 import umc.onairmate.ui.pop_up.PopupClick
 

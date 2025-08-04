@@ -67,12 +67,14 @@
             android:src="@drawable/ic_magnifier"/>
 
         <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_input_keyword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="영상 제목을 검색해 보세요"
             android:textAppearance="@style/TextAppearance.App.Regular.14sp"
             android:textColorHint="@color/black"
             android:background="@null"
+            android:singleLine="true"
             android:layout_marginStart="10dp"/>
 
     </LinearLayout>
@@ -83,6 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/layout_search"
         app:layout_constraintBottom_toTopOf="@id/cl_bottom"/>
 
@@ -94,7 +97,8 @@
         android:orientation="vertical"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/layout_search"
-        android:visibility="gone">
+        app:layout_constraintBottom_toTopOf="@id/cl_bottom"
+        android:visibility="visible">
         <ImageView
             android:id="@+id/iv_empty_image"
             android:layout_width="58dp"
