@@ -62,11 +62,12 @@ class VideoSearchFragment : Fragment() {
 
             // 어댑터가 이미 연결되어 있다면 데이터만 갱신
             if (::adapter.isInitialized) {
-                adapter.updateList(videoList)
+                adapter.submitList(videoList)
             } else {
-                adapter = SearchedVideoRVAdapter(videoList)
+                adapter = SearchedVideoRVAdapter()
                 binding.rvContents.adapter = adapter
                 binding.rvContents.layoutManager = LinearLayoutManager(context)
+                adapter.submitList(videoList)
             }
 
             // 비어있을 때 검색 유도 UI 보여주기
