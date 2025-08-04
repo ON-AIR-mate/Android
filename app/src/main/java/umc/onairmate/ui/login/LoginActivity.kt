@@ -48,6 +48,7 @@ class LoginActivity : AppCompatActivity() {
         viewModel.isSuccess.observe(this){
             val intent = Intent(this@LoginActivity, MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         //아이디 비밀번호 입력 시 버튼 활성화 코드

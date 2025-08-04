@@ -1,4 +1,4 @@
-package  umc.onairmate.model
+package umc.onairmate.data.model.entity
 
 data class BookmarkSection(
     val sectionTitle: String,

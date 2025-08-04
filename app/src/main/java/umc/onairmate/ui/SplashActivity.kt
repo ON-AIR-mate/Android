@@ -26,6 +26,6 @@ class SplashActivity : AppCompatActivity() {
             startActivity(intent)
             //현재 activity 닫기
             finish()
-        }, 700) //0.5sec
+        }, 700) //0.7sec
     }
 }

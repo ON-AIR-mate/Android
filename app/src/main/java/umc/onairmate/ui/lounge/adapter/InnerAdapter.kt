@@ -1,10 +1,10 @@
-package umc.onairmate.adapter
+package umc.onairmate.ui.lounge.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.databinding.ItemBookmarkBinding
-import umc.onairmate.model.VideoItem
+import umc.onairmate.data.model.entity.VideoItem
 
 class InnerAdapter(
     private val videoList: List<VideoItem>

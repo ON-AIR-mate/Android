@@ -33,20 +33,21 @@ class SearchFriendTabFragment: Fragment() {
     ): View {
         _binding = FragmentSearchFriendTabBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        adapter = SearchUserRVAdapter() { data ->
-            val text = data.nickname+"님에게 친구요청을 보내시겠습니까?"
-            val textList = listOf(text,"예","아니오")
-            val dialog = TwoButtonPopup(textList,object : PopupClick{
+        adapter = SearchUserRVAdapter { data, onSuccess, onError ->
+            val text = data.nickname + "님에게 친구요청을 보내시겠습니까?"
+            val textList = listOf(text, "예", "아니오")
+            val dialog = TwoButtonPopup(textList, object : PopupClick {
                 override fun rightClickFunction() {
-                    // 실행하고자 하는 함수 있으면 overriding
-
+                    // 요청 취소 버튼
+                    onError()
                 }
 
                 override fun leftClickFunction() {
                     viewModel.requestFriend(data.userId)
+                    // 성공 시 UI 갱신
+                    onSuccess()
                 }
-            }, false) // 뒤로 가기 막고 싶으면 false 넣어주세요, 아니면 생략가능합니다.
+            }, false) // 뒤로가기 막을거면 false
             dialog.show(activity?.supportFragmentManager!!, "requestFriendPopup")
         }
         binding.rvUserList.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL, false)

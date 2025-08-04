@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import umc.onairmate.model.BookmarkSection
-import umc.onairmate.model.VideoItem
-import umc.onairmate.adapter.OuterAdapter
+import umc.onairmate.data.model.entity.BookmarkSection
+import umc.onairmate.data.model.entity.VideoItem
+import umc.onairmate.ui.lounge.adapter.OuterAdapter
 import umc.onairmate.databinding.FragmentLoungeBinding
 import umc.onairmate.R
 import androidx.appcompat.app.AlertDialog

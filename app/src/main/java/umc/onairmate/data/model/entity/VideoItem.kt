@@ -1,4 +1,5 @@
-package umc.onairmate.model
+package umc.onairmate.data.model.entity
+
 
 data class VideoItem(
     val thumbnailUrl: String,

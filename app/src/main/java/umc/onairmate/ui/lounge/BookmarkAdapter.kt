@@ -10,7 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.R
-import umc.onairmate.model.Bookmark
+import umc.onairmate.data.model.entity.Bookmark
 
 class BookmarkAdapter(private val bookmarkList: List<Bookmark>) :
     RecyclerView.Adapter<BookmarkAdapter.BookmarkViewHolder>() {

@@ -25,7 +25,7 @@ class FragmentVideoChat: Fragment() {
     ): View {
         _binding = FragmentVideoChatBinding.inflate(inflater, container, false)
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        nickname = spf.getString("nickname","user")!!
+        nickname = spf.getString("nickname", "user") ?: "user"
 
         adapter = ChatRVAdapter(nickname)
 
@@ -39,5 +39,10 @@ class FragmentVideoChat: Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

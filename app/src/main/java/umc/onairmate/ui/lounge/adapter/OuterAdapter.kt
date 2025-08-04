@@ -1,4 +1,4 @@
-package umc.onairmate.adapter
+package umc.onairmate.ui.lounge.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.databinding.ItemSectionBinding
 
-import umc.onairmate.model.BookmarkSection
+import umc.onairmate.data.model.entity.BookmarkSection
 
 class OuterAdapter(
     private val sectionList: List<BookmarkSection>

@@ -2,6 +2,8 @@ package umc.onairmate.ui.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -36,7 +38,8 @@ class HomeFragment : Fragment() {
     private var sortBy : String = "latest"
     private var searchType : String = "videoTitle"
     private var keyword : String = ""
-
+    private var searchRunnable: Runnable? = null
+    private val searchHandler = Handler(Looper.getMainLooper())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,8 +76,12 @@ class HomeFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
             override fun afterTextChanged(s: Editable?) {
-                val input = binding.etInputKeyword.text.toString()
-                searchViewModel.getRoomList(sortBy,searchType,input)
+                searchRunnable?.let { searchHandler.removeCallbacks(it) }
+                searchRunnable = Runnable {
+                    val input = binding.etInputKeyword.text.toString()
+                    searchViewModel.getRoomList(sortBy, searchType, input)
+                }
+                searchHandler.postDelayed(searchRunnable!!, 300) // 300ms 디바운스
             }
         })
     }
