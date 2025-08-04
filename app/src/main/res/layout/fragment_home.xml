@@ -66,6 +66,7 @@
             android:src="@drawable/ic_magnifier"/>
 
         <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_input_keyword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="영상 제목을 검색해 보세요"

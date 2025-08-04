@@ -23,6 +23,8 @@ class SearchTypeSpinnerAdapter(
         }
 
         binding.tvSearchType.text = items[position]
+        binding.tvSearchType.setTextColor(ContextCompat.getColor(context, R.color.black))
+        binding.tvSearchType.setTextAppearance(R.style.TextAppearance_App_Medium_12sp)
 
         // 첫번째 요소 구분선 제거
         if (position == 0) {

@@ -2,6 +2,8 @@ package umc.onairmate.ui.pop_up
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -11,6 +13,8 @@ import androidx.fragment.app.DialogFragment
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.databinding.PopupJoinRoomBinding
+import umc.onairmate.ui.chat_room.ChatRoomLayoutActivity
+import umc.onairmate.ui.util.NetworkImageLoader
 
 
 class JoinRoomPopup (
@@ -48,6 +52,7 @@ class JoinRoomPopup (
     private fun setOnClickListener() {
         binding.btnOk.setOnClickListener {
             clickFunc.rightClickFunction()
+
             // 모든 함수 수행 후 팝업 닫기
             dismiss()
         }
@@ -65,6 +70,9 @@ class JoinRoomPopup (
         binding.tvManagerNickname.text = data.hostNickname
         binding.tvPlayTime.text = data.duration
         binding.tvRoomUserNum.text = "${data.currentParticipants} / ${data.maxParticipants}"
+
+        NetworkImageLoader.profileLoad(binding.ivManagerProfile, data.hostProfileImage)
+        NetworkImageLoader.thumbnailLoad(binding.ivThumbnail,data.videoThumbnail)
     }
 
 

@@ -1,6 +1,11 @@
 package umc.onairmate.ui.home
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.databinding.FragmentHomeBinding
+import umc.onairmate.ui.chat_room.ChatRoomLayoutActivity
 import umc.onairmate.ui.home.room.HomeEventListener
 import umc.onairmate.ui.home.room.RoomRVAdapter
 import umc.onairmate.ui.pop_up.JoinRoomPopup
@@ -29,9 +35,11 @@ class HomeFragment : Fragment() {
 
     private val searchViewModel: SearchRoomViewModel by viewModels()
 
-    private var sortBy : String = ""
-    private var searchType : String = ""
+    private var sortBy : String = "latest"
+    private var searchType : String = "videoTitle"
     private var keyword : String = ""
+    private var searchRunnable: Runnable? = null
+    private val searchHandler = Handler(Looper.getMainLooper())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +52,8 @@ class HomeFragment : Fragment() {
         setUpObserver()
         setSearchSpinner()
         initClickListener()
+        setTextListener()
+
 
         return binding.root
     }
@@ -52,11 +62,28 @@ class HomeFragment : Fragment() {
         super.onResume()
         // 초기 데이터 삽입
         searchViewModel.getRoomList(sortBy, searchType, keyword)
+        Log.d(TAG,"Resume")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setTextListener(){
+        binding.etInputKeyword.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+            override fun afterTextChanged(s: Editable?) {
+                searchRunnable?.let { searchHandler.removeCallbacks(it) }
+                searchRunnable = Runnable {
+                    val input = binding.etInputKeyword.text.toString()
+                    searchViewModel.getRoomList(sortBy, searchType, input)
+                }
+                searchHandler.postDelayed(searchRunnable!!, 300) // 300ms 디바운스
+            }
+        })
     }
 
 
@@ -97,7 +124,9 @@ class HomeFragment : Fragment() {
 
         searchViewModel.roomDetailInfo.observe(viewLifecycleOwner){data ->
             if (data == null) return@observe
+            Log.d(TAG,"emit : ${data}")
             showJoinRoomPopup(data)
+            searchViewModel.clearRoomDetailInfo()
         }
 
         searchViewModel.recommendedVideo.observe(viewLifecycleOwner) {videos ->
@@ -133,9 +162,9 @@ class HomeFragment : Fragment() {
                 val selectedItem = parent?.getItemAtPosition(position) as String
                 Log.d(TAG,"pos : ${position} / selected Item ${selectedItem}")
                 searchType = when(position) {
-                    0 -> "video_title"
-                    1 -> "room_title"
-                    2 -> "host_nickname"
+                    0 -> "videoTitle"
+                    1 -> "roomTitle"
+                    2 -> "hostNickname"
                     else -> ""
                 }
             }
@@ -149,6 +178,11 @@ class HomeFragment : Fragment() {
         val dialog = JoinRoomPopup(data, object : PopupClick {
             override fun rightClickFunction() {
                 searchViewModel.joinRoom(data.roomId)
+                // 방 액티비티로 전환
+                val intent = Intent(requireActivity(), ChatRoomLayoutActivity::class.java).apply {
+                    putExtra("room_data", data)
+                }
+                startActivity(intent)
             }
 
         })

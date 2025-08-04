@@ -2,7 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hilt.android)
+    id("androidx.navigation.safeargs.kotlin") version "2.7.7"
     id("com.google.devtools.ksp")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -33,11 +35,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
     buildFeatures {
         viewBinding = true
@@ -77,4 +79,10 @@ dependencies {
 
     // 네트워크 이미지 로딩
     implementation(libs.coil)
+
+    // 유튜브 플레이어 라이브러리
+    implementation(libs.core)
+    
+    // CardView 의존성 추가
+    implementation("androidx.cardview:cardview:1.0.0")
 }

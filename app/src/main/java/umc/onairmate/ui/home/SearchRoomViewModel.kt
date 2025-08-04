@@ -22,13 +22,13 @@ class SearchRoomViewModel @Inject constructor(
     @ApplicationContext private val context: Context
 ) : ViewModel(){
     private val TAG = this.javaClass.simpleName
-    private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    private val spf = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
     private val _roomData = MutableLiveData<List<RoomData>>()
     val roomData : LiveData<List<RoomData>> get() = _roomData
 
-    private val _roomDetailInfo = MutableLiveData<RoomData>()
-    val roomDetailInfo : LiveData<RoomData> get() = _roomDetailInfo
+    private val _roomDetailInfo = MutableLiveData<RoomData?>()
+    val roomDetailInfo : LiveData<RoomData?> get() = _roomDetailInfo
 
     private val _roomListResponse = MutableLiveData<RoomListResponse>()
     val roomListResponse : LiveData<RoomListResponse> get() = _roomListResponse
@@ -40,7 +40,7 @@ class SearchRoomViewModel @Inject constructor(
     val isLoading: LiveData<Boolean> = _isLoading
 
     fun getToken(): String? {
-        return sharedPreferences.getString("access_token", null)
+        return spf.getString("access_token", null)
     }
 
     // 테스트용 더미데이터 생성
@@ -51,9 +51,9 @@ class SearchRoomViewModel @Inject constructor(
             roomId = i,
             roomTitle = "dummy ${i}",
             videoTitle = "",
-            videoThumbnail = null,
+            videoThumbnail = "",
             hostNickname = "host${i}",
-            hostProfileImage = null,
+            hostProfileImage = "",
             currentParticipants = i,
             maxParticipants = 10,
             duration = "00:45:20"
@@ -113,11 +113,13 @@ class SearchRoomViewModel @Inject constructor(
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
-                    _roomData.value = getDummyRoom(5)
                 }
             }
             _isLoading.value = false
         }
+    }
+    fun clearRoomDetailInfo(){
+        _roomDetailInfo.value=null
     }
 
    fun joinRoom( roomId : Int){
