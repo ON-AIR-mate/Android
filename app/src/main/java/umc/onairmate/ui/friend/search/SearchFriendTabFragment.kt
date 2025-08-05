@@ -1,5 +1,6 @@
 package umc.onairmate.ui.friend.search
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,6 +8,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -86,6 +89,18 @@ class SearchFriendTabFragment: Fragment() {
                 viewModel.searchUser(input)
             }
         })
+
+        // 엔터누르면 입력 왼료되도록
+        binding.etInputNickname.setOnEditorActionListener{v, actionId, event ->
+            if(actionId == EditorInfo.IME_ACTION_DONE){
+                val imm = v.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(v.windowToken, 0)
+
+                v.clearFocus() // 포커스 제거
+                return@setOnEditorActionListener true
+            }
+            else return@setOnEditorActionListener  false
+        }
     }
 
     override fun onDestroyView() {
