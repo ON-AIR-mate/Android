@@ -65,7 +65,7 @@ private val createRoomCallback : CreateRoomCallback
             val maxParticipantPosition = binding.spMaximumParticipant.selectedItemPosition
 
             val roomData = CreateRoomRequest(
-                roomName = binding.etInputRoomTitle.toString(),
+                roomName = binding.etInputRoomTitle.text.toString(),
                 maxParticipants = maxParticipants[maxParticipantPosition].toInt(),
                 isPrivate = isPrivate,
                 videoId = data.videoId,

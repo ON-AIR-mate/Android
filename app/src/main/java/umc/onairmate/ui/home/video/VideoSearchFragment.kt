@@ -78,7 +78,10 @@ class VideoSearchFragment : Fragment() {
                 adapter = SearchedVideoRVAdapter(object : SearchVideoEventListener {
                     override fun createRoom(data: VideoData) {
                         Log.d("Check", "createRoom called. videoId: ${data.videoId}")
-                        searchVideoViewModel.getVideoDetailInfo(data.videoId)
+                        // todo: 비디오 정보 받아오는 api 오류나서 임시조치 - 근데 오히려 좋은 것 같기도함..
+                        //searchVideoViewModel.getVideoDetailInfo(data.videoId)
+                        searchVideoViewModel.setVideoDetailInfo(data)
+                        showCreateRoomPopup(data)
                     }
                 })
                 binding.rvContents.adapter = adapter
@@ -108,9 +111,12 @@ class VideoSearchFragment : Fragment() {
         Log.d("Check", "showCreateRoomPopup called")
         val dialog = CreateRoomPopup(data, object : CreateRoomCallback {
             override fun onCreateRoom(body: CreateRoomRequest) {
+                var roomId = 0
                 // 방 생성 api 호출
                 searchVideoViewModel.createRoom(body)
-                val roomId = searchVideoViewModel.createdRoomInfo.value!!.roomId
+                searchVideoViewModel.createdRoomInfo.observe(viewLifecycleOwner) { data ->
+                    roomId = data.roomId
+                }
 
                 // 방 정보 받아와 채팅방 화면 열기
                 searchRoomViewModel.getRoomDetailInfo(roomId)

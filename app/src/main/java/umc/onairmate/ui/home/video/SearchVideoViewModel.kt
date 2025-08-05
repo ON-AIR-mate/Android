@@ -59,7 +59,7 @@ class SearchVideoViewModel @Inject constructor(
             }
 
             val result = repository.createRoom(token, body)
-            Log.d(TAG, "createRoom api 호출")
+            Log.d(TAG, "create room api 호출 ${body}")
 
             when(result) {
                 is DefaultResponse.Success -> {
@@ -67,7 +67,7 @@ class SearchVideoViewModel @Inject constructor(
                     _createdRoomInfo.postValue(result.data)
                 }
                 is DefaultResponse.Error -> {
-                    Log.e(TAG, "에러: ${result.code} - ${result.message} ")
+                    Log.e(TAG, "create room 에러: ${result.code} - ${result.message} ")
                 }
             }
         }
@@ -92,7 +92,8 @@ class SearchVideoViewModel @Inject constructor(
                     _searchedVideos.postValue(result.data)
                 }
                 is DefaultResponse.Error -> {
-                    Log.e(TAG, "에러: ${result.code} - ${result.message} ")
+                    Log.e(TAG, "video search 에러: ${result.code} - ${result.message} ")
+                    // todo: 서버에서 빈 문자열 들어가면 에러를 보내줘서 자꾸 에러남..
                 }
             }
 
@@ -119,12 +120,16 @@ class SearchVideoViewModel @Inject constructor(
                     _videoDetailInfo.postValue(result.data)
                 }
                 is DefaultResponse.Error -> {
-                    Log.e(TAG, "에러: ${result.code} - ${result.message} ")
+                    Log.e(TAG, "video detail 에러: ${result.code} - ${result.message} ")
                 }
             }
 
             _isLoading.value = false
         }
+    }
+
+    fun setVideoDetailInfo(data: VideoData) {
+        _videoDetailInfo.value = data
     }
 
     fun clearVideoDetailInfo(){
@@ -146,11 +151,11 @@ class SearchVideoViewModel @Inject constructor(
 
             when(result) {
                 is DefaultResponse.Success -> {
-                    Log.d(TAG, "video detail 응답 성공: ${result.data}")
+                    Log.d(TAG, "recommend video 응답 성공: ${result.data}")
                     _recommendedVideos.postValue(result.data)
                 }
                 is DefaultResponse.Error -> {
-                    Log.e(TAG, "video detail 에러: ${result.code} - ${result.message} ")
+                    Log.e(TAG, "recommend video 에러: ${result.code} - ${result.message} ")
                 }
             }
 
