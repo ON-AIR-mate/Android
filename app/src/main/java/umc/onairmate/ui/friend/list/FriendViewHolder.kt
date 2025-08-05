@@ -15,7 +15,7 @@ import umc.onairmate.ui.util.NetworkImageLoader
 class FriendViewHolder(
     private val binding: RvItemFriendBinding,
     private val context: Context,
-    private val itemClick : FriendListRVAdapter.ItemClickListener
+    private val itemClick : FriendItemClickListener
 ) :  RecyclerView.ViewHolder(binding.root) {
     private val TAG = this.javaClass.simpleName
     fun bind(data : FriendData ){
@@ -24,14 +24,14 @@ class FriendViewHolder(
         NetworkImageLoader.profileLoad(binding.ivProfile, data.profileImage)
 
         binding.ivMore.setOnClickListener {
-            showPopupMenu(binding.ivMore, adapterPosition)
+            showPopupMenu(binding.ivMore, adapterPosition, data)
         }
         binding.ivMessage.setOnClickListener {
             itemClick.clickMessage()
         }
     }
 
-    private fun showPopupMenu(anchorView: View, position: Int){
+    private fun showPopupMenu(anchorView: View, position: Int, data: FriendData){
         val popupBinding = PopupFriendOptionsBinding.inflate(LayoutInflater.from(anchorView.context))
 
         // PopupWindow 생성
@@ -59,23 +59,19 @@ class FriendViewHolder(
 
         // 클릭 리스너 연결
         popupBinding.tvCollection.setOnClickListener {
-            Log.d(TAG,"click tvCollection")
-            //onMenuClick(MenuAction.COLLECTION, position)
+            itemClick.clickCollection(data)
             popupWindow.dismiss()
         }
         popupBinding.tvDeleteFriend.setOnClickListener {
-            Log.d(TAG,"click tvDeleteFriend")
-            //onMenuClick(MenuAction.DELETE, position)
+            itemClick.clickDelete(data)
             popupWindow.dismiss()
         }
         popupBinding.tvBlock.setOnClickListener {
-            Log.d(TAG,"click tvBlock")
-            //onMenuClick(MenuAction.BLOCK, position)
+            itemClick.clickBlock(data)
             popupWindow.dismiss()
         }
         popupBinding.tvReport.setOnClickListener {
-            Log.d(TAG,"click tvReport")
-            //onMenuClick(MenuAction.REPORT, position)
+            itemClick.clickReport(data)
             popupWindow.dismiss()
         }
 

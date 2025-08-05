@@ -9,7 +9,7 @@ import umc.onairmate.ui.util.NetworkImageLoader
 class FriendRequestViewHolder(
     private val binding: RvItemFriendRequestBinding,
     private val context: Context,
-    private val itemClick : FriendListRVAdapter.ItemClickListener
+    private val itemClick : FriendItemClickListener
 ) :  RecyclerView.ViewHolder(binding.root) {
     fun bind(data : RequestedFriendData ){
         binding.tvUserNickname.text = data.nickname
