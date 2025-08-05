@@ -37,7 +37,7 @@ class SearchFriendTabFragment: Fragment() {
     ): View {
         _binding = FragmentSearchFriendTabBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        adapter = SearchUserRVAdapter { data,  ->
+        adapter = SearchUserRVAdapter { data  ->
             val text = data.nickname + "님에게 친구요청을 보내시겠습니까?"
             val textList = listOf(text, "예", "아니오")
             val dialog = TwoButtonPopup(textList, object : PopupClick {

@@ -4,7 +4,7 @@ import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.data.model.entity.RequestedFriendData
 
 interface FriendItemClickListener {
-    fun clickMessage()
+    fun clickMessage(data: FriendData)
     fun acceptRequest(data: RequestedFriendData)
 
     // 새로 추가할 항목

@@ -27,7 +27,7 @@ class FriendViewHolder(
             showPopupMenu(binding.ivMore, adapterPosition, data)
         }
         binding.ivMessage.setOnClickListener {
-            itemClick.clickMessage()
+            itemClick.clickMessage(data)
         }
     }
 

@@ -6,7 +6,11 @@ import java.time.Instant
 object TimeFormatter {
     fun formatRelativeTime(isoString: String): String {
         // ISO8601 문자열 파싱
-        val parsedTime = Instant.parse(isoString)
+        val parsedTime = try {
+            Instant.parse(isoString)
+        }catch (e: Exception){
+            return "알 수 없음"
+        }
 
         // 현재 시간
         val now = Instant.now()

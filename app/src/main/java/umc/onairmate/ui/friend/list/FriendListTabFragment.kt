@@ -102,7 +102,7 @@ class FriendListTabFragment() : Fragment() {
     private fun setAdapter(){
         adapter = FriendListRVAdapter(requireContext())
         adapter.setItemClickListener(object: FriendItemClickListener{
-            override fun clickMessage() {
+            override fun clickMessage(data: FriendData) {
                 // 인탠트 필요
             }
 
