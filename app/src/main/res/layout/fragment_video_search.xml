@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment"
+    tools:context=".ui.home.video.VideoSearchFragment"
     android:id="@+id/fragment_video_search"
     android:paddingHorizontal="30dp">
 

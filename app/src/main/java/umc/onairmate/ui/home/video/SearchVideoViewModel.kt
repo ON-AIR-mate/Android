@@ -10,6 +10,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import umc.onairmate.data.model.entity.VideoData
+import umc.onairmate.data.model.request.CreateRoomRequest
+import umc.onairmate.data.model.response.CreateRoomResponse
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.repository.repository.HomeRepository
 import javax.inject.Inject
@@ -28,18 +30,47 @@ class SearchVideoViewModel @Inject constructor(
     val searchedVideos : LiveData<List<VideoData>> get() = _searchedVideos
 
     // 영상 상세 정보
-    private val _videoDetailInfo = MutableLiveData<VideoData>()
-    val videoDetailInfo : LiveData<VideoData> get() = _videoDetailInfo
+    private val _videoDetailInfo = MutableLiveData<VideoData?>()
+    val videoDetailInfo : LiveData<VideoData?> get() = _videoDetailInfo
 
     // 추천 영상 검색
     private val _recommendedVideos = MutableLiveData<List<VideoData>>()
     val recommendedVideos : LiveData<List<VideoData>> get() = _recommendedVideos
+
+    // 만들어진 방 id
+    private val _createdRoomInfo = MutableLiveData<CreateRoomResponse>()
+    val createdRoomInfo : LiveData<CreateRoomResponse> get() = _createdRoomInfo
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading : LiveData<Boolean> = _isLoading
 
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
+    }
+
+    fun createRoom(body: CreateRoomRequest) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            val token = getToken()
+            if (token == null) {
+                Log.e(TAG, "토큰이 없습니다")
+                _isLoading.value = false
+                return@launch
+            }
+
+            val result = repository.createRoom(token, body)
+            Log.d(TAG, "createRoom api 호출")
+
+            when(result) {
+                is DefaultResponse.Success -> {
+                    Log.d(TAG, "create room 응답 성공: ${result.data}")
+                    _createdRoomInfo.postValue(result.data)
+                }
+                is DefaultResponse.Error -> {
+                    Log.e(TAG, "에러: ${result.code} - ${result.message} ")
+                }
+            }
+        }
     }
 
     fun searchVideoList(query: String, limit: Int) {
@@ -96,6 +127,10 @@ class SearchVideoViewModel @Inject constructor(
         }
     }
 
+    fun clearVideoDetailInfo(){
+        _videoDetailInfo.value=null
+    }
+
     fun getRecommendVideoList(keyword: String, limit: Int) {
         viewModelScope.launch {
             _isLoading.value = true
@@ -115,7 +150,7 @@ class SearchVideoViewModel @Inject constructor(
                     _recommendedVideos.postValue(result.data)
                 }
                 is DefaultResponse.Error -> {
-                    Log.e(TAG, "에러: ${result.code} - ${result.message} ")
+                    Log.e(TAG, "video detail 에러: ${result.code} - ${result.message} ")
                 }
             }
 

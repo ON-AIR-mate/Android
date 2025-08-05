@@ -5,24 +5,31 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
-import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.entity.VideoData
+import umc.onairmate.data.model.request.CreateRoomRequest
 import umc.onairmate.databinding.PopupCreateRoomBinding
 import umc.onairmate.ui.chat_room.drawer.RoomSettingSpAdapter
 import umc.onairmate.ui.chat_room.drawer.maxParticipants
 
 class CreateRoomPopup (
 private val data : VideoData,
-private val clickFunc : PopupClick
+private val createRoomCallback : CreateRoomCallback
 ): DialogFragment() {
     lateinit var binding: PopupCreateRoomBinding
 
     var isPrivate : Boolean = false
-    lateinit var roomData : RoomData
+    var roomTitle: String = ""
+
+    private var editRunnable: Runnable? = null
+    private val editHandler = Handler(Looper.getMainLooper())
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = PopupCreateRoomBinding.inflate(layoutInflater)
@@ -33,6 +40,7 @@ private val clickFunc : PopupClick
         setOnClickListener()
         initData()
         onPrivateRoomButtonClick()
+        setTextListener()
 
         // 뒤로가기 가능
         setCancelable(true)
@@ -54,7 +62,16 @@ private val clickFunc : PopupClick
     // 팝업 버튼 클릭리스너
     private fun setOnClickListener() {
         binding.btnOk.setOnClickListener {
-            clickFunc.rightClickFunction()
+            val maxParticipantPosition = binding.spMaximumParticipant.selectedItemPosition
+
+            val roomData = CreateRoomRequest(
+                roomName = binding.etInputRoomTitle.toString(),
+                maxParticipants = maxParticipants[maxParticipantPosition].toInt(),
+                isPrivate = isPrivate,
+                videoId = data.videoId,
+            )
+
+            createRoomCallback.onCreateRoom(roomData)
 
             // 모든 함수 수행 후 팝업 닫기
             dismiss()
@@ -67,13 +84,12 @@ private val clickFunc : PopupClick
     // 방 정보 주입
     private fun initData(){
         binding.tvVideoTitle.text = data.title
-        roomData = RoomData()
 
         val maxParticipantsAdapter = RoomSettingSpAdapter(requireContext(), maxParticipants)
         binding.spMaximumParticipant.adapter = maxParticipantsAdapter
     }
 
-    fun onPrivateRoomButtonClick() {
+    private fun onPrivateRoomButtonClick() {
         binding.ivPrivateRoomOn.setOnClickListener {
             binding.ivPrivateRoomOn.visibility = View.GONE
             binding.ivPrivateRoomOff.visibility = View.VISIBLE
@@ -86,14 +102,34 @@ private val clickFunc : PopupClick
         }
     }
 
+    private fun setTextListener(){
+        binding.etInputRoomTitle.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+            override fun afterTextChanged(s: Editable?) {
+                editRunnable?.let { editHandler.removeCallbacks(it) }
+                editRunnable = Runnable {
+                    val input = binding.etInputRoomTitle.text.toString()
+                    roomTitle = input
+                }
+                editHandler.postDelayed(editRunnable!!, 300) // 300ms 디바운스
+            }
+        })
+    }
+
     // 팝업 띄우는 화면용 함수 -> 복붙하여 사용
-    private fun test(data : RoomData){
-        val dialog = JoinRoomPopup(data, object : PopupClick {
-            override fun rightClickFunction() {
+    private fun test(data : VideoData){
+        val dialog = CreateRoomPopup(data, object : CreateRoomCallback {
+            override fun onCreateRoom(body: CreateRoomRequest) {
 
             }
         })
-        dialog.show(activity?.supportFragmentManager!!, "JoinRoomPopup")
+        dialog.show(activity?.supportFragmentManager!!, "CreateRoomPopup")
     }
 
+}
+
+interface CreateRoomCallback {
+    fun onCreateRoom(body: CreateRoomRequest)
 }
