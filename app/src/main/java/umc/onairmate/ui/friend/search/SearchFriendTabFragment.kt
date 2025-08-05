@@ -58,6 +58,7 @@ class SearchFriendTabFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
+        binding.etInputNickname.setText("")
         viewModel.searchUser(binding.etInputNickname.text.toString())
 
     }
