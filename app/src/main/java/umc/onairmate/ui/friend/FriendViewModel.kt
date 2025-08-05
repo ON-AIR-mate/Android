@@ -80,7 +80,7 @@ class FriendViewModel @Inject constructor(
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
-                    _friendList.postValue(initDummyFriend())
+                    _friendList.postValue(emptyList())
                 }
             }
             _isLoading.value = false
@@ -131,9 +131,7 @@ class FriendViewModel @Inject constructor(
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
-                    val dummy = listOf<UserData>(UserData(12,"red","",1))
-                    if(nickname == "red")  _searchedUserList.postValue(dummy)
-                    else _searchedUserList.postValue(emptyList<UserData>())
+                    _searchedUserList.postValue(emptyList<UserData>())
                 }
             }
             _isLoading.value = false
