@@ -59,7 +59,7 @@ class SearchVideoViewModel @Inject constructor(
             }
 
             val result = repository.createRoom(token, body)
-            Log.d(TAG, "create room api 호출 ${body}")
+            Log.d(TAG, "create room api 호출")
 
             when(result) {
                 is DefaultResponse.Success -> {
@@ -70,11 +70,18 @@ class SearchVideoViewModel @Inject constructor(
                     Log.e(TAG, "create room 에러: ${result.code} - ${result.message} ")
                 }
             }
+            _isLoading.value = false
         }
     }
 
     fun searchVideoList(query: String, limit: Int) {
         viewModelScope.launch {
+            // 빈 문자열 검사
+            if (query.isBlank()) {
+                _searchedVideos.postValue(emptyList())
+                return@launch
+            }
+
             _isLoading.value = true
             val token = getToken()
             if (token == null) {
@@ -93,7 +100,6 @@ class SearchVideoViewModel @Inject constructor(
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "video search 에러: ${result.code} - ${result.message} ")
-                    // todo: 서버에서 빈 문자열 들어가면 에러를 보내줘서 자꾸 에러남..
                 }
             }
 

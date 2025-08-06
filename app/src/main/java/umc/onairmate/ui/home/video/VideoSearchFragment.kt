@@ -37,6 +37,7 @@ class VideoSearchFragment : Fragment() {
 
     private var searchRunnable: Runnable? = null
     private val searchHandler = Handler(Looper.getMainLooper())
+    private var roomId = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -104,6 +105,23 @@ class VideoSearchFragment : Fragment() {
             showCreateRoomPopup(data)
         }
 
+        searchVideoViewModel.createdRoomInfo.observe(viewLifecycleOwner) { data ->
+            roomId = data.roomId
+            // 방 정보 받아오기
+            searchRoomViewModel.getRoomDetailInfo(roomId)
+        }
+
+        // 채팅방 화면 열기
+        searchRoomViewModel.roomDetailInfo.observe(viewLifecycleOwner) { data ->
+            Log.d("Check", "roomDetailInfo called")
+            val roomData = data ?: RoomData()
+
+            val intent = Intent(requireActivity(), ChatRoomLayoutActivity::class.java).apply {
+                putExtra("room_data", roomData)
+            }
+            startActivity(intent)
+        }
+
     }
 
 
@@ -118,27 +136,16 @@ class VideoSearchFragment : Fragment() {
                 var roomId = 0
                 // 방 생성 api 호출
                 searchVideoViewModel.createRoom(body)
-                searchVideoViewModel.createdRoomInfo.observe(viewLifecycleOwner) { data ->
-                    roomId = data.roomId
-                    // 방 정보 받아오기
-                    searchRoomViewModel.getRoomDetailInfo(roomId)
-                }
-
-                // 채팅방 화면 열기
-                searchRoomViewModel.roomDetailInfo.observe(viewLifecycleOwner) { data ->
-                    Log.d("Check", "roomDetailInfo called")
-                    val roomData = data ?: RoomData()
-
-                    val intent = Intent(requireActivity(), ChatRoomLayoutActivity::class.java).apply {
-                        putExtra("room_data", roomData)
-                    }
-                    startActivity(intent)
-                }
             }
         })
         activity?.supportFragmentManager?.let { fm ->
             dialog.show(fm, "CreateRoomPopup")
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        searchRunnable?.let { searchHandler.removeCallbacks(it) }
     }
 
 }

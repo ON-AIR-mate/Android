@@ -67,7 +67,7 @@ private val createRoomCallback : CreateRoomCallback
                 val maxParticipantPosition = binding.spMaximumParticipant.selectedItemPosition
 
                 val roomData = CreateRoomRequest(
-                    roomName = binding.etInputRoomTitle.text.toString(),
+                    roomName = roomTitle,
                     maxParticipants = maxParticipants[maxParticipantPosition].toInt(),
                     isPrivate = isPrivate,
                     videoId = data.videoId,
@@ -120,20 +120,13 @@ private val createRoomCallback : CreateRoomCallback
                     val input = binding.etInputRoomTitle.text.toString()
                     roomTitle = input
                 }
-                editHandler.postDelayed(editRunnable!!, 300) // 300ms 디바운스
             }
         })
-        binding.etInputRoomTitle
     }
-
-    // 팝업 띄우는 화면용 함수 -> 복붙하여 사용
-    private fun test(data : VideoData){
-        val dialog = CreateRoomPopup(data, object : CreateRoomCallback {
-            override fun onCreateRoom(body: CreateRoomRequest) {
-
-            }
-        })
-        dialog.show(activity?.supportFragmentManager!!, "CreateRoomPopup")
+    
+    override fun onDestroy() {
+        super.onDestroy()
+        editRunnable?.let { editHandler.removeCallbacks(it) }
     }
 
 }
