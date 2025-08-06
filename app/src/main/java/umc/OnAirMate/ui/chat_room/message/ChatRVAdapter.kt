@@ -2,11 +2,14 @@ package umc.onairmate.ui.chat_room.message
 
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.databinding.RvItemChatBinding
 
-class ChatRVAdapter()
+class ChatRVAdapter(
+    private val nickname: String
+)
     : RecyclerView.Adapter<ChatRVAdapter.ViewHolder>() {
         private val items = arrayListOf<String>()
 
@@ -33,9 +36,16 @@ class ChatRVAdapter()
     inner class ViewHolder(val binding : RvItemChatBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(data : String, type: Int){
             binding.tvContent.text = data
+            binding.tvNickname.text = nickname
             when(type){
-                0 -> binding.layoutUserInfo.gravity = Gravity.END
-                1 -> binding.layoutUserInfo.gravity = Gravity.START
+                0 -> {
+                    binding.root.gravity = Gravity.END
+                    binding.ivProfileLeft.visibility = View.GONE
+                }
+                1 -> {
+                    binding.root.gravity = Gravity.START
+                    binding.ivProfileRight.visibility = View.GONE
+                }
                 else -> {}
             }
         }

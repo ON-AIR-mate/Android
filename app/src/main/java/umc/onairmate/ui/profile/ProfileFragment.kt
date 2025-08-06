@@ -1,6 +1,7 @@
 package umc.onairmate.ui.profile
 
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -22,12 +23,16 @@ class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
+    private var nickname = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        nickname = spf.getString("nickname","user")!!
+
         return binding.root
     }
 
@@ -45,6 +50,8 @@ class ProfileFragment : Fragment() {
         binding.layoutMyRooms.setOnClickListener {
             // 참여한 방 이동
         }
+
+        binding.tvNicknameValue.text = nickname
 
         // 다른 버튼들에 대한 clickListener도 동일하게 설정
     }

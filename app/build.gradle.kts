@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hilt.android)
+    id("androidx.navigation.safeargs.kotlin") version "2.7.7"
     id("com.google.devtools.ksp")
     id("kotlin-parcelize")
 }
@@ -81,5 +82,8 @@ dependencies {
 
     // 유튜브 플레이어 라이브러리
     implementation(libs.core)
+    
+    // CardView 의존성 추가
+    implementation("androidx.cardview:cardview:1.0.0")
     implementation(libs.custom.ui)
 }
