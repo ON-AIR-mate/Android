@@ -35,7 +35,6 @@ class VideoChatFragment: Fragment() {
     ): View {
         _binding = FragmentVideoChatBinding.inflate(inflater, container, false)
 
-        Log.d(TAG,"Created")
         initData()
         setUpObserver()
 
@@ -52,8 +51,13 @@ class VideoChatFragment: Fragment() {
             binding.etInputChat.setText("")
         }
 
-        //viewModel.joinRoom(roomId,nickname)
+        viewModel.joinRoom(roomId,nickname)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG,"onViewCreated")
     }
 
     override fun onResume() {
@@ -64,16 +68,8 @@ class VideoChatFragment: Fragment() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         userId = spf.getInt("userId", 0)
         nickname = spf.getString("nickname","nickname")?:"user"
-
-        setFragmentResultListener("room_data"){ requestkey, bunlde ->
-
-            val result  = bunlde.getParcelable<RoomData>("room_data")
-
-            roomId = result?.roomId ?:0
-            Log.d(TAG,"data ${result} / id : ${roomId}")
-        }
+        roomId = arguments?.getInt("roomId", 0)!!
         Log.d(TAG,"id : ${roomId}")
-        viewModel.joinRoom(roomId,nickname)
 
     }
 

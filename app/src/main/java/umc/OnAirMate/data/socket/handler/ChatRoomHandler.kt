@@ -18,10 +18,10 @@ class ChatRoomHandler(
                 listener.onError(parseJson(data))
             },
             "userJoined" to { data ->
-                listener.onUserJoined(parseJson(data))
+                //listener.onUserJoined(parseJson(data))
             },
             "leaveRoom" to { data ->
-                listener.onUserLeft(parseJson(data))
+                //listener.onUserLeft(parseJson(data))
             }
         )
     }

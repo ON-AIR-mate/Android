@@ -63,7 +63,7 @@
     <!-- 채팅 모듈 -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fg_chat_module"
-        android:name="umc.onairmate.ui.chat_room.message.VideoChatFragment"
+        tools:layout="@layout/fragment_video_chat"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"

@@ -86,7 +86,7 @@ class VideoChatViewModel @Inject constructor(
 
         Log.d(TAG,"채팅 입력 ${content}")
         val json = JSONObject().apply {
-            put("roomId", 2)
+            put("roomId", roomId)
             put("nickname", nickname)
             put("content", content)
             put("messageType", "general")
@@ -99,7 +99,7 @@ class VideoChatViewModel @Inject constructor(
         Log.d(TAG,"joinRoom ${roomId}")
         val type = if(isVisited) "enterRoom" else "joinRoom"
         val json = JSONObject().apply {
-            put("roomId", 2)
+            put("roomId", roomId)
             put("nickname", nickname)
         }
         SocketManager.getSocket().emit(type, json)
