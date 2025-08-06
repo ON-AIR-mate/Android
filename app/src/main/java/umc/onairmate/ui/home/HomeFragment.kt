@@ -13,8 +13,10 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.databinding.FragmentHomeBinding
 import umc.onairmate.ui.chat_room.ChatRoomLayoutActivity
@@ -139,7 +141,7 @@ class HomeFragment : Fragment() {
     // 일단 데이터 변화를 테스트 하는데 활용 -> 나중에 Intent로 변환할 예정
     private fun initClickListener(){
         binding.ivYoutubeSearch.setOnClickListener {
-
+            findNavController().navigate(R.id.action_home_to_search_video)
         }
 
         binding.ivNotification.setOnClickListener {

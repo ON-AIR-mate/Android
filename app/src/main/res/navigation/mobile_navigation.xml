@@ -9,7 +9,18 @@
         android:id="@+id/navigation_home"
         android:name="umc.onairmate.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+
+        <action
+            android:id="@+id/action_home_to_search_video"
+            app:destination="@+id/navigation_search_video" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_search_video"
+        android:name="umc.onairmate.ui.home.video.VideoSearchFragment"
+        android:label="영상 검색"
+        tools:layout="@layout/fragment_video_search" />
 
     <fragment
         android:id="@+id/navigation_lounge"

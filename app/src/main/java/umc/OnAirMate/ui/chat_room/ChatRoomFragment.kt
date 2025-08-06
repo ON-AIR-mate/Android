@@ -79,8 +79,7 @@ class ChatRoomFragment : Fragment() {
                 playerUiController.showYouTubeButton(false)
                 playerView.setCustomPlayerUi(playerUiController.rootView)
 
-                // todo: 영상 id 오면 받아서 넣기
-                val videoId = "CgCVZdcKcqY"
+                val videoId = roomData.videoId ?: "CgCVZdcKcqY"
                 youTubePlayer.loadVideo(videoId, 0f) // todo: RoomData duration 연동
             }
         }
