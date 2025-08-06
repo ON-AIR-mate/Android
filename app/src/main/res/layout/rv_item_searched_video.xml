@@ -76,14 +76,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="채널명"
+            android:layout_weight="1"
             android:textAppearance="@style/TextAppearance.App.Regular.12sp"
             android:layout_marginStart="5dp"/>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-        <!-- todo: 디자인팀에서 변경사항 발생시 수정해야할 곳 -->
         <TextView
             android:id="@+id/tv_view_count"
             android:layout_width="wrap_content"

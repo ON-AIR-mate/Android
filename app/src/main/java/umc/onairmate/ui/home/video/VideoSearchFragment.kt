@@ -37,7 +37,6 @@ class VideoSearchFragment : Fragment() {
 
     private var searchRunnable: Runnable? = null
     private val searchHandler = Handler(Looper.getMainLooper())
-    private var roomId = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -106,9 +105,8 @@ class VideoSearchFragment : Fragment() {
         }
 
         searchVideoViewModel.createdRoomInfo.observe(viewLifecycleOwner) { data ->
-            roomId = data.roomId
             // 방 정보 받아오기
-            searchRoomViewModel.getRoomDetailInfo(roomId)
+            searchRoomViewModel.getRoomDetailInfo(data.roomId)
         }
 
         // 채팅방 화면 열기
@@ -133,7 +131,6 @@ class VideoSearchFragment : Fragment() {
 
         val dialog = CreateRoomPopup(data, object : CreateRoomCallback {
             override fun onCreateRoom(body: CreateRoomRequest) {
-                var roomId = 0
                 // 방 생성 api 호출
                 searchVideoViewModel.createRoom(body)
             }
