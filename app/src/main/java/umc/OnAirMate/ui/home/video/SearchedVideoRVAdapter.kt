@@ -46,11 +46,12 @@ class SearchedVideoRVAdapter(
         holder.bind(getItem(position))
     }
 
-    fun formatNumberClean(num: Int): String {
+    fun formatNumberClean(num: Long): String {
         return when {
             num < 1_000 -> "$num"
             num < 1_000_000 -> "%.1f".format(num / 1000.0).removeSuffix(".0") + "k"
-            else -> "%.1f".format(num / 1_000_000.0).removeSuffix(".0") + "M"
+            num < 1_000_000_000 -> "%.1f".format(num / 1_000_000.0).removeSuffix(".0") + "M"
+            else -> "%.1f".format(num / 1_000_000_000.0).removeSuffix(".0") + "B"
         }
     }
 

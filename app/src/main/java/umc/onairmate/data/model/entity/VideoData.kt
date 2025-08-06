@@ -15,5 +15,5 @@ data class VideoData(
     @SerializedName("videoId")
     val videoId: String,
     @SerializedName("viewCount")
-    val viewCount: Int
+    val viewCount: Long
 )
