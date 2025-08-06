@@ -67,7 +67,7 @@ private val createRoomCallback : CreateRoomCallback
                 val maxParticipantPosition = binding.spMaximumParticipant.selectedItemPosition
 
                 val roomData = CreateRoomRequest(
-                    roomName = roomTitle,
+                    roomName = binding.etInputRoomTitle.text.toString(),
                     maxParticipants = maxParticipants[maxParticipantPosition].toInt(),
                     isPrivate = isPrivate,
                     videoId = data.videoId,
@@ -114,16 +114,10 @@ private val createRoomCallback : CreateRoomCallback
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 textLength = s?.length ?: 0
             }
-            override fun afterTextChanged(s: Editable?) {
-                editRunnable?.let { editHandler.removeCallbacks(it) }
-                editRunnable = Runnable {
-                    val input = binding.etInputRoomTitle.text.toString()
-                    roomTitle = input
-                }
-            }
+            override fun afterTextChanged(s: Editable?) {}
         })
     }
-    
+
     override fun onDestroy() {
         super.onDestroy()
         editRunnable?.let { editHandler.removeCallbacks(it) }
