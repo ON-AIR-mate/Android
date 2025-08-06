@@ -12,6 +12,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.RoomData
+import umc.onairmate.data.socket.SocketDispatcher
+import umc.onairmate.data.socket.SocketManager
 import umc.onairmate.databinding.FragmentVideoChatBinding
 import kotlin.getValue
 
@@ -24,7 +26,7 @@ class VideoChatFragment: Fragment() {
     private var roomId : Int = 0
     private var nickname : String = ""
     lateinit var adapter : ChatRVAdapter
-    private val viewModel: ChatViewModel by viewModels()
+    private val viewModel: VideoChatViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,6 +37,9 @@ class VideoChatFragment: Fragment() {
 
         initData()
         setUpObserver()
+
+        // 소켓 연결
+        SocketDispatcher.registerHandler(SocketManager.getSocket(), viewModel.getHandler())
 
         adapter = ChatRVAdapter(userId)
         binding.rvVideoChat.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
@@ -54,6 +59,7 @@ class VideoChatFragment: Fragment() {
         super.onResume()
         viewModel.joinRoom(roomId,nickname)
     }
+
     private fun initData(){
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         userId = spf.getInt("userId", 0)
@@ -81,8 +87,9 @@ class VideoChatFragment: Fragment() {
         }
     }
 
-        override fun onDestroyView() {
+    override fun onDestroyView() {
         super.onDestroyView()
+        SocketDispatcher.unregisterHandler(SocketManager.getSocket(), viewModel.getHandler())
         _binding = null
     }
 }

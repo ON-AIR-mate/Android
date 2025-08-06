@@ -1,55 +1,38 @@
 package umc.onairmate.data.socket
 
-import android.util.Log
 import io.socket.client.Socket
 import org.json.JSONObject
 
 object SocketDispatcher {
-    private val handlers = mutableMapOf<String, BaseSocketHandler>()
+    private val activeHandlers = mutableListOf<SocketHandler>()
 
-    fun startListening(socket: Socket) {
-        socket.on("receiveRoomMessage") { args ->
-            Log.d("catch","data ${args}")
-            if (args.isNotEmpty() && args[0] is JSONObject) {
-                val json = args[0] as JSONObject
-                val data = json.getJSONObject("data")
-                dispatch( "receiveRoomMessage",data)
-            }
-        }
-        socket.on("error") { args ->
-            if (args.isNotEmpty()) {
-                val data = args[0] as JSONObject
-                val message = data.optString("message")
-                Log.e("SocketError", "Error received: $message")
-            }
-        }
-
-        socket.on("userJoined") { args ->
-            Log.d("catch","data ${args}")
-            if (args.isNotEmpty() && args[0] is JSONObject) {
-                val json = args[0] as JSONObject
-                val data = json.getJSONObject("data")
-                dispatch( "userJoined",data)
+    /** 핸들러 등록 (필요 시점에 호출) */
+    fun registerHandler(socket: Socket, handler: SocketHandler) {
+        activeHandlers.add(handler)
+        handler.getEventMap().forEach { (eventName, callback) ->
+            socket.on(eventName) { args ->
+                if (args.isNotEmpty() && args[0] is JSONObject) {
+                    callback(args[0] as JSONObject)
+                }
             }
         }
     }
 
 
-
-
-    fun register(type: String, handler: BaseSocketHandler) {
-        handlers[type] = handler
+    fun unregisterHandler(socket: Socket, handler: SocketHandler) {
+        handler.getEventMap().keys.forEach { eventName ->
+            socket.off(eventName)
+        }
+        activeHandlers.remove(handler)
     }
 
-    fun unregister(type: String) {
-        handlers.remove(type)
-    }
 
-    private fun dispatch(type: String, data: JSONObject) {
-        handlers[type]?.handle(type, data)
-    }
 
-    fun clear() {
-        handlers.clear()
+    /** 모든 핸들러 해제 (필요 시 전체 초기화용) */
+    fun clearAllHandlers(socket: Socket) {
+        activeHandlers.forEach { handler ->
+            handler.getEventMap().keys.forEach { socket.off(it) }
+        }
+        activeHandlers.clear()
     }
 }

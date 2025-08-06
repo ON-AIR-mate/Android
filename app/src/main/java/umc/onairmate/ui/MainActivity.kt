@@ -46,13 +46,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun connectSocket(){
         val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val token = spf.getString("access_token", null)
+        val token = spf.getString("socket_token", null)
 
         if (!token.isNullOrBlank()) {
             // 소켓 초기화 및 연결
             SocketManager.init(OnAirMateApplication.getString(R.string.socket_url), token)
             SocketManager.connect()
-            SocketDispatcher.startListening(SocketManager.getSocket())
         }
     }
 }

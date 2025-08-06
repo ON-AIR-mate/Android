@@ -13,20 +13,21 @@ import org.json.JSONObject
 import umc.onairmate.data.model.entity.ChatMessageData
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.repository.repository.ChatRoomRepository
-import umc.onairmate.data.socket.SocketDispatcher
 import umc.onairmate.data.socket.SocketManager
-import umc.onairmate.data.socket.handler.ChatHandler
-import umc.onairmate.data.socket.listener.ChatEventListener
+import umc.onairmate.data.socket.handler.ChatRoomHandler
+import umc.onairmate.data.socket.listener.ChatRoomEventListener
 import javax.inject.Inject
 
 @HiltViewModel
-class ChatViewModel @Inject constructor(
+class VideoChatViewModel @Inject constructor(
     private val repository: ChatRoomRepository,
     @ApplicationContext private val context: Context
-) : ViewModel(), ChatEventListener {
+) : ViewModel(), ChatRoomEventListener {
 
     private val TAG = javaClass.simpleName
     private val spf = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+
+    private var handler: ChatRoomHandler = ChatRoomHandler(this)
 
     private val _chatHistory = MutableLiveData<List<ChatMessageData>>(emptyList())
     val chatHistory: LiveData<List<ChatMessageData>> get() = _chatHistory
@@ -37,15 +38,7 @@ class ChatViewModel @Inject constructor(
     fun getToken(): String? {
         return spf.getString("access_token", null)
     }
-
-    init {
-        val chatHandler = ChatHandler(this)
-        SocketDispatcher.register("receiveRoomMessage", chatHandler)
-        SocketDispatcher.register("BOOKMARK_CREATED", chatHandler)
-        SocketDispatcher.register("error",chatHandler)
-        SocketDispatcher.register("userJoined",chatHandler)
-        Log.d(TAG, "connect chatRoom")
-    }
+    fun getHandler(): ChatRoomHandler = handler
 
     override fun onNewChat(data: ChatMessageData) {
         Log.d(TAG,"onNewChat : ${data}")
@@ -58,6 +51,10 @@ class ChatViewModel @Inject constructor(
 
     override fun onError(message: String) {
         Log.d(TAG,"error ${message}")
+    }
+
+    override fun onUserLeft(data: Int) {
+        Log.d(TAG,"onUserLeft ${data}")
     }
 
     // 초기 메시지 로드
@@ -83,9 +80,6 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    override fun onBookmarkCreated(data: ChatMessageData) {
-        // 북마크 메시지 처리 로직 (필요 시 추가)
-    }
 
     fun sendMessage(roomId: Int, nickname: String,content: String) {
         if (content.isBlank()) return
@@ -98,7 +92,7 @@ class ChatViewModel @Inject constructor(
             put("messageType", "general")
         }
 
-        SocketManager.emit("sendRoomMessage", json)
+        SocketManager.getSocket().emit("sendRoomMessage", json)
     }
 
     fun joinRoom(roomId: Int,nickname: String ){
@@ -107,14 +101,13 @@ class ChatViewModel @Inject constructor(
             put("roomId", 2)
             put("nickname", nickname)
         }
-        SocketManager.emit("enterRoom", json)
+        SocketManager.getSocket().emit("enterRoom", json)
     }
 
 
 
     override fun onCleared() {
         super.onCleared()
-        SocketDispatcher.unregister("NEW_MESSAGE")
-        SocketDispatcher.unregister("BOOKMARK_CREATED")
+
     }
 }

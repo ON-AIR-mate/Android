@@ -30,7 +30,7 @@ class TestViewModel @Inject constructor(
 
     fun signUp(id: String, pw: String){
         viewModelScope.launch {
-            val body = TestRequest(username = id, password = pw, nickname = "컴포즈","1", TestRequest.Agreement())
+            val body = TestRequest(username = id, password = pw, nickname = id,"1", TestRequest.Agreement())
             val result = repository.signUp(body)
             Log.d(TAG, "signUp api 호출")
             when (result) {
@@ -56,6 +56,7 @@ class TestViewModel @Inject constructor(
                     Log.d(TAG,"응답 성공 : ${result.data}")
                     spf.edit {
                         putString("access_token", "Bearer " + result.data.accessToken)
+                        putString("socket_token",result.data.accessToken)
                         putString("nickname", result.data.user.nickname)
                         putInt("userId",result.data.user.userId)
                     }

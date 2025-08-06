@@ -2,9 +2,9 @@ package umc.onairmate.data.socket.listener
 
 import umc.onairmate.data.model.entity.ChatMessageData
 
-interface ChatEventListener {
+interface ChatRoomEventListener {
     fun onNewChat(data: ChatMessageData) {}
-    fun onBookmarkCreated(data: ChatMessageData) {}
     fun onError(message: String ){}
     fun onUserJoined(data : String){}
+    fun onUserLeft(data: Int){}
 }

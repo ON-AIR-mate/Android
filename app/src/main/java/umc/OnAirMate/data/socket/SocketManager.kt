@@ -11,10 +11,8 @@ object SocketManager {
     private var initialized = false
 
     fun init(url: String, token: String) {
-        Log.d(TAG, "token ${token}")
-        val t = "a3cf432329261a87130b1ffe0c751534a8da127ca2dc2a8080930a0fd55c6fde"
         val opts = IO.Options().apply {
-            auth = mapOf("token" to t)
+            auth = mapOf("token" to token)
         }
         socket = IO.socket(url, opts)
         initialized = true
@@ -45,7 +43,7 @@ object SocketManager {
     }
 
     fun emit(eventType: String, data: JSONObject) {
-        Log.d(TAG, "emit ${eventType} / data ${data}")
+        Log.d(TAG, "emit ${eventType} : ${data}")
         socket.emit(eventType, data)
     }
 

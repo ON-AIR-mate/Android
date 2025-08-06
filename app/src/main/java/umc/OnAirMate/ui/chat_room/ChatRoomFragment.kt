@@ -1,6 +1,5 @@
 package umc.onairmate.ui.chat_room
 
-import android.app.Activity
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,10 +12,8 @@ import androidx.fragment.app.viewModels
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import dagger.hilt.android.AndroidEntryPoint
-import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.databinding.FragmentChatRoomBinding
-import umc.onairmate.ui.chat_room.message.VideoChatFragment
 import umc.onairmate.ui.home.SearchRoomViewModel
 
 @AndroidEntryPoint
