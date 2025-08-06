@@ -6,7 +6,7 @@ import umc.onairmate.data.socket.BaseSocketHandler
 import umc.onairmate.data.socket.listener.ChatEventListener
 import umc.onairmate.data.util.parseJson
 
-class ChatMessageHandler(
+class ChatHandler(
     private val listener: ChatEventListener
 ) : BaseSocketHandler {
 
