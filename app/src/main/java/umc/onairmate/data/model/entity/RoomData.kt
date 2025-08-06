@@ -35,5 +35,7 @@ data class RoomData(
     @SerializedName("invitePermission")
     val invitePermission : String? = null,
     @SerializedName("createdAt")
-    val createdAt : String? = null
+    val createdAt : String? = null,
+    @SerializedName("videoId")
+    val videoId: String? = null
 ) : Parcelable

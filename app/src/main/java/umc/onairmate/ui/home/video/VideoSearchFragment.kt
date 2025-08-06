@@ -78,8 +78,8 @@ class VideoSearchFragment : Fragment() {
                 adapter = SearchedVideoRVAdapter(object : SearchVideoEventListener {
                     override fun createRoom(data: VideoData) {
                         // todo: 비디오 정보 받아오는 api 오류나서 임시조치 - 근데 오히려 좋은 것 같기도함..
-                        //searchVideoViewModel.getVideoDetailInfo(data.videoId)
-                        searchVideoViewModel.setVideoDetailInfo(data)
+                        searchVideoViewModel.getVideoDetailInfo(data.videoId)
+                        //searchVideoViewModel.setVideoDetailInfo(data)
                     }
                 })
                 binding.rvContents.adapter = adapter
