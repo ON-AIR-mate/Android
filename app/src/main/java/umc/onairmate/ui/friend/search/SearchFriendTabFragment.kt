@@ -1,5 +1,6 @@
 package umc.onairmate.ui.friend.search
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,6 +8,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -33,19 +37,12 @@ class SearchFriendTabFragment: Fragment() {
     ): View {
         _binding = FragmentSearchFriendTabBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        adapter = SearchUserRVAdapter { data, onSuccess, onError ->
+        adapter = SearchUserRVAdapter { data  ->
             val text = data.nickname + "님에게 친구요청을 보내시겠습니까?"
             val textList = listOf(text, "예", "아니오")
             val dialog = TwoButtonPopup(textList, object : PopupClick {
-                override fun rightClickFunction() {
-                    // 요청 취소 버튼
-                    onError()
-                }
-
                 override fun leftClickFunction() {
                     viewModel.requestFriend(data.userId)
-                    // 성공 시 UI 갱신
-                    onSuccess()
                 }
             }, false) // 뒤로가기 막을거면 false
             dialog.show(activity?.supportFragmentManager!!, "requestFriendPopup")
@@ -61,7 +58,8 @@ class SearchFriendTabFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.searchUser("")
+        binding.etInputNickname.setText("")
+        viewModel.searchUser(binding.etInputNickname.text.toString())
 
     }
 
@@ -71,6 +69,13 @@ class SearchFriendTabFragment: Fragment() {
             if (list == null) return@Observer
             adapter.initData(list)
             binding.layoutEmpty.visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
+        })
+        viewModel.result.observe(viewLifecycleOwner, Observer { message ->
+            if (message == null) return@Observer
+            viewModel.searchUser(binding.etInputNickname.text.toString())
+            Log.d(TAG,"test ${message}")
+            Toast.makeText(requireContext(),message, Toast.LENGTH_SHORT).show()
+            viewModel.clearResult()
         })
 
     }
@@ -83,9 +88,20 @@ class SearchFriendTabFragment: Fragment() {
             override fun afterTextChanged(s: Editable?) {
                 val input = binding.etInputNickname.text.toString()
                 viewModel.searchUser(input)
-                Log.d(TAG,"input : ${input}")
             }
         })
+
+        // 엔터누르면 입력 왼료되도록
+        binding.etInputNickname.setOnEditorActionListener{v, actionId, event ->
+            if(actionId == EditorInfo.IME_ACTION_DONE){
+                val imm = v.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(v.windowToken, 0)
+
+                v.clearFocus() // 포커스 제거
+                return@setOnEditorActionListener true
+            }
+            else return@setOnEditorActionListener  false
+        }
     }
 
     override fun onDestroyView() {

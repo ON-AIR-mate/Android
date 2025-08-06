@@ -10,5 +10,7 @@ data class UserData(
     @SerializedName("profileImage")
     val profileImage : String,
     @SerializedName("popularity")
-    val popularity : Int
+    val popularity : Int,
+    @SerializedName("requestStatus")
+    val requestStatus : String? = null
 )

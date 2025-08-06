@@ -15,15 +15,10 @@ import umc.onairmate.ui.friend.list.FriendListRVAdapter.RecyclerItem
 class FriendListRVAdapter(
     private val context : Context,
 ): ListAdapter<RecyclerItem, RecyclerView.ViewHolder>(FriendRVAdapterDiffCallback) {
-    private lateinit var itemClick: ItemClickListener
+    private lateinit var itemClick: FriendItemClickListener
 
-    interface ItemClickListener{
-        fun clickMessage()
-        fun clickMore()
-        fun acceptRequest(data: RequestedFriendData)
-    }
 
-    fun setItemClickListener(listener : ItemClickListener){
+    fun setItemClickListener(listener : FriendItemClickListener){
         itemClick = listener
     }
 

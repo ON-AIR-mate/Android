@@ -9,7 +9,7 @@ import umc.onairmate.databinding.RvItemSearchFriendBinding
 import umc.onairmate.ui.util.NetworkImageLoader
 
 class SearchUserRVAdapter(
-    private val itemClick : (UserData, onSuccess: () -> Unit, onError: () -> Unit) -> Unit
+    private val itemClick : (UserData) -> Unit
 ) : RecyclerView.Adapter<SearchUserRVAdapter.ViewHolder>() {
     private val items = ArrayList<UserData>()
     override fun onCreateViewHolder(
@@ -33,17 +33,18 @@ class SearchUserRVAdapter(
         fun bind(data : UserData){
             binding.tvUserNickname.text = data.nickname
             NetworkImageLoader.profileLoad(binding.ivProfile, data.profileImage)
+            when (data.requestStatus ){
+                "pending" -> {
+                    binding.btnRequestFriend.text = "요청 완료"
+                    binding.btnRequestFriend.isEnabled = false
+                }
+                else -> {
+                    binding.btnRequestFriend.text = "친구 요청"
+                    binding.btnRequestFriend.isEnabled = true
+                }
+            }
             binding.btnRequestFriend.setOnClickListener {
-                itemClick(data,
-                    {
-                        // onSuccess
-                        binding.btnRequestFriend.isEnabled = false
-                        binding.btnRequestFriend.text = "요청 완료"
-                    },
-                    {
-                        // onError
-                    })
-
+                itemClick(data)
             }
         }
     }
