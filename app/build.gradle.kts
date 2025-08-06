@@ -87,7 +87,7 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
 
     // 채팅용 Socket
-    implementation("io.socket:socket.io-client:2.0.0") {
+    implementation("io.socket:socket.io-client:2.1.0") {
         exclude(group = "org.json", module = "json") // 충돌 방지
     }
 }

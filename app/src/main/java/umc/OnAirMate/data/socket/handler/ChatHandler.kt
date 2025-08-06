@@ -12,8 +12,10 @@ class ChatHandler(
 
     override fun handle(type: String, data: JSONObject) {
         when (type) {
-            "NEW_MESSAGE" -> listener.onNewMessage(parseJson<ChatMessageData>(data))
+            "receiveRoomMessage" -> listener.onNewChat(parseJson<ChatMessageData>(data))
             "BOOKMARK_CREATED" -> listener.onBookmarkCreated(parseJson<ChatMessageData>(data))
+            "error" -> listener.onError(parseJson<String>(data))
+            "userJoined" -> listener.onUserJoined(parseJson<String>(data))
         }
     }
 }

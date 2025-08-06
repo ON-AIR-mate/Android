@@ -34,19 +34,32 @@ class ChatViewModel @Inject constructor(
     private val _chat = MutableLiveData<ChatMessageData>()
     val chat: LiveData<ChatMessageData> get() = _chat
 
-    init {
-        val chatHandler = ChatHandler(this)
-        SocketDispatcher.register("NEW_MESSAGE", chatHandler)
-        SocketDispatcher.register("BOOKMARK_CREATED", chatHandler)
-        Log.d(TAG, "connect chatRoom")
-    }
-
-    override fun onNewMessage(data: ChatMessageData) {
-        _chat.postValue( data)
-    }
     fun getToken(): String? {
         return spf.getString("access_token", null)
     }
+
+    init {
+        val chatHandler = ChatHandler(this)
+        SocketDispatcher.register("receiveRoomMessage", chatHandler)
+        SocketDispatcher.register("BOOKMARK_CREATED", chatHandler)
+        SocketDispatcher.register("error",chatHandler)
+        SocketDispatcher.register("userJoined",chatHandler)
+        Log.d(TAG, "connect chatRoom")
+    }
+
+    override fun onNewChat(data: ChatMessageData) {
+        Log.d(TAG,"onNewChat : ${data}")
+        _chat.postValue( data)
+    }
+
+    override fun onUserJoined(data: String) {
+        Log.d(TAG,"onUserJoined : ${data}")
+    }
+
+    override fun onError(message: String) {
+        Log.d(TAG,"error ${message}")
+    }
+
     // 초기 메시지 로드
     fun getChatHistory(roomId: Int) {
         viewModelScope.launch {
@@ -74,19 +87,30 @@ class ChatViewModel @Inject constructor(
         // 북마크 메시지 처리 로직 (필요 시 추가)
     }
 
-    fun sendMessage(roomId: Int, content: String) {
+    fun sendMessage(roomId: Int, nickname: String,content: String) {
         if (content.isBlank()) return
 
+        Log.d(TAG,"채팅 입력 ${content}")
         val json = JSONObject().apply {
-            put("type", "SEND_MESSAGE")
-            put("data", JSONObject().apply {
-                put("roomId", roomId)
-                put("content", content)
-                put("messageType", "GENERAL")
-            })
+            put("roomId", 2)
+            put("nickname", nickname)
+            put("content", content)
+            put("messageType", "general")
         }
-        SocketManager.emit("SEND_MESSAGE", json)
+
+        SocketManager.emit("sendRoomMessage", json)
     }
+
+    fun joinRoom(roomId: Int,nickname: String ){
+        Log.d(TAG,"joinRoom ${roomId}")
+        val json = JSONObject().apply {
+            put("roomId", 2)
+            put("nickname", nickname)
+        }
+        SocketManager.emit("enterRoom", json)
+    }
+
+
 
     override fun onCleared() {
         super.onCleared()

@@ -2,6 +2,7 @@ package umc.onairmate.ui.chat_room.message
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ class VideoChatFragment: Fragment() {
     private val binding get() = _binding!!
     private var userId : Int = 0
     private var roomId : Int = 0
+    private var nickname : String = ""
     lateinit var adapter : ChatRVAdapter
     private val viewModel: ChatViewModel by viewModels()
 
@@ -34,28 +36,35 @@ class VideoChatFragment: Fragment() {
         initData()
         setUpObserver()
 
-        adapter = ChatRVAdapter(id)
+        adapter = ChatRVAdapter(userId)
         binding.rvVideoChat.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
         binding.rvVideoChat.adapter = adapter
 
         binding.btnSend.setOnClickListener {
             val text = binding.etInputChat.text.toString()
-            viewModel.sendMessage(roomId,text)
+            viewModel.sendMessage(roomId, nickname, text)
             binding.etInputChat.setText("")
         }
-
-        viewModel.getChatHistory(roomId)
 
 
         return binding.root
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.joinRoom(roomId,nickname)
+    }
     private fun initData(){
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         userId = spf.getInt("userId", 0)
+        nickname = spf.getString("nickname","nickname")?:"user"
 
         setFragmentResultListener("room_data"){ requestkey, bunlde ->
+
             val result  = bunlde.getParcelable<RoomData>("room_data")
+
             roomId = result?.roomId ?:0
+            Log.d(TAG,"data ${result} / id : ${roomId}")
         }
 
     }

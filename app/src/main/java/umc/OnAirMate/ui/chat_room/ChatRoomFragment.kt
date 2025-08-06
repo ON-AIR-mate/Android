@@ -31,6 +31,7 @@ class ChatRoomFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         roomData = arguments?.getParcelable("room_data", RoomData::class.java)!!
+        initChat()
     }
 
     override fun onCreateView(
@@ -39,7 +40,7 @@ class ChatRoomFragment : Fragment() {
     ): View {
         binding = FragmentChatRoomBinding.inflate(inflater, container, false)
 
-        initChat()
+
         initPlayer()
         initScreen()
         onClickSetting()
