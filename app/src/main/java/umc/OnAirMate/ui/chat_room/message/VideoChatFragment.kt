@@ -2,7 +2,6 @@ package umc.onairmate.ui.chat_room.message
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,6 +44,8 @@ class VideoChatFragment: Fragment() {
             binding.etInputChat.setText("")
         }
 
+        viewModel.getChatHistory(roomId)
+
 
         return binding.root
     }
@@ -60,9 +61,14 @@ class VideoChatFragment: Fragment() {
     }
 
     private fun setUpObserver() {
-        viewModel.messages.observe(viewLifecycleOwner) { list ->
+        viewModel.chatHistory.observe(viewLifecycleOwner) { list ->
             if (list == null) return@observe
+            adapter.initChatHistory(list)
+        }
 
+        viewModel.chat.observe(viewLifecycleOwner) { data ->
+            if (data == null) return@observe
+            adapter.addChat(data)
         }
     }
 

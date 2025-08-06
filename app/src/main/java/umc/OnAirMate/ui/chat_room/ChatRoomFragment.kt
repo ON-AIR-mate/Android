@@ -85,11 +85,6 @@ class ChatRoomFragment : Fragment() {
         val bundle = Bundle()
         bundle.putParcelable("room_data", roomData)
         setFragmentResult("room_data", bundle)
-//        val chat = VideoChatFragment()
-//        chat.arguments = bundle
-//        requireActivity().getSupportFragmentManager().beginTransaction()
-//            .replace(R.id.fragment_container, chat)
-//            .commit()
 
     }
 }

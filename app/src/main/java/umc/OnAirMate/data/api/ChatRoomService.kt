@@ -5,6 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import umc.onairmate.data.model.entity.ChatMessageData
 import umc.onairmate.data.model.entity.ParticipantData
 import umc.onairmate.data.model.entity.RoomSettingData
 import umc.onairmate.data.model.response.MessageResponse
@@ -27,4 +28,11 @@ interface ChatRoomService {
     ): RawDefaultResponse<List<ParticipantData>>
 
     // ai 요약이랑 북마크 생성도 여긴가?
+
+    // 채팅 로그 조회
+    @GET("rooms/{roomId}/messages")
+    suspend fun getChatHistory(
+        @Header("Authorization") accessToken: String,
+        @Path("roomId") roomId: Int,
+    ): RawDefaultResponse<List<ChatMessageData>>
 }

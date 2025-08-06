@@ -65,7 +65,7 @@ class ChatRVAdapter(
         items.add(chat)
         notifyItemInserted(items.size-1)
     }
-    fun setMessages(newMessages: List<ChatMessageData>) {
+    fun initChatHistory(newMessages: List<ChatMessageData>) {
         items.clear()
         items.addAll(newMessages)
         notifyDataSetChanged()
