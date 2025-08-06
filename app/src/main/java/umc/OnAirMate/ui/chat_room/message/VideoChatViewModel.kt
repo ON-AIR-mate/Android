@@ -95,13 +95,22 @@ class VideoChatViewModel @Inject constructor(
         SocketManager.getSocket().emit("sendRoomMessage", json)
     }
 
-    fun joinRoom(roomId: Int,nickname: String ){
+    fun joinRoom(roomId: Int,nickname: String, isVisited: Boolean = false){
         Log.d(TAG,"joinRoom ${roomId}")
+        val type = if(isVisited) "enterRoom" else "joinRoom"
         val json = JSONObject().apply {
             put("roomId", 2)
             put("nickname", nickname)
         }
-        SocketManager.getSocket().emit("enterRoom", json)
+        SocketManager.getSocket().emit(type, json)
+    }
+
+    fun leaveRoom(roomId: Int){
+        Log.d(TAG,"joinRoom ${roomId}")
+        val json = JSONObject().apply {
+            put("roomId", roomId)
+        }
+        SocketManager.getSocket().emit("leaveRoom", json)
     }
 
 

@@ -35,6 +35,7 @@ class VideoChatFragment: Fragment() {
     ): View {
         _binding = FragmentVideoChatBinding.inflate(inflater, container, false)
 
+        Log.d(TAG,"Created")
         initData()
         setUpObserver()
 
@@ -51,13 +52,12 @@ class VideoChatFragment: Fragment() {
             binding.etInputChat.setText("")
         }
 
-
+        //viewModel.joinRoom(roomId,nickname)
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.joinRoom(roomId,nickname)
     }
 
     private fun initData(){
@@ -72,6 +72,8 @@ class VideoChatFragment: Fragment() {
             roomId = result?.roomId ?:0
             Log.d(TAG,"data ${result} / id : ${roomId}")
         }
+        Log.d(TAG,"id : ${roomId}")
+        viewModel.joinRoom(roomId,nickname)
 
     }
 
@@ -89,6 +91,7 @@ class VideoChatFragment: Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        viewModel.leaveRoom(roomId) // 방 나가기 (Socket)
         SocketDispatcher.unregisterHandler(SocketManager.getSocket(), viewModel.getHandler())
         _binding = null
     }
