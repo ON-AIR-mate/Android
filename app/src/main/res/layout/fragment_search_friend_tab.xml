@@ -26,6 +26,9 @@
             android:hint="닉네임을 검색해주세요"
             android:textAppearance="@style/TextAppearance.App.Regular.14sp"
             android:textColorHint="@color/black"
+            android:maxLines="1"
+            android:inputType="text"
+            android:imeOptions="actionDone"
             android:background="@null"
             android:layout_marginStart="10dp"/>
 

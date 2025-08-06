@@ -37,8 +37,8 @@ class FriendViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _isSuccess = MutableLiveData<Boolean>()
-    val isSuccess: LiveData<Boolean> = _isSuccess
+    private val _result = MutableLiveData<String?>()
+    val result: LiveData<String?> = _result
 
     fun getToken(): String? {
         return spf.getString("access_token", null)
@@ -46,8 +46,8 @@ class FriendViewModel @Inject constructor(
 
     private fun initDummyFriend() : List<FriendData>{
         val dummy = arrayListOf<FriendData>()
-        dummy.add(FriendData(19,"이현서","",0,false))
-        dummy.add(FriendData(20,"맥그로우","",0,true))
+        for(i in 1..20)
+            dummy.add(FriendData(19,"이현서","",0,false))
         return dummy
     }
     private fun initDummyRequest() : List<RequestedFriendData>{
@@ -56,6 +56,10 @@ class FriendViewModel @Inject constructor(
             dummy.add(RequestedFriendData(i,i,"request${i}","",0,"time"))
         }
         return dummy
+    }
+
+    fun clearResult(){
+        _result.value=null
     }
 
     fun getFriendList(){
@@ -76,7 +80,7 @@ class FriendViewModel @Inject constructor(
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
-                    _friendList.postValue(initDummyFriend())
+                    _friendList.postValue(emptyList())
                 }
             }
             _isLoading.value = false
@@ -127,9 +131,7 @@ class FriendViewModel @Inject constructor(
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
-                    val dummy = listOf<UserData>(UserData(12,"red","",1))
-                    if(nickname == "red")  _searchedUserList.postValue(dummy)
-                    else _searchedUserList.postValue(emptyList<UserData>())
+                    _searchedUserList.postValue(emptyList<UserData>())
                 }
             }
             _isLoading.value = false
@@ -150,11 +152,11 @@ class FriendViewModel @Inject constructor(
             when (result) {
                 is DefaultResponse.Success -> {
                     Log.d(TAG,"응답 성공 : ${result.data}")
-                    _isSuccess.postValue(true)
+                    _result.postValue(result.data.message)
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
-                    _isSuccess.postValue(false)
+                    _result.postValue(result.message)
                 }
             }
             _isLoading.value = false
@@ -175,11 +177,36 @@ class FriendViewModel @Inject constructor(
             when (result) {
                 is DefaultResponse.Success -> {
                     Log.d(TAG,"응답 성공 : ${result.data}")
-                    _isSuccess.postValue(true)
+                    _result.postValue(result.data.message)
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
-                    _isSuccess.postValue(false)
+                    _result.postValue(result.message)
+                }
+            }
+            _isLoading.value = false
+        }
+    }
+
+    fun deleteFriend(userId : Int){
+        viewModelScope.launch {
+            _isLoading.value = true
+            val token = getToken()
+            if (token == null) {
+                Log.e(TAG, "토큰이 없습니다")
+                _isLoading.value = false
+                return@launch
+            }
+            val result = repository.deleteFriend(token,userId)
+            Log.d(TAG, "deleteFriend api 호출")
+            when (result) {
+                is DefaultResponse.Success -> {
+                    Log.d(TAG,"응답 성공 : ${result.data}")
+                    _result.postValue(result.data.message)
+                }
+                is DefaultResponse.Error -> {
+                    Log.e(TAG, "에러: ${result.code} - ${result.message} ")
+                    _result.postValue(result.message)
                 }
             }
             _isLoading.value = false
