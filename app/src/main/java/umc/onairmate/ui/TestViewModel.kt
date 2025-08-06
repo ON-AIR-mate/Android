@@ -48,7 +48,7 @@ class TestViewModel @Inject constructor(
 
     fun login(id: String, pw: String){
         viewModelScope.launch {
-            val body = LoginData(username = "onairmate1", password = "onairmate1Q!")
+            val body = LoginData(username = id, password = pw)
             val result = repository.login(body)
             Log.d(TAG, "login api 호출")
             when (result) {
