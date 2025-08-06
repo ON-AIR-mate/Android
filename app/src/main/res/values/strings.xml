@@ -32,4 +32,7 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
 
+    <string name="empty_icon">비어있는 아이콘</string>
+
+
 </resources>
