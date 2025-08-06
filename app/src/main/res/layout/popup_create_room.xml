@@ -28,16 +28,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="영상 제목"
+                android:layout_weight="1"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:textAppearance="@style/TextAppearance.App.Medium.14sp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
 
             <ImageView
                 android:id="@+id/iv_close"
-                android:layout_width="15dp"
+                android:layout_width="20dp"
                 android:layout_height="15dp"
                 android:src="@drawable/btn_close"
                 app:tint="@color/text3"
@@ -58,17 +56,29 @@
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.App.Regular.12sp"
             android:hint="방 제목을 입력하세요. (3~20자)"
+            android:maxLines="1"
             android:textColorHint="@color/black"
             android:background="@drawable/background_input_text"
             android:paddingVertical="5dp"
             android:paddingStart="5dp" />
+
+        <TextView
+            android:id="@+id/tv_title_length_error_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="방 제목은 3자 이상 20자 이하로 입력해야 해요."
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="2dp"
+            android:textColor="@color/main"
+            android:visibility="invisible"
+            android:textAppearance="@style/TextAppearance.App.Medium.12sp" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="start"
-            android:layout_marginTop="14dp"
             android:layout_marginBottom="5dp">
 
             <TextView
@@ -119,7 +129,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_ok"
             android:layout_width="150dp"
-            android:layout_height="22dp"
+            android:layout_height="27dp"
             android:background="@drawable/background_box_5dp"
             android:backgroundTint="@color/main"
             android:text="ON AIR"

@@ -81,7 +81,6 @@ class VideoSearchFragment : Fragment() {
                         // todo: 비디오 정보 받아오는 api 오류나서 임시조치 - 근데 오히려 좋은 것 같기도함..
                         //searchVideoViewModel.getVideoDetailInfo(data.videoId)
                         searchVideoViewModel.setVideoDetailInfo(data)
-                        showCreateRoomPopup(data)
                     }
                 })
                 binding.rvContents.adapter = adapter
@@ -98,17 +97,22 @@ class VideoSearchFragment : Fragment() {
                 binding.layoutEmpty.visibility = View.GONE
             }
         }
+
         searchVideoViewModel.videoDetailInfo.observe(viewLifecycleOwner) { data ->
             if (data == null) return@observe
             Log.d("Check", "observe triggered with data: $data")
             showCreateRoomPopup(data)
-            searchVideoViewModel.clearVideoDetailInfo()
-         }
+        }
+
     }
+
+
 
     // 방 생성 팝업 띄우기
     private fun showCreateRoomPopup(data : VideoData){
+        searchVideoViewModel.clearVideoDetailInfo()
         Log.d("Check", "showCreateRoomPopup called")
+
         val dialog = CreateRoomPopup(data, object : CreateRoomCallback {
             override fun onCreateRoom(body: CreateRoomRequest) {
                 var roomId = 0
@@ -116,11 +120,13 @@ class VideoSearchFragment : Fragment() {
                 searchVideoViewModel.createRoom(body)
                 searchVideoViewModel.createdRoomInfo.observe(viewLifecycleOwner) { data ->
                     roomId = data.roomId
+                    // 방 정보 받아오기
+                    searchRoomViewModel.getRoomDetailInfo(roomId)
                 }
 
-                // 방 정보 받아와 채팅방 화면 열기
-                searchRoomViewModel.getRoomDetailInfo(roomId)
+                // 채팅방 화면 열기
                 searchRoomViewModel.roomDetailInfo.observe(viewLifecycleOwner) { data ->
+                    Log.d("Check", "roomDetailInfo called")
                     val roomData = data ?: RoomData()
 
                     val intent = Intent(requireActivity(), ChatRoomLayoutActivity::class.java).apply {

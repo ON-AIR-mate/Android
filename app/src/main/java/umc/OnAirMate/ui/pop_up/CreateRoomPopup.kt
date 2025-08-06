@@ -27,6 +27,7 @@ private val createRoomCallback : CreateRoomCallback
 
     var isPrivate : Boolean = false
     var roomTitle: String = ""
+    var textLength: Int = 0
 
     private var editRunnable: Runnable? = null
     private val editHandler = Handler(Looper.getMainLooper())
@@ -62,19 +63,24 @@ private val createRoomCallback : CreateRoomCallback
     // 팝업 버튼 클릭리스너
     private fun setOnClickListener() {
         binding.btnOk.setOnClickListener {
-            val maxParticipantPosition = binding.spMaximumParticipant.selectedItemPosition
+            if (textLength in 3..20) {
+                val maxParticipantPosition = binding.spMaximumParticipant.selectedItemPosition
 
-            val roomData = CreateRoomRequest(
-                roomName = binding.etInputRoomTitle.text.toString(),
-                maxParticipants = maxParticipants[maxParticipantPosition].toInt(),
-                isPrivate = isPrivate,
-                videoId = data.videoId,
-            )
+                val roomData = CreateRoomRequest(
+                    roomName = binding.etInputRoomTitle.text.toString(),
+                    maxParticipants = maxParticipants[maxParticipantPosition].toInt(),
+                    isPrivate = isPrivate,
+                    videoId = data.videoId,
+                )
 
-            createRoomCallback.onCreateRoom(roomData)
+                createRoomCallback.onCreateRoom(roomData)
 
-            // 모든 함수 수행 후 팝업 닫기
-            dismiss()
+                // 모든 함수 수행 후 팝업 닫기
+                dismiss()
+            } else {
+                binding.tvTitleLengthErrorMsg.visibility = View.VISIBLE
+            }
+
         }
         binding.ivClose.setOnClickListener {
             dismiss()
@@ -106,6 +112,7 @@ private val createRoomCallback : CreateRoomCallback
         binding.etInputRoomTitle.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                textLength = s?.length ?: 0
             }
             override fun afterTextChanged(s: Editable?) {
                 editRunnable?.let { editHandler.removeCallbacks(it) }
@@ -116,6 +123,7 @@ private val createRoomCallback : CreateRoomCallback
                 editHandler.postDelayed(editRunnable!!, 300) // 300ms 디바운스
             }
         })
+        binding.etInputRoomTitle
     }
 
     // 팝업 띄우는 화면용 함수 -> 복붙하여 사용
