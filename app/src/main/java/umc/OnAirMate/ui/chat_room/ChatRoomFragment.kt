@@ -8,12 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import dagger.hilt.android.AndroidEntryPoint
+import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.databinding.FragmentChatRoomBinding
+import umc.onairmate.ui.chat_room.message.VideoChatFragment
 import umc.onairmate.ui.home.SearchRoomViewModel
 
 @AndroidEntryPoint
@@ -36,6 +39,7 @@ class ChatRoomFragment : Fragment() {
     ): View {
         binding = FragmentChatRoomBinding.inflate(inflater, container, false)
 
+        initChat()
         initPlayer()
         initScreen()
         onClickSetting()
@@ -74,5 +78,18 @@ class ChatRoomFragment : Fragment() {
                 youTubePlayer.loadVideo(videoId, 0f) // todo: RoomData duration 연동
             }
         })
+    }
+
+    // 채팅창에 번들 전달
+    private fun initChat() {
+        val bundle = Bundle()
+        bundle.putParcelable("room_data", roomData)
+        setFragmentResult("room_data", bundle)
+//        val chat = VideoChatFragment()
+//        chat.arguments = bundle
+//        requireActivity().getSupportFragmentManager().beginTransaction()
+//            .replace(R.id.fragment_container, chat)
+//            .commit()
+
     }
 }

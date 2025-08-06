@@ -12,7 +12,7 @@ data class ChatMessageData(
     @SerializedName("nickname")
     val nickname: String,
     @SerializedName("profileImage")
-    val profileImage: String?,
+    val profileImage: String,
     @SerializedName("content")
     val content: String,
     @SerializedName("messageType")

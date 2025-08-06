@@ -57,6 +57,7 @@ class TestViewModel @Inject constructor(
                     spf.edit {
                         putString("access_token", "Bearer " + result.data.accessToken)
                         putString("nickname", result.data.user.nickname)
+                        putInt("userId",result.data.user.userId)
                     }
                     _isSuccess.postValue(true)
                 }
