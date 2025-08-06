@@ -2,13 +2,16 @@ package umc.onairmate.ui.friend.list
 
 import androidx.fragment.app.Fragment
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.data.model.entity.RequestedFriendData
 import umc.onairmate.databinding.FragmentFriendListTabBinding
 import umc.onairmate.ui.friend.FriendViewModel
@@ -87,33 +90,50 @@ class FriendListTabFragment() : Fragment() {
             binding.layoutEmpty.visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
             adapter.initRequestList(list)
         })
+
+        viewModel.result.observe(viewLifecycleOwner, Observer { message ->
+            if (message == null) return@Observer
+            initData()
+            Toast.makeText(requireContext(),message, Toast.LENGTH_SHORT).show()
+            viewModel.clearResult()
+        })
     }
 
     private fun setAdapter(){
         adapter = FriendListRVAdapter(requireContext())
-        adapter.setItemClickListener(object: FriendListRVAdapter.ItemClickListener{
-            override fun clickMessage() {
-                // TODO("Not yet implemented")
-            }
-
-            override fun clickMore() {
-                // TODO("Not yet implemented")
+        adapter.setItemClickListener(object: FriendItemClickListener{
+            override fun clickMessage(data: FriendData) {
+                // 인탠트 필요
             }
 
             override fun acceptRequest(data: RequestedFriendData) {
                 val text = data.nickname+"님의 친구요청을 수락하시겠습니까?"
                 val textList = listOf(text,"수락","거절")
-                val dialog = TwoButtonPopup(textList,object : PopupClick{
-                    override fun rightClickFunction() {
-                        // 실행하고자 하는 함수 있으면 overriding
-                        viewModel.acceptFriend(data.userId, "ACCEPT")
-                    }
+                showPopup(
+                    text =textList,
+                    left = {  viewModel.acceptFriend(data.userId, "REJECT") },
+                    right = { viewModel.acceptFriend(data.userId, "ACCEPT")} )
+            }
 
-                    override fun leftClickFunction() {
-                        viewModel.acceptFriend(data.userId, "REJECT")
-                    }
-                }, false) // 뒤로 가기 막고 싶으면 false 넣어주세요, 아니면 생략가능합니다.
-                dialog.show(activity?.supportFragmentManager!!, "FriendAcceptPopup")
+            override fun clickCollection(data: FriendData) {
+                // 인탠트 필요
+            }
+            override fun clickDelete(data: FriendData) {
+                val text = data.nickname+"님을 친구 목록에서 삭제하시겠습니까?"
+                val textList = listOf(text,"예","아니오")
+                showPopup(text =textList, left = { viewModel.deleteFriend(data.userId) }, right = {} )
+            }
+
+            override fun clickBlock(data: FriendData) {
+                val text = data.nickname+"님을 차단하시겠습니까?"
+                val textList = listOf(text,"예","아니오")
+                showPopup(text =textList, left = {  }, right = {} )
+            }
+
+            override fun clickReport(data: FriendData) {
+                val text = data.nickname+"님을 신고하시겠습니까?"
+                val textList = listOf(text,"예","아니오")
+                showPopup(text =textList, left = {  }, right = {} )
             }
 
         })
@@ -121,9 +141,15 @@ class FriendListTabFragment() : Fragment() {
         binding.rvFriendList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
-    // 팝업창 실행할 곳에 넣을 함수 예시 (팝업 띄울 위치에 복붙해서 사용하면 됩니다!
-    private fun popup() {
 
+    private fun showPopup(text : List<String>, right : ()-> Unit?, left: () -> Unit?) {
+        val dialog = TwoButtonPopup(text,object : PopupClick{
+            override fun rightClickFunction() { right() }
+            override fun leftClickFunction() {
+                left()
+            }
+        }, false) // 뒤로 가기 막고 싶으면 false 넣어주세요, 아니면 생략가능합니다.
+        dialog.show(activity?.supportFragmentManager!!, "FriendPopup")
     }
 
 }
