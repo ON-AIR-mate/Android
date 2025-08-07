@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -58,14 +59,17 @@ class ChatRoomSettingFragment : Fragment() {
         chatRoomViewModel.getRoomSetting(roomData.roomId)
 
         chatRoomViewModel.roomSettingDataInfo.observe(viewLifecycleOwner) { data ->
-            val roomSetting = data ?: RoomSettingData()
+            if (data == null) {
+                Toast.makeText(context, "설정을 불러오는데 실패했습니다.", Toast.LENGTH_SHORT).show()
+            }
+            val roomSetting = data
 
             val currentMaxParticipant = roomSetting.maxParticipants.toString()
             var position = maxParticipants.indexOf(currentMaxParticipant).takeIf { it >= 0 } ?: 0
             binding.spMaximumParticipant.setSelection(position)
 
-            val currentInVitePreset = roomSetting.invitePermission
-            position = inviteOptions.indexOf(currentInVitePreset).takeIf { it >= 0 } ?: 0
+            val currentInvitePreset = roomSetting.invitePermission
+            position = inviteOptions.indexOf(currentInvitePreset).takeIf { it >= 0 } ?: 0
             binding.spInviteSetting.setSelection(position)
 
             if (roomSetting.autoArchiving) setAutoArchiveOnClickListener() else setAutoArchiveOffClickListener()
