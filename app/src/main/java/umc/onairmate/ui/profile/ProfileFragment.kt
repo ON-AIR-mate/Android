@@ -47,9 +47,12 @@ class ProfileFragment : Fragment() {
             Toast.makeText(requireContext(), "추천 및 제재에 따라 인기도가 조정됩니다.", Toast.LENGTH_LONG).show()
         }
 
+        /*
         binding.layoutMyRooms.setOnClickListener {
             // 참여한 방 이동
         }
+
+         */
 
         binding.tvNicknameValue.text = nickname
 
