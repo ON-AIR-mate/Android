@@ -8,7 +8,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import umc.onairmate.data.model.entity.ChatMessageData
 import umc.onairmate.data.model.response.DefaultResponse
@@ -41,20 +43,40 @@ class VideoChatViewModel @Inject constructor(
     fun getHandler(): ChatRoomHandler = handler
 
     override fun onNewChat(chatMessage: ChatMessageData) {
-        Log.d(TAG,"onNewChat : ${chatMessage}")
-        _chat.postValue( chatMessage)
+        viewModelScope.launch(Dispatchers.Default) {
+            withContext(Dispatchers.Main) {
+                Log.d(TAG,"onNewChat : ${chatMessage}")
+                _chat.postValue(chatMessage)
+            }
+        }
+
     }
 
     override fun onUserJoined(data: String) {
-        Log.d(TAG,"onUserJoined : ${data}")
+        viewModelScope.launch(Dispatchers.Default) {
+            withContext(Dispatchers.Main) {
+                Log.d(TAG,"onUserJoined : ${data}")
+            }
+        }
+
     }
 
     override fun onError(errorMessage: String) {
-        Log.d(TAG,"error ${errorMessage}")
+        viewModelScope.launch(Dispatchers.Default) {
+            withContext(Dispatchers.Main) {
+                Log.d(TAG,"error ${errorMessage}")
+            }
+        }
+
     }
 
     override fun onUserLeft(data: Int) {
-        Log.d(TAG,"onUserLeft ${data}")
+        viewModelScope.launch(Dispatchers.Default) {
+            withContext(Dispatchers.Main) {
+                Log.d(TAG,"onUserLeft ${data}")
+            }
+        }
+
     }
 
     // 초기 메시지 로드
