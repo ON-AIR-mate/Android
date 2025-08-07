@@ -18,7 +18,6 @@ import umc.onairmate.databinding.FragmentChatRoomSidePannelBinding
 import umc.onairmate.databinding.PopupInviteFriendBinding
 import umc.onairmate.ui.chat_room.drawer.ChatRoomParticipantsFragment
 import umc.onairmate.ui.chat_room.drawer.ChatRoomSettingFragment
-import umc.onairmate.ui.chat_room.drawer.InviteFriendRVAdapter
 import umc.onairmate.ui.friend.FriendViewModel
 
 @AndroidEntryPoint
@@ -98,7 +97,7 @@ class ChatRoomDrawerFragment : Fragment() {
             // 2. 친구 리스트를 리사이클러뷰 어댑터로 연결
             val adapter = InviteFriendRVAdapter(friendList, {
                 // 3. 친구 초대 api 요청
-                // todo: 친구 초대 api인지 소켓인지 구현 방식 정해지고 넣기
+                friendViewModel.inviteFriend(it.userId)
                 // 4. 초대 이후 로직 (메시지를 띄운다던가..)
                 Toast.makeText(this.context, "${it.nickname}님에게 초대를 발송했습니다.", Toast.LENGTH_SHORT).show()
                 popupWindow.dismiss()

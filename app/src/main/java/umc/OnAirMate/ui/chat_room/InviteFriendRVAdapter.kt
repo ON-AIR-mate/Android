@@ -1,4 +1,4 @@
-package umc.onairmate.ui.chat_room.drawer
+package umc.onairmate.ui.chat_room
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
