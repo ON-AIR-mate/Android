@@ -41,14 +41,14 @@ class HomeRepositoryImpl  @Inject constructor(
     override suspend fun joinRoom(
         accessToken: String,
         roomId: Int
-    ): DefaultResponse<MessageResponse> {
+    ): DefaultResponse<String> {
         return safeApiCall{api.joinRoom(accessToken, roomId)}
     }
 
     override suspend fun leaveRoom(
         accessToken: String,
         roomId: Int
-    ): DefaultResponse<MessageResponse> {
+    ): DefaultResponse<String> {
         return safeApiCall{api.leaveRoom(accessToken, roomId)}
     }
 

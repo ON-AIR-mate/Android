@@ -40,13 +40,13 @@ interface HomeService {
     suspend fun joinRoom(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId : Int
-    ): RawDefaultResponse<MessageResponse>
+    ): RawDefaultResponse<String>
 
     @POST("rooms/{roomId}/leave")
     suspend fun leaveRoom(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId : Int
-    ): RawDefaultResponse<MessageResponse>
+    ): RawDefaultResponse<String>
 
     // 영상 검색
     @GET("youtube/search")

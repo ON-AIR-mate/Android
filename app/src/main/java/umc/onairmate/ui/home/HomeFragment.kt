@@ -126,7 +126,6 @@ class HomeFragment : Fragment() {
 
         searchViewModel.roomDetailInfo.observe(viewLifecycleOwner){data ->
             if (data == null) return@observe
-            Log.d(TAG,"emit : ${data}")
             showJoinRoomPopup(data)
             searchViewModel.clearRoomDetailInfo()
         }
