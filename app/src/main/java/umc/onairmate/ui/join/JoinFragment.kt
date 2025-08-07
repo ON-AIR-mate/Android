@@ -1,11 +1,13 @@
-package umc.OnAirMate.ui.join
+package umc.onairmate.ui.join
 
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import umc.onairmate.R
 import umc.onairmate.databinding.FragmentJoinBinding
 
@@ -21,22 +23,19 @@ class JoinFragment : Fragment() {
 
         setupCheckBoxLogic()
         setupArrowClickListeners()
+        setupJoinButton()
 
         return binding.root
     }
 
     private fun setupCheckBoxLogic() = with(binding) {
-        // 전체 체크박스가 변경될 때 개별 체크박스들 모두 변경
-        allAgreeCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            serviceCheckBox.isChecked = isChecked
-            privacyCheckBox.isChecked = isChecked
-            privacyProcessCheckBox.isChecked = isChecked
-            marketingCheckBox.isChecked = isChecked
-            eventCheckBox.isChecked = isChecked
-        }
+        val allRequiredCheckBoxes = listOf(
+            serviceCheckBox,
+            privacyCheckBox,
+            privacyProcessCheckBox
+        )
 
-        // 개별 체크박스 리스트
-        val individualCheckBoxes = listOf(
+        val allCheckBoxes = listOf(
             serviceCheckBox,
             privacyCheckBox,
             privacyProcessCheckBox,
@@ -44,11 +43,36 @@ class JoinFragment : Fragment() {
             eventCheckBox
         )
 
-        // 개별 체크박스들 상태에 따라 전체 체크박스 갱신
-        individualCheckBoxes.forEach { checkBox ->
+        // 전체 동의 클릭 시
+        allAgreeCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            allCheckBoxes.forEach { it.isChecked = isChecked }
+            updateJoinButtonState()
+        }
+
+        // 개별 체크박스가 바뀔 때
+        allCheckBoxes.forEach { checkBox ->
             checkBox.setOnCheckedChangeListener { _, _ ->
-                allAgreeCheckBox.isChecked = individualCheckBoxes.all { it.isChecked }
+                // 전체 동의 상태 갱신
+                allAgreeCheckBox.isChecked = allCheckBoxes.all { it.isChecked }
+                updateJoinButtonState()
             }
+        }
+    }
+
+    private fun updateJoinButtonState() = with(binding) {
+        val requiredChecked = serviceCheckBox.isChecked &&
+                privacyCheckBox.isChecked &&
+                privacyProcessCheckBox.isChecked
+
+        joinBtn.isEnabled = requiredChecked
+        joinBtn.setBackgroundResource(
+            if (requiredChecked) R.color.main else R.color.disable
+        )
+    }
+
+    private fun setupJoinButton() = with(binding) {
+        joinBtn.setOnClickListener {
+            findNavController().navigate(R.id.fragment_join_profile)
         }
     }
 

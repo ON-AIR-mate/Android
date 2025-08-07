@@ -6,7 +6,7 @@
     android:id="@+id/layoutscroll">
 
     <LinearLayout
-        android:id="@+id/fragment_container"
+        android:id="@+id/fragment_join_profile"
         android:orientation="vertical"
         android:padding="24dp"
         android:layout_width="match_parent"

@@ -229,7 +229,10 @@
                 android:id="@+id/join_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="완료" />
+                android:backgroundTint="@color/disable"
+                android:text="완료"
+                android:textColor="@color/white"
+                android:enabled="false" />
 
         </LinearLayout>
     </LinearLayout>
