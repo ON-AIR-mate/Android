@@ -24,24 +24,30 @@ object SocketManager {
         if (currentSocket.connected()) return
         currentSocket.off()
         currentSocket.on(Socket.EVENT_CONNECT) {
-            Log.d("SocketManager", "Socket connected")
+            Log.d(TAG, "Socket connected")
         }
         currentSocket.on(Socket.EVENT_DISCONNECT) {
-            Log.d("SocketManager", "Socket disconnected")
+            Log.d(TAG, "Socket disconnected")
         }
         currentSocket.on(Socket.EVENT_CONNECT_ERROR) { args ->
-            Log.e("SocketManager", "Socket connect error: ${args.joinToString()}")
+            Log.e(TAG, "Socket connect error: ${args.joinToString()}")
         }
 
         currentSocket.connect()
     }
 
     fun disconnect() {
-        if (!initialized) return
-        socket.disconnect()
-        socket.off() // 모든 리스너 제거
-        Log.d("SocketManager", "Socket manually disconnected")
+        try {
+            socket?.let {
+                it.disconnect()
+                it.off()
+                Log.d(TAG, "Socket manually disconnected")
+            } ?: Log.w(TAG, "Socket is null - no action taken")
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to disconnect socket", e)
+        }
     }
+
 
     fun emit(eventType: String, data: JSONObject) {
         val currentSocket = socket
@@ -52,6 +58,8 @@ object SocketManager {
         Log.d(TAG, "emit ${eventType} : ${data}")
         currentSocket.emit(eventType, data)
     }
+
+    fun getSocketOrNull(): Socket? = socket
 
     fun getSocket(): Socket? = socket
 

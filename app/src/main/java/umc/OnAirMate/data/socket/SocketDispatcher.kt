@@ -12,18 +12,19 @@ object SocketDispatcher {
 
     /** 핸들러 등록 (필요 시점에 호출) */
     fun registerHandler(socket: Socket, handler: SocketHandler) {
-        activeHandlers.add(handler)
+        if (!activeHandlers.contains(handler)) {
+            activeHandlers.add(handler)
+        }
+
         handler.getEventMap().forEach { (eventName, callback) ->
+            socket.off(eventName) // 먼저 기존 리스너 제거 (중복 방지)
+
             socket.on(eventName) { args ->
                 if (args.isNotEmpty() && args[0] is JSONObject) {
-                    socket.on(eventName) { args ->
-                        if (args.isNotEmpty() && args[0] is JSONObject) {
-                            try {
-                                callback(args[0] as JSONObject)
-                            } catch (e: Exception) {
-                                Log.e("SocketDispatcher", "Error in event callback for $eventName", e)
-                            }
-                        }
+                    try {
+                        callback(args[0] as JSONObject)
+                    } catch (e: Exception) {
+                        Log.e("SocketDispatcher", "Error in event callback for $eventName", e)
                     }
                 }
             }
@@ -32,11 +33,16 @@ object SocketDispatcher {
 
 
     fun unregisterHandler(socket: Socket, handler: SocketHandler) {
-        handler.getEventMap().keys.forEach { eventName ->
-            socket.off(eventName)
+        try {
+            handler.getEventMap().keys.forEach { eventName ->
+                socket.off(eventName)
+            }
+            activeHandlers.remove(handler)
+        } catch (e: Exception) {
+            Log.e("SocketDispatcher", "Failed to unregister handler", e)
         }
-        activeHandlers.remove(handler)
     }
+
 
 
 

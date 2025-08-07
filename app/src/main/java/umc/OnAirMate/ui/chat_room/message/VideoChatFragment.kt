@@ -39,7 +39,10 @@ class VideoChatFragment: Fragment() {
         setUpObserver()
 
         // 소켓 연결
-        SocketDispatcher.registerHandler(SocketManager.getSocket(), viewModel.getHandler())
+        val socket = SocketManager.getSocketOrNull()
+        if (socket?.connected() == true) {
+            SocketDispatcher.registerHandler(socket, viewModel.getHandler())
+        }
 
         adapter = ChatRVAdapter(userId)
         binding.rvVideoChat.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
@@ -88,7 +91,11 @@ class VideoChatFragment: Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.leaveRoom(roomId) // 방 나가기 (Socket)
-        SocketDispatcher.unregisterHandler(SocketManager.getSocket(), viewModel.getHandler())
+        SocketManager.getSocketOrNull()?.let { socket ->
+            if (socket.connected()) {
+                SocketDispatcher.unregisterHandler(socket, viewModel.getHandler())
+            }
+        }
         _binding = null
     }
 }

@@ -27,7 +27,7 @@ class VideoChatViewModel @Inject constructor(
     private val TAG = javaClass.simpleName
     private val spf = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
-    private var handler: ChatRoomHandler = ChatRoomHandler(this)
+    private val handler: ChatRoomHandler by lazy { ChatRoomHandler(this) }
 
     private val _chatHistory = MutableLiveData<List<ChatMessageData>>(emptyList())
     val chatHistory: LiveData<List<ChatMessageData>> get() = _chatHistory
@@ -102,7 +102,7 @@ class VideoChatViewModel @Inject constructor(
             put("roomId", roomId)
             put("nickname", nickname)
         }
-        SocketManager.getSocket().emit(type, json)
+        SocketManager.getSocket()!!.emit(type, json)
     }
 
     fun leaveRoom(roomId: Int){
@@ -110,13 +110,8 @@ class VideoChatViewModel @Inject constructor(
         val json = JSONObject().apply {
             put("roomId", roomId)
         }
-        SocketManager.getSocket().emit("leaveRoom", json)
+        SocketManager.getSocket()!!.emit("leaveRoom", json)
     }
 
 
-
-    override fun onCleared() {
-        super.onCleared()
-        SocketManager.unregisterHandler(handler)
-    }
 }
