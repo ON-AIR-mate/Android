@@ -80,7 +80,8 @@ class FriendViewModel @Inject constructor(
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
-                    _friendList.postValue(emptyList())
+                    //_friendList.postValue(emptyList())
+                    _friendList.postValue(initDummyFriend())
                 }
             }
             _isLoading.value = false
