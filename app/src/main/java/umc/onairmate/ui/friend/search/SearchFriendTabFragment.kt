@@ -42,6 +42,7 @@ class SearchFriendTabFragment: Fragment() {
             val textList = listOf(text, "예", "아니오")
             val dialog = TwoButtonPopup(textList, object : PopupClick {
                 override fun leftClickFunction() {
+                    Log.d(TAG,"requestFriend ${data}")
                     viewModel.requestFriend(data.userId)
                 }
             }, false) // 뒤로가기 막을거면 false
