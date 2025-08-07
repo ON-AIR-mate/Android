@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import umc.onairmate.R
 import umc.onairmate.databinding.FragmentHowToUseBinding
 
 @AndroidEntryPoint
@@ -31,7 +34,7 @@ class HowToUseFragment : Fragment() {
 
         binding.btnLogin.setOnClickListener {
             // 로그인 화면으로 이동
-            // findNavController().navigate(R.id.action_howToUse_to_login)
+            findNavController().navigate(R.id.layout_activity_login)
         }
     }
 
