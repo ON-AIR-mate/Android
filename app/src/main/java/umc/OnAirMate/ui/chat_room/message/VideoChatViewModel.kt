@@ -27,7 +27,7 @@ class VideoChatViewModel @Inject constructor(
     private val TAG = javaClass.simpleName
     private val spf = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
-    private val handler: ChatRoomHandler by lazy { ChatRoomHandler(this) }
+    private val handler: ChatRoomHandler = ChatRoomHandler(this)
 
     private val _chatHistory = MutableLiveData<List<ChatMessageData>>(emptyList())
     val chatHistory: LiveData<List<ChatMessageData>> get() = _chatHistory
@@ -40,17 +40,17 @@ class VideoChatViewModel @Inject constructor(
     }
     fun getHandler(): ChatRoomHandler = handler
 
-    override fun onNewChat(data: ChatMessageData) {
-        Log.d(TAG,"onNewChat : ${data}")
-        _chat.postValue( data)
+    override fun onNewChat(chatMessage: ChatMessageData) {
+        Log.d(TAG,"onNewChat : ${chatMessage}")
+        _chat.postValue( chatMessage)
     }
 
     override fun onUserJoined(data: String) {
         Log.d(TAG,"onUserJoined : ${data}")
     }
 
-    override fun onError(message: String) {
-        Log.d(TAG,"error ${message}")
+    override fun onError(errorMessage: String) {
+        Log.d(TAG,"error ${errorMessage}")
     }
 
     override fun onUserLeft(data: Int) {
@@ -92,7 +92,7 @@ class VideoChatViewModel @Inject constructor(
             put("messageType", "general")
         }
 
-        SocketManager.getSocket().emit("sendRoomMessage", json)
+        SocketManager.getSocket()!!.emit("sendRoomMessage", json)
     }
 
     fun joinRoom(roomId: Int,nickname: String, isVisited: Boolean = false){

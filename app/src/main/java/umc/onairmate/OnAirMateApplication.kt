@@ -39,9 +39,7 @@ class OnAirMateApplication : Application(), DefaultLifecycleObserver {
     }
     override fun onStart(owner: LifecycleOwner) {
         // 앱 포그라운드 복귀 시 소켓 재연결
-        if (SocketManager.isInitialized()) {
-            SocketManager.connect()
-        }
+        SocketManager.connect()
     }
 
     override fun onStop(owner: LifecycleOwner) {
