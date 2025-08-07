@@ -1,7 +1,4 @@
-package umc.onairmate.ui.lounge.model
-
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+package umc.onairmate.data.model.entity
 
 data class Collection(
     val title: String,

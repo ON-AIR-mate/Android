@@ -83,7 +83,7 @@ class ChatRoomFragment : Fragment() {
         lifecycle.addObserver(youtubePlayer)
 
         youtubePlayer.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
-            override fun onReady(youTubePlayer: YouTubePlayer) {\
+            override fun onReady(youTubePlayer: YouTubePlayer) {
                 val videoId = roomData.videoId ?: "CgCVZdcKcqY"
                 youTubePlayer.loadVideo(videoId, 0f) // todo: RoomData duration 연동
             }

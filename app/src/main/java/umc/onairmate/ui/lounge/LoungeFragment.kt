@@ -15,7 +15,7 @@ import umc.onairmate.R
 import androidx.appcompat.app.AlertDialog
 import android.widget.TextView
 import android.widget.Button
-import umc.onairmate.ui.lounge.model.Collection as LoungeCollection
+import umc.onairmate.data.model.entity.Collection as LoungeCollection
 
 
 @AndroidEntryPoint

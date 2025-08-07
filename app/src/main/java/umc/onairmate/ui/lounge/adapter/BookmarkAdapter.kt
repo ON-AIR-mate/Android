@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.R
 import umc.onairmate.databinding.ItemBookmarkBinding
-import umc.onairmate.ui.lounge.model.Bookmark
+import umc.onairmate.data.model.entity.Bookmark
 
 interface OnBookmarkActionListener {
     fun onDeleteBookmark(bookmark: Bookmark)
@@ -25,7 +25,7 @@ class BookmarkAdapter(
 
         fun bind(bookmark: Bookmark) {
             binding.titleText.text = bookmark.title
-            binding.timeText.text = bookmark.timestamp
+            binding.timeText.text = bookmark.time
 
             binding.moreButton.setOnClickListener { anchor ->
                 val popup = PopupMenu(anchor.context, anchor)
@@ -63,7 +63,7 @@ class BookmarkAdapter(
 
     private class DiffCallback : DiffUtil.ItemCallback<Bookmark>() {
         override fun areItemsTheSame(oldItem: Bookmark, newItem: Bookmark): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.thumbnailResId == newItem.thumbnailResId
         }
 
         override fun areContentsTheSame(oldItem: Bookmark, newItem: Bookmark): Boolean {

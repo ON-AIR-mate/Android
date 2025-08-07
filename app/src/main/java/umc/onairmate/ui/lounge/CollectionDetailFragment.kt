@@ -15,7 +15,7 @@ import umc.onairmate.databinding.FragmentCollectionDetailBinding
 import umc.onairmate.ui.lounge.adapter.BookmarkAdapter
 import umc.onairmate.ui.lounge.adapter.MoveCollectionAdapter
 import umc.onairmate.ui.lounge.adapter.OnBookmarkActionListener
-import umc.onairmate.ui.lounge.model.Bookmark
+import umc.onairmate.data.model.entity.Bookmark
 import umc.onairmate.ui.lounge.model.Collection
 
 class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
@@ -25,8 +25,8 @@ class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
 
     private val bookmarkAdapter by lazy { BookmarkAdapter(this) }
     private val dummyBookmarks = mutableListOf(
-        Bookmark("1", "방 제목", "16:23 ~~~~"),
-        Bookmark("2", "또 다른 제목", "17:00 ~~~~")
+        Bookmark(R.drawable.sample_image, "방 제목", "16:23 ~~~~", "5분전"),
+        Bookmark(R.drawable.sample_image, "또다른 제목", "17:00 ~~~~", "5분전")
     )
 
     override fun onCreateView(
@@ -67,7 +67,7 @@ class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
         val cancelBtn = dialogView.findViewById<Button>(R.id.btnCancel)
 
         titleTv.text = "[${bookmark.title}]"
-        timeTv.text = bookmark.timestamp
+        timeTv.text = bookmark.time
 
         val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)

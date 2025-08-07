@@ -6,11 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import umc.onairmate.R
 import umc.onairmate.databinding.FragmentLoungeCollectionBinding
-import umc.onairmate.ui.lounge.model.Collection
 import umc.onairmate.ui.lounge.adapter.CollectionAdapter
-import umc.onairmate.ui.lounge.pop_up.CollectionCreateDialogFragment
+import umc.onairmate.ui.pop_up.CollectionCreateDialogFragment
 
 enum class LoungeTab { ALL, COLLECTION }
 private var currentTab = LoungeTab.COLLECTION
