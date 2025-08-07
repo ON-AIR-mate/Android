@@ -117,6 +117,6 @@ class VideoChatViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
-
+        SocketManager.unregisterHandler(handler)
     }
 }
