@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:id="@+id/layoutscroll">
 
     <LinearLayout
         android:id="@+id/fragment_container"
@@ -58,6 +59,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="프로필 사진 선택"
+            android:textAppearance="@style/TextAppearance.App.Regular.14sp"
+            android:backgroundTint="@color/input"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="24dp" />
 
@@ -73,7 +76,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:hint="닉네임"
+                android:hint="3~10자 이내로 입력해 주세요"
+                android:backgroundTint="@color/input"
                 android:padding="12dp" />
 
             <TextView
@@ -86,7 +90,8 @@
                 android:paddingStart="12dp"
                 android:paddingEnd="8dp"
                 android:textSize="14sp"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="center_vertical"/>
+
         </LinearLayout>
 
         <!-- 닉네임 가이드 메시지 -->
@@ -98,7 +103,7 @@
             android:textColor="@color/main"
             android:textSize="12sp"
             android:layout_marginBottom="12dp"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <!-- 아이디 -->
         <EditText
@@ -106,7 +111,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="아이디"
-            android:padding="12dp" />
+            android:padding="12dp"
+            android:backgroundTint="@color/input"/>
 
         <TextView
             android:id="@+id/tvIdGuide"
@@ -116,7 +122,7 @@
             android:textColor="@color/main"
             android:textSize="12sp"
             android:layout_marginBottom="12dp"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <!-- 비밀번호 -->
         <EditText
@@ -125,7 +131,8 @@
             android:layout_height="wrap_content"
             android:hint="비밀번호"
             android:padding="12dp"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:backgroundTint="@color/input"/>
 
         <TextView
             android:id="@+id/tvPasswordGuide"
@@ -135,16 +142,18 @@
             android:textColor="@color/main"
             android:textSize="12sp"
             android:layout_marginBottom="24dp"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
-        <!-- 완료 버튼 -->
-        <Button
-            android:id="@+id/btnComplete"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="완료"
-            android:background="@drawable/bg_btn_disabled"
-            android:textColor="@android:color/white"
-            android:enabled="false" />
     </LinearLayout>
+
+    <!-- 완료 버튼 -->
+    <Button
+        android:id="@+id/btnComplete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="완료"
+        android:background="@drawable/bg_btn_disabled"
+        android:textColor="@android:color/white"
+        android:enabled="false"
+        android:padding="12dp" />
 </ScrollView>
