@@ -2,6 +2,7 @@ package umc.onairmate.data.repository.repositoryImpl
 
 import umc.onairmate.data.api.HomeService
 import umc.onairmate.data.model.entity.RoomData
+import umc.onairmate.data.model.entity.VideoData
 import umc.onairmate.data.model.request.CreateRoomRequest
 import umc.onairmate.data.model.response.CreateRoomResponse
 import umc.onairmate.data.model.response.DefaultResponse
@@ -49,6 +50,35 @@ class HomeRepositoryImpl  @Inject constructor(
         roomId: Int
     ): DefaultResponse<MessageResponse> {
         return safeApiCall{api.leaveRoom(accessToken, roomId)}
+    }
+
+    override suspend fun searchVideoList(
+        accessToken: String,
+        query: String,
+        limit: Int
+    ): DefaultResponse<List<VideoData>> {
+        return safeApiCall {
+            api.searchVideoList(accessToken, query, limit)
+        }
+    }
+
+    override suspend fun getVideoDetailInfo(
+        accessToken: String,
+        videoId: String
+    ): DefaultResponse<VideoData> {
+        return safeApiCall {
+            api.getVideoDetailInfo(accessToken, videoId)
+        }
+    }
+
+    override suspend fun getRecommendVideoList(
+        accessToken: String,
+        keyword: String,
+        limit: Int
+    ): DefaultResponse<List<VideoData>> {
+        return safeApiCall {
+            api.getRecommendVideoList(accessToken, keyword, limit)
+        }
     }
 
 }
