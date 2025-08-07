@@ -1,4 +1,4 @@
-package umc.onairmate.ui.chat_room.drawer
+package umc.onairmate.ui.chat_room.drawer.participants
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,12 +6,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import androidx.recyclerview.widget.RecyclerView
-import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.data.model.entity.ParticipantData
-import umc.onairmate.databinding.PopupFriendOptionsBinding
 import umc.onairmate.databinding.PopupParticipantOptionsBinding
 import umc.onairmate.databinding.RvItemChatRoomUserBinding
-import umc.onairmate.ui.friend.list.FriendItemClickListener
 import umc.onairmate.ui.util.NetworkImageLoader
 
 class ChatRoomParticipantRVAdapter(

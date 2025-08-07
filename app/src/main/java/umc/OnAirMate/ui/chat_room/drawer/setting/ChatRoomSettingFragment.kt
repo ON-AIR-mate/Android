@@ -1,4 +1,4 @@
-package umc.onairmate.ui.chat_room.drawer
+package umc.onairmate.ui.chat_room.drawer.setting
 
 import android.os.Build
 import android.os.Bundle
@@ -8,14 +8,13 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.InvitePermission
 import umc.onairmate.data.model.entity.ParticipantPreset
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.entity.RoomSettingData
 import umc.onairmate.databinding.FragmentChatRoomSettingBinding
-import umc.onairmate.ui.chat_room.ChatRoomDrawerFragment
+import umc.onairmate.ui.chat_room.drawer.ChatRoomDrawerFragment
 import umc.onairmate.ui.chat_room.ChatRoomViewModel
 
 val inviteOptions = InvitePermission.entries.map { it.label }

@@ -1,4 +1,4 @@
-package umc.onairmate.ui.chat_room
+package umc.onairmate.ui.chat_room.drawer
 
 import android.os.Build
 import android.os.Bundle
@@ -16,8 +16,9 @@ import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.databinding.FragmentChatRoomSidePannelBinding
 import umc.onairmate.databinding.PopupInviteFriendBinding
-import umc.onairmate.ui.chat_room.drawer.ChatRoomParticipantsFragment
-import umc.onairmate.ui.chat_room.drawer.ChatRoomSettingFragment
+import umc.onairmate.ui.chat_room.ChatRoomLayoutActivity
+import umc.onairmate.ui.chat_room.drawer.participants.ChatRoomParticipantsFragment
+import umc.onairmate.ui.chat_room.drawer.setting.ChatRoomSettingFragment
 import umc.onairmate.ui.friend.FriendViewModel
 
 @AndroidEntryPoint

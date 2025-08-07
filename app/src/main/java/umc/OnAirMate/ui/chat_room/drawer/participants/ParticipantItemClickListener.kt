@@ -1,4 +1,4 @@
-package umc.onairmate.ui.chat_room.drawer
+package umc.onairmate.ui.chat_room.drawer.participants
 
 import umc.onairmate.data.model.entity.ParticipantData
 
