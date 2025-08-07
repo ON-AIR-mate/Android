@@ -1,13 +1,22 @@
 package umc.onairmate.ui.chat_room.drawer
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import androidx.recyclerview.widget.RecyclerView
+import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.data.model.entity.ParticipantData
+import umc.onairmate.databinding.PopupFriendOptionsBinding
+import umc.onairmate.databinding.PopupParticipantOptionsBinding
 import umc.onairmate.databinding.RvItemChatRoomUserBinding
+import umc.onairmate.ui.friend.list.FriendItemClickListener
+import umc.onairmate.ui.util.NetworkImageLoader
 
 class ChatRoomParticipantRVAdapter(
-    private var userList: List<ParticipantData>
+    private var userList: List<ParticipantData>,
+    private val itemClick : ParticipantItemClickListener
 ) : RecyclerView.Adapter<ChatRoomParticipantRVAdapter.ViewHolder>() {
 
     // ViewHolder: 아이템 레이아웃과 바인딩
@@ -17,9 +26,60 @@ class ChatRoomParticipantRVAdapter(
 
         fun bind(user: ParticipantData) {
             binding.tvUserNickname.text = user.nickname
-            // todo: 썸네일 로더를 이미지 로더로 이름 변경 후 프로필 이미지 로드
+            // 프로필 이미지 로드
+            NetworkImageLoader.profileLoad(binding.ivUserProfile, user.profileImage)
             // todo: 인기도를 어떻게 표현해야되는지..? 잘 모르겠슴
 
+            binding.ivMore.setOnClickListener {
+                showPopupMenu(binding.ivMore, adapterPosition, user)
+            }
+        }
+
+        private fun showPopupMenu(anchorView: View, position: Int, data: ParticipantData){
+            val popupBinding = PopupParticipantOptionsBinding.inflate(LayoutInflater.from(anchorView.context))
+
+            // PopupWindow 생성
+            val popupWindow = PopupWindow(
+                popupBinding.root,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                true
+            )
+
+            popupWindow.isOutsideTouchable = true
+            popupWindow.isFocusable = true
+
+            // popupBinding root 크기 측정 후 정렬 위치 계산
+            popupBinding.root.measure(
+                View.MeasureSpec.UNSPECIFIED,
+                View.MeasureSpec.UNSPECIFIED
+            )
+
+            val popupWidth = popupBinding.root.measuredWidth
+
+            // 오른쪽 정렬: anchor 오른쪽 끝 기준
+            val offsetX = -popupWidth + anchorView.width
+            val offsetY = 0
+
+            // 클릭 리스너 연결
+            popupBinding.tvReport.setOnClickListener {
+                itemClick.clickReport(data)
+                popupWindow.dismiss()
+            }
+            popupBinding.tvRecommend.setOnClickListener {
+                itemClick.clickRecommend(data)
+                popupWindow.dismiss()
+            }
+            popupBinding.tvAddFriend.setOnClickListener {
+                itemClick.clickAddFriend(data)
+                popupWindow.dismiss()
+            }
+            popupBinding.tvBlock.setOnClickListener {
+                itemClick.clickBlock(data)
+                popupWindow.dismiss()
+            }
+
+            popupWindow.showAsDropDown(anchorView, offsetX, offsetY)
         }
     }
 

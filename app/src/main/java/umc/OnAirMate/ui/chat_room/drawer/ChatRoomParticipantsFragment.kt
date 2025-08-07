@@ -54,7 +54,26 @@ class ChatRoomParticipantsFragment : Fragment() {
         chatRoomViewModel.participantDataInfo.observe(viewLifecycleOwner) { data ->
             val userList = data ?: emptyList()
 
-            adapter = ChatRoomParticipantRVAdapter(userList)
+            adapter = ChatRoomParticipantRVAdapter(userList, object: ParticipantItemClickListener{
+                override fun clickMessage(data: ParticipantData) {
+                    TODO("Not yet implemented")
+                }
+                override fun clickReport(data: ParticipantData) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun clickRecommend(data: ParticipantData) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun clickAddFriend(data: ParticipantData) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun clickBlock(data: ParticipantData) {
+                    TODO("Not yet implemented")
+                }
+            })
             binding.rvParticipants.adapter = adapter
             binding.rvParticipants.layoutManager = LinearLayoutManager(context)
         }

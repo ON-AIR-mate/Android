@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_popup"
+    android:orientation="vertical"
+    android:background="@drawable/background_search_type_spinner"
+    android:paddingVertical="5dp"
+    android:paddingHorizontal="10dp"
+    android:layout_width="wrap_content"
+    android:minWidth="100dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_report"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="3dp"
+        android:textAppearance="@style/TextAppearance.App.Medium.10sp"
+        android:text="신고하기"/>
+
+    <TextView
+        android:id="@+id/tv_recommend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="3dp"
+        android:textAppearance="@style/TextAppearance.App.Medium.10sp"
+        android:text="추천하기" />
+
+    <TextView
+        android:id="@+id/tv_add_friend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="3dp"
+        android:textAppearance="@style/TextAppearance.App.Medium.10sp"
+        android:text="친구 추가" />
+
+    <TextView
+        android:id="@+id/tv_block"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="3dp"
+        android:textAppearance="@style/TextAppearance.App.Medium.10sp"
+        android:text="차단하기" />
+
+</LinearLayout>
