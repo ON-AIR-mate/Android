@@ -43,7 +43,7 @@ class ChatRoomSettingFragment : Fragment() {
         roomData = arguments?.getParcelable("room_data", RoomData::class.java)!!
 
         initScreen()
-        handleToggle()
+        initToggleListener()
         onClickGoBack()
 
         return binding.root
@@ -69,19 +69,19 @@ class ChatRoomSettingFragment : Fragment() {
             position = inviteOptions.indexOf(currentInVitePreset).takeIf { it >= 0 } ?: 0
             binding.spInviteSetting.setSelection(position)
 
-            if (roomSetting.autoArchiving) enableAutoArchive() else disableAutoArchive()
-            if (roomSetting.isPrivate) enablePrivateRoom() else disablePrivateRoom()
+            if (roomSetting.autoArchiving) setAutoArchiveOnClickListener() else setAutoArchiveOffClickListener()
+            if (roomSetting.isPrivate) setPrivateRoomOnClickListener() else setPrivateRoomOffClickListener()
         }
     }
 
-    fun handleToggle() {
-        enableAutoArchive()
-        disableAutoArchive()
-        enablePrivateRoom()
-        disablePrivateRoom()
+    fun initToggleListener() {
+        setAutoArchiveOnClickListener()
+        setAutoArchiveOffClickListener()
+        setPrivateRoomOnClickListener()
+        setPrivateRoomOffClickListener()
     }
 
-    fun enableAutoArchive() {
+    fun setAutoArchiveOnClickListener() {
         binding.ivAutoArchiveOff.setOnClickListener {
             binding.ivAutoArchiveOn.visibility = View.VISIBLE
             binding.ivAutoArchiveOff.visibility = View.GONE
@@ -89,7 +89,7 @@ class ChatRoomSettingFragment : Fragment() {
         }
     }
 
-    fun disableAutoArchive() {
+    fun setAutoArchiveOffClickListener() {
         binding.ivAutoArchiveOn.setOnClickListener {
             binding.ivAutoArchiveOn.visibility = View.GONE
             binding.ivAutoArchiveOff.visibility = View.VISIBLE
@@ -97,7 +97,7 @@ class ChatRoomSettingFragment : Fragment() {
         }
     }
 
-    fun enablePrivateRoom() {
+    fun setPrivateRoomOnClickListener() {
         binding.ivPrivateRoomOff.setOnClickListener {
             binding.ivPrivateRoomOn.visibility = View.VISIBLE
             binding.ivPrivateRoomOff.visibility = View.GONE
@@ -105,7 +105,7 @@ class ChatRoomSettingFragment : Fragment() {
         }
     }
 
-    fun disablePrivateRoom() {
+    fun setPrivateRoomOffClickListener() {
         binding.ivPrivateRoomOn.setOnClickListener {
             binding.ivPrivateRoomOn.visibility = View.GONE
             binding.ivPrivateRoomOff.visibility = View.VISIBLE
