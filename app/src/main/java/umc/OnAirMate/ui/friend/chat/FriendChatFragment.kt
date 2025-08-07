@@ -25,7 +25,7 @@ class FriendChatFragment: Fragment() {
     private var userId : Int = 0
     private var nickname : String = ""
 
-    lateinit var adapter : ChatRVAdapter
+    lateinit var adapter : FriendChatRVAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,7 +38,7 @@ class FriendChatFragment: Fragment() {
         setUpObserver()
 
 
-        adapter = ChatRVAdapter(userId)
+        adapter = FriendChatRVAdapter(userId)
         binding.rvVideoChat.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
         binding.rvVideoChat.adapter = adapter
 
