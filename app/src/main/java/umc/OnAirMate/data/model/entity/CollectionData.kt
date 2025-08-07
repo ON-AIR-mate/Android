@@ -1,6 +1,6 @@
 package umc.onairmate.data.model.entity
 
-data class Collection(
+data class CollectionData(
     val title: String,
     val dateCreated: String,
     val lastUpdated: String,
