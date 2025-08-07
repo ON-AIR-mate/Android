@@ -2,22 +2,29 @@ package umc.onairmate.ui.chat_room
 
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupWindow
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
-import umc.onairmate.data.model.entity.ParticipantData
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.databinding.FragmentChatRoomSidePannelBinding
-import umc.onairmate.ui.chat_room.drawer.ChatRoomParticipantRVAdapter
+import umc.onairmate.databinding.PopupInviteFriendBinding
 import umc.onairmate.ui.chat_room.drawer.ChatRoomParticipantsFragment
 import umc.onairmate.ui.chat_room.drawer.ChatRoomSettingFragment
+import umc.onairmate.ui.chat_room.drawer.InviteFriendRVAdapter
+import umc.onairmate.ui.friend.FriendViewModel
 
+@AndroidEntryPoint
 class ChatRoomDrawerFragment : Fragment() {
+
+    private val friendViewModel: FriendViewModel by viewModels()
 
     lateinit var binding: FragmentChatRoomSidePannelBinding
     lateinit var roomData: RoomData
@@ -64,6 +71,45 @@ class ChatRoomDrawerFragment : Fragment() {
                 changeFrameToParticipant()
             }
         }
+        binding.ivAddUser.setOnClickListener {
+            showInviteFriendPopup(it)
+        }
+    }
+
+    fun showInviteFriendPopup(anchorView: View) {
+        val popupBinding = PopupInviteFriendBinding.inflate(LayoutInflater.from(anchorView.context))
+
+        val popupWindow = PopupWindow(
+            popupBinding.root,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            true
+        )
+
+        val recyclerView = popupBinding.rvInviteFriend
+        recyclerView.layoutManager = LinearLayoutManager(anchorView.context)
+
+        // 1. 친구 리스트를 api로 받아오기
+        friendViewModel.getFriendList()
+
+        friendViewModel.friendList.observe(viewLifecycleOwner) { data ->
+            val friendList = data ?: emptyList()
+
+            // 2. 친구 리스트를 리사이클러뷰 어댑터로 연결
+            val adapter = InviteFriendRVAdapter(friendList, {
+                // 3. 친구 초대 api 요청
+                // todo: 친구 초대 api인지 소켓인지 구현 방식 정해지고 넣기
+                // 4. 초대 이후 로직 (메시지를 띄운다던가..)
+                Toast.makeText(this.context, "${it.nickname}님에게 초대를 발송했습니다.", Toast.LENGTH_SHORT).show()
+                popupWindow.dismiss()
+            })
+            recyclerView.adapter = adapter
+        }
+
+        // 팝업을 anchorView(여기서는 버튼) 아래에 표시합니다.
+        popupWindow.showAsDropDown(anchorView)
+
+        // 5. profit!!
     }
 
     fun changeFrameToParticipant() {
