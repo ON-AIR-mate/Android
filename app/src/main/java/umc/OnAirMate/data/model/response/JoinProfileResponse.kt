@@ -1,6 +1,10 @@
 package umc.onairmate.data.model.response
 
-data class JoinProfileResponse(
+import com.google.gson.annotations.SerializedName
+
+data class JoinProfileResponse (
+    @SerializedName("success")
     val success: Boolean,
-    val message: String
+    @SerializedName("message")
+    val message : String
 )

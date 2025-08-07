@@ -35,6 +35,7 @@ class HowToUseFragment : Fragment() {
 //        binding.btnLogin.setOnClickListener {
 //            findNavController().navigate(R.id.fragment_container)
 //        }
+        //이부분 수정. 스크롤뷰에서는 네비게이션 컨트롤 사용 불가.
         binding.btnLogin.setOnClickListener {
             binding.root.findNavController().navigate(R.id.fragment_container)
         }
