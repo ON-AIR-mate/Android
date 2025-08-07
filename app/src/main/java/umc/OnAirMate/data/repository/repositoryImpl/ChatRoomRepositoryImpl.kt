@@ -1,10 +1,12 @@
 package umc.onairmate.data.repository.repositoryImpl
 
 import umc.onairmate.data.api.ChatRoomService
+import umc.onairmate.data.model.entity.ChatMessageData
 import umc.onairmate.data.model.entity.ParticipantData
 import umc.onairmate.data.model.entity.RoomSettingData
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.model.response.MessageResponse
+import umc.onairmate.data.model.response.RawDefaultResponse
 import umc.onairmate.data.repository.repository.ChatRoomRepository
 import umc.onairmate.data.util.safeApiCall
 import javax.inject.Inject
@@ -38,6 +40,15 @@ class ChatRoomRepositoryImpl @Inject constructor(
     ): DefaultResponse<List<ParticipantData>> {
         return safeApiCall {
             api.getParticipants(accessToken, roomId)
+        }
+    }
+
+    override suspend fun getChatHistory(
+        accessToken: String,
+        roomId: Int
+    ): DefaultResponse<List<ChatMessageData>> {
+        return safeApiCall {
+            api.getChatHistory(accessToken, roomId)
         }
     }
 

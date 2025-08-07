@@ -1,5 +1,6 @@
 package umc.onairmate.data.repository.repository
 
+import umc.onairmate.data.model.entity.ChatMessageData
 import umc.onairmate.data.model.entity.ParticipantData
 import umc.onairmate.data.model.entity.RoomSettingData
 import umc.onairmate.data.model.response.DefaultResponse
@@ -25,4 +26,9 @@ interface ChatRoomRepository {
         accessToken: String,
         roomId: Int
     ): DefaultResponse<List<ParticipantData>>
+
+    suspend fun getChatHistory(
+        accessToken: String,
+        roomId: Int,
+    ): DefaultResponse<List<ChatMessageData>>
 }

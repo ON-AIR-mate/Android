@@ -13,8 +13,8 @@ interface HomeRepository {
     suspend fun getRoomList( accessToken: String, sortBy : String, searchType : String, keyword : String): DefaultResponse<RoomListResponse>
     suspend fun getRoomDetailInfo( accessToken: String, roomId : Int) : DefaultResponse<RoomData>
     suspend fun createRoom( accessToken: String, body : CreateRoomRequest): DefaultResponse<CreateRoomResponse>
-    suspend fun joinRoom( accessToken: String, roomId : Int): DefaultResponse<MessageResponse>
-    suspend fun leaveRoom(accessToken: String, roomId : Int): DefaultResponse<MessageResponse>
+    suspend fun joinRoom( accessToken: String, roomId : Int): DefaultResponse<String>
+    suspend fun leaveRoom(accessToken: String, roomId : Int): DefaultResponse<String>
 
     // 영상 검색
     suspend fun searchVideoList(accessToken: String, query: String, limit: Int): DefaultResponse<List<VideoData>>
