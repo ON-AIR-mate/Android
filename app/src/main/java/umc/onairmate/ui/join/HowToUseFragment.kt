@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
@@ -32,10 +32,13 @@ class HowToUseFragment : Fragment() {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
+//        binding.btnLogin.setOnClickListener {
+//            findNavController().navigate(R.id.fragment_container)
+//        }
         binding.btnLogin.setOnClickListener {
-            // 로그인 화면으로 이동
-            findNavController().navigate(R.id.layout_activity_login)
+            binding.root.findNavController().navigate(R.id.fragment_container)
         }
+
     }
 
     override fun onDestroyView() {

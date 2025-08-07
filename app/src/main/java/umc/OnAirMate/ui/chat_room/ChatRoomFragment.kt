@@ -10,8 +10,8 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+//import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+//import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
@@ -40,7 +40,7 @@ class ChatRoomFragment : Fragment() {
     ): View {
         binding = FragmentChatRoomBinding.inflate(inflater, container, false)
 
-        initPlayer()
+        //initPlayer()
         initScreen()
         onClickSetting()
         onClickGoBack()
@@ -76,6 +76,7 @@ class ChatRoomFragment : Fragment() {
         }
     }
 
+    /*
     // 유튜브 모듈
     // 근데.. api에 영상 id 받는 부분이 없어보임..
     fun initPlayer() {
@@ -83,12 +84,14 @@ class ChatRoomFragment : Fragment() {
         lifecycle.addObserver(youtubePlayer)
 
         youtubePlayer.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
-            override fun onReady(youTubePlayer: YouTubePlayer) {\
+            override fun onReady(youTubePlayer: YouTubePlayer) {
                 val videoId = roomData.videoId ?: "CgCVZdcKcqY"
                 youTubePlayer.loadVideo(videoId, 0f) // todo: RoomData duration 연동
             }
         })
     }
+
+     */
 
     // 채팅창에 번들 전달
     private fun initChat() {
