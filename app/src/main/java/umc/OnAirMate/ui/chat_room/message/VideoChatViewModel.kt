@@ -102,7 +102,7 @@ class VideoChatViewModel @Inject constructor(
             put("roomId", roomId)
             put("nickname", nickname)
         }
-        SocketManager.emit(type, json)
+        SocketManager.getSocket()!!.emit(type, json)
     }
 
     fun leaveRoom(roomId: Int){
