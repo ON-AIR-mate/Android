@@ -4,8 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import umc.onairmate.databinding.ItemCollectionListBinding
 import umc.onairmate.data.model.entity.CollectionData
+import umc.onairmate.databinding.ItemCollectionListBinding
+<<<<<<< HEAD
+import umc.onairmate.data.model.entity.CollectionData
+=======
+>>>>>>> aaae94ffd241e218d1f84548269bbe5a3530c144
 
 class CollectionListAdapter(
     private val items: List<CollectionData>,

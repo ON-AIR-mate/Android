@@ -5,8 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.databinding.ItemCollectionBinding
+
 import umc.onairmate.data.model.entity.CollectionData
-import umc.onairmate.data.model.entity.CollectionItem
+
 import umc.onairmate.R
 import android.widget.PopupMenu
 
@@ -28,11 +29,7 @@ class CollectionAdapter(
             binding.latestText.text = item.lastUpdated
             binding.openScopeText.text = item.privacy
 
-            fun bind(item: CollectionItem) = with(binding) {
-                val count = item.bookmarkCount
-                tvCountBadge.text = if (count > 99) "99+" else count.toString()
-                tvCountBadge.visibility = if (count > 0) View.VISIBLE else View.GONE
-            }
+
 
             binding.moreButton.setOnClickListener {
                 val popup = PopupMenu(binding.root.context, it)

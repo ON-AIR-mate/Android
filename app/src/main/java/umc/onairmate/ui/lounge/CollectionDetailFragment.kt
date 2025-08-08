@@ -92,13 +92,14 @@ class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
         val moveBtn = dialogView.findViewById<Button>(R.id.btnMove)
 
         // 전체 Collection 객체를 생성 (필수 필드 모두 채움)
-        val collectionData = listOf(
+
+        val collections = listOf(
             CollectionData(
                 title = "웃긴 장면",
                 dateCreated = "2025.03.24",
                 lastUpdated = "2025.03.24",
                 privacy = "전체 공개",
-                thumbnailUrl = "https://example.com/thumb1.jpg"
+                thumbnailUrl = "https://example.com/thumb1.jpg",
             ),
             CollectionData(
                 title = "힐링 모먼트",
@@ -115,14 +116,17 @@ class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
                 thumbnailUrl = "https://example.com/thumb3.jpg"
             )
         )
-        var targetCollectionData: CollectionData? = null
+
+
+        var targetCollection: CollectionData? = null
+4
 
         rv.layoutManager = LinearLayoutManager(requireContext())
         val moveAdapter = MoveCollectionAdapter { selected: CollectionData ->
-            targetCollectionData = selected
+            targetCollection = selected
         }
         rv.adapter = moveAdapter
-        moveAdapter.submitList(collectionData)
+        moveAdapter.submitList(collections)
 
         val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)
@@ -130,7 +134,7 @@ class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
         dialog.show()
 
         moveBtn.setOnClickListener {
-            targetCollectionData?.let {
+            targetCollection?.let {
                 // 이동 처리
                 dialog.dismiss()
             }
