@@ -164,4 +164,6 @@ class JoinProfileFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }
