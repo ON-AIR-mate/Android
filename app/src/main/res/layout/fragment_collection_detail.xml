@@ -2,7 +2,9 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,69 +12,134 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- 썸네일 이미지 -->
         <ImageView
             android:id="@+id/ivThumbnail"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/sample_image" />
 
-        <TextView
-            android:id="@+id/tvTitle"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="12dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/tvDateCreated"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp" />
-
-        <TextView
-            android:id="@+id/tvPrivacy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp" />
-
-        <TextView
-            android:id="@+id/tvDescription"
+        <!-- 제목 + 수정버튼 -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="설명" />
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical">
 
-        <ImageView
-            android:id="@+id/btnEditTitle"
-            android:layout_width="50dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="8dp"
-            android:contentDescription="제목 수정"
-            android:src="@drawable/ic_edit"
-            app:tint="@color/black"
-            android:background="?selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true" />
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="웃긴 장면"
+                android:textAppearance="@style/TextAppearance.App.SemiBold.20sp" />
 
-        <ImageView
-            android:id="@+id/btnChangePrivacy"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="12dp"
-            android:contentDescription="나만 보기"
-            android:src="@drawable/ic_dropdown"
-            app:tint="@color/black"
-            android:background="?selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true" />
+            <TextView
+                android:id="@+id/tvCountBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/bg_count_badge"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="2dp"
+                android:text="4"
+                android:textColor="@android:color/white"
+                android:textAppearance="@style/TextAppearance.App.SemiBold.12sp" />
+                <!--android:includeFontPadding="false"--> <!--북마크 개수가 0일때는 어케 하나요?-->
+
+            <Button
+                android:id="@+id/btnEditTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:includeFontPadding="false"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="2dp"
+                android:text="제목 수정"
+                android:textColor="@color/black"
+                android:textAppearance="@style/TextAppearance.App.Medium.10sp"
+                android:background="@drawable/bg_button_outline_pink"
+                app:backgroundTint="@null"
+                android:backgroundTint="@null"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+            <TextView
+                android:id="@+id/tvPrivacy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="나만 보기"
+                android:textAppearance="@style/TextAppearance.App.Medium.10sp"
+                android:textColor="@android:color/black" />
+
+            <ImageView
+                android:id="@+id/btnChangePrivacy"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="4dp"
+                android:src="@drawable/ic_dropdown"
+                app:tint="@color/text4"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="공개범위 변경"
+                android:clickable="true"
+                android:focusable="true" />
+        </LinearLayout>
 
 
+        <!-- 생성일 + 공개범위 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvDateCreated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="생성일 : 2025.03.24"
+                android:textAppearance="@style/TextAppearance.App.Regular.12sp"
+                android:textColor="#72787F" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="16dp"
+                android:gravity="center_vertical">
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 설명 입력 -->
+        <EditText
+            android:id="@+id/etDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edittext_gray"
+            android:hint="나의 컬렉션을 소개해주세요! (100자 이내)"
+            android:textAppearance="@style/TextAppearance.App.Regular.12sp"
+            android:maxLines="3"
+            android:padding="12dp"
+            android:inputType="textMultiLine"
+            android:textColor="@android:color/black"
+            android:hintTextColor="#AAAAAA" />
+
+        <!-- 영상 리스트 -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewVideos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:nestedScrollingEnabled="false"/>
+            android:nestedScrollingEnabled="false" />
+
     </LinearLayout>
 </ScrollView>

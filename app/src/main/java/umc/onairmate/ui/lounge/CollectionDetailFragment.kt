@@ -16,7 +16,7 @@ import umc.onairmate.ui.lounge.adapter.BookmarkAdapter
 import umc.onairmate.ui.lounge.adapter.MoveCollectionAdapter
 import umc.onairmate.ui.lounge.adapter.OnBookmarkActionListener
 import umc.onairmate.data.model.entity.Bookmark
-import umc.onairmate.ui.lounge.model.Collection
+import umc.onairmate.data.model.entity.CollectionData
 
 class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
 
@@ -92,22 +92,22 @@ class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
         val moveBtn = dialogView.findViewById<Button>(R.id.btnMove)
 
         // 전체 Collection 객체를 생성 (필수 필드 모두 채움)
-        val collections = listOf(
-            Collection(
+        val collectionData = listOf(
+            CollectionData(
                 title = "웃긴 장면",
                 dateCreated = "2025.03.24",
                 lastUpdated = "2025.03.24",
                 privacy = "전체 공개",
                 thumbnailUrl = "https://example.com/thumb1.jpg"
             ),
-            Collection(
+            CollectionData(
                 title = "힐링 모먼트",
                 dateCreated = "2025.02.10",
                 lastUpdated = "2025.02.10",
                 privacy = "친구만 공개",
                 thumbnailUrl = "https://example.com/thumb2.jpg"
             ),
-            Collection(
+            CollectionData(
                 title = "눈물 주의",
                 dateCreated = "2025.01.05",
                 lastUpdated = "2025.01.05",
@@ -115,14 +115,14 @@ class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
                 thumbnailUrl = "https://example.com/thumb3.jpg"
             )
         )
-        var targetCollection: Collection? = null
+        var targetCollectionData: CollectionData? = null
 
         rv.layoutManager = LinearLayoutManager(requireContext())
-        val moveAdapter = MoveCollectionAdapter { selected ->
-            targetCollection = selected
+        val moveAdapter = MoveCollectionAdapter { selected: CollectionData ->
+            targetCollectionData = selected
         }
         rv.adapter = moveAdapter
-        moveAdapter.submitList(collections)
+        moveAdapter.submitList(collectionData)
 
         val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)
@@ -130,7 +130,7 @@ class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
         dialog.show()
 
         moveBtn.setOnClickListener {
-            targetCollection?.let {
+            targetCollectionData?.let {
                 // 이동 처리
                 dialog.dismiss()
             }

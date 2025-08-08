@@ -5,16 +5,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import umc.onairmate.databinding.ItemCollectionListBinding
-import umc.onairmate.ui.lounge.model.Collection
+import umc.onairmate.data.model.entity.CollectionData
 
 class CollectionListAdapter(
-    private val items: List<Collection>,
-    private val onItemClick: (Collection) -> Unit
+    private val items: List<CollectionData>,
+    private val onItemClick: (CollectionData) -> Unit
 ) : RecyclerView.Adapter<CollectionListAdapter.CollectionViewHolder>() {
 
     inner class CollectionViewHolder(val binding: ItemCollectionListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Collection) {
+        fun bind(item: CollectionData) {
             binding.tvTitle.text = item.title
             binding.tvDate.text = item.dateCreated
             binding.ivThumbnail.load(item.thumbnailUrl)
