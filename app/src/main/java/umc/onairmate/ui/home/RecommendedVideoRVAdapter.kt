@@ -3,11 +3,12 @@ package umc.onairmate.ui.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import umc.onairmate.data.model.entity.VideoData
 import umc.onairmate.databinding.RvItemRecommendedVideoBinding
 
 class RecommendedVideoRVAdapter(
-    private val items : List<String>,
-    private val itemClick: (String) -> Unit
+    private val items : List<VideoData>,
+    private val itemClick: (VideoData) -> Unit
 ) : RecyclerView.Adapter<RecommendedVideoRVAdapter.ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)

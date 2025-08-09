@@ -2,7 +2,6 @@ package umc.onairmate.ui.chat_room
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,7 @@ import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.databinding.FragmentChatRoomBinding
 import umc.onairmate.ui.chat_room.message.VideoChatFragment
-import umc.onairmate.ui.home.SearchRoomViewModel
+import umc.onairmate.ui.home.HomeViewModel
 
 @AndroidEntryPoint
 class ChatRoomFragment : Fragment() {
@@ -28,7 +27,7 @@ class ChatRoomFragment : Fragment() {
     lateinit var roomData: RoomData
     lateinit var binding: FragmentChatRoomBinding
 
-    private val searchRoomViewModel: SearchRoomViewModel by viewModels()
+    private val searchRoomViewModel: HomeViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {

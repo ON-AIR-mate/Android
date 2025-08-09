@@ -73,6 +73,9 @@
             android:textAppearance="@style/TextAppearance.App.Regular.12sp"
             android:textColorHint="@color/black"
             android:background="@null"
+            android:maxLines="1"
+            android:inputType="text"
+            android:imeOptions="actionDone"
             android:layout_marginStart="10dp"/>
         <View
             android:layout_width="0dp"
