@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,10 +15,12 @@ import org.json.JSONObject
 import umc.onairmate.data.model.entity.ChatMessageData
 import umc.onairmate.data.model.entity.DirectMessageData
 import umc.onairmate.data.socket.SocketManager
+import umc.onairmate.data.socket.handler.ChatRoomHandler
 import umc.onairmate.data.socket.handler.FriendHandler
 import umc.onairmate.data.socket.listener.FriendEventListener
 import javax.inject.Inject
 
+@HiltViewModel
 class FriendChatViewModel @Inject constructor(
     @ApplicationContext private val context: Context
 ): ViewModel(), FriendEventListener {
@@ -29,6 +32,8 @@ class FriendChatViewModel @Inject constructor(
     val generalChat: LiveData<DirectMessageData> get() = _generalChat
 
     private val handler: FriendHandler = FriendHandler(this)
+
+    fun getHandler(): FriendHandler = handler
 
     override fun onNewDirectMessage(directMessage: DirectMessageData) {
         viewModelScope.launch(Dispatchers.Default) {
@@ -43,7 +48,7 @@ class FriendChatViewModel @Inject constructor(
         val json = JSONObject().apply {
             put("receiverId", receiverId)
         }
-        SocketManager.getSocket()!!.emit("joinDM", json)
+        SocketManager.emit("joinDM", json)
     }
 
     fun sendMessage(receiverId: Int, fromNickname: String,content: String) {
@@ -57,6 +62,6 @@ class FriendChatViewModel @Inject constructor(
             put("messageType", "general")
         }
 
-        SocketManager.getSocket()!!.emit("sendDirectMessage", json)
+        SocketManager.emit("sendDirectMessage", json)
     }
 }
