@@ -51,4 +51,10 @@ interface FriendService {
         @Header("Authorization") accessToken: String,
         @Query("nickname") nickname : String
     ): RawDefaultResponse<List<UserData>>
+
+    @POST("friends/{friendId}/invite")
+    suspend fun inviteFriend(
+        @Header("Authorization") accessToken: String,
+        @Path("friendId") friendId: Int
+    ): RawDefaultResponse<MessageResponse>
 }

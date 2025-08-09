@@ -216,4 +216,29 @@ class FriendViewModel @Inject constructor(
         }
     }
 
+    fun inviteFriend(userId: Int) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            val token = getToken()
+            if (token == null) {
+                Log.e(TAG, "토큰이 없습니다")
+                _isLoading.value = false
+                return@launch
+            }
+            val result = repository.inviteFriend(token,userId)
+            Log.d(TAG, "inviteFriend api 호출")
+            when (result) {
+                is DefaultResponse.Success -> {
+                    Log.d(TAG,"응답 성공 : ${result.data}")
+                    _result.postValue(result.data.message)
+                }
+                is DefaultResponse.Error -> {
+                    Log.e(TAG, "에러: ${result.code} - ${result.message} ")
+                    _result.postValue(result.message)
+                }
+            }
+            _isLoading.value = false
+        }
+    }
+
 }

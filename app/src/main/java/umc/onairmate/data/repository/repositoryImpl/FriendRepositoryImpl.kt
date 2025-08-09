@@ -51,4 +51,11 @@ class FriendRepositoryImpl @Inject constructor(
     ): DefaultResponse<List<UserData>> {
          return safeApiCall { api.searchUser(accessToken,nickname) }
     }
+
+    override suspend fun inviteFriend(
+        accessToken: String,
+        friendId: Int
+    ): DefaultResponse<MessageResponse> {
+        return safeApiCall { api.inviteFriend(accessToken, friendId) }
+    }
 }
