@@ -1,4 +1,4 @@
-package umc.onairmate.ui.chat_room.drawer
+package umc.onairmate.ui.chat_room.drawer.participants
 
 import android.os.Build
 import android.os.Bundle
@@ -11,7 +11,6 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import umc.onairmate.R
 import umc.onairmate.data.model.entity.ParticipantData
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.databinding.FragmentChatRoomParticipantsBinding
@@ -54,7 +53,26 @@ class ChatRoomParticipantsFragment : Fragment() {
         chatRoomViewModel.participantDataInfo.observe(viewLifecycleOwner) { data ->
             val userList = data ?: emptyList()
 
-            adapter = ChatRoomParticipantRVAdapter(userList)
+            adapter = ChatRoomParticipantRVAdapter(userList, object: ParticipantItemClickListener {
+                override fun clickMessage(data: ParticipantData) {
+                    TODO("Not yet implemented")
+                }
+                override fun clickReport(data: ParticipantData) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun clickRecommend(data: ParticipantData) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun clickAddFriend(data: ParticipantData) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun clickBlock(data: ParticipantData) {
+                    TODO("Not yet implemented")
+                }
+            })
             binding.rvParticipants.adapter = adapter
             binding.rvParticipants.layoutManager = LinearLayoutManager(context)
         }
