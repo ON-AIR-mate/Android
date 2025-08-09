@@ -22,11 +22,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.entity.VideoData
+import umc.onairmate.data.model.request.CreateRoomRequest
 import umc.onairmate.databinding.FragmentHomeBinding
 import umc.onairmate.ui.chat_room.ChatRoomLayoutActivity
 import umc.onairmate.ui.home.room.HomeEventListener
 import umc.onairmate.ui.home.room.RoomRVAdapter
 import umc.onairmate.ui.home.video.SearchVideoViewModel
+import umc.onairmate.ui.pop_up.CreateRoomCallback
+import umc.onairmate.ui.pop_up.CreateRoomPopup
 import umc.onairmate.ui.pop_up.JoinRoomPopup
 import umc.onairmate.ui.pop_up.PopupClick
 
@@ -147,6 +150,10 @@ class HomeFragment : Fragment() {
             if(videos == null) return@observe
             recommendVideo(videos)
         }
+        searchVideoViewModel.videoDetailInfo.observe(viewLifecycleOwner) { data ->
+            if (data == null) return@observe
+            showCreateRoomPopup(data)
+        }
     }
 
     // 상단 버튼들
@@ -204,11 +211,26 @@ class HomeFragment : Fragment() {
         }
     }
 
+    // 방 생성 팝업 띄우기
+    private fun showCreateRoomPopup(data : VideoData){
+        searchVideoViewModel.clearVideoDetailInfo()
+
+        val dialog = CreateRoomPopup(data, object : CreateRoomCallback {
+            override fun onCreateRoom(body: CreateRoomRequest) {
+                // 방 생성 api 호출
+                searchVideoViewModel.createRoom(body)
+            }
+        })
+        activity?.supportFragmentManager?.let { fm ->
+            dialog.show(fm, "CreateRoomPopup")
+        }
+    }
+
 
     // 검색결과 없을 경우 추천 영상 띄우기
     private fun recommendVideo(videoList: List<VideoData>){
-        val videoAdapter = RecommendedVideoRVAdapter(videoList){ _ ->
-            Log.d(TAG,"추천 영상 클릭")
+        val videoAdapter = RecommendedVideoRVAdapter(videoList){ data ->
+            searchVideoViewModel.getVideoDetailInfo(data.videoId)
         }
         binding.rvVideos.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvVideos.adapter =  videoAdapter
