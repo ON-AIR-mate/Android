@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import umc.onairmate.data.model.entity.ChatMessageData
+import umc.onairmate.data.model.entity.SocketError
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.repository.repository.ChatRoomRepository
 import umc.onairmate.data.socket.SocketManager
@@ -61,10 +62,10 @@ class VideoChatViewModel @Inject constructor(
 
     }
 
-    override fun onError(errorMessage: String) {
+    override fun onError(error: SocketError) {
         viewModelScope.launch(Dispatchers.Default) {
             withContext(Dispatchers.Main) {
-                Log.d(TAG,"error ${errorMessage}")
+                Log.d(TAG,"error ${error.type} : ${error.message}")
             }
         }
 

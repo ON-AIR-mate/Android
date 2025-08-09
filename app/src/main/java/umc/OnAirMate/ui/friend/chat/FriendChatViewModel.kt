@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import umc.onairmate.data.model.entity.DirectMessageData
+import umc.onairmate.data.model.entity.SocketError
 import umc.onairmate.data.socket.SocketManager
 import umc.onairmate.data.socket.handler.FriendHandler
 import umc.onairmate.data.socket.listener.FriendEventListener
@@ -41,6 +42,14 @@ class FriendChatViewModel @Inject constructor(
             }
         }
     }
+    override fun onError(error: SocketError) {
+        viewModelScope.launch(Dispatchers.Default) {
+            withContext(Dispatchers.Main) {
+                Log.d(TAG,"error ${error.type} : ${error.message}")
+            }
+        }
+    }
+
     fun joinDM(receiverId: Int){
         Log.d(TAG,"joinDM ${receiverId}")
         val json = JSONObject().apply {
