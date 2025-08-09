@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.data.model.entity.ChatMessageData
 import umc.onairmate.databinding.RvItemChatBinding
-import umc.onairmate.ui.home.video.ChatViewHolder
+import umc.onairmate.ui.chat_room.message.ChatViewHolder
 
 class FriendChatRVAdapter(
     private val userId : Int

@@ -1,4 +1,4 @@
-package umc.onairmate.ui.home.video
+package umc.onairmate.ui.chat_room.message
 
 import android.view.Gravity
 import android.view.View
