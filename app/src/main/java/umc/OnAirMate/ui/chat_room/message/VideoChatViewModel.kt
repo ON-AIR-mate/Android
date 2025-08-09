@@ -115,7 +115,7 @@ class VideoChatViewModel @Inject constructor(
             put("messageType", "general")
         }
 
-        SocketManager.getSocket()!!.emit("sendRoomMessage", json)
+        SocketManager.emit("sendRoomMessage", json)
     }
 
     fun joinRoom(roomId: Int,nickname: String, isVisited: Boolean = false){
@@ -125,7 +125,7 @@ class VideoChatViewModel @Inject constructor(
             put("roomId", roomId)
             put("nickname", nickname)
         }
-        SocketManager.getSocket()!!.emit(type, json)
+        SocketManager.emit(type, json)
     }
 
     fun leaveRoom(roomId: Int){
@@ -133,7 +133,7 @@ class VideoChatViewModel @Inject constructor(
         val json = JSONObject().apply {
             put("roomId", roomId)
         }
-        SocketManager.getSocket()!!.emit("leaveRoom", json)
+        SocketManager.emit("leaveRoom", json)
     }
 
 
