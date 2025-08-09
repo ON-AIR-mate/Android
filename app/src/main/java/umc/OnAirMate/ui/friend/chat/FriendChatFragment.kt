@@ -1,16 +1,19 @@
 package umc.onairmate.ui.friend.chat
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.ChatMessageData
+import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.data.socket.SocketDispatcher
 import umc.onairmate.data.socket.SocketManager
 import umc.onairmate.databinding.FragmentVideoChatBinding
@@ -26,8 +29,7 @@ class FriendChatFragment: Fragment() {
     private val binding get() = _binding!!
     private var userId : Int = 0
     private var nickname : String = ""
-    private var friendId : Int =0
-    private var friendNickname :String = ""
+    private var friend : FriendData = FriendData()
     private val viewModel: FriendChatViewModel by viewModels()
 
     lateinit var adapter : FriendChatRVAdapter
@@ -56,12 +58,12 @@ class FriendChatFragment: Fragment() {
 
         binding.btnSend.setOnClickListener {
             val text = binding.etInputChat.text.toString()
-            viewModel.sendMessage(friendId, nickname, text)
+            viewModel.sendMessage(friend.userId, nickname, text)
             binding.etInputChat.setText("")
         }
 
 
-        viewModel.joinDM(friendId)
+        viewModel.joinDM(friend.userId)
         return binding.root
     }
 
@@ -70,19 +72,19 @@ class FriendChatFragment: Fragment() {
         super.onResume()
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun initData(){
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         userId = spf.getInt("userId", 0)
         nickname = spf.getString("nickname","nickname")?:"user"
-        friendId = arguments?.getInt("friend_id", 0)!!
-        nickname = arguments?.getString("friend_nickname","")!!
+        friend = arguments?.getParcelable("friendData", FriendData::class.java)!!
 
     }
 
     private fun setUpObserver() {
         viewModel.generalChat.observe(viewLifecycleOwner) { data ->
             if (data == null) return@observe
-            val id = if (data.sender == nickname) userId else friendId
+            val id = if (data.sender == nickname) userId else friend.userId
             val chat = ChatMessageData(messageId = 0,userId= id,data.sender,"",data.message,"GENERAL","")
             adapter.addGeneralChat(chat)
         }
