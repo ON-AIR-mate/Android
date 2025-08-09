@@ -26,6 +26,8 @@ class FriendChatFragment: Fragment() {
     private val binding get() = _binding!!
     private var userId : Int = 0
     private var nickname : String = ""
+    private var friendId : Int =0
+    private var friendNickname :String = ""
     private val viewModel: FriendChatViewModel by viewModels()
 
     lateinit var adapter : FriendChatRVAdapter
@@ -54,12 +56,12 @@ class FriendChatFragment: Fragment() {
 
         binding.btnSend.setOnClickListener {
             val text = binding.etInputChat.text.toString()
-            viewModel.sendMessage(37, nickname, text)
+            viewModel.sendMessage(friendId, nickname, text)
             binding.etInputChat.setText("")
         }
 
 
-        viewModel.joinDM(37)
+        viewModel.joinDM(friendId)
         return binding.root
     }
 
@@ -72,14 +74,16 @@ class FriendChatFragment: Fragment() {
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         userId = spf.getInt("userId", 0)
         nickname = spf.getString("nickname","nickname")?:"user"
-
+        friendId = arguments?.getInt("friend_id", 0)!!
+        nickname = arguments?.getString("friend_nickname","")!!
 
     }
 
     private fun setUpObserver() {
         viewModel.generalChat.observe(viewLifecycleOwner) { data ->
             if (data == null) return@observe
-            val chat = ChatMessageData(messageId = 0,userId= userId,data.sender,"",data.message,"GENERAL","")
+            val id = if (data.sender == nickname) userId else friendId
+            val chat = ChatMessageData(messageId = 0,userId= id,data.sender,"",data.message,"GENERAL","")
             adapter.addGeneralChat(chat)
         }
     }
