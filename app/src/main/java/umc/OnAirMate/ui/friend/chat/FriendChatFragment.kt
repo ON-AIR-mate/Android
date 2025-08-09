@@ -79,7 +79,7 @@ class FriendChatFragment: Fragment() {
     private fun setUpObserver() {
         viewModel.generalChat.observe(viewLifecycleOwner) { data ->
             if (data == null) return@observe
-            val chat = ChatMessageData(0,0,userId,data.sender,"",data.message,"GENERAL","")
+            val chat = ChatMessageData(messageId = 0,userId= userId,data.sender,"",data.message,"GENERAL","")
             adapter.addGeneralChat(chat)
         }
     }

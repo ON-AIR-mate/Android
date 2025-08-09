@@ -29,7 +29,10 @@ class FriendChatActivity: AppCompatActivity() {
 
 
         val chatRoom = FriendChatFragment()
-        //chatRoom.arguments = bundle
+        val bundle = Bundle()
+        bundle.putInt("friend_id", friendId)
+        bundle.putString("friend_nickname",friendNickname)
+        chatRoom.arguments = bundle
         supportFragmentManager.beginTransaction()
             .replace(R.id.fr_chat_module, chatRoom)
             .commit()

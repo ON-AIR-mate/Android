@@ -12,10 +12,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
-import umc.onairmate.data.model.entity.ChatMessageData
 import umc.onairmate.data.model.entity.DirectMessageData
 import umc.onairmate.data.socket.SocketManager
-import umc.onairmate.data.socket.handler.ChatRoomHandler
 import umc.onairmate.data.socket.handler.FriendHandler
 import umc.onairmate.data.socket.listener.FriendEventListener
 import javax.inject.Inject
