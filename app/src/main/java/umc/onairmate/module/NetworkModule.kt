@@ -14,6 +14,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import umc.onairmate.OnAirMateApplication
 import umc.onairmate.R
 import umc.onairmate.BuildConfig
+import umc.onairmate.data.api.JoinService
 import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -69,4 +70,25 @@ object NetworkModule {
     private inline fun <reified T> Retrofit.buildService(): T{
         return this.create(T::class.java)
     }
+
+    @Module
+    @InstallIn(SingletonComponent::class)
+    object NetworkModule {
+
+        @Provides
+        @Singleton
+        fun provideRetrofit(): Retrofit {
+            return Retrofit.Builder()
+                .baseUrl(OnAirMateApplication.getString(R.string.base_url))  // 수정 필요
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+        }
+
+        @Provides
+        @Singleton
+        fun provideJoinService(retrofit: Retrofit): JoinService {
+            return retrofit.create(JoinService::class.java)
+        }
+    }
+
 }

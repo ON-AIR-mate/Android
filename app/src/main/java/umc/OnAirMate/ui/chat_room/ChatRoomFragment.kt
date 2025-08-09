@@ -43,7 +43,7 @@ class ChatRoomFragment : Fragment() {
     ): View {
         binding = FragmentChatRoomBinding.inflate(inflater, container, false)
 
-        initPlayer()
+        //initPlayer()
         initScreen()
         onClickSetting()
         onClickGoBack()
@@ -79,6 +79,7 @@ class ChatRoomFragment : Fragment() {
         }
     }
 
+    /*
     // 유튜브 모듈
     // 근데.. api에 영상 id 받는 부분이 없어보임..
     fun initPlayer() {
@@ -94,7 +95,6 @@ class ChatRoomFragment : Fragment() {
                 playerUiController.showPlayPauseButton(true)
                 playerUiController.showYouTubeButton(false)
                 playerView.setCustomPlayerUi(playerUiController.rootView)
-
                 val videoId = roomData.videoId ?: "CgCVZdcKcqY"
                 youTubePlayer.loadVideo(videoId, 0f) // todo: RoomData duration 연동
             }
@@ -104,6 +104,8 @@ class ChatRoomFragment : Fragment() {
         val options: IFramePlayerOptions = IFramePlayerOptions.Builder().controls(0).build()
         playerView.initialize(listener, options)
     }
+
+     */
 
     // 채팅창에 번들 전달
     private fun initChat() {

@@ -8,14 +8,17 @@ import dagger.hilt.android.scopes.ViewModelScoped
 import umc.onairmate.data.api.FriendService
 import umc.onairmate.data.api.ChatRoomService
 import umc.onairmate.data.api.HomeService
+import umc.onairmate.data.api.JoinService
 import umc.onairmate.data.api.TestService
 import umc.onairmate.data.repository.repository.FriendRepository
 import umc.onairmate.data.repository.repository.ChatRoomRepository
 import umc.onairmate.data.repository.repository.HomeRepository
+import umc.onairmate.data.repository.repository.JoinRepository
 import umc.onairmate.data.repository.repository.TestRepository
 import umc.onairmate.data.repository.repositoryImpl.FriendRepositoryImpl
 import umc.onairmate.data.repository.repositoryImpl.ChatRoomRepositoryImpl
 import umc.onairmate.data.repository.repositoryImpl.HomeRepositoryImpl
+import umc.onairmate.data.repository.repositoryImpl.JoinRepositoryImpl
 import umc.onairmate.data.repository.repositoryImpl.TestRepositoryImpl
 
 @Module
@@ -44,4 +47,17 @@ object RepositoryModule {
     fun providesChatRoomRepository(
         chatRoomService: ChatRoomService
     ) : ChatRoomRepository = ChatRoomRepositoryImpl(chatRoomService)
+
+    @Module
+    @InstallIn(ViewModelComponent::class)
+    object RepositoryModule {
+
+        @Provides
+        @ViewModelScoped
+        fun provideJoinRepository(
+            joinService: JoinService
+        ): JoinRepository {
+            return JoinRepositoryImpl(joinService)
+        }
+    }
 }

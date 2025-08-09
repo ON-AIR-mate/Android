@@ -1,7 +1,6 @@
 package umc.onairmate.ui.lounge.model
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import java.io.Serializable
 
 data class Collection(
     val title: String,
@@ -9,4 +8,4 @@ data class Collection(
     val lastUpdated: String,
     val privacy: String,
     val thumbnailUrl: String
-)
+):Serializable

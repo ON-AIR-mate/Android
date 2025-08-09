@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/collectionListFragment">
+    app:startDestination="@id/fragment_container">
 
     <fragment
         android:id="@+id/collectionListFragment"
@@ -23,5 +23,31 @@
         <argument
             android:name="collection"
             app:argType="umc.onairmate.ui.lounge.model.Collection" />
+
     </fragment>
+
+    <fragment
+        android:id="@+id/HowToUseFragment"
+        android:name="umc.onairmate.ui.join.HowToUseFragment">
+
+        <action
+            android:id="@+id/action_howToUseFragment_to_loginActivity"
+            app:destination="@id/fragment_container"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/joinFragment"
+        android:name="umc.onairmate.ui.join.JoinFragment" >
+
+        <action
+            android:id="@+id/action_joinFragment_to_joinProfileFragment"
+            app:destination="@id/joinProfileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/joinProfileFragment"
+        android:name="umc.onairmate.ui.join.JoinProfileFragment"
+        android:label="JoinProfileFragment"
+        tools:layout="@layout/fragment_join_profile" />
 </navigation>
