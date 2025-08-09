@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import umc.onairmate.R
@@ -23,8 +24,8 @@ class SearchTypeSpinnerAdapter(
         }
 
         binding.tvSearchType.text = items[position]
-        binding.tvSearchType.setTextColor(ContextCompat.getColor(context, R.color.black))
-        binding.tvSearchType.setTextAppearance(R.style.TextAppearance_App_Medium_12sp)
+        binding.tvSearchType.setTextAppearance(R.style.TextAppearance_App_Medium_10sp)
+        binding.tvSearchType.setTextColor(ContextCompat.getColor(context, R.color.white))
 
         // 첫번째 요소 구분선 제거
         if (position == 0) {
@@ -46,5 +47,10 @@ class SearchTypeSpinnerAdapter(
         textView.setTextAppearance(R.style.TextAppearance_App_Bold_10sp)
         textView.setTextColor(ContextCompat.getColor(context, R.color.white))
         return view
+    }
+
+    private fun ConvertDPtoPX(context: Context, dp: Int): Int {
+        val density = context.resources.displayMetrics.density
+        return Math.round(dp.toFloat() * density)
     }
 }

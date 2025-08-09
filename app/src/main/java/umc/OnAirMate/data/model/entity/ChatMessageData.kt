@@ -5,8 +5,6 @@ import com.google.gson.annotations.SerializedName
 data class ChatMessageData(
     @SerializedName("messageId")
     val messageId: Int,
-    @SerializedName("roomId")
-    val roomId: Int,
     @SerializedName("userId")
     val userId: Int,
     @SerializedName("nickname")

@@ -8,9 +8,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import umc.onairmate.data.model.entity.ChatMessageData
+import umc.onairmate.data.model.entity.SocketError
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.repository.repository.ChatRoomRepository
 import umc.onairmate.data.socket.SocketManager
@@ -41,20 +44,40 @@ class VideoChatViewModel @Inject constructor(
     fun getHandler(): ChatRoomHandler = handler
 
     override fun onNewChat(chatMessage: ChatMessageData) {
-        Log.d(TAG,"onNewChat : ${chatMessage}")
-        _chat.postValue( chatMessage)
+        viewModelScope.launch(Dispatchers.Default) {
+            withContext(Dispatchers.Main) {
+                Log.d(TAG,"onNewChat : ${chatMessage}")
+                _chat.postValue(chatMessage)
+            }
+        }
+
     }
 
     override fun onUserJoined(data: String) {
-        Log.d(TAG,"onUserJoined : ${data}")
+        viewModelScope.launch(Dispatchers.Default) {
+            withContext(Dispatchers.Main) {
+                Log.d(TAG,"onUserJoined : ${data}")
+            }
+        }
+
     }
 
-    override fun onError(errorMessage: String) {
-        Log.d(TAG,"error ${errorMessage}")
+    override fun onError(error: SocketError) {
+        viewModelScope.launch(Dispatchers.Default) {
+            withContext(Dispatchers.Main) {
+                Log.d(TAG,"error ${error.type} : ${error.message}")
+            }
+        }
+
     }
 
     override fun onUserLeft(data: Int) {
-        Log.d(TAG,"onUserLeft ${data}")
+        viewModelScope.launch(Dispatchers.Default) {
+            withContext(Dispatchers.Main) {
+                Log.d(TAG,"onUserLeft ${data}")
+            }
+        }
+
     }
 
     // 초기 메시지 로드
@@ -92,7 +115,7 @@ class VideoChatViewModel @Inject constructor(
             put("messageType", "general")
         }
 
-        SocketManager.getSocket()!!.emit("sendRoomMessage", json)
+        SocketManager.emit("sendRoomMessage", json)
     }
 
     fun joinRoom(roomId: Int,nickname: String, isVisited: Boolean = false){
@@ -102,7 +125,7 @@ class VideoChatViewModel @Inject constructor(
             put("roomId", roomId)
             put("nickname", nickname)
         }
-        SocketManager.getSocket()!!.emit(type, json)
+        SocketManager.emit(type, json)
     }
 
     fun leaveRoom(roomId: Int){
@@ -110,7 +133,7 @@ class VideoChatViewModel @Inject constructor(
         val json = JSONObject().apply {
             put("roomId", roomId)
         }
-        SocketManager.getSocket()!!.emit("leaveRoom", json)
+        SocketManager.emit("leaveRoom", json)
     }
 
 

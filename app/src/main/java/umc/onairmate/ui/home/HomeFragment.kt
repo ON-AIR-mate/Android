@@ -137,7 +137,6 @@ class HomeFragment : Fragment() {
     }
 
     // 상단 버튼들
-    // 일단 데이터 변화를 테스트 하는데 활용 -> 나중에 Intent로 변환할 예정
     private fun initClickListener(){
         binding.ivYoutubeSearch.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_search_video)

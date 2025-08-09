@@ -9,7 +9,6 @@ object SocketDispatcher {
     private val activeHandlers = mutableListOf<SocketHandler>().apply {
         Collections.synchronizedList(this)
     }
-
     /** 핸들러 등록 (필요 시점에 호출) */
     fun registerHandler(socket: Socket, handler: SocketHandler) {
         if (!activeHandlers.contains(handler)) {
