@@ -1,8 +1,8 @@
-package umc.onairmate.data.model.response
+package umc.onairmate.data.model.request
 
 import com.google.gson.annotations.SerializedName
 
-data class MoveCollectionResponse(
+data class MoveCollectionRequest(
     @SerializedName("collectionId")
     val collectionId: Int?
 )

@@ -14,7 +14,7 @@ import umc.onairmate.data.model.response.BookmarkListResponse
 import umc.onairmate.data.model.response.CreateBookmarkResponse
 import umc.onairmate.data.model.response.CreateRoomWithBookmarkResponse
 import umc.onairmate.data.model.response.MessageResponse
-import umc.onairmate.data.model.response.MoveCollectionResponse
+import umc.onairmate.data.model.request.MoveCollectionRequest
 import umc.onairmate.data.model.response.RawDefaultResponse
 
 interface BookmarkService {
@@ -30,7 +30,7 @@ interface BookmarkService {
     @GET("bookmarks")
     suspend fun getBookmarks(
         @Header("Authorization") accessToken: String,
-        @Query("collectionId") collectionId: Int,
+        @Query("collectionId") collectionId: Int?,
         @Query("uncategorized") uncategorized: Boolean
     ): RawDefaultResponse<BookmarkListResponse>
 
@@ -46,7 +46,7 @@ interface BookmarkService {
     suspend fun moveCollectionOfBookmark(
         @Header("Authorization") accessToken: String,
         @Path("bookmarkId") bookmarkId: Int,
-        @Body body: MoveCollectionResponse
+        @Body body: MoveCollectionRequest
     ): RawDefaultResponse<MessageResponse>
 
     // 북마크로 방 생성

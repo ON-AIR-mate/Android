@@ -1,24 +1,19 @@
-package umc.onairmate.ui.lounge
+package umc.onairmate.ui.lounge.bookmark
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.PopupMenu
-import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.R
-import umc.onairmate.data.model.entity.Bookmark
 import umc.onairmate.data.model.entity.BookmarkData
 import umc.onairmate.databinding.RvItemBookmarkBinding
-import umc.onairmate.ui.chat_room.drawer.participants.userList
 import umc.onairmate.ui.util.NetworkImageLoader
 
-class BookmarkAdapter(
+class BookmarkRVAdapter(
     private val bookmarkList: List<BookmarkData>,
     private val itemClick: (BookmarkData) -> Unit
-) : RecyclerView.Adapter<BookmarkAdapter.BookmarkViewHolder>() {
+) : RecyclerView.Adapter<BookmarkRVAdapter.BookmarkViewHolder>() {
 
     inner class BookmarkViewHolder(
         private val binding: RvItemBookmarkBinding

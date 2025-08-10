@@ -8,7 +8,7 @@ import umc.onairmate.data.model.response.CreateBookmarkResponse
 import umc.onairmate.data.model.response.CreateRoomWithBookmarkResponse
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.model.response.MessageResponse
-import umc.onairmate.data.model.response.MoveCollectionResponse
+import umc.onairmate.data.model.request.MoveCollectionRequest
 import umc.onairmate.data.repository.repository.BookmarkRepository
 import umc.onairmate.data.util.safeApiCall
 import javax.inject.Inject
@@ -27,7 +27,7 @@ class BookmarkRepositoryImpl @Inject constructor(
 
     override suspend fun getBookmarks(
         accessToken: String,
-        collectionId: Int,
+        collectionId: Int?,
         uncategorized: Boolean
     ): DefaultResponse<BookmarkListResponse> {
         return safeApiCall {
@@ -47,7 +47,7 @@ class BookmarkRepositoryImpl @Inject constructor(
     override suspend fun moveCollectionOfBookmark(
         accessToken: String,
         bookmarkId: Int,
-        body: MoveCollectionResponse
+        body: MoveCollectionRequest
     ): DefaultResponse<MessageResponse> {
         return safeApiCall {
             api.moveCollectionOfBookmark(accessToken, bookmarkId, body)
