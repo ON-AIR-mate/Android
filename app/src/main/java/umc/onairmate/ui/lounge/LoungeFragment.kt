@@ -29,53 +29,42 @@ class LoungeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLoungeBinding.inflate(inflater, container, false)
+
+        initListener()
+
         return binding.root
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        // 샘플 데이터
-        val sampleSections = listOf(
-            BookmarkSection(
-                sectionTitle = "정리되지 않은 북마크",
-                videos = listOf(
-                    VideoItem(
-                        thumbnailUrl = "https://via.placeholder.com/100",
-                        title = "방 제목 1",
-                        host = "영상 제목 1",
-                        time = "16:23"
-                    ),
-                    VideoItem(
-                        thumbnailUrl = "https://via.placeholder.com/100",
-                        title = "방 제목 2",
-                        host = "영상 제목 2",
-                        time = "16:24"
-                    )
-                )
-            )
-        )
-
-        // 데이터가 없을 경우 emptyView 보여주기
-        if (sampleSections.isEmpty() || sampleSections.all { it.videos.isEmpty() }) {
-            binding.bookmarkRecyclerView.visibility = View.GONE
-            binding.emptyBookmarkView.visibility = View.VISIBLE
-        } else {
-            binding.bookmarkRecyclerView.visibility = View.VISIBLE
-            binding.emptyBookmarkView.visibility = View.GONE
-
-            // 리사이클러뷰 설정
-            binding.bookmarkRecyclerView.apply {
-                layoutManager = LinearLayoutManager(requireContext())
-                adapter = OuterAdapter(sampleSections)
-            }
-        }
-    }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun initListener() {
+        // 전체 목록 버튼 선택시
+        binding.tvAllList.setOnClickListener {
+            selectButton(it)
+            childFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, CollectionListFragment())
+                .commit()
+        }
+        // 컬렉션별 목록 버튼 선택시
+        binding.tvCollectionList.setOnClickListener {
+            selectButton(it)
+            childFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, CollectionListFragment())
+                .commit()
+        }
+    }
+
+    // 버튼 선택 상태를 업데이트하는 함수
+    private fun selectButton(selectedView: View) {
+        // 모든 버튼을 일단 false로 초기화
+        binding.tvAllList.isSelected = false
+        binding.tvCollectionList.isSelected = false
+
+        // 선택된 뷰의 isSelected만 true로 변경
+        selectedView.isSelected = true
     }
 
     private fun showDeleteConfirmationDialog(
