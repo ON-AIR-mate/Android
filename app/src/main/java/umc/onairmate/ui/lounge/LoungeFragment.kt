@@ -4,14 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.databinding.FragmentLoungeBinding
-import umc.onairmate.data.model.entity.CollectionData as LoungeCollection
 
 /**
  * LoungeFragment: '라운지' 화면의 진입점
@@ -29,6 +25,7 @@ class LoungeFragment : Fragment() {
     ): View {
         _binding = FragmentLoungeBinding.inflate(inflater, container, false)
 
+        initScreen()
         initListener()
 
         return binding.root
@@ -37,6 +34,14 @@ class LoungeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun initScreen() {
+        // 접근시 전체 목록 화면 지정
+        selectButton(binding.tvAllList)
+        childFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, CollectionListFragment())
+            .commit()
     }
 
     fun initListener() {
@@ -65,7 +70,7 @@ class LoungeFragment : Fragment() {
         // 선택된 뷰의 isSelected만 true로 변경
         selectedView.isSelected = true
     }
-
+/*
     private fun showDeleteConfirmationDialog(
         collection: LoungeCollection,
         onDeleteClick: (LoungeCollection) -> Unit
@@ -98,7 +103,7 @@ class LoungeFragment : Fragment() {
         }
 
         dialog.show()
-    }
+    }*/
 
 }
 

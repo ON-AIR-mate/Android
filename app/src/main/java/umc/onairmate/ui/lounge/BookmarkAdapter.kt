@@ -1,7 +1,6 @@
 package umc.onairmate.ui.lounge
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -11,45 +10,56 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.Bookmark
+import umc.onairmate.data.model.entity.BookmarkData
+import umc.onairmate.databinding.RvItemBookmarkBinding
+import umc.onairmate.ui.chat_room.drawer.participants.userList
+import umc.onairmate.ui.util.NetworkImageLoader
 
-class BookmarkAdapter(private val bookmarkList: List<Bookmark>) :
-    RecyclerView.Adapter<BookmarkAdapter.BookmarkViewHolder>() {
+class BookmarkAdapter(
+    private val bookmarkList: List<BookmarkData>,
+    private val itemClick: (BookmarkData) -> Unit
+) : RecyclerView.Adapter<BookmarkAdapter.BookmarkViewHolder>() {
 
-    inner class BookmarkViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val thumbnailImage: ImageView = itemView.findViewById(R.id.thumbnailImage)
-        val titleText: TextView = itemView.findViewById(R.id.titleText)
-        val descText: TextView = itemView.findViewById(R.id.descText)
-        val timeText: TextView = itemView.findViewById(R.id.timeText)
-        val moreButton: ImageButton = itemView.findViewById(R.id.moreButton)
+    inner class BookmarkViewHolder(
+        private val binding: RvItemBookmarkBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(bookmark: BookmarkData) {
+            // 썸네일 이미지 로드
+            NetworkImageLoader.thumbnailLoad(binding.ivThumbnail, bookmark.videoThumbnail)
+
+            binding.tvVideoTitle.text = bookmark.videoTitle
+            // api에서 방 제목을 안넘겨주는 듯..???
+            binding.tvRoomTitle.text = bookmark.bookmarkId.toString()
+            binding.tvBookmarkTime.text = bookmark.message
+
+            binding.btnMore.setOnClickListener { button ->
+                val popup = PopupMenu(button.context, button)
+                popup.menuInflater.inflate(R.menu.bookmark_popup_menu, popup.menu)
+                popup.setOnMenuItemClickListener { menuItem ->
+                    when (menuItem.itemId) {
+                        R.id.action_delete_bookmark -> {
+                            // TODO: 삭제 기능 호출
+                            Toast.makeText(button.context, "북마크 삭제 클릭됨", Toast.LENGTH_SHORT).show()
+                            true
+                        }
+                        else -> false
+                    }
+                }
+                popup.show()
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_bookmark, parent, false)
-        return BookmarkViewHolder(view)
+        val binding = RvItemBookmarkBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
+        return BookmarkViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: BookmarkViewHolder, position: Int) {
-        val item = bookmarkList[position]
-        holder.thumbnailImage.setImageResource(item.thumbnailResId)
-        holder.titleText.text = item.title
-        holder.descText.text = item.description
-        holder.timeText.text = item.time
-
-        holder.moreButton.setOnClickListener { view ->
-            val popup = PopupMenu(view.context, view)
-            popup.menuInflater.inflate(R.menu.bookmark_popup_menu, popup.menu)
-            popup.setOnMenuItemClickListener { menuItem ->
-                when (menuItem.itemId) {
-                    R.id.action_delete_bookmark -> {
-                        // TODO: 삭제 기능 호출
-                        Toast.makeText(view.context, "북마크 삭제 클릭됨", Toast.LENGTH_SHORT).show()
-                        true
-                    }
-                    else -> false
-                }
-            }
-            popup.show()
-        }
+        holder.bind(bookmarkList[position])
     }
 
 
