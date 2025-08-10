@@ -4,20 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import dagger.hilt.android.AndroidEntryPoint
-import umc.onairmate.data.model.entity.BookmarkSection
-import umc.onairmate.data.model.entity.VideoItem
-import umc.onairmate.ui.lounge.adapter.OuterAdapter
-import umc.onairmate.databinding.FragmentLoungeBinding
-import umc.onairmate.R
-import androidx.appcompat.app.AlertDialog
-import android.widget.TextView
 import android.widget.Button
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
+import umc.onairmate.R
+import umc.onairmate.databinding.FragmentLoungeBinding
 import umc.onairmate.data.model.entity.CollectionData as LoungeCollection
 
-
+/**
+ * LoungeFragment: '라운지' 화면의 진입점
+ * - childFragment: BookmarkListFragment(전체 목록), CollectionListFragment(컬렉션 목록)
+ */
 @AndroidEntryPoint
 class LoungeFragment : Fragment() {
 
