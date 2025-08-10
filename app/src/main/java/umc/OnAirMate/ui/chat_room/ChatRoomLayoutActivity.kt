@@ -12,6 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.databinding.ActivityChatRoomLayoutBinding
+import umc.onairmate.ui.chat_room.drawer.ChatRoomDrawerFragment
 
 @AndroidEntryPoint
 class ChatRoomLayoutActivity : AppCompatActivity() {
