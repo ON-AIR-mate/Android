@@ -60,8 +60,8 @@ class ChatRoomFragment : Fragment() {
         val chatRoom = VideoChatFragment()
         chatRoom.arguments = bundle
 
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, chatRoom)
+        childFragmentManager.beginTransaction()
+            .replace(R.id.fg_chat_module, chatRoom)
             .commit()
 
     }
