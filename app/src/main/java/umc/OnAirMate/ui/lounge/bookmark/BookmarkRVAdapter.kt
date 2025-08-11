@@ -71,13 +71,11 @@ class BookmarkRVAdapter(
                 popup.setOnMenuItemClickListener { menuItem ->
                     when (menuItem.itemId) {
                         R.id.action_delete_bookmark -> {
-                            // TODO: 삭제 기능 호출
                             bookmarkEventListener.deleteBookmark(bookmark)
                             Toast.makeText(button.context, "북마크 삭제 클릭됨", Toast.LENGTH_SHORT).show()
                             true
                         }
                         R.id.action_move_collection -> {
-                            // TODO: 컬렉션 이동 기능 호출
                             bookmarkEventListener.moveCollection(bookmark)
                             Toast.makeText(button.context, "컬렉션 이동 클릭됨", Toast.LENGTH_SHORT).show()
                             true
@@ -156,7 +154,7 @@ class BookmarkRVAdapter(
 
         if (allBookmarks.isNotEmpty()) {
             itemList.add(RecyclerItem.Header(ALL_BOOKMARK)) // 모든 북마크 헤더
-            itemList.addAll(uncategorizedBookmarks.map { RecyclerItem.Bookmark(it) }) // 모든 북마크 아이템
+            itemList.addAll(allBookmarks.map { RecyclerItem.Bookmark(it) }) // 모든 북마크 아이템
         }
 
         submitList(emptyList()) // 기존 데이터 초기화 -> Empty리스트가 들어올 경우 대비

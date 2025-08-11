@@ -65,6 +65,8 @@ class BookmarkListFragment : Fragment() {
         binding.rvBookmarks.visibility = View.VISIBLE
         binding.emptyBookmarkLayout.visibility = View.GONE
         adapter.initData(bookmarkList.uncategorized, bookmarkList.all)
+
+        binding.rvBookmarks.adapter = adapter
     }
 
     private fun setUpObserver() {
