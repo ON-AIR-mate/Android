@@ -40,7 +40,7 @@
         android:overScrollMode="never"
         android:nestedScrollingEnabled="false"
         app:layout_constraintTop_toBottomOf="@id/ll_create_collection"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/cl_bottom"
         />
 
 
@@ -54,7 +54,7 @@
         android:padding="24dp"
         android:visibility="visible"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/cl_bottom"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -66,7 +66,7 @@
         <TextView
             android:layout_marginTop="16dp"
             android:text="나만의 컬렉션이 없습니다."
-            android:textSize="16sp"
+            android:textAppearance="@style/TextAppearance.App.Medium.14sp"
             android:textStyle="bold"
             android:gravity="center"
             android:layout_width="wrap_content"
@@ -75,10 +75,17 @@
         <TextView
             android:layout_marginTop="8dp"
             android:text="컬렉션을 만들어 뚜렷한 순간을 더 특별하게 만들어보세요!"
-            android:textSize="14sp"
+            android:textAppearance="@style/TextAppearance.App.Regular.12sp"
             android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
+    <!-- 바텀뷰만큼 띄우기위한 코드입니다 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
