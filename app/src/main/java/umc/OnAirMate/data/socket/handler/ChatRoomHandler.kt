@@ -3,6 +3,7 @@ package umc.onairmate.data.socket.handler
 import android.util.Log
 import org.json.JSONObject
 import umc.onairmate.data.model.entity.ChatMessageData
+import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.entity.SocketError
 import umc.onairmate.data.socket.SocketHandler
 import umc.onairmate.data.socket.listener.ChatRoomEventListener
@@ -29,8 +30,16 @@ class ChatRoomHandler(
             "userJoined" to { data ->
                 //listener.onUserJoined(parseJson(data))
             },
-            "leaveRoom" to { data ->
+            "userLeft" to { data ->
                 //listener.onUserLeft(parseJson(data))
+            },
+            "roomSettingsUpdated" to {data ->
+                val parsed = parseJson<RoomData>(data)
+                if (parsed == null) {
+                    val error =  SocketError(type = "roomSettingsUpdated", message = data.toString())
+                    listener.onError(error)
+                }
+                else listener.onRoomSettingsUpdated(parsed)
             }
         )
     }
