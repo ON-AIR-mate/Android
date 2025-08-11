@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,7 +27,7 @@ class VideoChatFragment: Fragment() {
     private var roomId : Int = 0
     private var nickname : String = ""
     lateinit var adapter : ChatRVAdapter
-    private val viewModel: VideoChatViewModel by viewModels()
+    private val videoChatViewModel: VideoChatViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,11 +39,6 @@ class VideoChatFragment: Fragment() {
         initData()
         setUpObserver()
 
-        // 소켓 연결
-        val socket = SocketManager.getSocketOrNull()
-        if (socket?.connected() == true) {
-            SocketDispatcher.registerHandler(socket, viewModel.getHandler())
-        }
 
         adapter = ChatRVAdapter(userId)
         binding.rvVideoChat.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
@@ -50,11 +46,11 @@ class VideoChatFragment: Fragment() {
 
         binding.btnSend.setOnClickListener {
             val text = binding.etInputChat.text.toString()
-            viewModel.sendMessage(roomId, nickname, text)
+            videoChatViewModel.sendMessage(roomId, nickname, text)
             binding.etInputChat.setText("")
         }
 
-        viewModel.joinRoom(roomId,nickname)
+        videoChatViewModel.joinRoom(roomId,nickname)
         return binding.root
     }
 
@@ -77,12 +73,12 @@ class VideoChatFragment: Fragment() {
     }
 
     private fun setUpObserver() {
-        viewModel.chatHistory.observe(viewLifecycleOwner) { list ->
+        videoChatViewModel.chatHistory.observe(viewLifecycleOwner) { list ->
             if (list == null) return@observe
             adapter.initChatHistory(list)
         }
 
-        viewModel.chat.observe(viewLifecycleOwner) { data ->
+        videoChatViewModel.chat.observe(viewLifecycleOwner) { data ->
             if (data == null) return@observe
             adapter.addChat(data)
         }
@@ -90,10 +86,10 @@ class VideoChatFragment: Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        viewModel.leaveRoom(roomId) // 방 나가기 (Socket)
+        videoChatViewModel.leaveRoom(roomId) // 방 나가기 (Socket)
         SocketManager.getSocketOrNull()?.let { socket ->
             if (socket.connected()) {
-                SocketDispatcher.unregisterHandler(socket, viewModel.getHandler())
+                SocketDispatcher.unregisterHandler(socket, videoChatViewModel.getHandler())
             }
         }
         _binding = null

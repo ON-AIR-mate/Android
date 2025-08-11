@@ -14,6 +14,7 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import umc.onairmate.data.model.entity.ChatMessageData
 import umc.onairmate.data.model.entity.RoomData
+import umc.onairmate.data.model.entity.RoomSettingData
 import umc.onairmate.data.model.entity.SocketError
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.repository.repository.ChatRoomRepository
@@ -38,6 +39,10 @@ class VideoChatViewModel @Inject constructor(
 
     private val _chat = MutableLiveData<ChatMessageData>()
     val chat: LiveData<ChatMessageData> get() = _chat
+
+    // 방 설정 데이터
+    private val _roomSettingDataInfo = MutableLiveData<RoomSettingData>()
+    val roomSettingDataInfo : LiveData<RoomSettingData> get() = _roomSettingDataInfo
 
     fun getToken(): String? {
         return spf.getString("access_token", null)
