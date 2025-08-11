@@ -1,5 +1,6 @@
 package umc.onairmate.ui.friend.list
 
+import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.Fragment
 import android.os.Bundle
@@ -32,6 +33,7 @@ class FriendListTabFragment() : Fragment() {
     private val viewModel: FriendViewModel by viewModels()
     private val friendChatViewModel: FriendChatViewModel by viewModels()
 
+    private var userId : Int = 0
     private var friendId : Int = 0
     private var type : Int = 0
 
@@ -79,6 +81,8 @@ class FriendListTabFragment() : Fragment() {
     private fun initData(){
         if (type == LIST_TYPE) viewModel.getFriendList()
         if (type == REQUEST_TYPE) viewModel.getRequestedFriendList()
+        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        userId = spf.getInt("userId", 0)
     }
 
     private fun setObservers() {
