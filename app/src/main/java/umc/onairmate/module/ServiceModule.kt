@@ -9,6 +9,7 @@ import umc.onairmate.data.api.BookmarkService
 import umc.onairmate.data.api.ChatRoomService
 import umc.onairmate.data.api.FriendService
 import umc.onairmate.data.api.HomeService
+import umc.onairmate.data.api.ImageService
 import umc.onairmate.data.api.TestService
 import javax.inject.Singleton
 
@@ -49,6 +50,12 @@ object ServiceModule {
     @Provides
     @Singleton
     fun bookmarkApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): BookmarkService{
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun imageApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): ImageService {
         return retrofit.buildService()
     }
 }
