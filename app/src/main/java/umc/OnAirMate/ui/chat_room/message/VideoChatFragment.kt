@@ -56,11 +56,12 @@ class VideoChatFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d(TAG,"onViewCreated")
+        videoChatViewModel.getChatHistory(roomId)
     }
 
     override fun onResume() {
         super.onResume()
+
     }
 
     private fun initData(){

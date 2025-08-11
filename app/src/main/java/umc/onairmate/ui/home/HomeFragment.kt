@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -51,6 +52,8 @@ class HomeFragment : Fragment() {
     private var keyword : String = ""
     private var searchRunnable: Runnable? = null
     private val searchHandler = Handler(Looper.getMainLooper())
+
+    private var roomData = RoomData()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -118,6 +121,7 @@ class HomeFragment : Fragment() {
             override fun selectSortType(type: String) {
                 Log.d(TAG, "정렬 기준 : ${type}")
                 sortBy = type
+                homeViewModel.getRoomList(sortBy = sortBy, searchType = searchType, keyword = keyword)
             }
         })
         binding.rvContents.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
@@ -142,7 +146,8 @@ class HomeFragment : Fragment() {
 
         homeViewModel.roomDetailInfo.observe(viewLifecycleOwner){data ->
             if (data == null) return@observe
-            showJoinRoomPopup(data)
+            roomData = data
+            showJoinRoomPopup()
             homeViewModel.clearRoomDetailInfo()
         }
 
@@ -153,6 +158,21 @@ class HomeFragment : Fragment() {
         searchVideoViewModel.videoDetailInfo.observe(viewLifecycleOwner) { data ->
             if (data == null) return@observe
             showCreateRoomPopup(data)
+        }
+
+        homeViewModel.joinRoom.observe(viewLifecycleOwner){ data ->
+            if (data == null) return@observe
+            if(data){
+                // 방 액티비티로 전환
+                val intent = Intent(requireActivity(), ChatRoomLayoutActivity::class.java).apply {
+                    putExtra("room_data", roomData)
+                }
+                startActivity(intent)
+            }
+            else{
+                Toast.makeText(requireContext(),"방 참여에 실패했습니다.\n다시시도 해주세요", Toast.LENGTH_SHORT).show()
+            }
+
         }
     }
 
@@ -194,15 +214,10 @@ class HomeFragment : Fragment() {
     }
 
     // 방 참여 팝업 띄우기
-    private fun showJoinRoomPopup(data : RoomData){
-        val dialog = JoinRoomPopup(data, object : PopupClick {
+    private fun showJoinRoomPopup(){
+        val dialog = JoinRoomPopup(roomData, object : PopupClick {
             override fun rightClickFunction() {
-                homeViewModel.joinRoom(data.roomId)
-                // 방 액티비티로 전환
-                val intent = Intent(requireActivity(), ChatRoomLayoutActivity::class.java).apply {
-                    putExtra("room_data", data)
-                }
-                startActivity(intent)
+                homeViewModel.joinRoom(roomData.roomId)
             }
 
         })
