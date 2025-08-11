@@ -31,10 +31,14 @@ class BookmarkRVAdapter(
     }
 
     inner class BookmarkViewHolder(
-        private val binding: RvItemBookmarkBinding
+        private val binding: RvItemBookmarkBinding,
+        private val itemClick: (BookmarkData) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(bookmark: BookmarkData) {
+            // 아이템 전체 클릭 리스너 - 방 생성해야함
+            binding.root.setOnClickListener { itemClick(bookmark) }
+
             // 썸네일 이미지 로드
             NetworkImageLoader.thumbnailLoad(binding.ivThumbnail, bookmark.videoThumbnail)
 
@@ -43,6 +47,7 @@ class BookmarkRVAdapter(
             binding.tvRoomTitle.text = bookmark.bookmarkId.toString()
             binding.tvBookmarkTime.text = bookmark.message
 
+            // 더보기 버튼 클릭 리스너
             binding.btnMore.setOnClickListener { button ->
                 val popup = PopupMenu(button.context, button)
                 popup.menuInflater.inflate(R.menu.bookmark_popup_menu, popup.menu)
@@ -51,6 +56,11 @@ class BookmarkRVAdapter(
                         R.id.action_delete_bookmark -> {
                             // TODO: 삭제 기능 호출
                             Toast.makeText(button.context, "북마크 삭제 클릭됨", Toast.LENGTH_SHORT).show()
+                            true
+                        }
+                        R.id.action_move_collection -> {
+                            // TODO: 컬렉션 이동 기능 호출
+                            Toast.makeText(button.context, "컬렉션 이동 클릭됨", Toast.LENGTH_SHORT).show()
                             true
                         }
                         else -> false
@@ -82,14 +92,14 @@ class BookmarkRVAdapter(
             }
             else -> throw IllegalArgumentException("Invalid view type")
         }
-        val binding = RvItemBookmarkBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
-        )
-        return BookmarkViewHolder(binding)
     }
 
+    // 뷰홀더의 종류에 따라 데이터를 바인딩
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder.bind(bookmarkList[position])
+        when (val item = bookmarkList[position]) {
+            is DisplayableItem.Header -> (holder as HeaderViewHolder).bind(item)
+            is DisplayableItem.Bookmark -> (holder as BookmarkViewHolder).bind(item.bookmarkData)
+        }
     }
 
 

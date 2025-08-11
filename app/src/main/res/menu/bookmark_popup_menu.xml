@@ -3,5 +3,9 @@
     <item
         android:id="@+id/action_delete_bookmark"
         android:title="삭제하기" />
+
+    <item
+        android:id="@+id/action_move_collection"
+        android:title="컬렉션 이동" />
 </menu>
 
