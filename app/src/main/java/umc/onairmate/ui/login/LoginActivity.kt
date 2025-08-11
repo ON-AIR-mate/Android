@@ -1,5 +1,6 @@
 package umc.onairmate.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -9,6 +10,8 @@ import androidx.navigation.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.databinding.ActivityLoginBinding
+import umc.onairmate.ui.MainActivity
+import umc.onairmate.ui.TestViewModel
 import umc.onairmate.ui.join.JoinFragment
 
 @AndroidEntryPoint
@@ -16,6 +19,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
     private val loginViewModel: LoginViewModel by viewModels()
+    private val testViewModel: TestViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +43,14 @@ class LoginActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+        }
+
+        testViewModel.isSuccess.observe(this){data ->
+            if (data == null) return@observe
+            val intent =  Intent(this, MainActivity::class.java)
+
+            startActivity(intent)
+
         }
 
         // 아이디/비밀번호 입력 시 로그인 버튼 활성화 처리
@@ -73,7 +85,8 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            loginViewModel.login(userId, userPw) // 로그인 시도
+            testViewModel.signUp(userId,userPw)
+            //loginViewModel.login(userId, userPw) // 로그인 시도
         }
 
         // 회원가입 버튼 클릭 시 Fragment로 이동 처리
