@@ -3,24 +3,28 @@ package umc.onairmate.ui.lounge.collection
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.CollectionData
 import umc.onairmate.databinding.RvItemCollectionBinding
+import umc.onairmate.ui.lounge.bookmark.BookmarkRVAdapter.RecyclerItem
 
 class CollectionRVAdapter(
-    private val collectionList: List<CollectionData>,
     private val collectionEventListener: CollectionEventListener
-) : RecyclerView.Adapter<CollectionRVAdapter.CollectionViewHolder>() {
+) : ListAdapter<CollectionData, CollectionRVAdapter.CollectionViewHolder>(CollectionDiffCallback) {
 
     inner class CollectionViewHolder(private val binding: RvItemCollectionBinding)
         : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: CollectionData) {
+            binding.root.setOnClickListener { collectionEventListener.clickCollectionItem(item) }
+
             binding.tvTitle.text = item.title
-            binding.tvGeneratedDate.text = item.dateCreated
-            binding.tvLatestModifiedDate.text = item.lastUpdated
-            binding.tvPrivacy.text = item.privacy
+            binding.tvGeneratedDate.text = "생성일 : ${item.createdAt}"
+            binding.tvLatestModifiedDate.text = "마지막 수정일 : ${item.updatedAt}"
+            binding.tvPrivacy.text = item.visibility
 
             binding.ivMore.setOnClickListener {
                 val popup = PopupMenu(binding.root.context, it)
@@ -53,13 +57,23 @@ class CollectionRVAdapter(
     }
 
     override fun onBindViewHolder(holder: CollectionViewHolder, position: Int) {
-        holder.bind(collectionList[position])
+        holder.bind(getItem(position))
     }
 
-    override fun getItemCount(): Int = collectionList.size
+    object CollectionDiffCallback : DiffUtil.ItemCallback<CollectionData>() {
+        override fun areItemsTheSame(oldItem: CollectionData, newItem: CollectionData): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(oldItem: CollectionData, newItem: CollectionData): Boolean {
+            // data class의 '==' 연산자는 모든 프로퍼티를 비교하므로, 내용 비교에 적합
+            return oldItem == newItem
+        }
+    }
 }
 
 interface CollectionEventListener {
     fun deleteCollection(collection: CollectionData) {}
     fun shareCollection(collection: CollectionData) {}
+    fun clickCollectionItem(collection: CollectionData) {}
 }

@@ -1,0 +1,134 @@
+package umc.onairmate.ui.lounge.collection
+
+import android.content.Context
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.launch
+import umc.onairmate.data.model.entity.CollectionData
+import umc.onairmate.data.model.entity.CollectionDetailData
+import umc.onairmate.data.model.request.CreateCollectionRequest
+import umc.onairmate.data.model.response.CreateCollectionResponse
+import umc.onairmate.data.model.response.DefaultResponse
+import umc.onairmate.data.repository.repository.CollectionRepository
+import javax.inject.Inject
+
+@HiltViewModel
+class CollectionViewModel @Inject constructor(
+    private val repository: CollectionRepository,
+    @ApplicationContext private val context: Context
+): ViewModel() {
+    private val TAG = this.javaClass.simpleName
+
+    // token
+    private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+
+    // 만들어진 북마크 정보
+    private val _createdCollectionDataInfo = MutableLiveData<CreateCollectionResponse>()
+    val createdCollectionDataInfo : LiveData<CreateCollectionResponse> get() = _createdCollectionDataInfo
+
+    // 사용자의 컬렉션 리스트
+    private val _collectionList = MutableLiveData<List<CollectionData>>()
+    val collectionList : LiveData<List<CollectionData>> get() = _collectionList
+
+    // 컬렉션 세부 정보
+    private val _collectionDetailDataInfo = MutableLiveData<CollectionDetailData>()
+    val collectionDetailDataInfo : LiveData<CollectionDetailData> get() = _collectionDetailDataInfo
+
+    // 서버 로딩중 - 프로그래스바
+    // api호출시 true, 응답이 오면 false
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
+    private fun getToken(): String? {
+        return sharedPreferences.getString("access_token", null)
+    }
+
+    // 컬렉션 생성
+    fun createCollection(collectionCreateData: CreateCollectionRequest) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            val token = getToken()
+            if (token == null) {
+                Log.e(TAG, "토큰이 없습니다")
+                _isLoading.value = false
+                return@launch
+            }
+
+            val result = repository.createCollection(token, collectionCreateData)
+            Log.d(TAG, "createCollection api 호출")
+
+            when (result) {
+                is DefaultResponse.Success -> {
+                    Log.d("응답 성공", "${result.data}")
+                    _createdCollectionDataInfo.postValue(result.data)
+                }
+                is DefaultResponse.Error -> {
+                    Log.d("에러", "${result.code} - ${result.message}")
+                }
+            }
+
+            _isLoading.value = false
+        }
+    }
+
+    // 사용자 전체 컬렉션 가져오기
+    fun getCollections() {
+        viewModelScope.launch {
+            _isLoading.value = true
+            val token = getToken()
+            if (token == null) {
+                Log.e(TAG, "토큰이 없습니다")
+                _isLoading.value = false
+                return@launch
+            }
+
+            val result = repository.getCollections(token)
+            Log.d(TAG, "getCollections api 호출")
+
+            when (result) {
+                is DefaultResponse.Success -> {
+                    Log.d("응답 성공", "${result.data}")
+                    _collectionList.postValue(result.data)
+                }
+                is DefaultResponse.Error -> {
+                    Log.d("에러", "${result.code} - ${result.message}")
+                }
+            }
+
+            _isLoading.value = false
+        }
+    }
+
+    // 컬렉션 내부 정보 (북마크 리스트 포함) 가져오기
+    fun getCollectionDetailInfo() {
+        viewModelScope.launch {
+            _isLoading.value = true
+            val token = getToken()
+            if (token == null) {
+                Log.e(TAG, "토큰이 없습니다")
+                _isLoading.value = false
+                return@launch
+            }
+
+            val result = repository.getCollectionDetailInfo(token)
+            Log.d(TAG, "getCollectionDetailInfo api 호출")
+
+            when (result) {
+                is DefaultResponse.Success -> {
+                    Log.d("응답 성공", "${result.data}")
+                    _collectionDetailDataInfo.postValue(result.data)
+                }
+                is DefaultResponse.Error -> {
+                    Log.d("에러", "${result.code} - ${result.message}")
+                }
+            }
+
+            _isLoading.value = false
+        }
+    }
+}

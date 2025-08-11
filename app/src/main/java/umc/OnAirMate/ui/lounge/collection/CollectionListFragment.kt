@@ -5,17 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.CollectionData
 import umc.onairmate.databinding.FragmentCollectionListBinding
 import umc.onairmate.ui.pop_up.CollectionCreateDialogFragment
 
+@AndroidEntryPoint
 class CollectionListFragment : Fragment() {
 
     private var _binding: FragmentCollectionListBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var adapter: CollectionRVAdapter
+    private val collectionViewModel: CollectionViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,17 +30,48 @@ class CollectionListFragment : Fragment() {
 
         initAdapter()
         setClickListener()
+        initObserver()
 
         return binding.root
     }
 
     fun initAdapter() {
-        adapter = CollectionRVAdapter()
+        collectionViewModel.getCollections()
+        adapter = CollectionRVAdapter(object : CollectionEventListener {
+            override fun deleteCollection(collection: CollectionData) {
+                // todo: 컬렉션 삭제 팝업 띄워서 삭제하기
+            }
+            override fun shareCollection(collection: CollectionData) {
+                // todo: 컬렉션 공유 팝업 띄우기
+            }
+
+            override fun clickCollectionItem(collection: CollectionData) {
+                // todo: parentFragment를 detail 뷰로 교체하기
+            }
+        })
+        binding.rvCollections.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rvCollections.adapter = adapter
     }
 
     fun setClickListener() {
         binding.llCreateCollection.setOnClickListener {
-            // 컬렉션 생성 팝업 띄우고 컬렉션 생성
+            // todo: 컬렉션 생성 팝업 띄우고 컬렉션 생성
+        }
+    }
+
+    fun initObserver() {
+        collectionViewModel.collectionList.observe(viewLifecycleOwner) { list ->
+            val collections = list ?: emptyList()
+
+            if (collections.isEmpty()) {
+                binding.emptyCollectionLayout.visibility = View.VISIBLE
+                binding.rvCollections.visibility = View.GONE
+            } else {
+                binding.emptyCollectionLayout.visibility = View.GONE
+                binding.rvCollections.visibility = View.VISIBLE
+
+                adapter.submitList(collections)
+            }
         }
     }
 
@@ -45,9 +80,3 @@ class CollectionListFragment : Fragment() {
         _binding = null
     }
 }
-
-// 예시 데이터
-val collections = listOf(
-    CollectionData("웃긴 장면", "2025.03.24", "2025.06.23", "비공개", ""),
-    CollectionData("감동 모음", "2025.01.10", "2025.04.01", "공유하기", " ")
-)
