@@ -1,5 +1,6 @@
 package umc.onairmate.ui.lounge.bookmark
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,6 +50,7 @@ class BookmarkRVAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(bookmark: BookmarkData) {
+            Log.d("BookmarkRVAdapter", "아이템 만듦요~")
             // 아이템 전체 클릭 리스너 - 방 생성해야함
             binding.root.setOnClickListener { bookmarkEventListener.createRoomWithBookmark(bookmark) }
 
@@ -146,6 +148,7 @@ class BookmarkRVAdapter(
         allBookmarks: List<BookmarkData>
     ) {
         val itemList = mutableListOf<RecyclerItem>()
+        Log.d("BookmarkRVAdapter", "데이타 삽입요~ ${uncategorizedBookmarks}")
 
         if (uncategorizedBookmarks.isNotEmpty()) {
             itemList.add(RecyclerItem.Header(UNCATEGORIZED_BOOKMARK)) // 정리되지 않은 북마크 헤더

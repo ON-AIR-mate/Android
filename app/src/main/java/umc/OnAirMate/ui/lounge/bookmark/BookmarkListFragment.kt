@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.BookmarkData
 import umc.onairmate.data.model.response.BookmarkListResponse
@@ -62,10 +63,19 @@ class BookmarkListFragment : Fragment() {
 
         val dummy = BookmarkListResponse(uncategorizedBookmarkList, allBookmarkList)
         val bookmarkList = dummy
-        binding.rvBookmarks.visibility = View.VISIBLE
-        binding.emptyBookmarkLayout.visibility = View.GONE
-        adapter.initData(bookmarkList.uncategorized, bookmarkList.all)
+        // 북마크 리스트가 비어있는 경우 비어있는 화면 보여주기
+        if (bookmarkList.uncategorized.isEmpty() and bookmarkList.all.isEmpty()) {
+            binding.rvBookmarks.visibility = View.GONE
+            binding.emptyBookmarkLayout.visibility = View.VISIBLE
+        } else {
+            binding.rvBookmarks.visibility = View.VISIBLE
+            binding.emptyBookmarkLayout.visibility = View.GONE
 
+            adapter.initData(bookmarkList.uncategorized, bookmarkList.all)
+        }
+
+        binding.rvBookmarks.layoutManager = LinearLayoutManager(requireContext(),
+            LinearLayoutManager.VERTICAL,false)
         binding.rvBookmarks.adapter = adapter
     }
 
@@ -101,7 +111,7 @@ val uncategorizedBookmarkList = listOf(
         videoTitle = "고양이만세하다"
     ),
     BookmarkData(
-        bookmarkId = 1,
+        bookmarkId = 2,
         collectionTitle = null,
         createdAt = "",
         message = "16:32 너무너무 귀여워서 우뜩해",
@@ -110,7 +120,7 @@ val uncategorizedBookmarkList = listOf(
         videoTitle = "고양이만세하다"
     ),
     BookmarkData(
-        bookmarkId = 1,
+        bookmarkId = 3,
         collectionTitle = null,
         createdAt = "",
         message = "16:32 너무너무 귀여워서 우뜩해",
@@ -121,7 +131,7 @@ val uncategorizedBookmarkList = listOf(
 )
 val allBookmarkList = listOf(
     BookmarkData(
-        bookmarkId = 1,
+        bookmarkId = 4,
         collectionTitle = "고양이좋아",
         createdAt = "",
         message = "16:32 너무너무 귀여워서 우뜩해",
@@ -130,7 +140,7 @@ val allBookmarkList = listOf(
         videoTitle = "고양이만세하다"
     ),
     BookmarkData(
-        bookmarkId = 1,
+        bookmarkId = 5,
         collectionTitle = "고양이좋아",
         createdAt = "",
         message = "16:32 너무너무 귀여워서 우뜩해",
@@ -139,7 +149,7 @@ val allBookmarkList = listOf(
         videoTitle = "고양이만세하다"
     ),
     BookmarkData(
-        bookmarkId = 1,
+        bookmarkId = 6,
         collectionTitle = "고양이좋아",
         createdAt = "",
         message = "16:32 너무너무 귀여워서 우뜩해",
@@ -148,7 +158,7 @@ val allBookmarkList = listOf(
         videoTitle = "고양이만세하다"
     ),
     BookmarkData(
-        bookmarkId = 1,
+        bookmarkId = 7,
         collectionTitle = "고양이좋아",
         createdAt = "",
         message = "16:32 너무너무 귀여워서 우뜩해",
@@ -157,7 +167,7 @@ val allBookmarkList = listOf(
         videoTitle = "고양이만세하다"
     ),
     BookmarkData(
-        bookmarkId = 1,
+        bookmarkId = 8,
         collectionTitle = "고양이좋아",
         createdAt = "",
         message = "16:32 너무너무 귀여워서 우뜩해",

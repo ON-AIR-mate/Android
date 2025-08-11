@@ -7,9 +7,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_bookmarks"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:visibility="visible"
-        android:paddingHorizontal="16dp"/>
+        android:paddingHorizontal="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/cl_bottom"/>
 
     <!-- 북마크 없음 뷰 -->
     <LinearLayout
@@ -20,7 +22,7 @@
         android:gravity="center"
         android:visibility="visible"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/cl_bottom"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -47,5 +49,11 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
+    <!-- 바텀뷰만큼 띄우기위한 코드입니다 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
