@@ -14,6 +14,7 @@ class FriendHandler(
     override fun getEventMap(): Map<String, (JSONObject) -> Unit> {
         return mapOf(
             "receiveDirectMessage" to {data ->
+                Log.d("FriendHandler", "message ${data}")
                 listener.onNewDirectMessage(parseJson<DirectMessageData>(data))
             },
             "error" to { data ->

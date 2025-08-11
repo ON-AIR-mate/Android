@@ -21,7 +21,7 @@ import kotlin.getValue
 
 @AndroidEntryPoint
 class ChatRoomLayoutActivity : AppCompatActivity() {
-
+    private val TAG = javaClass.simpleName
     lateinit var roomData: RoomData
     private lateinit var binding: ActivityChatRoomLayoutBinding
 
@@ -37,7 +37,7 @@ class ChatRoomLayoutActivity : AppCompatActivity() {
         connectSocket()
         roomData = intent.getParcelableExtra("room_data", RoomData::class.java)!!
         Log.d("data", "room : ${roomData}")
-
+        setObserver()
         initScreen()
         onDrawerListener()
     }
@@ -49,6 +49,13 @@ class ChatRoomLayoutActivity : AppCompatActivity() {
             SocketDispatcher.registerHandler(socket, videoChatViewModel.getHandler())
         }
 
+    }
+    private fun setObserver(){
+        videoChatViewModel.isUserNumChanged.observe(this){data ->
+            if (data== null) return@observe
+            Log.d(TAG,"UserChange")
+            if (data) chatRoomViewModel.getParticipantDataInfo(roomData.roomId)
+        }
     }
 
     private fun initScreen() {

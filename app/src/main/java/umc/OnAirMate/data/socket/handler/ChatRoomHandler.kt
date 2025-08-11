@@ -16,7 +16,12 @@ class ChatRoomHandler(
     override fun getEventMap(): Map<String, (JSONObject) -> Unit> {
         return mapOf(
             "receiveRoomMessage" to { data ->
-                listener.onNewChat(parseJson<ChatMessageData>(data))
+                val parsed = parseJson<ChatMessageData>(data)
+                if (parsed == null) {
+                    val error =  SocketError(type = "receiveRoomMessage", message = data.toString())
+                    listener.onError(error)
+                }
+                else listener.onNewChat(parsed)
             },
             "error" to { data ->
                 val parsed = parseJson<SocketError>(data)
@@ -28,10 +33,10 @@ class ChatRoomHandler(
                 listener.onError(safeError)
             },
             "userJoined" to { data ->
-                //listener.onUserJoined(parseJson(data))
+                listener.onUserJoined(true)
             },
             "userLeft" to { data ->
-                //listener.onUserLeft(parseJson(data))
+                listener.onUserLeft(true)
             },
             "roomSettingsUpdated" to {data ->
                 val parsed = parseJson<RoomData>(data)

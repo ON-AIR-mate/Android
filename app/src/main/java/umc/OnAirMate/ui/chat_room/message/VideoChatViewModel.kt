@@ -1,5 +1,6 @@
 package umc.onairmate.ui.chat_room.message
 
+import android.R
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -40,6 +41,9 @@ class VideoChatViewModel @Inject constructor(
     private val _chat = MutableLiveData<ChatMessageData>()
     val chat: LiveData<ChatMessageData> get() = _chat
 
+    private val _isUserNumChanged = MutableLiveData<Boolean>()
+    val isUserNumChanged : LiveData<Boolean> get() = _isUserNumChanged
+
     // 방 설정 데이터
     private val _roomSettingDataInfo = MutableLiveData<RoomSettingData>()
     val roomSettingDataInfo : LiveData<RoomSettingData> get() = _roomSettingDataInfo
@@ -49,34 +53,30 @@ class VideoChatViewModel @Inject constructor(
     }
     fun getHandler(): ChatRoomHandler = handler
 
-    override fun onNewChat(chatMessage: ChatMessageData?) {
+    override fun onNewChat(chatMessage: ChatMessageData) {
         viewModelScope.launch(Dispatchers.Main) {
             Log.d(TAG,"onNewChat : ${chatMessage}")
-            if (chatMessage == null){}
-            else {
-                _chat.postValue(chatMessage!!)
-            }
+            _chat.postValue(chatMessage)
         }
 
     }
 
-    override fun onUserJoined(data: String) {
+    override fun onUserJoined(isSuccess: Boolean) {
         viewModelScope.launch(Dispatchers.Main) {
-            Log.d(TAG,"onUserJoined : ${data}")
+            _isUserNumChanged.value = isSuccess
         }
 
     }
 
-    override fun onError(errorMessage: SocketError?) {
+    override fun onError(errorMessage: SocketError) {
         viewModelScope.launch(Dispatchers.Main) {
-            if (errorMessage == null){}
-            else Log.d(TAG,"error ${errorMessage!!.type} : ${errorMessage!!.message}")
+            Log.d(TAG,"error ${errorMessage.type} : ${errorMessage.message}")
         }
     }
 
-    override fun onUserLeft(data: Int) {
+    override fun onUserLeft(isSuccess: Boolean) {
         viewModelScope.launch(Dispatchers.Main) {
-            Log.d(TAG,"onUserLeft ${data}")
+            _isUserNumChanged.value = isSuccess
         }
     }
 
