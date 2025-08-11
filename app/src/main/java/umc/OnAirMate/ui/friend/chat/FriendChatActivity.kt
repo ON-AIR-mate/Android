@@ -51,14 +51,14 @@ class FriendChatActivity: AppCompatActivity() {
     private fun setView(){
         binding.tvNickname.text = friend.nickname
 
-        val chatRoom = FriendChatFragment()
-        val bundle = Bundle()
-        bundle.putParcelable("friendData", friend)
-        chatRoom.arguments = bundle
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fr_chat_module, chatRoom)
-            .commit()
-
+        if (supportFragmentManager.findFragmentById(R.id.fr_chat_module) == null) {
+            val chatRoom = FriendChatFragment().apply {
+                arguments = Bundle().apply { putParcelable("friendData", friend) }
+            }
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fr_chat_module, chatRoom)
+                .commit()
+        }
     }
 
     private fun initClickListener(){

@@ -43,41 +43,35 @@ class VideoChatViewModel @Inject constructor(
     }
     fun getHandler(): ChatRoomHandler = handler
 
-    override fun onNewChat(chatMessage: ChatMessageData) {
-        viewModelScope.launch(Dispatchers.Default) {
-            withContext(Dispatchers.Main) {
-                Log.d(TAG,"onNewChat : ${chatMessage}")
-                _chat.postValue(chatMessage)
+    override fun onNewChat(chatMessage: ChatMessageData?) {
+        viewModelScope.launch(Dispatchers.Main) {
+            Log.d(TAG,"onNewChat : ${chatMessage}")
+            if (chatMessage == null){}
+            else {
+                _chat.postValue(chatMessage!!)
             }
         }
 
     }
 
     override fun onUserJoined(data: String) {
-        viewModelScope.launch(Dispatchers.Default) {
-            withContext(Dispatchers.Main) {
-                Log.d(TAG,"onUserJoined : ${data}")
-            }
+        viewModelScope.launch(Dispatchers.Main) {
+            Log.d(TAG,"onUserJoined : ${data}")
         }
 
     }
 
-    override fun onError(error: SocketError) {
-        viewModelScope.launch(Dispatchers.Default) {
-            withContext(Dispatchers.Main) {
-                Log.d(TAG,"error ${error.type} : ${error.message}")
-            }
+    override fun onError(errorMessage: SocketError?) {
+        viewModelScope.launch(Dispatchers.Main) {
+            if (errorMessage == null){}
+            else Log.d(TAG,"error ${errorMessage!!.type} : ${errorMessage!!.message}")
         }
-
     }
 
     override fun onUserLeft(data: Int) {
-        viewModelScope.launch(Dispatchers.Default) {
-            withContext(Dispatchers.Main) {
-                Log.d(TAG,"onUserLeft ${data}")
-            }
+        viewModelScope.launch(Dispatchers.Main) {
+            Log.d(TAG,"onUserLeft ${data}")
         }
-
     }
 
     // 초기 메시지 로드
@@ -129,7 +123,7 @@ class VideoChatViewModel @Inject constructor(
     }
 
     fun leaveRoom(roomId: Int){
-        Log.d(TAG,"joinRoom ${roomId}")
+        Log.d(TAG,"leaveRoom ${roomId}")
         val json = JSONObject().apply {
             put("roomId", roomId)
         }

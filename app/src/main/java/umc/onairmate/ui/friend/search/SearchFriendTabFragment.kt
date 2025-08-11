@@ -88,7 +88,13 @@ class SearchFriendTabFragment: Fragment() {
             if(actionId == EditorInfo.IME_ACTION_DONE){
                 val imm = v.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(v.windowToken, 0)
-                viewModel.searchUser(binding.etInputNickname.text.toString())
+
+                // 검색
+                val query = binding.etInputNickname.text.toString().trim()
+                if (query.isNotEmpty()) {
+                    viewModel.searchUser(query)
+                }
+
                 v.clearFocus() // 포커스 제거
                 return@setOnEditorActionListener true
             }

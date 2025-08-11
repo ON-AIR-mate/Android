@@ -6,5 +6,5 @@ data class SocketError(
     @SerializedName("type")
     val type: String,
     @SerializedName("message")
-    val message : Int
+    val message : String
 )

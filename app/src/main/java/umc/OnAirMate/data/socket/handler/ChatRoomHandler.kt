@@ -1,5 +1,6 @@
 package umc.onairmate.data.socket.handler
 
+import android.util.Log
 import org.json.JSONObject
 import umc.onairmate.data.model.entity.ChatMessageData
 import umc.onairmate.data.model.entity.SocketError
@@ -14,6 +15,7 @@ class ChatRoomHandler(
     override fun getEventMap(): Map<String, (JSONObject) -> Unit> {
         return mapOf(
             "receiveRoomMessage" to { data ->
+                Log.d("ChatRoomHandler","${data}")
                 listener.onNewChat(parseJson<ChatMessageData>(data))
             },
             "error" to { data ->

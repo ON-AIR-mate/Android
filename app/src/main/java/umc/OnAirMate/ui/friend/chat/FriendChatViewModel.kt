@@ -34,19 +34,16 @@ class FriendChatViewModel @Inject constructor(
 
     fun getHandler(): FriendHandler = handler
 
-    override fun onNewDirectMessage(directMessage: DirectMessageData) {
-        viewModelScope.launch(Dispatchers.Default) {
-            withContext(Dispatchers.Main) {
-                Log.d(TAG,"onNewDirectMessage : ${directMessage}")
-                _generalChat.postValue(directMessage)
-            }
+    override fun onNewDirectMessage(directMessage: DirectMessageData?) {
+        viewModelScope.launch(Dispatchers.Main) {
+            Log.d(TAG,"onNewDirectMessage : ${directMessage}")
+            _generalChat.postValue(directMessage!!)
+
         }
     }
-    override fun onError(error: SocketError) {
-        viewModelScope.launch(Dispatchers.Default) {
-            withContext(Dispatchers.Main) {
-                Log.d(TAG,"error ${error.type} : ${error.message}")
-            }
+    override fun onError(error: SocketError?) {
+        viewModelScope.launch(Dispatchers.Main) {
+            Log.d(TAG,"error ${error!!.type} : ${error.message}")
         }
     }
 
