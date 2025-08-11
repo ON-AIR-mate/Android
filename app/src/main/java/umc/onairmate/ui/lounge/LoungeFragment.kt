@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.databinding.FragmentLoungeBinding
+import umc.onairmate.ui.lounge.bookmark.BookmarkListFragment
 
 /**
  * LoungeFragment: '라운지' 화면의 진입점
@@ -40,7 +41,7 @@ class LoungeFragment : Fragment() {
         // 접근시 전체 목록 화면 지정
         selectButton(binding.tvAllList)
         childFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, CollectionListFragment())
+            .replace(R.id.lounge_content_container, BookmarkListFragment())
             .commit()
     }
 
@@ -49,14 +50,14 @@ class LoungeFragment : Fragment() {
         binding.tvAllList.setOnClickListener {
             selectButton(it)
             childFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, CollectionListFragment())
+                .replace(R.id.lounge_content_container, BookmarkListFragment())
                 .commit()
         }
         // 컬렉션별 목록 버튼 선택시
         binding.tvCollectionList.setOnClickListener {
             selectButton(it)
             childFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, CollectionListFragment())
+                .replace(R.id.lounge_content_container, CollectionListFragment())
                 .commit()
         }
     }

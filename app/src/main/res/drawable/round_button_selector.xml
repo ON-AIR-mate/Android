@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- 버튼이 눌렸을 때 -->
-    <item android:state_pressed="true">
+    <item android:state_selected="true">
         <shape>
             <solid android:color="@color/main" />
             <corners android:radius="20dp"/>
@@ -10,7 +10,7 @@
     </item>
 
     <!-- 버튼이 안 눌렸을 때(디폴트) -->
-    <item android:state_pressed="false">
+    <item android:state_selected="false">
         <shape>
             <solid android:color="@color/disable" />
             <corners android:radius="20dp"/>
