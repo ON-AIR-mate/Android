@@ -33,4 +33,6 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
 
+    <string name="bookmark_count_badge">4</string>
+
 </resources>

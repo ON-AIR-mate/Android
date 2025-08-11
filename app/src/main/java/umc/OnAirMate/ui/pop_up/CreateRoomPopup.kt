@@ -32,60 +32,6 @@ private val createRoomCallback : CreateRoomCallback
     private var editRunnable: Runnable? = null
     private val editHandler = Handler(Looper.getMainLooper())
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        binding = PopupCreateRoomBinding.inflate(layoutInflater)
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setView(binding.root)
-        val dialog = builder.create()
-
-        setOnClickListener()
-        initData()
-        onPrivateRoomButtonClick()
-        setTextListener()
-
-        // 뒤로가기 가능
-        setCancelable(true)
-
-        // 배경 투명 + 밝기 조절 (0.7)
-        dialog.window?.let { window ->
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-            val layoutParams = window.attributes
-            layoutParams.dimAmount = 0.7f
-            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-            window.attributes = layoutParams
-        }
-
-        return dialog
-    }
-
-    // 팝업 버튼 클릭리스너
-    private fun setOnClickListener() {
-        binding.btnOk.setOnClickListener {
-            if (textLength in 3..20) {
-                val maxParticipantPosition = binding.spMaximumParticipant.selectedItemPosition
-
-                val roomData = CreateRoomRequest(
-                    roomName = binding.etInputRoomTitle.text.toString(),
-                    maxParticipants = maxParticipants[maxParticipantPosition].toInt(),
-                    isPrivate = isPrivate,
-                    videoId = data.videoId,
-                )
-
-                createRoomCallback.onCreateRoom(roomData)
-
-                // 모든 함수 수행 후 팝업 닫기
-                dismiss()
-            } else {
-                binding.tvTitleLengthErrorMsg.visibility = View.VISIBLE
-            }
-
-        }
-        binding.ivClose.setOnClickListener {
-            dismiss()
-        }
-    }
 
     // 방 정보 주입
     private fun initData(){

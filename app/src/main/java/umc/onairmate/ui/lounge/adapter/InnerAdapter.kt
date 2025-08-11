@@ -27,7 +27,7 @@ class InnerAdapter(
 
         with(holder.binding) {
             titleText.text = video.title      // 방 제목
-            descText.text = video.host        // 영상 제목
+            vidiotitleText.text = video.host        // 영상 제목
             timeText.text = video.time
 
 //            Glide.with(thumbnailImage.context)

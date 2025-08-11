@@ -90,4 +90,7 @@ dependencies {
     implementation("io.socket:socket.io-client:2.1.0") {
         exclude(group = "org.json", module = "json") // 충돌 방지
     }
+
+    //Material Components 라이브러리 (버튼, TextInputLayout 등 머티리얼 UI 컴포넌트 지원)
+    implementation("com.google.android.material:material:1.12.0")
 }

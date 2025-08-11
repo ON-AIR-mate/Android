@@ -2,7 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_private"
-        android:title="나만 보기" />
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:title="나만 보기"
+        android:textAppearance="@style/TextAppearance.App.Medium.10sp" />
     <item
         android:id="@+id/menu_friends"
         android:title="친구만 공개" />

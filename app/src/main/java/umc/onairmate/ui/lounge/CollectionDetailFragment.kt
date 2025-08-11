@@ -89,7 +89,7 @@ class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
             null
         )
         val rv = dialogView.findViewById<RecyclerView>(R.id.rvCollections)
-        val moveBtn = dialogView.findViewById<Button>(R.id.btnMove)
+        val moveBtn = dialogView.findViewById<Button>(R.id.btn_collection_move)
 
         // 전체 Collection 객체를 생성 (필수 필드 모두 채움)
 

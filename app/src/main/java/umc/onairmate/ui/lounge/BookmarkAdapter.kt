@@ -18,7 +18,7 @@ class BookmarkAdapter(private val bookmarkList: List<Bookmark>) :
     inner class BookmarkViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val thumbnailImage: ImageView = itemView.findViewById(R.id.thumbnailImage)
         val titleText: TextView = itemView.findViewById(R.id.titleText)
-        val descText: TextView = itemView.findViewById(R.id.descText)
+        val vidiotitleText: TextView = itemView.findViewById(R.id.vidiotitleText)
         val timeText: TextView = itemView.findViewById(R.id.timeText)
         val moreButton: ImageButton = itemView.findViewById(R.id.moreButton)
     }
@@ -32,7 +32,7 @@ class BookmarkAdapter(private val bookmarkList: List<Bookmark>) :
         val item = bookmarkList[position]
         holder.thumbnailImage.setImageResource(item.thumbnailResId)
         holder.titleText.text = item.title
-        holder.descText.text = item.description
+        holder.vidiotitleText.text = item.description
         holder.timeText.text = item.time
 
         holder.moreButton.setOnClickListener { view ->
