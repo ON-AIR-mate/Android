@@ -8,12 +8,27 @@ import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.BookmarkData
 import umc.onairmate.databinding.RvItemBookmarkBinding
+import umc.onairmate.databinding.RvItemBookmarkHeaderBinding
 import umc.onairmate.ui.util.NetworkImageLoader
 
 class BookmarkRVAdapter(
-    private val bookmarkList: List<BookmarkData>,
+    private val bookmarkList: List<DisplayableItem>,
     private val itemClick: (BookmarkData) -> Unit
-) : RecyclerView.Adapter<BookmarkRVAdapter.BookmarkViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    // 뷰 타입 구분
+    companion object {
+        private const val VIEW_TYPE_HEADER = 0
+        private const val VIEW_TYPE_BOOKMARK = 1
+    }
+
+    // 리스트의 각 아이템 종류에 따라 뷰 타입을 반환
+    override fun getItemViewType(position: Int): Int {
+        return when (bookmarkList[position]) {
+            is DisplayableItem.Header -> VIEW_TYPE_HEADER
+            is DisplayableItem.Bookmark -> VIEW_TYPE_BOOKMARK
+        }
+    }
 
     inner class BookmarkViewHolder(
         private val binding: RvItemBookmarkBinding
@@ -46,17 +61,45 @@ class BookmarkRVAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkViewHolder {
+    // 헤더를 위한 뷰홀더
+    class HeaderViewHolder(private val binding: RvItemBookmarkHeaderBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(header: DisplayableItem.Header) {
+            binding.tvHeaderTitle.text = header.title
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        return when (viewType) {
+            VIEW_TYPE_HEADER -> {
+                val binding = RvItemBookmarkHeaderBinding.inflate(inflater, parent, false)
+                HeaderViewHolder(binding)
+            }
+            VIEW_TYPE_BOOKMARK -> {
+                val binding = RvItemBookmarkBinding.inflate(inflater, parent, false)
+                BookmarkViewHolder(binding, itemClick) // 클릭 리스너 전달
+            }
+            else -> throw IllegalArgumentException("Invalid view type")
+        }
         val binding = RvItemBookmarkBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
         return BookmarkViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: BookmarkViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         holder.bind(bookmarkList[position])
     }
 
 
     override fun getItemCount(): Int = bookmarkList.size
+}
+
+sealed class DisplayableItem {
+    // 뷰 타입 1: 헤더
+    data class Header(val title: String) : DisplayableItem()
+
+    // 뷰 타입 2: 북마크 아이템
+    data class Bookmark(val bookmarkData: BookmarkData) : DisplayableItem()
 }

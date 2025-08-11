@@ -29,10 +29,23 @@
             android:layout_marginStart="12dp">
 
             <TextView
+                android:id="@+id/tv_collection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="컬렉션명"
+                android:textAppearance="@style/TextAppearance.App.Regular.8sp"
+                android:background="@drawable/outline_round_button"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="3dp"
+                android:layout_marginBottom="2dp"
+                android:visibility="gone"/>
+
+            <TextView
                 android:id="@+id/tv_room_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="방 제목"
+                android:layout_marginBottom="3dp"
                 style="@style/TextAppearance.App.Medium.12sp"
                 android:textColor="@color/black" />
 
@@ -55,17 +68,16 @@
                     android:id="@+id/tv_bookmark_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="16:23" />
+                    android:text="16:23 ~~~~"
+                    android:layout_weight="1"
+                    android:textAppearance="@style/TextAppearance.App.Regular.10sp"
+                    android:layout_marginRight="3dp"/>
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
 
                 <ImageButton
                     android:id="@+id/btn_more"
                     android:layout_width="16dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_more_vert" />
             </LinearLayout>
