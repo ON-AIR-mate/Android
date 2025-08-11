@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.databinding.FragmentLoungeBinding
 import umc.onairmate.ui.lounge.bookmark.BookmarkListFragment
+import umc.onairmate.ui.lounge.collection.CollectionSendDialog
 
 /**
  * LoungeFragment: '라운지' 화면의 진입점
@@ -57,7 +58,7 @@ class LoungeFragment : Fragment() {
         binding.tvCollectionList.setOnClickListener {
             selectButton(it)
             childFragmentManager.beginTransaction()
-                .replace(R.id.lounge_content_container, CollectionListFragment())
+                .replace(R.id.lounge_content_container, CollectionSendDialog())
                 .commit()
         }
     }
