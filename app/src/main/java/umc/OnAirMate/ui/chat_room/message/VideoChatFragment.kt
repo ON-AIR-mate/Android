@@ -46,7 +46,8 @@ class VideoChatFragment: Fragment() {
 
         binding.btnSend.setOnClickListener {
             val text = binding.etInputChat.text.toString()
-            videoChatViewModel.sendMessage(roomId, nickname, text)
+            val type = if (checkBookMark(text)) "system" else "general"
+            videoChatViewModel.sendMessage(roomId, nickname, text, type)
             binding.etInputChat.setText("")
         }
 
@@ -58,7 +59,12 @@ class VideoChatFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         videoChatViewModel.getChatHistory(roomId)
     }
-
+    private fun checkBookMark(input: String): Boolean {
+        val regex = Regex("^\\d{2}:\\d{2}:\\d{2}")
+        val result = regex.containsMatchIn(input)
+        Log.d("CheckBookMark", "input=[$input], result=$result")
+        return result
+    }
     override fun onResume() {
         super.onResume()
 

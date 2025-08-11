@@ -116,7 +116,7 @@ class VideoChatViewModel @Inject constructor(
     }
 
 
-    fun sendMessage(roomId: Int, nickname: String,content: String) {
+    fun sendMessage(roomId: Int, nickname: String, content: String, type: String) {
         if (content.isBlank()) return
 
         Log.d(TAG,"채팅 입력 ${content}")
@@ -124,7 +124,7 @@ class VideoChatViewModel @Inject constructor(
             put("roomId", roomId)
             put("nickname", nickname)
             put("content", content)
-            put("messageType", "general")
+            put("messageType", type)
         }
 
         SocketManager.emit("sendRoomMessage", json)
