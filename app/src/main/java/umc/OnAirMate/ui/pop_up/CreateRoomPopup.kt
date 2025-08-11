@@ -16,8 +16,8 @@ import androidx.fragment.app.DialogFragment
 import umc.onairmate.data.model.entity.VideoData
 import umc.onairmate.data.model.request.CreateRoomRequest
 import umc.onairmate.databinding.PopupCreateRoomBinding
-import umc.onairmate.ui.chat_room.drawer.RoomSettingSpAdapter
-import umc.onairmate.ui.chat_room.drawer.maxParticipants
+import umc.onairmate.ui.chat_room.drawer.setting.RoomSettingSpAdapter
+import umc.onairmate.ui.chat_room.drawer.setting.maxParticipants
 
 class CreateRoomPopup (
 private val data : VideoData,

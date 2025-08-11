@@ -5,19 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import umc.onairmate.data.model.entity.BookmarkSection
-import umc.onairmate.data.model.entity.VideoItem
-import umc.onairmate.ui.lounge.adapter.OuterAdapter
-import umc.onairmate.databinding.FragmentLoungeBinding
 import umc.onairmate.R
-import androidx.appcompat.app.AlertDialog
-import android.widget.TextView
-import android.widget.Button
-import umc.onairmate.data.model.entity.CollectionData as LoungeCollection
+import umc.onairmate.databinding.FragmentLoungeBinding
+import umc.onairmate.ui.lounge.bookmark.BookmarkListFragment
 
-
+/**
+ * LoungeFragment: '라운지' 화면의 진입점
+ * - childFragment: BookmarkListFragment(전체 목록), CollectionListFragment(컬렉션 목록)
+ */
 @AndroidEntryPoint
 class LoungeFragment : Fragment() {
 
@@ -29,55 +25,53 @@ class LoungeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLoungeBinding.inflate(inflater, container, false)
+
+        initScreen()
+        initListener()
+
         return binding.root
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        // 샘플 데이터
-        val sampleSections = listOf(
-            BookmarkSection(
-                sectionTitle = "정리되지 않은 북마크",
-                videos = listOf(
-                    VideoItem(
-                        thumbnailUrl = "https://via.placeholder.com/100",
-                        title = "방 제목 1",
-                        host = "영상 제목 1",
-                        time = "16:23"
-                    ),
-                    VideoItem(
-                        thumbnailUrl = "https://via.placeholder.com/100",
-                        title = "방 제목 2",
-                        host = "영상 제목 2",
-                        time = "16:24"
-                    )
-                )
-            )
-        )
-
-        // 데이터가 없을 경우 emptyView 보여주기
-        if (sampleSections.isEmpty() || sampleSections.all { it.videos.isEmpty() }) {
-            binding.bookmarkRecyclerView.visibility = View.GONE
-            binding.emptyBookmarkView.visibility = View.VISIBLE
-        } else {
-            binding.bookmarkRecyclerView.visibility = View.VISIBLE
-            binding.emptyBookmarkView.visibility = View.GONE
-
-            // 리사이클러뷰 설정
-            binding.bookmarkRecyclerView.apply {
-                layoutManager = LinearLayoutManager(requireContext())
-                adapter = OuterAdapter(sampleSections)
-            }
-        }
-    }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
+    fun initScreen() {
+        // 접근시 전체 목록 화면 지정
+        selectButton(binding.tvAllList)
+        childFragmentManager.beginTransaction()
+            .replace(R.id.lounge_content_container, BookmarkListFragment())
+            .commit()
+    }
+
+    fun initListener() {
+        // 전체 목록 버튼 선택시
+        binding.tvAllList.setOnClickListener {
+            selectButton(it)
+            childFragmentManager.beginTransaction()
+                .replace(R.id.lounge_content_container, BookmarkListFragment())
+                .commit()
+        }
+        // 컬렉션별 목록 버튼 선택시
+        binding.tvCollectionList.setOnClickListener {
+            selectButton(it)
+            childFragmentManager.beginTransaction()
+                .replace(R.id.lounge_content_container, CollectionListFragment())
+                .commit()
+        }
+    }
+
+    // 버튼 선택 상태를 업데이트하는 함수
+    private fun selectButton(selectedView: View) {
+        // 모든 버튼을 일단 false로 초기화
+        binding.tvAllList.isSelected = false
+        binding.tvCollectionList.isSelected = false
+
+        // 선택된 뷰의 isSelected만 true로 변경
+        selectedView.isSelected = true
+    }
+/*
     private fun showDeleteConfirmationDialog(
         collection: LoungeCollection,
         onDeleteClick: (LoungeCollection) -> Unit
@@ -110,7 +104,7 @@ class LoungeFragment : Fragment() {
         }
 
         dialog.show()
-    }
+    }*/
 
 }
 

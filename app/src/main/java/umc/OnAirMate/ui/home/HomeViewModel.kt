@@ -16,7 +16,7 @@ import umc.onairmate.data.repository.repository.HomeRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchRoomViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val repository: HomeRepository,
     @ApplicationContext private val context: Context
 ) : ViewModel(){

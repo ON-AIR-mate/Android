@@ -3,18 +3,18 @@ package umc.onairmate.ui.lounge.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import umc.onairmate.databinding.ItemBookmarkBinding
+import umc.onairmate.databinding.RvItemBookmarkBinding
 import umc.onairmate.data.model.entity.VideoItem
 
 class InnerAdapter(
     private val videoList: List<VideoItem>
 ) : RecyclerView.Adapter<InnerAdapter.VideoViewHolder>() {
 
-    inner class VideoViewHolder(val binding: ItemBookmarkBinding) :
+    inner class VideoViewHolder(val binding: RvItemBookmarkBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
-        val binding = ItemBookmarkBinding.inflate(
+        val binding = RvItemBookmarkBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
@@ -26,9 +26,9 @@ class InnerAdapter(
         val video = videoList[position]
 
         with(holder.binding) {
-            titleText.text = video.title      // 방 제목
-            vidiotitleText.text = video.host        // 영상 제목
-            timeText.text = video.time
+            tvRoomTitle.text = video.title      // 방 제목
+            tvVideoTitle.text = video.host        // 영상 제목
+            tvBookmarkTime.text = video.time
 
 //            Glide.with(thumbnailImage.context)
 //                .load(video.thumbnailUrl)
@@ -36,7 +36,7 @@ class InnerAdapter(
 //                .into(thumbnailImage)
 
             // 더보기 버튼 이벤트 (필요 시 추가)
-            moreButton.setOnClickListener {
+            btnMore.setOnClickListener {
                 // 팝업 or 메뉴 처리
             }
         }

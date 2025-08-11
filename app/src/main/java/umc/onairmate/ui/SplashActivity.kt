@@ -6,8 +6,9 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
-import umc.onairmate.R
 import umc.onairmate.ui.login.LoginActivity
+import umc.onairmate.R
+import androidx.core.content.edit
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
@@ -15,6 +16,17 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         val spf = this.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+
+        spf.edit {
+            putString(
+                "access_token",
+                "Bearer 61e253168fbb1b993d6c16d74ee24f791cd21ccf9bb50a0798927a62bd3cd3b4"
+            )
+            putString(
+                "socket_token",
+                "61e253168fbb1b993d6c16d74ee24f791cd21ccf9bb50a0798927a62bd3cd3b4"
+            )
+        }
         val token = spf.getString("access_token", null)
         //타이머 종료 후 내부 실행
         Handler().postDelayed(Runnable {

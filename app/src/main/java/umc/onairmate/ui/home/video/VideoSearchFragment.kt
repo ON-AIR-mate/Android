@@ -14,24 +14,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.entity.VideoData
 import umc.onairmate.data.model.request.CreateRoomRequest
 import umc.onairmate.databinding.FragmentVideoSearchBinding
 import umc.onairmate.ui.chat_room.ChatRoomLayoutActivity
-import umc.onairmate.ui.chat_room.drawer.ChatRoomParticipantRVAdapter
-import umc.onairmate.ui.home.SearchRoomViewModel
+import umc.onairmate.ui.home.HomeViewModel
 import umc.onairmate.ui.pop_up.CreateRoomCallback
 import umc.onairmate.ui.pop_up.CreateRoomPopup
-import umc.onairmate.ui.pop_up.JoinRoomPopup
-import umc.onairmate.ui.pop_up.PopupClick
 
 @AndroidEntryPoint
 class VideoSearchFragment : Fragment() {
 
     private lateinit var binding: FragmentVideoSearchBinding
-    private val searchRoomViewModel: SearchRoomViewModel by viewModels()
+    private val searchRoomViewModel: HomeViewModel by viewModels()
     private val searchVideoViewModel: SearchVideoViewModel by viewModels()
     private lateinit var adapter: SearchedVideoRVAdapter
 

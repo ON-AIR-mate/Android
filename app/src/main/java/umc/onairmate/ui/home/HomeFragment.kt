@@ -1,5 +1,6 @@
 package umc.onairmate.ui.home
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -10,6 +11,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,10 +21,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
+import umc.onairmate.data.model.entity.VideoData
+import umc.onairmate.data.model.request.CreateRoomRequest
 import umc.onairmate.databinding.FragmentHomeBinding
 import umc.onairmate.ui.chat_room.ChatRoomLayoutActivity
 import umc.onairmate.ui.home.room.HomeEventListener
 import umc.onairmate.ui.home.room.RoomRVAdapter
+import umc.onairmate.ui.home.video.SearchVideoViewModel
+import umc.onairmate.ui.pop_up.CreateRoomCallback
+import umc.onairmate.ui.pop_up.CreateRoomPopup
 import umc.onairmate.ui.pop_up.JoinRoomPopup
 import umc.onairmate.ui.pop_up.PopupClick
 
@@ -35,7 +43,8 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val searchViewModel: SearchRoomViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
+    private val searchVideoViewModel: SearchVideoViewModel by viewModels()
 
     private var sortBy : String = "latest"
     private var searchType : String = "videoTitle"
@@ -63,7 +72,7 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         // 초기 데이터 삽입
-        searchViewModel.getRoomList(sortBy, searchType, keyword)
+        homeViewModel.getRoomList(sortBy, searchType, keyword)
         Log.d(TAG,"Resume")
     }
 
@@ -81,11 +90,21 @@ class HomeFragment : Fragment() {
                 searchRunnable?.let { searchHandler.removeCallbacks(it) }
                 searchRunnable = Runnable {
                     val input = binding.etInputKeyword.text.toString()
-                    searchViewModel.getRoomList(sortBy, searchType, input)
+                    homeViewModel.getRoomList(sortBy, searchType, input)
                 }
                 searchHandler.postDelayed(searchRunnable!!, 300) // 300ms 디바운스
             }
         })
+        binding.etInputKeyword.setOnEditorActionListener{v, actionId, event ->
+            if(actionId == EditorInfo.IME_ACTION_DONE){
+                val imm = v.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(v.windowToken, 0)
+                v.clearFocus() // 포커스 제거
+                homeViewModel.getRoomList(sortBy, searchType, binding.etInputKeyword.text.toString())
+                return@setOnEditorActionListener true
+            }
+            else return@setOnEditorActionListener  false
+        }
     }
 
 
@@ -93,7 +112,7 @@ class HomeFragment : Fragment() {
     private fun setView() {
         adapter = RoomRVAdapter(requireContext(), object : HomeEventListener{
             override fun joinRoom(data : RoomData){
-                searchViewModel.getRoomDetailInfo(data.roomId)
+                homeViewModel.getRoomDetailInfo(data.roomId)
             }
 
             override fun selectSortType(type: String) {
@@ -108,36 +127,36 @@ class HomeFragment : Fragment() {
 
     // viewModel 속 데이터 변화 감지
     private fun setUpObserver(){
-        searchViewModel.roomData.observe(viewLifecycleOwner){ list ->
-            if (list == null) return@observe
-            if (list.isEmpty()) {
-                searchViewModel.getRecommendedVideo()
+        homeViewModel.roomListResponse.observe(viewLifecycleOwner){response ->
+            if (response == null) return@observe
+            if (response.continueWatching.isEmpty() && response.onAirRooms.isEmpty()){
+                val input = binding.etInputKeyword.text.toString()
+                searchVideoViewModel.getRecommendVideoList(input, 10)
                 binding.layoutEmpty.visibility = View.VISIBLE
-            }else{
+            }
+            else {
                 binding.layoutEmpty.visibility = View.GONE
             }
-            adapter.initData(list,list)
-        }
-
-        searchViewModel.roomListResponse.observe(viewLifecycleOwner){response ->
-            if (response == null) return@observe
             adapter.initData(response.continueWatching, response.onAirRooms)
         }
 
-        searchViewModel.roomDetailInfo.observe(viewLifecycleOwner){data ->
+        homeViewModel.roomDetailInfo.observe(viewLifecycleOwner){data ->
             if (data == null) return@observe
             showJoinRoomPopup(data)
-            searchViewModel.clearRoomDetailInfo()
+            homeViewModel.clearRoomDetailInfo()
         }
 
-        searchViewModel.recommendedVideo.observe(viewLifecycleOwner) {videos ->
+        searchVideoViewModel.recommendedVideos.observe(viewLifecycleOwner) {videos ->
             if(videos == null) return@observe
             recommendVideo(videos)
+        }
+        searchVideoViewModel.videoDetailInfo.observe(viewLifecycleOwner) { data ->
+            if (data == null) return@observe
+            showCreateRoomPopup(data)
         }
     }
 
     // 상단 버튼들
-    // 일단 데이터 변화를 테스트 하는데 활용 -> 나중에 Intent로 변환할 예정
     private fun initClickListener(){
         binding.ivYoutubeSearch.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_search_video)
@@ -178,7 +197,7 @@ class HomeFragment : Fragment() {
     private fun showJoinRoomPopup(data : RoomData){
         val dialog = JoinRoomPopup(data, object : PopupClick {
             override fun rightClickFunction() {
-                searchViewModel.joinRoom(data.roomId)
+                homeViewModel.joinRoom(data.roomId)
                 // 방 액티비티로 전환
                 val intent = Intent(requireActivity(), ChatRoomLayoutActivity::class.java).apply {
                     putExtra("room_data", data)
@@ -192,11 +211,26 @@ class HomeFragment : Fragment() {
         }
     }
 
+    // 방 생성 팝업 띄우기
+    private fun showCreateRoomPopup(data : VideoData){
+        searchVideoViewModel.clearVideoDetailInfo()
+
+        val dialog = CreateRoomPopup(data, object : CreateRoomCallback {
+            override fun onCreateRoom(body: CreateRoomRequest) {
+                // 방 생성 api 호출
+                searchVideoViewModel.createRoom(body)
+            }
+        })
+        activity?.supportFragmentManager?.let { fm ->
+            dialog.show(fm, "CreateRoomPopup")
+        }
+    }
+
 
     // 검색결과 없을 경우 추천 영상 띄우기
-    private fun recommendVideo(videoList: List<String>){
-        val videoAdapter = RecommendedVideoRVAdapter(videoList){ _ ->
-            Log.d(TAG,"추천 영상 클릭")
+    private fun recommendVideo(videoList: List<VideoData>){
+        val videoAdapter = RecommendedVideoRVAdapter(videoList){ data ->
+            searchVideoViewModel.getVideoDetailInfo(data.videoId)
         }
         binding.rvVideos.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvVideos.adapter =  videoAdapter
