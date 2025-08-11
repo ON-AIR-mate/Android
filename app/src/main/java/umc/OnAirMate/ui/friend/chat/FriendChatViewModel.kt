@@ -34,16 +34,16 @@ class FriendChatViewModel @Inject constructor(
 
     fun getHandler(): FriendHandler = handler
 
-    override fun onNewDirectMessage(directMessage: DirectMessageData?) {
+    override fun onNewDirectMessage(directMessage: DirectMessageData) {
         viewModelScope.launch(Dispatchers.Main) {
             Log.d(TAG,"onNewDirectMessage : ${directMessage}")
-            _generalChat.postValue(directMessage!!)
+            _generalChat.postValue(directMessage)
 
         }
     }
-    override fun onError(error: SocketError?) {
+    override fun onError(errorMessage: SocketError) {
         viewModelScope.launch(Dispatchers.Main) {
-            Log.d(TAG,"error ${error!!.type} : ${error.message}")
+            Log.d(TAG,"error ${errorMessage.type} : ${errorMessage.message}")
         }
     }
 
@@ -55,14 +55,13 @@ class FriendChatViewModel @Inject constructor(
         SocketManager.emit("joinDM", json)
     }
 
-    fun sendMessage(receiverId: Int, fromNickname: String,content: String) {
+    fun sendMessage(receiverId: Int,fromNickname: String,  content: String) {
         if (content.isBlank()) return
-
-        Log.d(TAG,"채팅 입력 ${content}")
         val json = JSONObject().apply {
             put("receiverId", receiverId)
-            put("fromNickname", fromNickname)
             put("content", content)
+            put("fromNickname", fromNickname)
+
             put("messageType", "general")
         }
 

@@ -2,6 +2,7 @@ package umc.onairmate.data.socket.handler
 
 import android.util.Log
 import org.json.JSONObject
+import umc.onairmate.data.model.entity.ChatMessageData
 import umc.onairmate.data.model.entity.DirectMessageData
 import umc.onairmate.data.model.entity.SocketError
 import umc.onairmate.data.socket.SocketHandler
@@ -14,8 +15,14 @@ class FriendHandler(
     override fun getEventMap(): Map<String, (JSONObject) -> Unit> {
         return mapOf(
             "receiveDirectMessage" to {data ->
-                Log.d("FriendHandler", "message ${data}")
-                listener.onNewDirectMessage(parseJson<DirectMessageData>(data))
+                Log.d("FriendHandler","data ${data}")
+                val parsed = parseJson<DirectMessageData>(data)
+                if (parsed == null) {
+                    val error =  SocketError(type = "receiveDirectMessage", message = data.toString())
+                    listener.onError(error)
+                }
+                else listener.onNewDirectMessage(parsed)
+
             },
             "error" to { data ->
                 val parsed = parseJson<SocketError>(data)

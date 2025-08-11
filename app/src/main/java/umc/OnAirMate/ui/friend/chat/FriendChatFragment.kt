@@ -84,8 +84,8 @@ class FriendChatFragment: Fragment() {
     private fun setUpObserver() {
         viewModel.generalChat.observe(viewLifecycleOwner) { data ->
             if (data == null) return@observe
-            val id = if (data.sender == nickname) userId else friend.userId
-            val chat = ChatMessageData(messageId = 0,userId= id,data.sender,"",data.message,"GENERAL","")
+            val name = if (data.senderId == userId) nickname else friend.nickname
+            val chat = ChatMessageData(messageId = 0,userId= data.senderId, name,"",data.content,data.messageType,data.createdAt)
             adapter.addGeneralChat(chat)
         }
     }
