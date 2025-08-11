@@ -1,0 +1,38 @@
+package umc.onairmate.data.repository.repositoryImpl
+
+import umc.onairmate.data.api.CollectionService
+import umc.onairmate.data.model.entity.CollectionData
+import umc.onairmate.data.model.entity.CollectionDetailData
+import umc.onairmate.data.model.request.CreateCollectionRequest
+import umc.onairmate.data.model.response.CreateCollectionResponse
+import umc.onairmate.data.model.response.DefaultResponse
+import umc.onairmate.data.repository.repository.CollectionRepository
+import umc.onairmate.data.util.safeApiCall
+import javax.inject.Inject
+
+class CollectionRepositoryImpl @Inject constructor(
+    private val api: CollectionService
+): CollectionRepository {
+
+    override suspend fun createCollection(
+        accessToken: String,
+        body: CreateCollectionRequest
+    ): DefaultResponse<CreateCollectionResponse> {
+        return safeApiCall {
+            api.createCollection(accessToken, body)
+        }
+    }
+
+    override suspend fun getCollections(accessToken: String): DefaultResponse<List<CollectionData>> {
+        return safeApiCall {
+            api.getCollections(accessToken)
+        }
+    }
+
+    override suspend fun getCollectionDetailInfo(accessToken: String): DefaultResponse<CollectionDetailData> {
+        return safeApiCall {
+            api.getCollectionDetailInfo(accessToken)
+        }
+    }
+
+}

@@ -3,7 +3,7 @@ package umc.onairmate.data.model.entity
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class CollectionData(
+data class CollectionDetailData(
     @SerializedName("bookmarkCount")
     val bookmarkCount: Int,
     @SerializedName("collectionId")
@@ -19,5 +19,7 @@ data class CollectionData(
     @SerializedName("updatedAt")
     val updatedAt: String,
     @SerializedName("visibility")
-    val visibility: String
+    val visibility: String,
+    @SerializedName("bookmarks")
+    val bookmarks: List<BookmarkData>
 ): Serializable
