@@ -1,11 +1,6 @@
 package umc.onairmate.ui.lounge.adapter
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import umc.onairmate.databinding.ItemBookmarkBinding
-import umc.onairmate.data.model.entity.VideoItem
+/*
 
 class VideoListAdapter(private val items: List<VideoItem>) :
     RecyclerView.Adapter<VideoListAdapter.VideoViewHolder>() {
@@ -33,3 +28,4 @@ class VideoListAdapter(private val items: List<VideoItem>) :
 
     override fun getItemCount(): Int = items.size
 }
+*/

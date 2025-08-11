@@ -11,23 +11,20 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.R
-import umc.onairmate.databinding.FragmentCollectionDetailBinding
-import umc.onairmate.ui.lounge.adapter.BookmarkAdapter
-import umc.onairmate.ui.lounge.adapter.MoveCollectionAdapter
-import umc.onairmate.ui.lounge.adapter.OnBookmarkActionListener
 import umc.onairmate.data.model.entity.Bookmark
+import umc.onairmate.data.model.entity.BookmarkData
 import umc.onairmate.data.model.entity.CollectionData
+import umc.onairmate.databinding.FragmentCollectionDetailBinding
+import umc.onairmate.ui.lounge.adapter.MoveCollectionAdapter
+import umc.onairmate.ui.lounge.bookmark.BookmarkEventListener
+import umc.onairmate.ui.lounge.bookmark.BookmarkRVAdapter
 
-class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
+class CollectionDetailFragment : Fragment() {
 
     private var _binding: FragmentCollectionDetailBinding? = null
     private val binding get() = _binding!!
 
-    private val bookmarkAdapter by lazy { BookmarkAdapter(this) }
-    private val dummyBookmarks = mutableListOf(
-        Bookmark(R.drawable.sample_image, "방 제목", "16:23 ~~~~", "5분전"),
-        Bookmark(R.drawable.sample_image, "또다른 제목", "17:00 ~~~~", "5분전")
-    )
+    private lateinit var bookmarkAdapter : BookmarkRVAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,20 +37,25 @@ class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        bookmarkAdapter = BookmarkRVAdapter(object : BookmarkEventListener {
+            override fun createRoomWithBookmark(bookmark: BookmarkData) {
+                super.createRoomWithBookmark(bookmark)
+            }
+
+            override fun deleteBookmark(bookmark: BookmarkData) {
+                super.deleteBookmark(bookmark)
+            }
+
+            override fun moveCollection(bookmark: BookmarkData) {
+                super.moveCollection(bookmark)
+            }
+        })
+        bookmarkAdapter.submitList(emptyList())
+
         binding.recyclerViewVideos.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = bookmarkAdapter
         }
-
-        bookmarkAdapter.submitList(dummyBookmarks.toList())
-    }
-
-    override fun onDeleteBookmark(bookmark: Bookmark) {
-        showDeleteDialog(bookmark)
-    }
-
-    override fun onMoveBookmark(bookmark: Bookmark) {
-        showMoveDialog(bookmark)
     }
 
     private fun showDeleteDialog(bookmark: Bookmark) {
@@ -91,42 +93,16 @@ class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
         val rv = dialogView.findViewById<RecyclerView>(R.id.rvCollections)
         val moveBtn = dialogView.findViewById<Button>(R.id.btn_collection_move)
 
-        // 전체 Collection 객체를 생성 (필수 필드 모두 채움)
-
-        val collections = listOf(
-            CollectionData(
-                title = "웃긴 장면",
-                dateCreated = "2025.03.24",
-                lastUpdated = "2025.03.24",
-                privacy = "전체 공개",
-                thumbnailUrl = "https://example.com/thumb1.jpg",
-            ),
-            CollectionData(
-                title = "힐링 모먼트",
-                dateCreated = "2025.02.10",
-                lastUpdated = "2025.02.10",
-                privacy = "친구만 공개",
-                thumbnailUrl = "https://example.com/thumb2.jpg"
-            ),
-            CollectionData(
-                title = "눈물 주의",
-                dateCreated = "2025.01.05",
-                lastUpdated = "2025.01.05",
-                privacy = "전체 공개",
-                thumbnailUrl = "https://example.com/thumb3.jpg"
-            )
-        )
 
 
         var targetCollection: CollectionData? = null
-4
 
         rv.layoutManager = LinearLayoutManager(requireContext())
         val moveAdapter = MoveCollectionAdapter { selected: CollectionData ->
             targetCollection = selected
         }
         rv.adapter = moveAdapter
-        moveAdapter.submitList(collections)
+        //moveAdapter.submitList(collections)
 
         val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)

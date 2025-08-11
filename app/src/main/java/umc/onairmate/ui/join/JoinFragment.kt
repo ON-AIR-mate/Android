@@ -76,7 +76,7 @@ class JoinFragment : Fragment() {
 
         joinBtn.setOnClickListener {
             // Navigation Component 방식으로 이동
-            findNavController().navigate(R.id.action_joinFragment_to_joinProfileFragment)
+            //findNavController().navigate(R.id.action_joinFragment_to_joinProfileFragment)
         }
     }
 

@@ -46,7 +46,7 @@ class MoveCollectionAdapter(
 
         fun bind(collection: CollectionData, isSelected: Boolean) {
             binding.tvTitle.text = collection.title
-            binding.tvPrivacy.text = collection.privacy
+            binding.tvPrivacy.text = collection.visibility
             binding.root.isSelected = isSelected
             binding.root.alpha = if (isSelected) 1f else 0.6f
         }
