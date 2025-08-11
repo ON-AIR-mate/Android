@@ -80,6 +80,18 @@ class VideoChatViewModel @Inject constructor(
         }
     }
 
+    override fun onRoomSettingsUpdated(data: RoomData){
+        viewModelScope.launch(Dispatchers.Main) {
+            val settings = RoomSettingData(
+                autoArchiving = data.autoArchiving,
+                invitePermission = data.invitePermission,
+                isPrivate = data.isPrivate,
+                maxParticipants= data.maxParticipants
+            )
+            _roomSettingDataInfo.value = settings
+        }
+    }
+
     // 초기 메시지 로드
     fun getChatHistory(roomId: Int) {
         viewModelScope.launch {
