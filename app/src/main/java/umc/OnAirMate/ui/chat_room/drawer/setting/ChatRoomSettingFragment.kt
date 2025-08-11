@@ -47,7 +47,7 @@ class ChatRoomSettingFragment : Fragment() {
         initScreen()
         initToggleListener()
         onClickGoBack()
-
+        setObservers()
         return binding.root
     }
 
@@ -57,30 +57,35 @@ class ChatRoomSettingFragment : Fragment() {
 
         val inviteSettingAdapter = RoomSettingSpAdapter(requireContext(), inviteOptions)
         binding.spInviteSetting.adapter = inviteSettingAdapter
+        val settings = RoomSettingData(
+            autoArchiving = roomData.autoArchiving,
+            invitePermission = roomData.invitePermission,
+            isPrivate = roomData.isPrivate,
+            maxParticipants= roomData.maxParticipants
+        )
+        setRoomSettings(settings)
+    }
 
-        chatRoomViewModel.getRoomSetting(roomData.roomId)
-
+    private fun setObservers(){
         videoChatViewModel.roomSettingDataInfo.observe(viewLifecycleOwner) { data ->
             if (data == null) {
                 Toast.makeText(context, "설정을 불러오는데 실패했습니다.", Toast.LENGTH_SHORT).show()
             }
-            val roomSetting = data
-
-            val currentMaxParticipant = roomSetting.maxParticipants.toString()
-            var position = maxParticipants.indexOf(currentMaxParticipant).takeIf { it >= 0 } ?: 0
-            binding.spMaximumParticipant.setSelection(position)
-
-            val currentInvitePreset = roomSetting.invitePermission
-            position = inviteOptions.indexOf(currentInvitePreset).takeIf { it >= 0 } ?: 0
-            binding.spInviteSetting.setSelection(position)
-
-            if (roomSetting.autoArchiving) setAutoArchiveOnClickListener() else setAutoArchiveOffClickListener()
-            if (roomSetting.isPrivate) setPrivateRoomOnClickListener() else setPrivateRoomOffClickListener()
+            setRoomSettings(data)
         }
+    }
 
-        videoChatViewModel.chat.observe(viewLifecycleOwner) { data ->
+    private fun setRoomSettings(roomSetting: RoomSettingData){
+        val currentMaxParticipant = roomSetting.maxParticipants.toString()
+        var position = maxParticipants.indexOf(currentMaxParticipant).takeIf { it >= 0 } ?: 0
+        binding.spMaximumParticipant.setSelection(position)
 
-        }
+        val currentInvitePreset = roomSetting.invitePermission
+        position = inviteOptions.indexOf(currentInvitePreset).takeIf { it >= 0 } ?: 0
+        binding.spInviteSetting.setSelection(position)
+
+        if (roomSetting.autoArchiving) setAutoArchiveOnClickListener() else setAutoArchiveOffClickListener()
+        if (roomSetting.isPrivate) setPrivateRoomOnClickListener() else setPrivateRoomOffClickListener()
     }
 
     fun initToggleListener() {
