@@ -3,11 +3,13 @@ package umc.onairmate.ui.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import umc.onairmate.data.model.entity.VideoData
 import umc.onairmate.databinding.RvItemRecommendedVideoBinding
+import umc.onairmate.ui.util.NetworkImageLoader
 
 class RecommendedVideoRVAdapter(
-    private val items : List<String>,
-    private val itemClick: (String) -> Unit
+    private val items : List<VideoData>,
+    private val itemClick: (VideoData) -> Unit
 ) : RecyclerView.Adapter<RecommendedVideoRVAdapter.ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -18,16 +20,17 @@ class RecommendedVideoRVAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(position)
+        holder.bind(items[position])
     }
 
     override fun getItemCount(): Int  = items.size
 
     inner class ViewHolder(private val binding : RvItemRecommendedVideoBinding) : RecyclerView.ViewHolder(binding.root){
         // 임시로 클릭리스너만 할당 -> 추후 데이터 타입 결정되면 반영 예정
-        fun bind(pos: Int){
+        fun bind(data: VideoData){
+            NetworkImageLoader.thumbnailLoad(binding.ivThumbnail, data.thumbnail)
             binding.root.setOnClickListener {
-                itemClick(items[pos])
+                itemClick(data)
             }
         }
     }

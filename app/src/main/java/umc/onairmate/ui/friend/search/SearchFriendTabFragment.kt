@@ -42,6 +42,7 @@ class SearchFriendTabFragment: Fragment() {
             val textList = listOf(text, "예", "아니오")
             val dialog = TwoButtonPopup(textList, object : PopupClick {
                 override fun leftClickFunction() {
+                    Log.d(TAG,"requestFriend ${data}")
                     viewModel.requestFriend(data.userId)
                 }
             }, false) // 뒤로가기 막을거면 false
@@ -81,21 +82,18 @@ class SearchFriendTabFragment: Fragment() {
     }
 
     private fun setTextListener(){
-        binding.etInputNickname.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-            override fun afterTextChanged(s: Editable?) {
-                val input = binding.etInputNickname.text.toString()
-                viewModel.searchUser(input)
-            }
-        })
 
         // 엔터누르면 입력 왼료되도록
         binding.etInputNickname.setOnEditorActionListener{v, actionId, event ->
             if(actionId == EditorInfo.IME_ACTION_DONE){
                 val imm = v.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(v.windowToken, 0)
+
+                // 검색
+                val query = binding.etInputNickname.text.toString().trim()
+                if (query.isNotEmpty()) {
+                    viewModel.searchUser(query)
+                }
 
                 v.clearFocus() // 포커스 제거
                 return@setOnEditorActionListener true
