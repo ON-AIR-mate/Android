@@ -1,4 +1,4 @@
-package umc.onairmate.ui.lounge.pop_up
+package umc.onairmate.ui.pop_up
 
 import android.app.Dialog
 import android.os.Bundle

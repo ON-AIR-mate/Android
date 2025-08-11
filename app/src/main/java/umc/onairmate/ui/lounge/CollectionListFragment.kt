@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import umc.onairmate.data.model.entity.CollectionData
 import umc.onairmate.databinding.FragmentCollectionListBinding
 import umc.onairmate.ui.lounge.adapter.CollectionListAdapter
-import umc.onairmate.ui.lounge.model.Collection
 
 class CollectionListFragment : Fragment() {
 
@@ -18,14 +18,14 @@ class CollectionListFragment : Fragment() {
 
     private lateinit var adapter: CollectionListAdapter
     private val sampleData = listOf(
-        Collection(
+        CollectionData(
             title = "웃긴 장면",
             dateCreated = "2025.03.24",
             lastUpdated = "2025.03.24", // 실제 업데이트 날짜로
             privacy = "전체 공개",
             thumbnailUrl = "https://example.com/image1.jpg"
         ),
-        Collection(
+        CollectionData(
             title = "감동 모음",
             dateCreated = "2025.02.01",
             lastUpdated = "2025.02.01",
