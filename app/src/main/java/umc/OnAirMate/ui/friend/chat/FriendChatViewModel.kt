@@ -67,4 +67,12 @@ class FriendChatViewModel @Inject constructor(
 
         SocketManager.emit("sendDirectMessage", json)
     }
+
+    fun deleteFriend(receiverId: Int, senderId: Int){
+        val json = JSONObject().apply {
+            put("userId1", receiverId)
+            put("userId2", senderId)
+        }
+        SocketManager.emit("noFriend", json)
+    }
 }

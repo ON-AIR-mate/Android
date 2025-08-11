@@ -17,6 +17,7 @@ import umc.onairmate.data.model.entity.RequestedFriendData
 import umc.onairmate.databinding.FragmentFriendListTabBinding
 import umc.onairmate.ui.friend.FriendViewModel
 import umc.onairmate.ui.friend.chat.FriendChatActivity
+import umc.onairmate.ui.friend.chat.FriendChatViewModel
 import umc.onairmate.ui.pop_up.PopupClick
 import umc.onairmate.ui.pop_up.TwoButtonPopup
 import kotlin.getValue
@@ -29,7 +30,9 @@ class FriendListTabFragment() : Fragment() {
 
     private lateinit var adapter : FriendListRVAdapter
     private val viewModel: FriendViewModel by viewModels()
+    private val friendChatViewModel: FriendChatViewModel by viewModels()
 
+    private var friendId : Int = 0
     private var type : Int = 0
 
     companion object {
@@ -95,6 +98,7 @@ class FriendListTabFragment() : Fragment() {
 
         viewModel.result.observe(viewLifecycleOwner, Observer { message ->
             if (message == null) return@Observer
+            if (message == "친구가 삭제되었습니다.") friendChatViewModel.deleteFriend(friendId,id)
             initData()
             Toast.makeText(requireContext(),message, Toast.LENGTH_SHORT).show()
             viewModel.clearResult()
@@ -126,7 +130,9 @@ class FriendListTabFragment() : Fragment() {
             override fun clickDelete(data: FriendData) {
                 val text = data.nickname+"님을 친구 목록에서 삭제하시겠습니까?"
                 val textList = listOf(text,"예","아니오")
-                showPopup(text =textList, left = { viewModel.deleteFriend(data.userId) }, right = {} )
+                friendId = data.userId
+                showPopup(text =textList, left = {
+                    viewModel.deleteFriend(data.userId) }, right = {} )
             }
 
             override fun clickBlock(data: FriendData) {
