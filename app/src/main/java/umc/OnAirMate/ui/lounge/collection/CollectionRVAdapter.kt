@@ -1,15 +1,21 @@
 package umc.onairmate.ui.lounge.collection
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import umc.onairmate.R
 import umc.onairmate.data.model.entity.CollectionData
+import umc.onairmate.data.model.entity.CollectionVisibility
+import umc.onairmate.databinding.PopupCollectionOptionsBinding
 import umc.onairmate.databinding.RvItemCollectionBinding
-import umc.onairmate.ui.lounge.bookmark.BookmarkRVAdapter.RecyclerItem
+import umc.onairmate.ui.util.NetworkImageLoader
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
 class CollectionRVAdapter(
     private val collectionEventListener: CollectionEventListener
@@ -22,27 +28,65 @@ class CollectionRVAdapter(
             binding.root.setOnClickListener { collectionEventListener.clickCollectionItem(item) }
 
             binding.tvTitle.text = item.title
-            binding.tvGeneratedDate.text = "생성일 : ${item.createdAt}"
-            binding.tvLatestModifiedDate.text = "마지막 수정일 : ${item.updatedAt}"
-            binding.tvPrivacy.text = item.visibility
+            binding.tvGeneratedDate.text = "생성일 : ${formatDate(item.createdAt)}"
+            binding.tvLatestModifiedDate.text = "마지막 수정일 : ${formatDate(item.updatedAt)}"
+            binding.tvPrivacy.text = CollectionVisibility.fromApiName(item.visibility)?.displayName ?: item.visibility
+            binding.tvCountBadge.text = item.bookmarkCount.toString()
+            NetworkImageLoader.thumbnailLoad(binding.ivThumbnail, item.coverImage)
 
             binding.ivMore.setOnClickListener {
-                val popup = PopupMenu(binding.root.context, it)
-                popup.menuInflater.inflate(R.menu.menu_collection_item, popup.menu)
-                popup.setOnMenuItemClickListener { menuItem ->
-                    when (menuItem.itemId) {
-                        R.id.menu_delete -> {
-                            collectionEventListener.deleteCollection(item)
-                            true
-                        }
-                        R.id.menu_share -> {
-                            collectionEventListener.shareCollection(item)
-                            true
-                        }
-                        else -> false
-                    }
-                }
-                popup.show()
+                showPopupMenu(binding.ivMore, item)
+            }
+        }
+
+        private fun showPopupMenu(anchorView: View, data: CollectionData){
+            val popupBinding = PopupCollectionOptionsBinding.inflate(LayoutInflater.from(anchorView.context))
+
+            // PopupWindow 생성
+            val popupWindow = PopupWindow(
+                popupBinding.root,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                true
+            )
+
+            popupWindow.isOutsideTouchable = true
+            popupWindow.isFocusable = true
+
+            // popupBinding root 크기 측정 후 정렬 위치 계산
+            popupBinding.root.measure(
+                View.MeasureSpec.UNSPECIFIED,
+                View.MeasureSpec.UNSPECIFIED
+            )
+
+            val popupWidth = popupBinding.root.measuredWidth
+
+            // 오른쪽 정렬: anchor 오른쪽 끝 기준
+            val offsetX = -popupWidth + anchorView.width
+            val offsetY = 0
+
+            // 클릭 리스너 연결
+            popupBinding.tvDeleteCollection.setOnClickListener {
+                collectionEventListener.deleteCollection(data)
+                popupWindow.dismiss()
+            }
+            popupBinding.tvShareCollection.setOnClickListener {
+                collectionEventListener.shareCollection(data)
+                popupWindow.dismiss()
+            }
+
+            popupWindow.showAsDropDown(anchorView, offsetX, offsetY)
+        }
+
+        // 날짜 데이터 포매팅
+        fun formatDate(isoString: String): String {
+            return try {
+                val inputFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
+                val date = LocalDate.parse(isoString, inputFormatter)
+                val outputFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+                outputFormatter.format(date)
+            } catch (e: DateTimeParseException) {
+                isoString
             }
         }
     }

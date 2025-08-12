@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.data.model.entity.FriendData
-import umc.onairmate.databinding.RcItemCollectionShareFriendBinding
+import umc.onairmate.databinding.RvItemCollectionShareFriendBinding
 import umc.onairmate.ui.util.NetworkImageLoader
 
 
@@ -13,7 +13,7 @@ class CollectionSendRVAdapter(
     private val onSendClick: (FriendData) -> Unit
 ) : RecyclerView.Adapter<CollectionSendRVAdapter.FriendViewHolder>() {
 
-    inner class FriendViewHolder(val binding: RcItemCollectionShareFriendBinding) :
+    inner class FriendViewHolder(val binding: RvItemCollectionShareFriendBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(friend: FriendData) {
             NetworkImageLoader.profileLoad(binding.ivProfile, friend.profileImage)
@@ -26,7 +26,7 @@ class CollectionSendRVAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendViewHolder {
-        val binding = RcItemCollectionShareFriendBinding.inflate(
+        val binding = RvItemCollectionShareFriendBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
         return FriendViewHolder(binding)

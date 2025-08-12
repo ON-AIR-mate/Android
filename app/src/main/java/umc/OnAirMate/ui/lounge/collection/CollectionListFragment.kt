@@ -36,7 +36,7 @@ class CollectionListFragment : Fragment() {
     }
 
     fun initAdapter() {
-        collectionViewModel.getCollections()
+        //collectionViewModel.getCollections()
         adapter = CollectionRVAdapter(object : CollectionEventListener {
             override fun deleteCollection(collection: CollectionData) {
                 // todo: 컬렉션 삭제 팝업 띄워서 삭제하기
@@ -51,6 +51,10 @@ class CollectionListFragment : Fragment() {
         })
         binding.rvCollections.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvCollections.adapter = adapter
+
+        binding.emptyCollectionLayout.visibility = View.GONE
+        binding.rvCollections.visibility = View.VISIBLE
+        adapter.submitList(collections) // 임시 데이터
     }
 
     fun setClickListener() {
@@ -80,3 +84,36 @@ class CollectionListFragment : Fragment() {
         _binding = null
     }
 }
+
+val collections = listOf(
+    CollectionData(
+        bookmarkCount = 14,
+        collectionId = 1,
+        coverImage = "https://marketplace.canva.com/8-1Kc/MAGoQJ8-1Kc/1/tl/canva-ginger-cat-with-paws-raised-in-air-MAGoQJ8-1Kc.jpg",
+        createdAt = "2025.08.12",
+        description = "그럼 싫으세요?",
+        title = "고양이가 좋은 이유",
+        updatedAt = "2030.80.30",
+        visibility = "PRIVATE"
+    ),
+    CollectionData(
+        bookmarkCount = 41,
+        collectionId = 1,
+        coverImage = "https://marketplace.canva.com/8-1Kc/MAGoQJ8-1Kc/1/tl/canva-ginger-cat-with-paws-raised-in-air-MAGoQJ8-1Kc.jpg",
+        createdAt = "2025-01-01T12:00:00Z",
+        description = "그럼 싫으세요?",
+        title = "고양이가 좋은 이유",
+        updatedAt = "3000.80.30",
+        visibility = "FRIENDS_ONLY"
+    ),
+    CollectionData(
+        bookmarkCount = 20,
+        collectionId = 1,
+        coverImage = "https://marketplace.canva.com/8-1Kc/MAGoQJ8-1Kc/1/tl/canva-ginger-cat-with-paws-raised-in-air-MAGoQJ8-1Kc.jpg",
+        createdAt = "2025.08.42",
+        description = "그럼 싫으세요?",
+        title = "고양이가 좋은 이유",
+        updatedAt = "3000.80.30",
+        visibility = "PUBLIC"
+    ),
+)

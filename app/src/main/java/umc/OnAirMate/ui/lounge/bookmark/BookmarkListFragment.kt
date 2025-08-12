@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,11 +54,13 @@ class BookmarkListFragment : Fragment() {
 
             override fun deleteBookmark(bookmark: BookmarkData) {
                 bookmarkViewModel.deleteBookmark(bookmark.bookmarkId)
+                Toast.makeText(context, "북마크가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
             }
 
             override fun moveCollection(bookmark: BookmarkData) {
                 // todo: 팝업 띄워서 어떤 컬렉션으로 보낼지 선택해야함
                 //ookmarkViewModel.moveCollectionOfBookmark(bookmark.bookmarkId)
+                Toast.makeText(context, "컬렉션 이동 선택됨.", Toast.LENGTH_SHORT).show()
             }
         })
 
@@ -105,7 +108,7 @@ val uncategorizedBookmarkList = listOf(
         bookmarkId = 1,
         collectionTitle = null,
         createdAt = "",
-        message = "16:32 너무너무 귀여워서 우뜩해",
+        message = listOf("16:32 너무너무 귀여워서 우뜩해", "16:32 너무너무 귀여워서 우뜩해"),
         timeline = 1632,
         videoThumbnail = "https://marketplace.canva.com/8-1Kc/MAGoQJ8-1Kc/1/tl/canva-ginger-cat-with-paws-raised-in-air-MAGoQJ8-1Kc.jpg",
         videoTitle = "고양이만세하다"
@@ -114,7 +117,7 @@ val uncategorizedBookmarkList = listOf(
         bookmarkId = 2,
         collectionTitle = null,
         createdAt = "",
-        message = "16:32 너무너무 귀여워서 우뜩해",
+        message = listOf("16:32 너무너무 귀여워서 우뜩해", "16:32 너무너무 귀여워서 우뜩해"),
         timeline = 1632,
         videoThumbnail = "https://marketplace.canva.com/8-1Kc/MAGoQJ8-1Kc/1/tl/canva-ginger-cat-with-paws-raised-in-air-MAGoQJ8-1Kc.jpg",
         videoTitle = "고양이만세하다"
@@ -123,7 +126,7 @@ val uncategorizedBookmarkList = listOf(
         bookmarkId = 3,
         collectionTitle = null,
         createdAt = "",
-        message = "16:32 너무너무 귀여워서 우뜩해",
+        message = listOf("16:32 너무너무 귀여워서 우뜩해", "16:32 너무너무 귀여워서 우뜩해", "16:32 너무너무 귀여워서 우뜩해", "16:32 코멘트가 기이이이이일어지면 어떻게 되나요 두줄이 되나요?"),
         timeline = 1632,
         videoThumbnail = "https://marketplace.canva.com/8-1Kc/MAGoQJ8-1Kc/1/tl/canva-ginger-cat-with-paws-raised-in-air-MAGoQJ8-1Kc.jpg",
         videoTitle = "고양이만세하다"
@@ -134,7 +137,7 @@ val allBookmarkList = listOf(
         bookmarkId = 4,
         collectionTitle = "고양이좋아",
         createdAt = "",
-        message = "16:32 너무너무 귀여워서 우뜩해",
+        message = listOf("16:32 너무너무 귀여워서 우뜩해", "16:32 너무너무 귀여워서 우뜩해"),
         timeline = 1632,
         videoThumbnail = "https://marketplace.canva.com/8-1Kc/MAGoQJ8-1Kc/1/tl/canva-ginger-cat-with-paws-raised-in-air-MAGoQJ8-1Kc.jpg",
         videoTitle = "고양이만세하다"
@@ -143,7 +146,7 @@ val allBookmarkList = listOf(
         bookmarkId = 5,
         collectionTitle = "고양이좋아",
         createdAt = "",
-        message = "16:32 너무너무 귀여워서 우뜩해",
+        message = listOf("16:32 너무너무 귀여워서 우뜩해", "16:32 너무너무 귀여워서 우뜩해"),
         timeline = 1632,
         videoThumbnail = "https://marketplace.canva.com/8-1Kc/MAGoQJ8-1Kc/1/tl/canva-ginger-cat-with-paws-raised-in-air-MAGoQJ8-1Kc.jpg",
         videoTitle = "고양이만세하다"
@@ -152,7 +155,7 @@ val allBookmarkList = listOf(
         bookmarkId = 6,
         collectionTitle = "고양이좋아",
         createdAt = "",
-        message = "16:32 너무너무 귀여워서 우뜩해",
+        message = listOf("16:32 너무너무 귀여워서 우뜩해", "16:32 너무너무 귀여워서 우뜩해"),
         timeline = 1632,
         videoThumbnail = "https://marketplace.canva.com/8-1Kc/MAGoQJ8-1Kc/1/tl/canva-ginger-cat-with-paws-raised-in-air-MAGoQJ8-1Kc.jpg",
         videoTitle = "고양이만세하다"
@@ -161,7 +164,7 @@ val allBookmarkList = listOf(
         bookmarkId = 7,
         collectionTitle = "고양이좋아",
         createdAt = "",
-        message = "16:32 너무너무 귀여워서 우뜩해",
+        message = listOf("16:32 너무너무 귀여워서 우뜩해", "16:32 너무너무 귀여워서 우뜩해"),
         timeline = 1632,
         videoThumbnail = "https://marketplace.canva.com/8-1Kc/MAGoQJ8-1Kc/1/tl/canva-ginger-cat-with-paws-raised-in-air-MAGoQJ8-1Kc.jpg",
         videoTitle = "고양이만세하다"
@@ -170,7 +173,7 @@ val allBookmarkList = listOf(
         bookmarkId = 8,
         collectionTitle = "고양이좋아",
         createdAt = "",
-        message = "16:32 너무너무 귀여워서 우뜩해",
+        message = listOf("16:32 너무너무 귀여워서 우뜩해", "16:32 너무너무 귀여워서 우뜩해"),
         timeline = 1632,
         videoThumbnail = "https://marketplace.canva.com/8-1Kc/MAGoQJ8-1Kc/1/tl/canva-ginger-cat-with-paws-raised-in-air-MAGoQJ8-1Kc.jpg",
         videoTitle = "고양이만세하다"

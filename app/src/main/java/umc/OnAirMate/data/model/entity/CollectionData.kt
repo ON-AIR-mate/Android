@@ -21,3 +21,20 @@ data class CollectionData(
     @SerializedName("visibility")
     val visibility: String
 ): Serializable
+
+enum class CollectionVisibility(val apiName: String, val displayName: String) {
+    PRIVATE("PRIVATE", "비공개"),
+    FRIENDS_ONLY("FRIENDS_ONLY", "친구만 공개"),
+    PUBLIC("PUBLIC", "전체공개");
+
+    companion object {
+        // apiName 기반으로 enum 상수 검색
+        fun fromApiName(apiName: String): CollectionVisibility? {
+            return entries.find { it.apiName.equals(apiName, ignoreCase = true) }
+        }
+        // displayName을 기반으로 enum 상수 검색
+        fun fromDisplayName(displayName: String): CollectionVisibility? {
+            return entries.find { it.displayName.equals(displayName, ignoreCase = true) }
+        }
+    }
+}

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingHorizontal="16dp"
     tools:context=".ui.lounge.LoungeFragment">
 
     <!-- 새 컬렉션 생성 버튼 -->
@@ -40,7 +41,7 @@
         android:overScrollMode="never"
         android:nestedScrollingEnabled="false"
         app:layout_constraintTop_toBottomOf="@id/ll_create_collection"
-        app:layout_constraintBottom_toBottomOf="@id/cl_bottom"
+        app:layout_constraintBottom_toTopOf="@id/cl_bottom"
         />
 
 
