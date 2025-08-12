@@ -61,7 +61,7 @@ class FriendChatFragment: Fragment() {
 
         binding.btnSend.setOnClickListener {
             val text = binding.etInputChat.text.toString()
-            viewModel.sendMessage(friend.userId, user.nickname, text)
+            viewModel.sendMessage(friend.userId, text)
             binding.etInputChat.setText("")
         }
 

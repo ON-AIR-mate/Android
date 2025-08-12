@@ -240,4 +240,27 @@ class FriendViewModel @Inject constructor(
         }
     }
 
+    fun getDmHistory(friendId: Int) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            val token = getToken()
+            if (token == null) {
+                Log.e(TAG, "토큰이 없습니다")
+                _isLoading.value = false
+                return@launch
+            }
+            val result = repository.getDmHistory(token,friendId)
+            Log.d(TAG, "getDmHistory api 호출")
+            when (result) {
+                is DefaultResponse.Success -> {
+                    Log.d(TAG,"응답 성공 : ${result.data}")
+                }
+                is DefaultResponse.Error -> {
+                    Log.e(TAG, "에러: ${result.code} - ${result.message} ")
+                }
+            }
+            _isLoading.value = false
+        }
+    }
+
 }

@@ -66,13 +66,11 @@ class FriendChatViewModel @Inject constructor(
         SocketManager.emit("joinDM", json)
     }
 
-    fun sendMessage(receiverId: Int,fromNickname: String,  content: String) {
+    fun sendMessage(receiverId: Int, content: String) {
         if (content.isBlank()) return
         val json = JSONObject().apply {
             put("receiverId", receiverId)
             put("content", content)
-            //put("fromNickname", fromNickname)
-
             put("messageType",GENERAL_MESSAGE )
         }
 

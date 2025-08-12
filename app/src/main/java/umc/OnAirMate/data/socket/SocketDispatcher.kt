@@ -20,7 +20,6 @@ object SocketDispatcher {
             socket.on(eventName) { args ->
                 if (args.isNotEmpty() && args[0] is JSONObject) {
                     try {
-                        Log.d("SocketDispatcher","data? ${args}")
                         callback(args[0] as JSONObject)
                     } catch (e: Exception) {
                         Log.e("SocketDispatcher", "Error in event callback for $eventName", e)
