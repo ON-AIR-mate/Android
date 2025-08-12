@@ -35,14 +35,17 @@ class HomeViewModel @Inject constructor(
     private val _recommendedVideo = MutableLiveData<List<String>>()
     val recommendedVideo : LiveData<List<String>> get() = _recommendedVideo
 
-    private val _joinRoom = MutableLiveData<Boolean>()
-    val joinRoom : LiveData<Boolean> get() = _joinRoom
+    private val _joinRoom = MutableLiveData<Boolean?>()
+    val joinRoom : LiveData<Boolean?> get() = _joinRoom
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
     fun getToken(): String? {
         return spf.getString("access_token", null)
+    }
+    fun clearJoinRoom() {
+        _joinRoom.value = null
     }
 
     // 테스트용 더미데이터 생성

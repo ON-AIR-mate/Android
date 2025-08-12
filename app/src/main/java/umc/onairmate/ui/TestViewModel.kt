@@ -63,7 +63,7 @@ class TestViewModel @Inject constructor(
                         putInt("userId",result.data.user.userId)
                     }
                     SharedPrefUtil.saveData("user_info", result.data.user)
-                    _isSuccess.postValue(true)
+                    _isSuccess.value = true
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")

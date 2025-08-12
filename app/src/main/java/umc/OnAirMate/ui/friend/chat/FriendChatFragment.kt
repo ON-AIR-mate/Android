@@ -3,6 +3,8 @@ package umc.onairmate.ui.friend.chat
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -44,7 +46,7 @@ class FriendChatFragment: Fragment() {
 
         initData()
         setUpObserver()
-
+        setTextListener()
 
         // 소켓 연결
         val socket = SocketManager.getSocketOrNull()
@@ -68,7 +70,16 @@ class FriendChatFragment: Fragment() {
         return binding.root
     }
 
-
+    private fun setTextListener(){
+        binding.etInputChat.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+            override fun afterTextChanged(s: Editable?) {
+                binding.btnSend.isEnabled = !binding.etInputChat.text.isEmpty()
+            }
+        })
+    }
     override fun onResume() {
         super.onResume()
     }
@@ -83,7 +94,7 @@ class FriendChatFragment: Fragment() {
         viewModel.generalChat.observe(viewLifecycleOwner) { data ->
             if (data == null) return@observe
             val name = if (data.senderId == user.userId) user.nickname else friend.nickname
-            val profile = if (data.senderId == user.userId) user.profileImage else friend.nickname
+            val profile = if (data.senderId == user.userId) user.profileImage else friend.profileImage
             val chat = ChatMessageData(
                 messageId = 0,
                 userId= data.senderId,

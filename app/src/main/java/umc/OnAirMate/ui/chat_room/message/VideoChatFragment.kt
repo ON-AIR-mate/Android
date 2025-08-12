@@ -2,6 +2,8 @@ package umc.onairmate.ui.chat_room.message
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -40,7 +42,7 @@ class VideoChatFragment: Fragment() {
 
         initData()
         setUpObserver()
-
+        setTextListener()
 
         adapter = ChatRVAdapter(user.userId)
         binding.rvVideoChat.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
@@ -49,7 +51,7 @@ class VideoChatFragment: Fragment() {
         binding.btnSend.setOnClickListener {
             val text = binding.etInputChat.text.toString()
             val type = if (checkBookMark(text)) "system" else "general"
-            videoChatViewModel.sendMessage(roomId, user.nickname, text, type)
+            videoChatViewModel.sendMessage(roomId, user.nickname, text.trim(), type)
             binding.etInputChat.setText("")
         }
 
@@ -73,6 +75,16 @@ class VideoChatFragment: Fragment() {
 
     }
 
+    private fun setTextListener(){
+        binding.etInputChat.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+            override fun afterTextChanged(s: Editable?) {
+                binding.btnSend.isEnabled = !binding.etInputChat.text.isEmpty()
+            }
+        })
+    }
     private fun initData(){
         roomId = arguments?.getInt("roomId", 0)!!
         user = SharedPrefUtil.getData("user_info")?: UserData()

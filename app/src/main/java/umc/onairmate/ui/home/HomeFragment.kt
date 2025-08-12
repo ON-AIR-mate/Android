@@ -53,7 +53,7 @@ class HomeFragment : Fragment() {
     private var searchRunnable: Runnable? = null
     private val searchHandler = Handler(Looper.getMainLooper())
 
-    private var roomData = RoomData()
+    private lateinit var roomData: RoomData
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -175,6 +175,7 @@ class HomeFragment : Fragment() {
             else{
                 Toast.makeText(requireContext(),"방 참여에 실패했습니다.\n다시시도 해주세요", Toast.LENGTH_SHORT).show()
             }
+            homeViewModel.clearJoinRoom()
 
         }
     }
