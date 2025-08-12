@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import umc.onairmate.data.model.entity.CollectionData
 import umc.onairmate.data.model.entity.CollectionDetailData
 import umc.onairmate.data.model.request.CreateCollectionRequest
+import umc.onairmate.data.model.response.CollectionListResponse
 import umc.onairmate.data.model.response.CreateCollectionResponse
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.repository.repository.CollectionRepository
@@ -32,8 +33,8 @@ class CollectionViewModel @Inject constructor(
     val createdCollectionDataInfo : LiveData<CreateCollectionResponse> get() = _createdCollectionDataInfo
 
     // 사용자의 컬렉션 리스트
-    private val _collectionList = MutableLiveData<List<CollectionData>>()
-    val collectionList : LiveData<List<CollectionData>> get() = _collectionList
+    private val _collectionList = MutableLiveData<CollectionListResponse>()
+    val collectionList : LiveData<CollectionListResponse> get() = _collectionList
 
     // 컬렉션 세부 정보
     private val _collectionDetailDataInfo = MutableLiveData<CollectionDetailData>()

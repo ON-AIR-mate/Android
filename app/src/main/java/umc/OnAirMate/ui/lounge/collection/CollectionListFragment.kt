@@ -30,7 +30,7 @@ class CollectionListFragment : Fragment() {
 
         initAdapter()
         setClickListener()
-        initObserver()
+        //initObserver()
 
         return binding.root
     }
@@ -64,8 +64,8 @@ class CollectionListFragment : Fragment() {
     }
 
     fun initObserver() {
-        collectionViewModel.collectionList.observe(viewLifecycleOwner) { list ->
-            val collections = list ?: emptyList()
+        collectionViewModel.collectionList.observe(viewLifecycleOwner) { data ->
+            val collections = data.collections ?: emptyList()
 
             if (collections.isEmpty()) {
                 binding.emptyCollectionLayout.visibility = View.VISIBLE

@@ -7,6 +7,7 @@ import retrofit2.http.POST
 import umc.onairmate.data.model.entity.CollectionData
 import umc.onairmate.data.model.entity.CollectionDetailData
 import umc.onairmate.data.model.request.CreateCollectionRequest
+import umc.onairmate.data.model.response.CollectionListResponse
 import umc.onairmate.data.model.response.CreateCollectionResponse
 import umc.onairmate.data.model.response.RawDefaultResponse
 
@@ -23,7 +24,7 @@ interface CollectionService {
     @GET("collections")
     suspend fun getCollections(
         @Header("Authorization") accessToken: String
-    ): RawDefaultResponse<List<CollectionData>>
+    ): RawDefaultResponse<CollectionListResponse>
 
     // 특정 컬렉션의 상세 정보 및 북마크 조회
     @GET("collections/{collectionId}")

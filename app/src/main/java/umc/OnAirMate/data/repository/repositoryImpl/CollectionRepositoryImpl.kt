@@ -4,6 +4,7 @@ import umc.onairmate.data.api.CollectionService
 import umc.onairmate.data.model.entity.CollectionData
 import umc.onairmate.data.model.entity.CollectionDetailData
 import umc.onairmate.data.model.request.CreateCollectionRequest
+import umc.onairmate.data.model.response.CollectionListResponse
 import umc.onairmate.data.model.response.CreateCollectionResponse
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.repository.repository.CollectionRepository
@@ -23,7 +24,7 @@ class CollectionRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getCollections(accessToken: String): DefaultResponse<List<CollectionData>> {
+    override suspend fun getCollections(accessToken: String): DefaultResponse<CollectionListResponse> {
         return safeApiCall {
             api.getCollections(accessToken)
         }
