@@ -17,6 +17,7 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,6 +55,9 @@ class HomeFragment : Fragment() {
     private val searchHandler = Handler(Looper.getMainLooper())
 
     private lateinit var roomData: RoomData
+
+    private var roomFlag : Boolean = false
+    private var videoFlag : Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -178,6 +182,18 @@ class HomeFragment : Fragment() {
             homeViewModel.clearJoinRoom()
 
         }
+        homeViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            roomFlag = isLoading
+            checkRefresh()
+        })
+        searchVideoViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            videoFlag = isLoading
+            checkRefresh()
+        })
+    }
+    private fun checkRefresh() {
+        val isLoading = roomFlag || videoFlag
+        binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     // 상단 버튼들
