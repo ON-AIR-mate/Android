@@ -15,12 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.data.model.entity.RequestedFriendData
+import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.databinding.FragmentFriendListTabBinding
 import umc.onairmate.ui.friend.FriendViewModel
 import umc.onairmate.ui.friend.chat.FriendChatActivity
 import umc.onairmate.ui.friend.chat.FriendChatViewModel
 import umc.onairmate.ui.pop_up.PopupClick
 import umc.onairmate.ui.pop_up.TwoButtonPopup
+import umc.onairmate.ui.util.SharedPrefUtil
 import kotlin.getValue
 
 @AndroidEntryPoint
@@ -33,7 +35,7 @@ class FriendListTabFragment() : Fragment() {
     private val viewModel: FriendViewModel by viewModels()
     private val friendChatViewModel: FriendChatViewModel by viewModels()
 
-    private var userId : Int = 0
+    private var user : UserData = UserData()
     private var friendId : Int = 0
     private var type : Int = 0
 
@@ -81,8 +83,7 @@ class FriendListTabFragment() : Fragment() {
     private fun initData(){
         if (type == LIST_TYPE) viewModel.getFriendList()
         if (type == REQUEST_TYPE) viewModel.getRequestedFriendList()
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        userId = spf.getInt("userId", 0)
+        user = SharedPrefUtil.getData("user_info")?: UserData()
     }
 
     private fun setObservers() {
@@ -102,7 +103,7 @@ class FriendListTabFragment() : Fragment() {
 
         viewModel.result.observe(viewLifecycleOwner, Observer { message ->
             if (message == null) return@Observer
-            if (message == "친구가 삭제되었습니다.") friendChatViewModel.deleteFriend(friendId,id)
+            if (message == "친구가 삭제되었습니다.") friendChatViewModel.deleteFriend(friendId,user.userId)
             initData()
             Toast.makeText(requireContext(),message, Toast.LENGTH_SHORT).show()
             viewModel.clearResult()

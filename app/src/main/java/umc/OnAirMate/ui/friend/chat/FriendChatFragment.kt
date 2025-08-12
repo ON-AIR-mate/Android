@@ -14,12 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.ChatMessageData
 import umc.onairmate.data.model.entity.FriendData
+import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.data.socket.SocketDispatcher
 import umc.onairmate.data.socket.SocketManager
 import umc.onairmate.databinding.FragmentVideoChatBinding
 import umc.onairmate.ui.chat_room.message.ChatRVAdapter
 import umc.onairmate.ui.chat_room.message.VideoChatViewModel
 import umc.onairmate.ui.friend.FriendViewModel
+import umc.onairmate.ui.util.SharedPrefUtil
 import kotlin.getValue
 
 @AndroidEntryPoint
@@ -27,8 +29,7 @@ class FriendChatFragment: Fragment() {
     private val TAG = javaClass.simpleName
     private var _binding: FragmentVideoChatBinding? = null
     private val binding get() = _binding!!
-    private var userId : Int = 0
-    private var nickname : String = ""
+    private var user : UserData = UserData()
     private var friend : FriendData = FriendData()
     private val viewModel: FriendChatViewModel by viewModels()
 
@@ -52,13 +53,13 @@ class FriendChatFragment: Fragment() {
         }
 
 
-        adapter = FriendChatRVAdapter(userId)
+        adapter = FriendChatRVAdapter(user.userId)
         binding.rvVideoChat.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
         binding.rvVideoChat.adapter = adapter
 
         binding.btnSend.setOnClickListener {
             val text = binding.etInputChat.text.toString()
-            viewModel.sendMessage(friend.userId, nickname, text)
+            viewModel.sendMessage(friend.userId, user.nickname, text)
             binding.etInputChat.setText("")
         }
 
@@ -74,18 +75,23 @@ class FriendChatFragment: Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun initData(){
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        userId = spf.getInt("userId", 0)
-        nickname = spf.getString("nickname","nickname")?:"user"
         friend = arguments?.getParcelable("friendData", FriendData::class.java)!!
-
+        user = SharedPrefUtil.getData("user_info")?: UserData()
     }
 
     private fun setUpObserver() {
         viewModel.generalChat.observe(viewLifecycleOwner) { data ->
             if (data == null) return@observe
-            val name = if (data.senderId == userId) nickname else friend.nickname
-            val chat = ChatMessageData(messageId = 0,userId= data.senderId, name,"",data.content,data.messageType,data.createdAt)
+            val name = if (data.senderId == user.userId) user.nickname else friend.nickname
+            val profile = if (data.senderId == user.userId) user.profileImage else friend.nickname
+            val chat = ChatMessageData(
+                messageId = 0,
+                userId= data.senderId,
+                nickname = name,
+                profileImage = profile,
+                content= data.content,
+                messageType =  data.messageType,
+                timestamp = data.createdAt)
             adapter.addGeneralChat(chat)
         }
     }

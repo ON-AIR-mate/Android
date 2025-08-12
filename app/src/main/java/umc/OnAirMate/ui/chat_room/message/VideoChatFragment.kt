@@ -13,9 +13,11 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.RoomData
+import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.data.socket.SocketDispatcher
 import umc.onairmate.data.socket.SocketManager
 import umc.onairmate.databinding.FragmentVideoChatBinding
+import umc.onairmate.ui.util.SharedPrefUtil
 import kotlin.getValue
 
 @AndroidEntryPoint
@@ -23,11 +25,11 @@ class VideoChatFragment: Fragment() {
     private val TAG = javaClass.simpleName
     private var _binding: FragmentVideoChatBinding? = null
     private val binding get() = _binding!!
-    private var userId : Int = 0
     private var roomId : Int = 0
-    private var nickname : String = ""
-    lateinit var adapter : ChatRVAdapter
+    private var user : UserData = UserData()
     private val videoChatViewModel: VideoChatViewModel by activityViewModels()
+
+    lateinit var adapter : ChatRVAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,18 +42,18 @@ class VideoChatFragment: Fragment() {
         setUpObserver()
 
 
-        adapter = ChatRVAdapter(userId)
+        adapter = ChatRVAdapter(user.userId)
         binding.rvVideoChat.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
         binding.rvVideoChat.adapter = adapter
 
         binding.btnSend.setOnClickListener {
             val text = binding.etInputChat.text.toString()
             val type = if (checkBookMark(text)) "system" else "general"
-            videoChatViewModel.sendMessage(roomId, nickname, text, type)
+            videoChatViewModel.sendMessage(roomId, user.nickname, text, type)
             binding.etInputChat.setText("")
         }
 
-        videoChatViewModel.joinRoom(roomId,nickname)
+        videoChatViewModel.joinRoom(roomId,user.nickname)
         return binding.root
     }
 
@@ -59,6 +61,7 @@ class VideoChatFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         videoChatViewModel.getChatHistory(roomId)
     }
+
     private fun checkBookMark(input: String): Boolean {
         val regex = Regex("^\\d{2}:\\d{2}:\\d{2}")
         val result = regex.containsMatchIn(input)
@@ -71,11 +74,8 @@ class VideoChatFragment: Fragment() {
     }
 
     private fun initData(){
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        userId = spf.getInt("userId", 0)
-        nickname = spf.getString("nickname","nickname")?:"user"
         roomId = arguments?.getInt("roomId", 0)!!
-        Log.d(TAG,"id : ${roomId}")
+        user = SharedPrefUtil.getData("user_info")?: UserData()
 
     }
 
@@ -93,12 +93,6 @@ class VideoChatFragment: Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        videoChatViewModel.leaveRoom(roomId) // 방 나가기 (Socket)
-        SocketManager.getSocketOrNull()?.let { socket ->
-            if (socket.connected()) {
-                SocketDispatcher.unregisterHandler(socket, videoChatViewModel.getHandler())
-            }
-        }
         _binding = null
     }
 }

@@ -162,6 +162,9 @@ class HomeFragment : Fragment() {
 
         homeViewModel.joinRoom.observe(viewLifecycleOwner){ data ->
             if (data == null) return@observe
+            (activity?.supportFragmentManager?.findFragmentByTag("JoinRoomPopup")
+                    as? androidx.fragment.app.DialogFragment
+                    )?.dismissAllowingStateLoss()
             if(data){
                 // 방 액티비티로 전환
                 val intent = Intent(requireActivity(), ChatRoomLayoutActivity::class.java).apply {

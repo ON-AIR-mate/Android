@@ -34,6 +34,12 @@ class FriendChatViewModel @Inject constructor(
 
     fun getHandler(): FriendHandler = handler
 
+    companion object{
+        const val GENERAL_MESSAGE = "general"
+        const val INVITE_MESSAGE = "roomInvite"
+        const val COLLECTION_MESSAGE = "collectionShare"
+    }
+
     override fun onNewDirectMessage(directMessage: DirectMessageData) {
         viewModelScope.launch(Dispatchers.Main) {
             Log.d(TAG,"onNewDirectMessage : ${directMessage}")
@@ -62,7 +68,7 @@ class FriendChatViewModel @Inject constructor(
             put("content", content)
             put("fromNickname", fromNickname)
 
-            put("messageType", "general")
+            put("messageType",GENERAL_MESSAGE )
         }
 
         SocketManager.emit("sendDirectMessage", json)

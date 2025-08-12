@@ -15,6 +15,7 @@ import javax.inject.Inject
 import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import umc.onairmate.ui.util.SharedPrefUtil
 
 @HiltViewModel
 class TestViewModel @Inject constructor(
@@ -57,9 +58,11 @@ class TestViewModel @Inject constructor(
                     spf.edit {
                         putString("access_token", "Bearer " + result.data.accessToken)
                         putString("socket_token",result.data.accessToken)
+
                         putString("nickname", result.data.user.nickname)
                         putInt("userId",result.data.user.userId)
                     }
+                    SharedPrefUtil.saveData("user_info", result.data.user)
                     _isSuccess.postValue(true)
                 }
                 is DefaultResponse.Error -> {
