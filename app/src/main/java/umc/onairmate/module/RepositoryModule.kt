@@ -29,28 +29,29 @@ object RepositoryModule {
     @Provides
     fun providesHomeRepository(
         homeService: HomeService
-    ) : HomeRepository = HomeRepositoryImpl(homeService)
+    ): HomeRepository = HomeRepositoryImpl(homeService)
 
     @ViewModelScoped
     @Provides
     fun providesTestRepository(
         testService: TestService
-    ) : TestRepository = TestRepositoryImpl(testService)
+    ): TestRepository = TestRepositoryImpl(testService)
 
     @ViewModelScoped
     @Provides
     fun providesFriendRepository(
         friendService: FriendService
-    ) : FriendRepository = FriendRepositoryImpl(friendService)
+    ): FriendRepository = FriendRepositoryImpl(friendService)
+
     @ViewModelScoped
     @Provides
     fun providesChatRoomRepository(
         chatRoomService: ChatRoomService
-    ) : ChatRoomRepository = ChatRoomRepositoryImpl(chatRoomService)
+    ): ChatRoomRepository = ChatRoomRepositoryImpl(chatRoomService)
 
     @ViewModelScoped
     @Provides
     fun providesNicknameRepository(
         nicknameService: NicknameService
-    ) : NicknameRepository = NicknameRepositoryImpl(nicknameService)
+    ): NicknameRepository = NicknameRepositoryImpl(nicknameService)
 }
