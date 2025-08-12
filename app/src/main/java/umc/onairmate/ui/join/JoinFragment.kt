@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
@@ -88,7 +87,7 @@ class JoinFragment : Fragment() {
 
     private fun backToLogin() = with(binding) {
         btnClose.setOnClickListener {
-            
+            findNavController().navigate(R.id.action_joinDetailFragment_to_joinFragment)
         }
     }
 

@@ -80,25 +80,25 @@ class LoginActivity : AppCompatActivity() {
         binding.newprofile.setOnClickListener {
             // 로그인 UI 숨기기
             binding.loginContent.visibility = View.GONE
-            // fragment_container 보이기
-            binding.fragmentContainer.visibility = View.VISIBLE
+            // NavHostFragment 보이기
+            binding.navHostFragment.visibility = View.VISIBLE
 
-            // Fragment 띄우기
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, JoinFragment())
-                .addToBackStack(null)  // 뒤로가기 시 로그인 화면 복귀 가능
-                .commit()
+            // Navigation Component로 이동
+            findNavController(R.id.nav_host_fragment).navigate(R.id.joinFragment)
         }
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 0) {
-            supportFragmentManager.popBackStack()
-            // 로그인 UI 다시 보이기
-            binding.loginContent.visibility = View.VISIBLE
-            binding.fragmentContainer.visibility = View.GONE
-        } else {
+        if (supportFragmentManager.findFragmentById(R.id.nav_host_fragment)?.childFragmentManager?.backStackEntryCount ?: 0 > 0) {
             super.onBackPressed()
+        } else {
+            if (binding.navHostFragment.visibility == View.VISIBLE) {
+                // 로그인 UI 다시 보이기
+                binding.loginContent.visibility = View.VISIBLE
+                binding.navHostFragment.visibility = View.GONE
+            } else {
+                super.onBackPressed()
+            }
         }
     }
 }

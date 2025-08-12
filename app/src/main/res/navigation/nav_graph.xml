@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragment_container">
+    app:startDestination="@id/joinFragment"> <!-- startDestination 수정 -->
 
     <fragment
         android:id="@+id/collectionListFragment"
@@ -32,8 +32,7 @@
 
         <action
             android:id="@+id/action_howToUseFragment_to_loginActivity"
-            app:destination="@id/fragment_container"/>
-
+            app:destination="@id/joinFragment"/> <!-- fragment_container → joinFragment로 변경 -->
     </fragment>
 
     <fragment
@@ -43,6 +42,10 @@
         <action
             android:id="@+id/action_joinFragment_to_joinProfileFragment"
             app:destination="@id/joinProfileFragment" />
+
+        <action
+            android:id="@+id/action_joinFragment_to_joinDetailFragment"
+            app:destination="@id/joinDetailFragment" />
     </fragment>
 
     <fragment
