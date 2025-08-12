@@ -8,7 +8,7 @@
     android:paddingVertical="24dp"
     android:orientation="vertical"
     android:background="@drawable/bg_dialog"
-    android:elevation="10dp">
+    android:elevation="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="17dp"
-            android:text="컬렉션 제목"
+            android:text="컬렉션 생성"
             android:textAppearance="@style/TextAppearance.App.Medium.14sp"
             android:layout_marginBottom="18dp"/>
 
@@ -38,10 +38,24 @@
         android:id="@+id/etNewTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_input_text"
-        android:text="컬렉션 제목을 입력하세요.(3~20자)"
         android:textAppearance="@style/TextAppearance.App.Regular.12sp"
-        />
+        android:hint="컬렉션 제목을 입력하세요. (3~20자)"
+        android:maxLines="1"
+        android:textColorHint="@color/black"
+        android:background="@drawable/background_input_text"
+        android:paddingVertical="5dp"
+        android:paddingStart="5dp" />
+
+    <TextView
+        android:id="@+id/tv_title_length_error_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="방 제목은 3자 이상 20자 이하로 입력해야 해요."
+        android:layout_marginTop="2dp"
+        android:layout_marginStart="2dp"
+        android:textColor="@color/main"
+        android:visibility="invisible"
+        android:textAppearance="@style/TextAppearance.App.Medium.12sp" />
 
     <LinearLayout
         android:id="@+id/rowPrivacy"

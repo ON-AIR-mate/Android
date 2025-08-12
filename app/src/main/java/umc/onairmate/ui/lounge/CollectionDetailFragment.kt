@@ -90,8 +90,8 @@ class CollectionDetailFragment : Fragment() {
             R.layout.dialog_move_collection,
             null
         )
-        val rv = dialogView.findViewById<RecyclerView>(R.id.rvCollections)
-        val moveBtn = dialogView.findViewById<Button>(R.id.btn_collection_move)
+        val rv = dialogView.findViewById<RecyclerView>(R.id.rv_collection_list)
+        val moveBtn = dialogView.findViewById<Button>(R.id.tv_move_collection)
 
 
 

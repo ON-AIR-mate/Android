@@ -15,5 +15,10 @@ data class CreateRoomWithBookmarkRequest(
 
 enum class RoomStartOption(val apiName: String, val displayName: String) {
     BOOKMARK("BOOKMARK", "북마크 시간부터"),
-    BEGINNING("BEGINNING", "영상 처음부터")
+    BEGINNING("BEGINNING", "영상 처음부터");
+
+    companion object {
+        fun fromApi(apiName: String) = entries.find { it.apiName.equals(apiName, ignoreCase = true) }
+        fun fromDisplayName(displayName: String) = entries.find { it.displayName.equals(displayName, ignoreCase = true) }
+    }
 }

@@ -1,4 +1,4 @@
-package umc.onairmate.ui.lounge.collection
+package umc.onairmate.ui.lounge.collection.send
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

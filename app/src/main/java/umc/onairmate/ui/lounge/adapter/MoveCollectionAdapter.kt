@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.data.model.entity.CollectionData
-import umc.onairmate.databinding.ItemMoveCollectionBinding
+import umc.onairmate.databinding.RvItemMoveCollectionBinding
 
 class MoveCollectionAdapter(
     private val onSelect: (CollectionData) -> Unit
@@ -15,7 +15,7 @@ class MoveCollectionAdapter(
     private var selectedPosition: Int = RecyclerView.NO_POSITION
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemMoveCollectionBinding.inflate(
+        val binding = RvItemMoveCollectionBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
         return ViewHolder(binding)
@@ -41,12 +41,12 @@ class MoveCollectionAdapter(
         }
     }
 
-    inner class ViewHolder(private val binding: ItemMoveCollectionBinding) :
+    inner class ViewHolder(private val binding: RvItemMoveCollectionBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(collection: CollectionData, isSelected: Boolean) {
-            binding.tvTitle.text = collection.title
-            binding.tvPrivacy.text = collection.visibility
+            binding.tvCollectionTitle.text = collection.title
+            binding.tvCount.text = collection.visibility
             binding.root.isSelected = isSelected
             binding.root.alpha = if (isSelected) 1f else 0.6f
         }

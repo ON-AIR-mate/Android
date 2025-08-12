@@ -61,7 +61,7 @@ class FriendChatViewModel @Inject constructor(
         Log.d(TAG,"채팅 입력 ${content}")
         val json = JSONObject().apply {
             put("receiverId", receiverId)
-            put("fromNickname", fromNickname)
+            //put("fromNickname", fromNickname)
             put("content", content)
             put("messageType", "general")
         }

@@ -81,7 +81,7 @@ class BookmarkRVAdapter(
                 binding.llBookmarkText.addView(itemBinding.root)
             }
 
-            // 2. '더보기' 버튼의 가시성 및 클릭 이벤트 설정
+            // 펼치기/접기 클릭 이벤트 설정
             if (bookmark.message.size > 2) {
                 binding.ivOpenBookmarks.visibility = View.VISIBLE
                 binding.ivCloseBookmarks.visibility = View.GONE

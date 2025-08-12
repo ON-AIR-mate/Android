@@ -2,8 +2,6 @@ package umc.onairmate.ui.pop_up
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import umc.onairmate.R
@@ -18,7 +16,7 @@ class CollectionCreateDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
-        val view = layoutInflater.inflate(R.layout.item_move_collection, null)
+        val view = layoutInflater.inflate(R.layout.dialog_create_collection, null)
 
         val etNewTitle = view.findViewById<EditText>(R.id.etNewTitle)
         val rowPrivacy = view.findViewById<LinearLayout>(R.id.rowPrivacy)

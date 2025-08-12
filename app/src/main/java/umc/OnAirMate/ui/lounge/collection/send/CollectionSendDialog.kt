@@ -1,4 +1,4 @@
-package umc.onairmate.ui.lounge.collection
+package umc.onairmate.ui.lounge.collection.send
 
 import android.app.AlertDialog
 import android.app.Dialog
