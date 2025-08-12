@@ -1,6 +1,7 @@
 package umc.onairmate.data.repository.repository
 
 
+import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
 import umc.onairmate.data.model.entity.FriendData
@@ -20,4 +21,5 @@ interface FriendRepository {
     suspend fun deleteFriend( accessToken: String, userId : Int): DefaultResponse<MessageResponse>
     suspend fun searchUser( accessToken: String, nickname : String): DefaultResponse<List<UserData>>
     suspend fun inviteFriend( accessToken: String, friendId: Int): DefaultResponse<MessageResponse>
+    suspend fun getDmHistory( accessToken: String, friendId: Int): DefaultResponse<List<String>>
 }

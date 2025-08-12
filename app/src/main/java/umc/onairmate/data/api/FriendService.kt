@@ -57,4 +57,10 @@ interface FriendService {
         @Header("Authorization") accessToken: String,
         @Path("friendId") friendId: Int
     ): RawDefaultResponse<MessageResponse>
+
+    @GET("chat/direct/{friendId}/message")
+    suspend fun getDmHistory(
+        @Header("Authorization") accessToken: String,
+        @Path("friendId") friendId: Int
+    ): RawDefaultResponse<List<String>>
 }
