@@ -8,6 +8,7 @@ import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.data.model.entity.RequestedFriendData
 import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.data.model.request.AcceptFriendBody
+import umc.onairmate.data.model.request.FriendInviteRequest
 import umc.onairmate.data.model.request.FriendRequest
 import umc.onairmate.data.model.response.MessageResponse
 import umc.onairmate.data.model.response.DefaultResponse
@@ -20,6 +21,6 @@ interface FriendRepository {
     suspend fun acceptFriend( accessToken: String, requestId : Int, body : AcceptFriendBody): DefaultResponse<MessageResponse>
     suspend fun deleteFriend( accessToken: String, userId : Int): DefaultResponse<MessageResponse>
     suspend fun searchUser( accessToken: String, nickname : String): DefaultResponse<List<UserData>>
-    suspend fun inviteFriend( accessToken: String, friendId: Int): DefaultResponse<MessageResponse>
+    suspend fun inviteFriend( accessToken: String, friendId: Int,  body: FriendInviteRequest): DefaultResponse<MessageResponse>
     suspend fun getDmHistory( accessToken: String, friendId: Int): DefaultResponse<List<String>>
 }

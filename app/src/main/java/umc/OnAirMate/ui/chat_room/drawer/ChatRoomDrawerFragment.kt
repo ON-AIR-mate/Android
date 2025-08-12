@@ -109,7 +109,7 @@ class ChatRoomDrawerFragment : Fragment() {
 
             invitePopupRVAdapter = InviteFriendRVAdapter(friendList, {
                 // 3. 친구 초대 api 요청
-                friendViewModel.inviteFriend(it.userId)
+                friendViewModel.inviteFriend(it.userId, roomData.roomId)
                 // 4. 초대 이후 로직 (메시지를 띄운다던가..)
                 Toast.makeText(this.context, "${it.nickname}님에게 초대를 발송했습니다.", Toast.LENGTH_SHORT).show()
                 invitePopupWindow?.dismiss()
