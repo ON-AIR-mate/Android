@@ -80,6 +80,18 @@ class JoinFragment : Fragment() {
         }
     }
 
+    private fun showServiceDetail() = with(binding) {
+        arrowService.setOnClickListener {
+            findNavController().navigate(R.id.action_joinDetailFragment_to_joinFragment)
+        }
+    }
+
+    private fun backToLogin() = with(binding) {
+        btnClose.setOnClickListener {
+            
+        }
+    }
+
 
     private fun setupArrowClickListeners() = with(binding) {
         arrowService.setOnClickListener {
