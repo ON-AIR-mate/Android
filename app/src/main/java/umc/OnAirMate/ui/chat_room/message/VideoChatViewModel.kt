@@ -15,7 +15,7 @@ import org.json.JSONObject
 import umc.onairmate.data.model.entity.ChatMessageData
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.entity.RoomSettingData
-import umc.onairmate.data.model.entity.SocketError
+import umc.onairmate.data.model.entity.SocketMessage
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.repository.repository.ChatRoomRepository
 import umc.onairmate.data.socket.SocketManager
@@ -67,9 +67,15 @@ class VideoChatViewModel @Inject constructor(
 
     }
 
-    override fun onError(errorMessage: SocketError) {
+    override fun onError(errorMessage: SocketMessage) {
         viewModelScope.launch(Dispatchers.Main) {
             Log.d(TAG,"error ${errorMessage.type} : ${errorMessage.message}")
+        }
+    }
+
+    override fun onSuccess(successMessage: SocketMessage) {
+        viewModelScope.launch(Dispatchers.Main) {
+            Log.d(TAG,"success ${successMessage.type} : ${successMessage.message}")
         }
     }
 

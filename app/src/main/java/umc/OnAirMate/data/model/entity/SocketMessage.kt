@@ -2,7 +2,7 @@ package umc.onairmate.data.model.entity
 
 import com.google.gson.annotations.SerializedName
 
-data class SocketError(
+data class SocketMessage(
     @SerializedName("type")
     val type: String,
     @SerializedName("message")

@@ -17,10 +17,10 @@ object SocketDispatcher {
 
         handler.getEventMap().forEach { (eventName, callback) ->
             socket.off(eventName) // 먼저 기존 리스너 제거 (중복 방지)
-
             socket.on(eventName) { args ->
                 if (args.isNotEmpty() && args[0] is JSONObject) {
                     try {
+                        Log.d("SocketDispatcher","data? ${args}")
                         callback(args[0] as JSONObject)
                     } catch (e: Exception) {
                         Log.e("SocketDispatcher", "Error in event callback for $eventName", e)
