@@ -24,8 +24,8 @@ class ChangeNicknamePopup : BottomSheetDialogFragment() {
     private var _binding: PopupChangeNicknameBinding? = null
     private val binding get() = _binding!!
 
-    @Inject
-    lateinit var repository: NicknameRepository
+//    @Inject
+//    lateinit var repository: NicknameRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,20 +62,20 @@ class ChangeNicknamePopup : BottomSheetDialogFragment() {
                 return@setOnClickListener
             }
 
-            viewLifecycleOwner.lifecycleScope.launch {
-                val isDuplicated = withContext(Dispatchers.IO) {
-                    repository.isNicknameDuplicated(nickname)
-                }
-
-                if (isDuplicated) {
-                    Toast.makeText(requireContext(), "이미 사용 중인 닉네임입니다.", Toast.LENGTH_SHORT).show()
-                    binding.editNickname.text.clear()
-                    binding.checkNickname.setBackgroundResource(R.drawable.bg_btn_disabled)
-                    binding.checkNickname.isEnabled = false
-                } else {
-                    Toast.makeText(requireContext(), "사용 가능한 닉네임입니다!", Toast.LENGTH_SHORT).show()
-                }
-            }
+//            viewLifecycleOwner.lifecycleScope.launch {
+//                val isDuplicated = withContext(Dispatchers.IO) {
+//                    repository.isNicknameDuplicated(nickname)
+//                }
+//
+//                if (isDuplicated) {
+//                    Toast.makeText(requireContext(), "이미 사용 중인 닉네임입니다.", Toast.LENGTH_SHORT).show()
+//                    binding.editNickname.text.clear()
+//                    binding.checkNickname.setBackgroundResource(R.drawable.bg_btn_disabled)
+//                    binding.checkNickname.isEnabled = false
+//                } else {
+//                    Toast.makeText(requireContext(), "사용 가능한 닉네임입니다!", Toast.LENGTH_SHORT).show()
+//                }
+//            }
         }
     }
 
