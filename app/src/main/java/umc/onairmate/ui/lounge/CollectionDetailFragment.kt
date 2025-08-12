@@ -15,8 +15,8 @@ import umc.onairmate.databinding.FragmentCollectionDetailBinding
 import umc.onairmate.ui.lounge.adapter.BookmarkAdapter
 import umc.onairmate.ui.lounge.adapter.MoveCollectionAdapter
 import umc.onairmate.ui.lounge.adapter.OnBookmarkActionListener
-import umc.onairmate.ui.lounge.model.Bookmark
-import umc.onairmate.ui.lounge.model.Collection
+import umc.onairmate.data.model.entity.Bookmark
+import umc.onairmate.data.model.entity.CollectionData
 
 class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
 
@@ -25,8 +25,8 @@ class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
 
     private val bookmarkAdapter by lazy { BookmarkAdapter(this) }
     private val dummyBookmarks = mutableListOf(
-        Bookmark("1", "방 제목", "16:23 ~~~~"),
-        Bookmark("2", "또 다른 제목", "17:00 ~~~~")
+        Bookmark(R.drawable.sample_image, "방 제목", "16:23 ~~~~", "5분전"),
+        Bookmark(R.drawable.sample_image, "또다른 제목", "17:00 ~~~~", "5분전")
     )
 
     override fun onCreateView(
@@ -67,7 +67,7 @@ class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
         val cancelBtn = dialogView.findViewById<Button>(R.id.btnCancel)
 
         titleTv.text = "[${bookmark.title}]"
-        timeTv.text = bookmark.timestamp
+        timeTv.text = bookmark.time
 
         val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)
@@ -93,21 +93,21 @@ class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
 
         // 전체 Collection 객체를 생성 (필수 필드 모두 채움)
         val collections = listOf(
-            Collection(
+            CollectionData(
                 title = "웃긴 장면",
                 dateCreated = "2025.03.24",
                 lastUpdated = "2025.03.24",
                 privacy = "전체 공개",
-                thumbnailUrl = "https://example.com/thumb1.jpg"
+                thumbnailUrl = "https://example.com/thumb1.jpg",
             ),
-            Collection(
+            CollectionData(
                 title = "힐링 모먼트",
                 dateCreated = "2025.02.10",
                 lastUpdated = "2025.02.10",
                 privacy = "친구만 공개",
                 thumbnailUrl = "https://example.com/thumb2.jpg"
             ),
-            Collection(
+            CollectionData(
                 title = "눈물 주의",
                 dateCreated = "2025.01.05",
                 lastUpdated = "2025.01.05",
@@ -115,7 +115,7 @@ class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
                 thumbnailUrl = "https://example.com/thumb3.jpg"
             )
         )
-        var targetCollection: Collection? = null
+        var targetCollection: CollectionData? = null
 
         rv.layoutManager = LinearLayoutManager(requireContext())
         val moveAdapter = MoveCollectionAdapter { selected ->

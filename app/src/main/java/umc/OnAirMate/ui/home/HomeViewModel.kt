@@ -16,7 +16,7 @@ import umc.onairmate.data.repository.repository.HomeRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchRoomViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val repository: HomeRepository,
     @ApplicationContext private val context: Context
 ) : ViewModel(){
@@ -35,11 +35,17 @@ class SearchRoomViewModel @Inject constructor(
     private val _recommendedVideo = MutableLiveData<List<String>>()
     val recommendedVideo : LiveData<List<String>> get() = _recommendedVideo
 
+    private val _joinRoom = MutableLiveData<Boolean?>()
+    val joinRoom : LiveData<Boolean?> get() = _joinRoom
+
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
     fun getToken(): String? {
         return spf.getString("access_token", null)
+    }
+    fun clearJoinRoom() {
+        _joinRoom.value = null
     }
 
     // 테스트용 더미데이터 생성
@@ -68,7 +74,6 @@ class SearchRoomViewModel @Inject constructor(
 
 
     // 방 목록 가져오기
-    // type : 0 -> 빈 데이터 테스트 / 1 -> 데이터 있는 경우 테스트
     fun getRoomList(sortBy : String, searchType : String, keyword : String){
         viewModelScope.launch {
             _isLoading.value = true
@@ -135,11 +140,12 @@ class SearchRoomViewModel @Inject constructor(
            when (result) {
                is DefaultResponse.Success -> {
                    Log.d(TAG,"응답 성공 : ${result.data}")
+                   _joinRoom.value = true
 
                }
                is DefaultResponse.Error -> {
                    Log.e(TAG, "에러: ${result.code} - ${result.message} ")
-
+                   _joinRoom.value = false
                }
            }
            _isLoading.value = false

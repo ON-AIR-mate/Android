@@ -5,15 +5,15 @@ import com.google.gson.annotations.SerializedName
 data class VideoData(
 
     @SerializedName("channelName")
-    val channelName: String,
+    val channelName: String = "",
     @SerializedName("thumbnail")
-    val thumbnail: String,
+    val thumbnail: String = "",
     @SerializedName("title")
-    val title: String,
+    val title: String = "",
     @SerializedName("uploadTime")
-    val uploadTime: String,
+    val uploadTime: String ="",
     @SerializedName("videoId")
-    val videoId: String,
+    val videoId: String = "",
     @SerializedName("viewCount")
-    val viewCount: Long
+    val viewCount: Long = 0
 )

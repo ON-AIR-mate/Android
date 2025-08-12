@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.InvitePermission
 import umc.onairmate.data.model.entity.ParticipantPreset
@@ -17,6 +17,7 @@ import umc.onairmate.data.model.entity.RoomSettingData
 import umc.onairmate.databinding.FragmentChatRoomSettingBinding
 import umc.onairmate.ui.chat_room.drawer.ChatRoomDrawerFragment
 import umc.onairmate.ui.chat_room.ChatRoomViewModel
+import umc.onairmate.ui.chat_room.message.VideoChatViewModel
 
 val inviteOptions = InvitePermission.entries.map { it.label }
 val maxParticipants = ParticipantPreset.entries.map { it.count.toString() }
@@ -26,7 +27,8 @@ val maxParticipants = ParticipantPreset.entries.map { it.count.toString() }
 @AndroidEntryPoint
 class ChatRoomSettingFragment : Fragment() {
 
-    private val chatRoomViewModel: ChatRoomViewModel by viewModels()
+    private val chatRoomViewModel: ChatRoomViewModel by activityViewModels()
+    private val videoChatViewModel: VideoChatViewModel by activityViewModels()
     lateinit var binding: FragmentChatRoomSettingBinding
     lateinit var roomData: RoomData
 
@@ -45,7 +47,7 @@ class ChatRoomSettingFragment : Fragment() {
         initScreen()
         initToggleListener()
         onClickGoBack()
-
+        setObservers()
         return binding.root
     }
 
@@ -55,26 +57,36 @@ class ChatRoomSettingFragment : Fragment() {
 
         val inviteSettingAdapter = RoomSettingSpAdapter(requireContext(), inviteOptions)
         binding.spInviteSetting.adapter = inviteSettingAdapter
+        val settings = RoomSettingData(
+            autoArchiving = roomData.autoArchiving,
+            invitePermission = roomData.invitePermission,
+            isPrivate = roomData.isPrivate,
+            maxParticipants= roomData.maxParticipants
+        )
+        setRoomSettings(settings)
+    }
 
-        chatRoomViewModel.getRoomSetting(roomData.roomId)
-
-        chatRoomViewModel.roomSettingDataInfo.observe(viewLifecycleOwner) { data ->
+    private fun setObservers(){
+        videoChatViewModel.roomSettingDataInfo.observe(viewLifecycleOwner) { data ->
             if (data == null) {
                 Toast.makeText(context, "설정을 불러오는데 실패했습니다.", Toast.LENGTH_SHORT).show()
+                return@observe
             }
-            val roomSetting = data
-
-            val currentMaxParticipant = roomSetting.maxParticipants.toString()
-            var position = maxParticipants.indexOf(currentMaxParticipant).takeIf { it >= 0 } ?: 0
-            binding.spMaximumParticipant.setSelection(position)
-
-            val currentInvitePreset = roomSetting.invitePermission
-            position = inviteOptions.indexOf(currentInvitePreset).takeIf { it >= 0 } ?: 0
-            binding.spInviteSetting.setSelection(position)
-
-            if (roomSetting.autoArchiving) setAutoArchiveOnClickListener() else setAutoArchiveOffClickListener()
-            if (roomSetting.isPrivate) setPrivateRoomOnClickListener() else setPrivateRoomOffClickListener()
+            setRoomSettings(data)
         }
+    }
+
+    private fun setRoomSettings(roomSetting: RoomSettingData){
+        val currentMaxParticipant = roomSetting.maxParticipants.toString()
+        var position = maxParticipants.indexOf(currentMaxParticipant).takeIf { it >= 0 } ?: 0
+        binding.spMaximumParticipant.setSelection(position)
+
+        val currentInvitePreset = roomSetting.invitePermission
+        position = inviteOptions.indexOf(currentInvitePreset).takeIf { it >= 0 } ?: 0
+        binding.spInviteSetting.setSelection(position)
+
+        if (roomSetting.autoArchiving) setAutoArchiveOnClickListener() else setAutoArchiveOffClickListener()
+        if (roomSetting.isPrivate) setPrivateRoomOnClickListener() else setPrivateRoomOffClickListener()
     }
 
     fun initToggleListener() {

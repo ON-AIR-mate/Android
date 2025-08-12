@@ -1,11 +1,11 @@
-package umc.onairmate.ui.lounge.model
+package umc.onairmate.data.model.entity
 
 import java.io.Serializable
 
-data class Collection(
+data class CollectionData (
     val title: String,
     val dateCreated: String,
     val lastUpdated: String,
     val privacy: String,
     val thumbnailUrl: String
-):Serializable
+): Serializable

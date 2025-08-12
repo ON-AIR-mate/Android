@@ -12,6 +12,8 @@ import kotlinx.coroutines.launch
 import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.data.model.entity.RequestedFriendData
 import umc.onairmate.data.model.entity.UserData
+import umc.onairmate.data.model.request.AcceptFriendBody
+import umc.onairmate.data.model.request.FriendRequest
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.repository.repository.FriendRepository
 import javax.inject.Inject
@@ -147,7 +149,7 @@ class FriendViewModel @Inject constructor(
                 _isLoading.value = false
                 return@launch
             }
-            val result = repository.requestFriend(token,userId)
+            val result = repository.requestFriend(token, FriendRequest(userId))
             Log.d(TAG, "requestFriend api 호출")
             when (result) {
                 is DefaultResponse.Success -> {
@@ -172,7 +174,7 @@ class FriendViewModel @Inject constructor(
                 _isLoading.value = false
                 return@launch
             }
-            val result = repository.acceptFriend(token,userId, action)
+            val result = repository.acceptFriend(token,userId, AcceptFriendBody(action))
             Log.d(TAG, "acceptFriend api 호출")
             when (result) {
                 is DefaultResponse.Success -> {

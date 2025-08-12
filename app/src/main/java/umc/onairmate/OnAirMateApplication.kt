@@ -33,7 +33,7 @@ class OnAirMateApplication : Application(), DefaultLifecycleObserver {
         super<Application>.onCreate()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         context = applicationContext
-
+        instance = this
         // 앱 상태 감지 시작
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.ui.login.LoginActivity
 import umc.onairmate.R
+import androidx.core.content.edit
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {

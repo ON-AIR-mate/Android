@@ -8,18 +8,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.ParticipantData
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.databinding.FragmentChatRoomParticipantsBinding
 import umc.onairmate.ui.chat_room.ChatRoomViewModel
+import umc.onairmate.ui.chat_room.message.VideoChatViewModel
 
 @AndroidEntryPoint
 class ChatRoomParticipantsFragment : Fragment() {
 
-    private val chatRoomViewModel: ChatRoomViewModel by viewModels()
+    private val chatRoomViewModel: ChatRoomViewModel by activityViewModels()
+    private val videoChatViewModel: VideoChatViewModel by activityViewModels()
+
 
     lateinit var binding: FragmentChatRoomParticipantsBinding
 
