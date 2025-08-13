@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -99,7 +98,7 @@
                     android:id="@+id/iv_arrow_service"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:src="@drawable/arrow"
+                    android:src="@drawable/ic_arrow"
                     android:contentDescription="서비스 약관 보기" />
             </LinearLayout>
 
@@ -124,7 +123,7 @@
                     android:id="@+id/iv_arrow_privacy"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:src="@drawable/arrow"
+                    android:src="@drawable/ic_arrow"
                     android:contentDescription="개인정보 약관 보기" />
             </LinearLayout>
 
@@ -149,7 +148,7 @@
                     android:id="@+id/iv_arrow_processing"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:src="@drawable/arrow"
+                    android:src="@drawable/ic_arrow"
                     android:contentDescription="개인정보 처리방침 보기" />
             </LinearLayout>
 
@@ -174,7 +173,7 @@
                     android:id="@+id/iv_arrow_marketing"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:src="@drawable/arrow"
+                    android:src="@drawable/ic_arrow"
                     android:contentDescription="마케팅 약관 보기" />
             </LinearLayout>
 
@@ -199,7 +198,7 @@
                     android:id="@+id/iv_arrow_event"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:src="@drawable/arrow"
+                    android:src="@drawable/ic_arrow"
                     android:contentDescription="이벤트/프로모션 참여 약관 보기" />
             </LinearLayout>
         </LinearLayout>

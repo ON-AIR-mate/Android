@@ -43,29 +43,39 @@
             android:layout_marginTop="8dp"
             android:text="설명" />
 
-        <ImageView
-            android:id="@+id/btnEditTitle"
-            android:layout_width="50dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="8dp"
-            android:contentDescription="제목 수정"
-            android:src="@drawable/ic_edit"
-            app:tint="@color/black"
-            android:background="?selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true" />
+<!--        <ImageView-->
+<!--            android:id="@+id/btnEditTitle"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="48dp"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:contentDescription="제목 수정"-->
+<!--            android:src="@drawable/ic_edit"-->
+<!--            app:tint="@color/black"-->
+<!--            android:background="?selectableItemBackgroundBorderless"-->
+<!--            android:clickable="true"-->
+<!--            android:focusable="true" />-->
 
-        <ImageView
-            android:id="@+id/btnChangePrivacy"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="12dp"
-            android:contentDescription="나만 보기"
-            android:src="@drawable/ic_dropdown"
-            app:tint="@color/black"
-            android:background="?selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true" />
+<!--        <ImageView-->
+<!--            android:id="@+id/btnChangePrivacy"-->
+<!--            android:layout_width="20dp"-->
+<!--            android:layout_height="20dp"-->
+<!--            android:layout_marginStart="12dp"-->
+<!--            android:contentDescription="나만 보기"-->
+<!--            android:src="@drawable/ic_dropdown"-->
+<!--            app:tint="@color/black"-->
+<!--            android:background="?selectableItemBackgroundBorderless"-->
+<!--            android:clickable="true"-->
+<!--            android:focusable="true" /> <ImageView-->
+<!--            android:id="@+id/btnChangePrivacy"-->
+<!--            android:layout_width="20dp"-->
+<!--            android:layout_height="20dp"-->
+<!--            android:layout_marginStart="12dp"-->
+<!--            android:contentDescription="나만 보기"-->
+<!--            android:src="@drawable/ic_dropdown"-->
+<!--            app:tint="@color/black"-->
+<!--            android:background="?selectableItemBackgroundBorderless"-->
+<!--            android:clickable="true"-->
+<!--            android:focusable="true" />-->
 
 
         <androidx.recyclerview.widget.RecyclerView
