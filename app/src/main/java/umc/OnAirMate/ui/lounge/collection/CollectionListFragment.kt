@@ -9,8 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.CollectionData
+import umc.onairmate.data.model.request.CreateCollectionRequest
 import umc.onairmate.databinding.FragmentCollectionListBinding
-import umc.onairmate.ui.pop_up.CollectionCreateDialogFragment
+import umc.onairmate.ui.lounge.collection.create.CollectionCreateDialog
+import umc.onairmate.ui.lounge.collection.create.CreateCollectionCallback
 
 @AndroidEntryPoint
 class CollectionListFragment : Fragment() {
@@ -59,7 +61,7 @@ class CollectionListFragment : Fragment() {
 
     fun setClickListener() {
         binding.llCreateCollection.setOnClickListener {
-            // todo: 컬렉션 생성 팝업 띄우고 컬렉션 생성
+            showCreateCollectionPopup()
         }
     }
 
@@ -76,6 +78,17 @@ class CollectionListFragment : Fragment() {
 
                 adapter.submitList(collections)
             }
+        }
+    }
+
+    private fun showCreateCollectionPopup() {
+        val dialog = CollectionCreateDialog(object : CreateCollectionCallback {
+            override fun onCreateCollection(requestData: CreateCollectionRequest) {
+                collectionViewModel.createCollection(requestData)
+            }
+        })
+        activity?.supportFragmentManager?.let { fm ->
+            dialog.show(fm, "CreateRoomPopup")
         }
     }
 

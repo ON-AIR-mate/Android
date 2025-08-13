@@ -12,11 +12,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp" >
+        android:layout_height="wrap_content" >
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
-            android:layout_height="17dp"
+            android:layout_height="wrap_content"
             android:text="컬렉션 생성"
             android:textAppearance="@style/TextAppearance.App.Medium.14sp"
             android:layout_marginBottom="18dp"/>
@@ -27,15 +27,15 @@
             android:layout_weight="1"/>
 
         <ImageView
-            android:id="@+id/ivClose"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:id="@+id/iv_close"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
             android:src="@drawable/btn_close"/>
 
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/etNewTitle"
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_collection_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.App.Regular.12sp"
@@ -61,7 +61,7 @@
         android:id="@+id/rowPrivacy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:gravity="center_horizontal"
         android:layout_marginBottom="16dp">
 
         <TextView
@@ -71,35 +71,25 @@
             android:textAppearance="@style/TextAppearance.App.Medium.12sp"
             android:layout_marginBottom="10dp"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1"/>
 
 
-            <TextView
-                android:id="@+id/tvPrivacy"
-                android:layout_width="wrap_content"
-                android:layout_height="17dp"
-                android:layout_marginBottom="18dp"
-                android:text="비공개"
-                android:textAppearance="@style/TextAppearance.App.Medium.12sp"
-                android:textColor="@color/main" />
-
-        <ImageView
-            android:id="@+id/ivPrivacyDropdown"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:src="@drawable/ic_dropdown"/>
-        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/sp_visibility"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_spinner_sort_type"
+            android:dropDownWidth="wrap_content"
+            android:popupBackground="@color/white"
+            android:spinnerMode="dropdown" />
     </LinearLayout>
 
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnChangeTitle"
+        android:id="@+id/btn_change_title"
         android:layout_width="150dp"
         android:layout_height="22dp"
         android:background="@drawable/background_box_5dp"
