@@ -5,7 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -63,6 +67,10 @@ class ProfileFragment : Fragment() {
             popup.show(childFragmentManager, "ChangeNicknamePopup")
         }
 
+        binding.layoutOpinion.setOnClickListener {
+            showFeedbackDialog()
+        }
+
         // 기존에 있던 다른 클릭 리스너들 유지
         binding.btnChangeProfile.setOnClickListener {
             Toast.makeText(requireContext(), "프로필 사진 변경 클릭", Toast.LENGTH_SHORT).show()
@@ -75,7 +83,31 @@ class ProfileFragment : Fragment() {
         binding.layoutBlock.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_blockListFragment)
         }
+    }
+    private fun showFeedbackDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_opinion, null)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
 
+        // 뷰 바인딩
+        val etFeedback = dialogView.findViewById<EditText>(R.id.etFeedback)
+        val btnClose = dialogView.findViewById<ImageView>(R.id.btnClose)
+        val btnSubmit = dialogView.findViewById<Button>(R.id.btnSubmit)
+
+
+        btnClose.setOnClickListener { dialog.dismiss() }
+        btnSubmit.setOnClickListener {
+            val feedback = etFeedback.text.toString()
+            if (feedback.isNotBlank()) {
+                // 의견 전송 로직
+                dialog.dismiss()
+            } else {
+                Toast.makeText(requireContext(), "내용을 입력해주세요", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        dialog.show()
     }
 
     override fun onDestroyView() {

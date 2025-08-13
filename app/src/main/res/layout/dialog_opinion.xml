@@ -1,6 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="300dp"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:paddingLeft="21dp"
+    android:paddingRight="21dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    android:background="@drawable/background_box_5dp"
+    android:id="@+id/dialog_opinion">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- 상단 타이틀과 닫기 버튼 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="의견 보내기"
+            android:textSize="14sp"
+            android:fontFamily="@font/pretendard_medium"/>
+
+        <ImageView
+            android:id="@+id/btnClose"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/btn_close"
+            android:contentDescription="닫기" />
+    </RelativeLayout>
+
+    <!-- 내용 입력창 -->
+    <EditText
+        android:id="@+id/etFeedback"
+        android:layout_width="278.47dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="13dp"
+        android:background="@drawable/background_input_text"
+        android:gravity="top"
+        android:hint="ON AIR mate에 대한 의견을 자유롭게 작성해주세요. mate들의 소중한 의견은 ON AIR mate에게 아주 큰 도움이 됩니다."
+        android:textSize="14sp"
+        android:fontFamily="@font/pretendard_regular"
+        android:inputType="textMultiLine"
+        android:padding="10dp" />
+
+    <!-- 완료 버튼 -->
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/main"
+        android:text="완료"
+        android:textSize="12sp"
+        android:fontFamily="@font/pretendard_semi_bold"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>

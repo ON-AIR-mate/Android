@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,7 +20,7 @@ import umc.onairmate.databinding.PopupChangeNicknameBinding
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ChangeNicknamePopup : BottomSheetDialogFragment() {
+class ChangeNicknamePopup : DialogFragment() {
 
     private var _binding: PopupChangeNicknameBinding? = null
     private val binding get() = _binding!!
