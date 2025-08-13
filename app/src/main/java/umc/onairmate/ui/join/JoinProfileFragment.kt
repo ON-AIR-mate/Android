@@ -3,24 +3,18 @@ package umc.onairmate.ui.join
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
-import umc.onairmate.data.model.request.JoinProfileRequest
-import umc.onairmate.data.model.request.TestRequest
 import umc.onairmate.data.model.request.TestRequest.*
 import umc.onairmate.databinding.FragmentJoinProfileBinding
-import umc.onairmate.ui.TestViewModel
-import umc.onairmate.ui.join.model.Agreements
+import umc.onairmate.ui.login.LoginViewModel
 import kotlin.getValue
 
 @AndroidEntryPoint
@@ -38,7 +32,7 @@ class JoinProfileFragment : Fragment() {
     private var password : String = ""
     private var profile : String = ""
 
-    private val viewModel: TestViewModel by viewModels()
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -124,6 +118,7 @@ class JoinProfileFragment : Fragment() {
                 Toast.makeText(requireContext(), "입력값을 다시 확인해주세요.", Toast.LENGTH_SHORT).show()
                 //binding.btnJoin.isEnabled = isSuccess
             }
+            viewModel.clearSuccess()
         }
         // 이미지 뷰모델 작성
         // -> 응답이 오면그걸 프로필 이미지에 반영

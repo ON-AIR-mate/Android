@@ -8,8 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -17,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.databinding.FragmentLoginBinding
 import umc.onairmate.ui.MainActivity
-import umc.onairmate.ui.TestViewModel
+import umc.onairmate.ui.login.LoginViewModel
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -25,7 +23,7 @@ class LoginFragment : Fragment() {
     private val binding get() = _binding!!
 
     //private val loginViewModel: LoginViewModel by viewModels({ requireActivity() })
-    private val  loginViewModel: TestViewModel by viewModels({ requireActivity() })
+    private val  loginViewModel: LoginViewModel by viewModels({ requireActivity() })
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -70,11 +68,13 @@ class LoginFragment : Fragment() {
             val autoLogin : Boolean = binding.cbKeepLogin.isChecked
             if (id.isBlank() || pw.isBlank()) return@setOnClickListener
             loginViewModel.login(id, pw, autoLogin)
+            binding.btnLogin.isEnabled = false
         }
     }
 
     private fun setObserver(){
         loginViewModel.isSuccess.observe(viewLifecycleOwner) { isSuccess ->
+            if (isSuccess == null) return@observe
             if (isSuccess) {
                 // Main으로 이동 등
                 startActivity(Intent(requireContext(), MainActivity::class.java))
@@ -82,6 +82,8 @@ class LoginFragment : Fragment() {
             } else {
                 Toast.makeText(requireContext(), "로그인 실패", Toast.LENGTH_SHORT).show()
             }
+            loginViewModel.clearSuccess()
+            binding.btnLogin.isEnabled = true
         }
     }
     override fun onDestroyView() {
