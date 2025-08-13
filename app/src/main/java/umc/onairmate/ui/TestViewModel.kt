@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import umc.onairmate.data.model.entity.LoginData
 import umc.onairmate.data.model.request.TestRequest
 import umc.onairmate.data.model.response.DefaultResponse
-import umc.onairmate.data.repository.repository.TestRepository
+import umc.onairmate.data.repository.repository.AuthRepository
 import javax.inject.Inject
 import androidx.core.content.edit
 import androidx.lifecycle.LiveData
@@ -19,29 +19,34 @@ import umc.onairmate.ui.util.SharedPrefUtil
 
 @HiltViewModel
 class TestViewModel @Inject constructor(
-    private val repository: TestRepository,
+    private val repository: AuthRepository,
     @ApplicationContext private val context: Context
 ) : ViewModel(){
 
     private val TAG = this.javaClass.simpleName
     private val spf = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
+    private val _available = MutableLiveData<Boolean>()
+    val available: LiveData<Boolean> = _available
+
     private val _isSuccess = MutableLiveData<Boolean>()
     val isSuccess: LiveData<Boolean> = _isSuccess
 
-    fun signUp(id: String, pw: String){
+    private val _message = MutableLiveData<String>()
+    val message: LiveData<String> = _message
+    fun signUp(id: String, pw: String, nickname: String, profile: String, agreements: TestRequest.Agreement){
         viewModelScope.launch {
-            val body = TestRequest(username = id, password = pw, nickname = id,"1", TestRequest.Agreement())
+            val body = TestRequest(username = id, password = pw, nickname = nickname,profile, agreements)
             val result = repository.signUp(body)
             Log.d(TAG, "signUp api 호출")
             when (result) {
                 is DefaultResponse.Success -> {
                     Log.d(TAG,"응답 성공 : ${result.data}")
-                    login(id,pw)
+                    _isSuccess.value = true
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
-
+                    _isSuccess.value = false
                 }
             }
         }
@@ -68,6 +73,23 @@ class TestViewModel @Inject constructor(
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
 
+                }
+            }
+        }
+    }
+
+    fun checkNickname(nickname: String){
+        viewModelScope.launch {
+            val result = repository.checkNickname(nickname)
+            Log.d(TAG, "checkNickname api 호출")
+            when (result) {
+                is DefaultResponse.Success -> {
+                    Log.d(TAG,"응답 성공 : ${result.data}")
+                    _available.value = result.data.available
+                }
+                is DefaultResponse.Error -> {
+                    Log.e(TAG, "에러: ${result.code} - ${result.message} ")
+                    _available.value = false
                 }
             }
         }

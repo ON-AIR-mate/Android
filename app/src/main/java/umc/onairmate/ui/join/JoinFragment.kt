@@ -9,9 +9,12 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
+import umc.onairmate.data.model.request.TestRequest
+import umc.onairmate.data.model.request.TestRequest.Agreement
 import umc.onairmate.databinding.FragmentJoinBinding
 import umc.onairmate.ui.join.model.Agreements
 
@@ -41,11 +44,11 @@ class JoinFragment : Fragment() {
 
     private fun setClickListener() {
         binding.btnClose.setOnClickListener {
-            findNavController().navigate(R.id.action_joinDetailFragment_to_joinFragment)
+            findNavController().popBackStack(R.id.loginFragment, false)
         }
 
         binding.btnJoin.setOnClickListener {
-            val agree =  Agreements(
+            val agree = Agreement(
                 serviceTerms = checkBoxes[0].isChecked,
                 privacyCollection = checkBoxes[1].isChecked,
                 privacyPolicy = checkBoxes[2].isChecked,

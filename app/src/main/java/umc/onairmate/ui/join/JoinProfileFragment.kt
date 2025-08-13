@@ -3,15 +3,25 @@ package umc.onairmate.ui.join
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
+import umc.onairmate.data.model.request.JoinProfileRequest
+import umc.onairmate.data.model.request.TestRequest
+import umc.onairmate.data.model.request.TestRequest.*
 import umc.onairmate.databinding.FragmentJoinProfileBinding
+import umc.onairmate.ui.TestViewModel
+import umc.onairmate.ui.join.model.Agreements
+import kotlin.getValue
 
 @AndroidEntryPoint
 class JoinProfileFragment : Fragment() {
@@ -20,8 +30,15 @@ class JoinProfileFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var isNicknameValid = false
-    private var isIdValid = false
+    private var isIdValid = true
     private var isPasswordValid = false
+
+    private var nickname : String = ""
+    private var id : String = ""
+    private var password : String = ""
+    private var profile : String = ""
+
+    private val viewModel: TestViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,97 +52,82 @@ class JoinProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initUI()
         initListeners()
+        setUpObserver()
     }
 
     private fun initUI() {
         // 처음 진입 시 안내문구 숨김
-        binding.tvNicknameGuide.visibility = View.GONE
-        binding.tvIdGuide.visibility = View.GONE
+        binding.tvNicknameGuide.visibility = View.INVISIBLE
+        binding.tvIdGuide.visibility = View.INVISIBLE
 
-        // 비밀번호 안내는 기본 노출
-        binding.tvPasswordGuide.text =
-            "8~16자의 영문 대/소문자, 숫자, 특수문자를 사용해주세요."
-        binding.tvPasswordGuide.setTextColor(resources.getColor(R.color.main, null))
-        binding.tvPasswordGuide.visibility = View.VISIBLE
     }
 
     private fun initListeners() {
         // 닉네임 중복확인 버튼
         binding.tvNicknameStatus.setOnClickListener {
             val nickname = binding.etNickname.text.toString()
-            if (nickname.isBlank()) {
-                binding.tvNicknameGuide.visibility = View.GONE
-                return@setOnClickListener
-            }
-            checkNicknameDuplication(nickname)
+            viewModel.checkNickname(nickname)
         }
-
-        // 아이디 입력 시 실시간 중복 확인
-        binding.etId.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                val id = s.toString()
-                if (id.isBlank()) {
-                    binding.tvIdGuide.visibility = View.GONE
-                    isIdValid = false
-                } else {
-                    checkIdDuplication(id)
-                }
-                updateCompleteButtonState()
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
 
         // 비밀번호 유효성 체크
         binding.etPassword.addTextChangedListener(passwordWatcher)
 
         // 완료 버튼 클릭 시 다음 프래그먼트로 이동
         binding.btnJoin.setOnClickListener {
-            if (isNicknameValid && isIdValid && isPasswordValid) {
-                parentFragmentManager.commit {
-                    replace(R.id.fragment_container, HowToUseFragment())
-                    addToBackStack(null)
-                }
-            } else {
+            val agreement = arguments?.getParcelable<Agreement>("agreement")?: Agreement()
+            viewModel.signUp(
+                id = id,
+                pw = password,
+                nickname = nickname,
+                profile =  profile,
+                agreements = agreement
+            )
+        }
+
+        binding.btnProfileSelect.setOnClickListener {
+            // 이미지 런쳐 실행
+        }
+
+        binding.btnClose.setOnClickListener {
+            findNavController().popBackStack(R.id.loginFragment, false)
+        }
+    }
+    private fun setUpObserver(){
+        viewModel.available.observe(viewLifecycleOwner){available ->
+            if (available == null) return@observe
+            if (available){
+                binding.tvNicknameStatus.text = "사용가능"
+                binding.tvNicknameStatus.setTextColor(resources.getColor(R.color.canuse, null))
+                binding.tvNicknameGuide.text = "사용 가능한 닉네임입니다."
+                binding.tvNicknameGuide.setTextColor(resources.getColor(R.color.canuse, null))
+            }
+            else {
+                binding.tvNicknameStatus.text = "중복확인"
+                binding.tvNicknameStatus.setTextColor(resources.getColor(R.color.main, null))
+                binding.tvNicknameGuide.text = "사용할 수 없는 닉네임입니다."
+                binding.tvNicknameGuide.setTextColor(resources.getColor(R.color.main, null))
+            }
+            isNicknameValid = available
+            binding.tvNicknameGuide.visibility = View.VISIBLE
+            updateCompleteButtonState()
+        }
+        viewModel.isSuccess.observe(viewLifecycleOwner){isSuccess ->
+            if (isSuccess == null) return@observe
+            if (isSuccess){
+                findNavController().navigate(R.id.action_joinProfileFragment_to_howToUseFragment)
+//                parentFragmentManager.commit {
+//                    replace(R.id.fragment_container, HowToUseFragment())
+//                    addToBackStack(null)
+//                }
+            }
+            else{
                 Toast.makeText(requireContext(), "입력값을 다시 확인해주세요.", Toast.LENGTH_SHORT).show()
+                //binding.btnJoin.isEnabled = isSuccess
             }
         }
-    }
+        // 이미지 뷰모델 작성
+        // -> 응답이 오면그걸 프로필 이미지에 반영
 
-    private fun checkNicknameDuplication(nickname: String) {
-        // TODO: DB 중복 확인 로직 삽입
-        if (nickname == "이현서") {
-            isNicknameValid = true
-            binding.tvNicknameStatus.text = "사용가능"
-            binding.tvNicknameStatus.setTextColor(resources.getColor(R.color.canuse, null))
-            binding.tvNicknameGuide.text = "사용 가능한 닉네임입니다."
-            binding.tvNicknameGuide.setTextColor(resources.getColor(R.color.canuse, null))
-            binding.tvNicknameGuide.visibility = View.VISIBLE
-        } else {
-            isNicknameValid = false
-            binding.tvNicknameStatus.text = "중복확인"
-            binding.tvNicknameStatus.setTextColor(resources.getColor(R.color.main, null))
-            binding.tvNicknameGuide.text = "사용할 수 없는 닉네임입니다."
-            binding.tvNicknameGuide.setTextColor(resources.getColor(R.color.main, null))
-            binding.tvNicknameGuide.visibility = View.VISIBLE
-        }
-        updateCompleteButtonState()
-    }
-
-    private fun checkIdDuplication(id: String) {
-        // TODO: DB 중복 확인 로직 삽입
-        if (id == "onairmate1234") {
-            isIdValid = false
-            binding.tvIdGuide.text = "사용할 수 없는 아이디입니다."
-            binding.tvIdGuide.setTextColor(resources.getColor(R.color.main, null))
-        } else {
-            isIdValid = true
-            binding.tvIdGuide.text = "사용 가능한 아이디입니다."
-            binding.tvIdGuide.setTextColor(resources.getColor(R.color.canuse, null))
-        }
-        binding.tvIdGuide.visibility = View.VISIBLE
-        updateCompleteButtonState()
     }
 
     private val passwordWatcher = object : TextWatcher {
@@ -145,19 +147,30 @@ class JoinProfileFragment : Fragment() {
     }
 
     private fun updateCompleteButtonState() {
-        val nickname = binding.etNickname.text.toString()
-        val id = binding.etId.text.toString()
-        val password = binding.etPassword.text.toString()
+        nickname = binding.etNickname.text.toString()
+        id = binding.etId.text.toString()
+        password = binding.etPassword.text.toString()
 
         val isAllFilled = nickname.isNotBlank() && id.isNotBlank() && password.isNotBlank()
         val isAllValid = isNicknameValid && isIdValid && isPasswordValid
 
         val canEnable = isAllFilled && isAllValid
 
-//        binding.btnComplete.isEnabled = canEnable
-//        binding.btnComplete.setBackgroundResource(
-//            if (canEnable) R.drawable.bg_btn_main else R.drawable.bg_btn_disabled
-//        )
+        binding.btnJoin.isEnabled = canEnable
+    }
+
+    private fun checkIdDuplication(id: String) {
+        if (id == "onairmate1234") {
+            isIdValid = false
+            binding.tvIdGuide.text = "사용할 수 없는 아이디입니다."
+            binding.tvIdGuide.setTextColor(resources.getColor(R.color.main, null))
+        } else {
+            isIdValid = true
+            binding.tvIdGuide.text = "사용 가능한 아이디입니다."
+            binding.tvIdGuide.setTextColor(resources.getColor(R.color.canuse, null))
+        }
+        binding.tvIdGuide.visibility = View.VISIBLE
+        updateCompleteButtonState()
     }
 
     override fun onDestroyView() {

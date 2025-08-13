@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.databinding.FragmentHowToUseBinding
+import umc.onairmate.ui.login.LoginActivity
 
 @AndroidEntryPoint
 class HowToUseFragment : Fragment() {
@@ -29,17 +31,24 @@ class HowToUseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnClose.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
+            findNavController().popBackStack(R.id.loginFragment, false)
         }
 
         binding.btnLogin.setOnClickListener {
-            findNavController().navigate(R.id.fragment_container)
-        }
-        //이부분 수정. 스크롤뷰에서는 네비게이션 컨트롤 사용 불가.
-        binding.btnLogin.setOnClickListener {
-            binding.root.findNavController().navigate(R.id.fragment_container)
+            findNavController().popBackStack(R.id.loginFragment, false)
         }
 
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().popBackStack(R.id.loginFragment, false)
+                    // 2) Activity에 위임해 로그인 UI를 다시 보이게(현재 onBackPressed가 그 로직 보유)
+                    (requireActivity() as LoginActivity).onBackPressed()
+                }
+            }
+        )
     }
 
     override fun onDestroyView() {

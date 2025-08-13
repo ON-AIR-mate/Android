@@ -9,12 +9,12 @@ import kotlinx.coroutines.launch
 import umc.onairmate.data.model.entity.LoginData
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.model.response.LoginResponse
-import umc.onairmate.data.repository.repository.TestRepository
+import umc.onairmate.data.repository.repository.AuthRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginRepository: TestRepository
+    private val loginRepository: AuthRepository
 ) : ViewModel() {
 
     private val _loginResult = MutableLiveData<Result<LoginResponse>>()
