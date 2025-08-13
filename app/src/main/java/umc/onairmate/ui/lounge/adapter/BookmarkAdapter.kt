@@ -1,15 +1,14 @@
 package umc.onairmate.ui.lounge.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.R
-import umc.onairmate.databinding.ItemBookmarkBinding
-import umc.onairmate.ui.lounge.model.Bookmark
+import umc.onairmate.data.model.entity.Bookmark
+import umc.onairmate.databinding.RvItemBookmarkBinding
 
 interface OnBookmarkActionListener {
     fun onDeleteBookmark(bookmark: Bookmark)
@@ -20,14 +19,14 @@ class BookmarkAdapter(
     private val actionListener: OnBookmarkActionListener
 ) : ListAdapter<Bookmark, BookmarkAdapter.BookmarkViewHolder>(DiffCallback()) {
 
-    inner class BookmarkViewHolder(private val binding: ItemBookmarkBinding) :
+    inner class BookmarkViewHolder(private val binding: RvItemBookmarkBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(bookmark: Bookmark) {
-            binding.titleText.text = bookmark.title
-            binding.timeText.text = bookmark.timestamp
+            binding.tvVideoTitle.text = bookmark.title
+            binding.tvBookmarkTime.text = bookmark.time
 
-            binding.moreButton.setOnClickListener { anchor ->
+            binding.btnMore.setOnClickListener { anchor ->
                 val popup = PopupMenu(anchor.context, anchor)
                 popup.menuInflater.inflate(R.menu.menu_bookmark_more, popup.menu)
                 popup.setOnMenuItemClickListener { menuItem ->
@@ -49,7 +48,7 @@ class BookmarkAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkViewHolder {
-        val binding = ItemBookmarkBinding.inflate(
+        val binding = RvItemBookmarkBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
@@ -63,7 +62,7 @@ class BookmarkAdapter(
 
     private class DiffCallback : DiffUtil.ItemCallback<Bookmark>() {
         override fun areItemsTheSame(oldItem: Bookmark, newItem: Bookmark): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.thumbnailResId == newItem.thumbnailResId
         }
 
         override fun areContentsTheSame(oldItem: Bookmark, newItem: Bookmark): Boolean {

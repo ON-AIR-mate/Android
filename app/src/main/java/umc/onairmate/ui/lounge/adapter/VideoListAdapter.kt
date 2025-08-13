@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import umc.onairmate.databinding.ItemVideoBinding
-import umc.onairmate.ui.lounge.model.VideoItem
+import umc.onairmate.data.model.entity.VideoItem
 
 class VideoListAdapter(private val items: List<VideoItem>) :
     RecyclerView.Adapter<VideoListAdapter.VideoViewHolder>() {
@@ -14,9 +14,9 @@ class VideoListAdapter(private val items: List<VideoItem>) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: VideoItem) {
             binding.ivThumbnail.load(item.thumbnailUrl)
-            binding.tvRoomTitle.text = item.roomTitle
-            binding.tvVideoTitle.text = item.videoTitle
-            binding.tvTimeInfo.text = item.timeInfo
+            binding.tvRoomTitle.text = item.host
+            binding.tvVideoTitle.text = item.title
+            binding.tvTimeInfo.text = item.time
         }
     }
 

@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import umc.onairmate.data.model.entity.CollectionData
 import umc.onairmate.databinding.ItemMoveCollectionBinding
-import umc.onairmate.ui.lounge.model.Collection
 
 class MoveCollectionAdapter(
-    private val onSelect: (Collection) -> Unit
-) : ListAdapter<Collection, MoveCollectionAdapter.ViewHolder>(DiffCallback()) {
+    private val onSelect: (CollectionData) -> Unit
+) : ListAdapter<CollectionData, MoveCollectionAdapter.ViewHolder>(DiffCallback()) {
 
     private var selectedPosition: Int = RecyclerView.NO_POSITION
 
@@ -44,7 +44,7 @@ class MoveCollectionAdapter(
     inner class ViewHolder(private val binding: ItemMoveCollectionBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(collection: Collection, isSelected: Boolean) {
+        fun bind(collection: CollectionData, isSelected: Boolean) {
             binding.tvTitle.text = collection.title
             binding.tvPrivacy.text = collection.privacy
             binding.root.isSelected = isSelected
@@ -52,12 +52,12 @@ class MoveCollectionAdapter(
         }
     }
 
-    private class DiffCallback : DiffUtil.ItemCallback<Collection>() {
-        override fun areItemsTheSame(oldItem: Collection, newItem: Collection): Boolean {
+    private class DiffCallback : DiffUtil.ItemCallback<CollectionData>() {
+        override fun areItemsTheSame(oldItem: CollectionData, newItem: CollectionData): Boolean {
             return oldItem.title == newItem.title // 유니크하지 않다면 id 필드 추가 고려
         }
 
-        override fun areContentsTheSame(oldItem: Collection, newItem: Collection): Boolean {
+        override fun areContentsTheSame(oldItem: CollectionData, newItem: CollectionData): Boolean {
             return oldItem == newItem
         }
     }

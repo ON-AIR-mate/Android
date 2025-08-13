@@ -11,6 +11,8 @@ import retrofit2.http.Query
 import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.data.model.entity.RequestedFriendData
 import umc.onairmate.data.model.entity.UserData
+import umc.onairmate.data.model.request.AcceptFriendBody
+import umc.onairmate.data.model.request.FriendRequest
 import umc.onairmate.data.model.response.MessageResponse
 import umc.onairmate.data.model.response.RawDefaultResponse
 
@@ -23,7 +25,7 @@ interface FriendService {
     @POST("friends/request")
     suspend fun requestFriend(
         @Header("Authorization") accessToken: String,
-        @Body targetUserId : Int
+        @Body body: FriendRequest
     ): RawDefaultResponse<MessageResponse>
 
     @GET("friends/request")
@@ -35,7 +37,7 @@ interface FriendService {
     suspend fun acceptFriend(
         @Header("Authorization") accessToken: String,
         @Path("requestId") requestId : Int,
-        @Body action : String
+        @Body body : AcceptFriendBody
     ): RawDefaultResponse<MessageResponse>
 
     @DELETE("friends/{userId}")
@@ -49,4 +51,10 @@ interface FriendService {
         @Header("Authorization") accessToken: String,
         @Query("nickname") nickname : String
     ): RawDefaultResponse<List<UserData>>
+
+    @POST("friends/{friendId}/invite")
+    suspend fun inviteFriend(
+        @Header("Authorization") accessToken: String,
+        @Path("friendId") friendId: Int
+    ): RawDefaultResponse<MessageResponse>
 }

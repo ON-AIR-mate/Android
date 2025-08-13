@@ -4,6 +4,8 @@ import umc.onairmate.data.api.FriendService
 import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.data.model.entity.RequestedFriendData
 import umc.onairmate.data.model.entity.UserData
+import umc.onairmate.data.model.request.AcceptFriendBody
+import umc.onairmate.data.model.request.FriendRequest
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.model.response.MessageResponse
 import umc.onairmate.data.repository.repository.FriendRepository
@@ -19,9 +21,9 @@ class FriendRepositoryImpl @Inject constructor(
 
     override suspend fun requestFriend(
         accessToken: String,
-        targetUserId: Int
+        body: FriendRequest
     ): DefaultResponse<MessageResponse> {
-         return safeApiCall { api.requestFriend(accessToken,targetUserId) }
+         return safeApiCall { api.requestFriend(accessToken,body) }
     }
 
     override suspend fun getRequestedFriendList(accessToken: String): DefaultResponse<List<RequestedFriendData>> {
@@ -31,9 +33,9 @@ class FriendRepositoryImpl @Inject constructor(
     override suspend fun acceptFriend(
         accessToken: String,
         requestId: Int,
-        action: String
+        body: AcceptFriendBody
     ): DefaultResponse<MessageResponse> {
-         return safeApiCall { api.acceptFriend(accessToken,requestId,action) }
+         return safeApiCall { api.acceptFriend(accessToken,requestId,body) }
     }
 
     override suspend fun deleteFriend(
@@ -48,5 +50,12 @@ class FriendRepositoryImpl @Inject constructor(
         nickname: String
     ): DefaultResponse<List<UserData>> {
          return safeApiCall { api.searchUser(accessToken,nickname) }
+    }
+
+    override suspend fun inviteFriend(
+        accessToken: String,
+        friendId: Int
+    ): DefaultResponse<MessageResponse> {
+        return safeApiCall { api.inviteFriend(accessToken, friendId) }
     }
 }

@@ -12,8 +12,16 @@ import umc.onairmate.data.model.response.MessageResponse
 import umc.onairmate.data.model.response.RawDefaultResponse
 
 interface ChatRoomService {
+
+    // 방 설정 조회
+    @GET("rooms/{roomId}/settings")
+    suspend fun getRoomSetting(
+        @Header("Authorization") accessToken: String,
+        @Path("roomId") roomId: Int,
+    ): RawDefaultResponse<RoomSettingData>
+
     // 방 설정 수정
-    @PUT("rooms/{roomId}/setting")
+    @PUT("rooms/{roomId}/settings")
     suspend fun setRoomSetting(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId: Int,

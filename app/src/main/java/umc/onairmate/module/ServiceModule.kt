@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import umc.onairmate.data.api.BookmarkService
 import umc.onairmate.data.api.ChatRoomService
 import umc.onairmate.data.api.FriendService
 import umc.onairmate.data.api.HomeService
@@ -43,6 +44,11 @@ object ServiceModule {
     @Provides
     @Singleton
     fun friendApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): FriendService{
+        return retrofit.buildService()
+    }
+    @Provides
+    @Singleton
+    fun bookmarkApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): BookmarkService{
         return retrofit.buildService()
     }
 

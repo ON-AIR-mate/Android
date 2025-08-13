@@ -12,6 +12,8 @@ import kotlinx.coroutines.launch
 import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.data.model.entity.RequestedFriendData
 import umc.onairmate.data.model.entity.UserData
+import umc.onairmate.data.model.request.AcceptFriendBody
+import umc.onairmate.data.model.request.FriendRequest
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.repository.repository.FriendRepository
 import javax.inject.Inject
@@ -147,7 +149,7 @@ class FriendViewModel @Inject constructor(
                 _isLoading.value = false
                 return@launch
             }
-            val result = repository.requestFriend(token,userId)
+            val result = repository.requestFriend(token, FriendRequest(userId))
             Log.d(TAG, "requestFriend api 호출")
             when (result) {
                 is DefaultResponse.Success -> {
@@ -172,7 +174,7 @@ class FriendViewModel @Inject constructor(
                 _isLoading.value = false
                 return@launch
             }
-            val result = repository.acceptFriend(token,userId, action)
+            val result = repository.acceptFriend(token,userId, AcceptFriendBody(action))
             Log.d(TAG, "acceptFriend api 호출")
             when (result) {
                 is DefaultResponse.Success -> {
@@ -199,6 +201,31 @@ class FriendViewModel @Inject constructor(
             }
             val result = repository.deleteFriend(token,userId)
             Log.d(TAG, "deleteFriend api 호출")
+            when (result) {
+                is DefaultResponse.Success -> {
+                    Log.d(TAG,"응답 성공 : ${result.data}")
+                    _result.postValue(result.data.message)
+                }
+                is DefaultResponse.Error -> {
+                    Log.e(TAG, "에러: ${result.code} - ${result.message} ")
+                    _result.postValue(result.message)
+                }
+            }
+            _isLoading.value = false
+        }
+    }
+
+    fun inviteFriend(userId: Int) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            val token = getToken()
+            if (token == null) {
+                Log.e(TAG, "토큰이 없습니다")
+                _isLoading.value = false
+                return@launch
+            }
+            val result = repository.inviteFriend(token,userId)
+            Log.d(TAG, "inviteFriend api 호출")
             when (result) {
                 is DefaultResponse.Success -> {
                     Log.d(TAG,"응답 성공 : ${result.data}")
