@@ -1,6 +1,7 @@
 package umc.onairmate.ui
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -30,7 +31,14 @@ class TestViewModel @Inject constructor(
 
     fun signUp(id: String, pw: String){
         viewModelScope.launch {
-            val body = TestRequest(username = id, password = pw, nickname = id,"1", TestRequest.Agreement())
+//            val file = withContext(context = Dispatchers.IO) { context.copyUriToCache(uri) }
+//            val mime = context.contentResolver.getType(uri) ?: "image/jpeg"
+//            val part = okhttp3.MultipartBody.Part.createFormData(
+//                "profileImage",               // 스펙에 맞게 수정
+//                file.name,
+//                file.asRequestBody(mime.toMediaTypeOrNull())
+//            )
+            val body = TestRequest(username = id, password = pw, nickname = id,"", TestRequest.Agreement())
             val result = repository.signUp(body)
             Log.d(TAG, "signUp api 호출")
             when (result) {

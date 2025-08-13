@@ -6,13 +6,17 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.databinding.ActivityLoginBinding
+import umc.onairmate.ui.ImageViewModel
 import umc.onairmate.ui.MainActivity
 import umc.onairmate.ui.TestViewModel
 import umc.onairmate.ui.join.JoinFragment
+import umc.onairmate.ui.util.ImagePickerDelegate
+import umc.onairmate.ui.util.ImagePickerDelegateForActivity
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -20,12 +24,15 @@ class LoginActivity : AppCompatActivity() {
 
     private val loginViewModel: LoginViewModel by viewModels()
     private val testViewModel: TestViewModel by viewModels()
+    private val viewModel: ImageViewModel by viewModels()
+
+    private lateinit var picker: ImagePickerDelegateForActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        //setImagePicker()
         // 로그인 결과 관찰
         loginViewModel.loginResult.observe(this) { result ->
             if (result.isSuccess) {
@@ -85,6 +92,8 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            //picker.launch()
+
             testViewModel.signUp(userId,userPw)
             //loginViewModel.login(userId, userPw) // 로그인 시도
         }
@@ -104,6 +113,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()
@@ -114,4 +124,5 @@ class LoginActivity : AppCompatActivity() {
             super.onBackPressed()
         }
     }
+
 }

@@ -4,6 +4,7 @@ package umc.onairmate.ui.profile
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -13,17 +14,27 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.databinding.FragmentProfileBinding
+import umc.onairmate.ui.ImageViewModel
+import umc.onairmate.ui.friend.FriendViewModel
+import umc.onairmate.ui.util.ImagePickerDelegate
+import kotlin.getValue
 
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
+    private val TAG = this.javaClass.simpleName
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private var nickname = ""
+
+    private val viewModel: ImageViewModel by viewModels()
+
+    private lateinit var picker: ImagePickerDelegate
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,6 +43,7 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         nickname = spf.getString("nickname","user")!!
+        setImagePicker()
 
         return binding.root
     }
@@ -40,7 +52,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnChangeProfile.setOnClickListener {
-            Toast.makeText(requireContext(), "프로필 사진 변경 클릭", Toast.LENGTH_SHORT).show()
+            picker.launch()
         }
 
         binding.ivTooltip.setOnClickListener {
@@ -54,6 +66,15 @@ class ProfileFragment : Fragment() {
         binding.tvNicknameValue.text = nickname
 
         // 다른 버튼들에 대한 clickListener도 동일하게 설정
+    }
+
+    private fun setImagePicker(){
+        picker = ImagePickerDelegate(this) { uri ->
+            if (uri != null) {
+                viewModel.uploadUri(uri)
+            }
+        }
+        picker.register()
     }
 
     override fun onDestroyView() {
