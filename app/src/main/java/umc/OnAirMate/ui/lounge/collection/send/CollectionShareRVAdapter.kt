@@ -8,10 +8,10 @@ import umc.onairmate.databinding.RvItemCollectionShareFriendBinding
 import umc.onairmate.ui.util.NetworkImageLoader
 
 
-class CollectionSendRVAdapter(
+class CollectionShareRVAdapter(
     private val friendList: List<FriendData>,
     private val onSendClick: (FriendData) -> Unit
-) : RecyclerView.Adapter<CollectionSendRVAdapter.FriendViewHolder>() {
+) : RecyclerView.Adapter<CollectionShareRVAdapter.FriendViewHolder>() {
 
     inner class FriendViewHolder(val binding: RvItemCollectionShareFriendBinding) :
         RecyclerView.ViewHolder(binding.root) {

@@ -10,20 +10,20 @@ import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import umc.onairmate.data.model.entity.FriendData
-import umc.onairmate.databinding.DialogCollectionSendBinding
+import umc.onairmate.databinding.DialogCollectionShareBinding
 
-class CollectionSendDialog(
+class CollectionShareDialog(
     private val friendList: List<FriendData>,
     private val sendCollectionCallback: (FriendData) -> Unit
 ) : DialogFragment() {
 
-    private var _binding: DialogCollectionSendBinding? = null
+    private var _binding: DialogCollectionShareBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var adapter: CollectionSendRVAdapter
+    private lateinit var adapter: CollectionShareRVAdapter
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        _binding = DialogCollectionSendBinding.inflate(layoutInflater)
+        _binding = DialogCollectionShareBinding.inflate(layoutInflater)
         val builder = AlertDialog.Builder(requireContext())
         builder.setView(binding.root)
         val dialog = builder.create()
@@ -49,7 +49,7 @@ class CollectionSendDialog(
     }
 
     fun initAdapter() {
-        adapter = CollectionSendRVAdapter(friendList, { data ->
+        adapter = CollectionShareRVAdapter(friendList, { data ->
             sendCollectionCallback(data)
         })
 
@@ -67,8 +67,4 @@ class CollectionSendDialog(
         super.onDestroyView()
         _binding = null
     }
-}
-
-interface CollectionSendCallback {
-    fun sendToFriend(friend: FriendData) {}
 }

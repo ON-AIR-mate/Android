@@ -7,8 +7,10 @@ import retrofit2.http.POST
 import umc.onairmate.data.model.entity.CollectionData
 import umc.onairmate.data.model.entity.CollectionDetailData
 import umc.onairmate.data.model.request.CreateCollectionRequest
+import umc.onairmate.data.model.request.ShareCollectionRequest
 import umc.onairmate.data.model.response.CollectionListResponse
 import umc.onairmate.data.model.response.CreateCollectionResponse
+import umc.onairmate.data.model.response.MessageResponse
 import umc.onairmate.data.model.response.RawDefaultResponse
 
 interface CollectionService {
@@ -31,4 +33,11 @@ interface CollectionService {
     suspend fun getCollectionDetailInfo(
         @Header("Authorization") accessToken: String
     ): RawDefaultResponse<CollectionDetailData>
+
+    // 컬렉션을 친구에게 공유하기
+    @POST("collections/{collectionId}/share")
+    suspend fun shareCollection(
+        @Header("Authorization") accessToken: String,
+        @Body body: ShareCollectionRequest
+    ): RawDefaultResponse<MessageResponse>
 }

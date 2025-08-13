@@ -11,8 +11,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.CollectionData
 import umc.onairmate.data.model.request.CreateCollectionRequest
 import umc.onairmate.databinding.FragmentCollectionListBinding
+import umc.onairmate.ui.friend.FriendViewModel
 import umc.onairmate.ui.lounge.collection.create.CollectionCreateDialog
 import umc.onairmate.ui.lounge.collection.create.CreateCollectionCallback
+import umc.onairmate.ui.lounge.collection.send.CollectionShareDialog
 
 @AndroidEntryPoint
 class CollectionListFragment : Fragment() {
@@ -22,6 +24,7 @@ class CollectionListFragment : Fragment() {
 
     private lateinit var adapter: CollectionRVAdapter
     private val collectionViewModel: CollectionViewModel by viewModels()
+    private val friendViewModel: FriendViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -89,6 +92,19 @@ class CollectionListFragment : Fragment() {
         })
         activity?.supportFragmentManager?.let { fm ->
             dialog.show(fm, "CreateRoomPopup")
+        }
+    }
+
+
+    private fun showShareDialog(collectionData: CollectionData) {
+        friendViewModel.getFriendList()
+
+        friendViewModel.friendList.observe(viewLifecycleOwner) { list ->
+            val friendList = list ?: emptyList()
+
+            val dialog = CollectionShareDialog(friendList, { friend ->
+                // todo: 컬렉션 공유하기 api 연결
+            })
         }
     }
 

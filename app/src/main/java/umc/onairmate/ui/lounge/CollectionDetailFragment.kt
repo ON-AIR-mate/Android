@@ -19,6 +19,7 @@ import umc.onairmate.ui.lounge.adapter.MoveCollectionAdapter
 import umc.onairmate.ui.lounge.bookmark.BookmarkEventListener
 import umc.onairmate.ui.lounge.bookmark.BookmarkRVAdapter
 
+
 class CollectionDetailFragment : Fragment() {
 
     private var _binding: FragmentCollectionDetailBinding? = null

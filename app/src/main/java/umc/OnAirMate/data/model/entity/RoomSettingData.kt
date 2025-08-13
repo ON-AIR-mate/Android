@@ -13,12 +13,12 @@ data class RoomSettingData(
     val maxParticipants: Int = ParticipantPreset.EIGHT.count
 )
 
-enum class InvitePermission(val label: String) {
-    ALL("모두 허용"),
-    MANAGER_ONLY("방장만 허용");
+enum class InvitePermission(val apiName, val displayName: String) {
+    ALL("ALL","모두 허용"),
+    HOST("HOST","방장만 허용");
 
     companion object {
-        fun fromLabel(label: String): InvitePermission? = entries.find { it.label == label }
+        fun fromApiName(apiName: String): InvitePermission? = entries.find { it.label == label }
     }
 }
 
