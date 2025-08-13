@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp">
 
+    <!-- 프로필 아이콘 -->
     <ImageView
         android:id="@+id/iv_profile_icon"
         android:layout_width="40dp"
@@ -13,51 +15,56 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/layout_texts"
+    <!-- 닉네임 -->
+    <TextView
+        android:id="@+id/tvNickname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:text="[차단한 사용자 닉네임]"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="@id/iv_profile_icon"
         app:layout_constraintStart_toEndOf="@id/iv_profile_icon"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="8dp">
+        app:layout_constraintEnd_toStartOf="@id/btnMore"
+        android:layout_marginStart="8dp" />
 
-        <TextView
-            android:id="@+id/tvNickname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="[차단한 사용자 닉네임]"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvReason"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="[차단 사유]"
-            android:textSize="12sp"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:id="@+id/tvDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="[차단한 일자]"
-            android:textSize="12sp"
-            android:textColor="@color/black" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btnUnblock"
-        android:layout_width="wrap_content"
+    <!-- 차단 사유 -->
+    <TextView
+        android:id="@+id/tvReason"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="차단 해제"
+        android:text="[차단 사유]"
         android:textSize="12sp"
         android:textColor="@color/black"
-        android:backgroundTint="@color/sub"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_profile_icon"
+        app:layout_constraintStart_toStartOf="@id/iv_profile_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="4dp" />
+
+    <!-- 차단 일자 -->
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="[차단한 일자 (0000년 00월 00일)]"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/tvReason"
+        app:layout_constraintStart_toStartOf="@id/tvReason"
+        app:layout_constraintEnd_toEndOf="@id/tvReason"
+        android:layout_marginTop="2dp" />
+
+    <!-- 더보기 버튼 -->
+    <ImageButton
+        android:id="@+id/btnMore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="더보기"
+        android:src="@drawable/ic_more_vert_black_24dp"
+        app:tint="@color/black"
+        app:layout_constraintTop_toTopOf="@id/tvNickname"
+        app:layout_constraintBottom_toBottomOf="@id/tvNickname"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
