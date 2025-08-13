@@ -16,6 +16,7 @@ import umc.onairmate.ui.lounge.adapter.BookmarkAdapter
 import umc.onairmate.ui.lounge.adapter.MoveCollectionAdapter
 import umc.onairmate.ui.lounge.adapter.OnBookmarkActionListener
 import umc.onairmate.data.model.entity.Bookmark
+import umc.onairmate.data.model.entity.BookmarkData
 import umc.onairmate.data.model.entity.CollectionData
 
 class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
@@ -25,9 +26,35 @@ class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
 
     private val bookmarkAdapter by lazy { BookmarkAdapter(this) }
     private val dummyBookmarks = mutableListOf(
-        Bookmark(R.drawable.sample_image, "방 제목", "16:23 ~~~~", "5분전"),
-        Bookmark(R.drawable.sample_image, "또다른 제목", "17:00 ~~~~", "5분전")
+        BookmarkData(
+            bookmarkId = 1,
+            collectionTitle = "방 제목",
+            createdAt = "2025-08-13",
+            message = "16:23 ~~~~",
+            timeline = 0,
+            videoThumbnail = "android.resource://${requireContext().packageName}/${R.drawable.ic_launcher_background}",
+            videoTitle = ""
+        ),
+        BookmarkData(
+            bookmarkId = 2,
+            collectionTitle = "또다른 제목",
+            createdAt = "2025-08-13",
+            message = "17:00 ~~~~",
+            timeline = 0,
+            videoThumbnail = "android.resource://${requireContext().packageName}/${R.drawable.ic_launcher_background}",
+            videoTitle = ""
+        ),
+        BookmarkData(
+            bookmarkId = 3,
+            collectionTitle = "또다른 제목",
+            createdAt = "2025-08-13",
+            message = "18:00 ~~~~",
+            timeline = 0,
+            videoThumbnail = "android.resource://${requireContext().packageName}/${R.drawable.ic_launcher_background}",
+            videoTitle = ""
+        )
     )
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,15 +75,15 @@ class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
         bookmarkAdapter.submitList(dummyBookmarks.toList())
     }
 
-    override fun onDeleteBookmark(bookmark: Bookmark) {
+    override fun onDeleteBookmark(bookmark: BookmarkData) {
         showDeleteDialog(bookmark)
     }
 
-    override fun onMoveBookmark(bookmark: Bookmark) {
+    override fun onMoveBookmark(bookmark: BookmarkData) {
         showMoveDialog(bookmark)
     }
 
-    private fun showDeleteDialog(bookmark: Bookmark) {
+    private fun showDeleteDialog(bookmark: BookmarkData) {
         val dialogView = layoutInflater.inflate(
             R.layout.dialog_confirm_delete_bookmark,
             null
@@ -66,8 +93,8 @@ class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
         val deleteBtn = dialogView.findViewById<Button>(R.id.btnDelete)
         val cancelBtn = dialogView.findViewById<Button>(R.id.btnCancel)
 
-        titleTv.text = "[${bookmark.title}]"
-        timeTv.text = bookmark.time
+        titleTv.text = bookmark.collectionTitle ?: ""
+        timeTv.text = bookmark.message
 
         val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)
@@ -83,7 +110,7 @@ class CollectionDetailFragment : Fragment(), OnBookmarkActionListener {
         }
     }
 
-    private fun showMoveDialog(bookmark: Bookmark) {
+    private fun showMoveDialog(bookmark: BookmarkData) {
         val dialogView = layoutInflater.inflate(
             R.layout.dialog_move_collection,
             null
