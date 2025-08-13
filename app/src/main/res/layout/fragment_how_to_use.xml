@@ -1,57 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingHorizontal="30dp">
 
+
+    <!-- 닫기 버튼 & 타이틀 -->
+    <RelativeLayout
+        android:id="@+id/layout_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btn_close"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/btn_close"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ON AIR mate"
+            android:textColor="@color/main"
+            android:textAppearance="@style/TextAppearance.App.Bold.26sp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+
+
+        <!-- 로고 이미지 (왼쪽 정렬) -->
     <LinearLayout
-        android:id="@+id/action_howToUseFragment_to_nextDestination"
+        android:id="@+id/layout_logo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingHorizontal="24dp"
-        android:paddingTop="24dp"
-        android:paddingBottom="32dp"
-        android:gravity="start">
-
-        <!-- 닫기 버튼 & 타이틀 -->
-        <LinearLayout
-            android:layout_width="290dp"
-            android:layout_height="35dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingLeft="40dp">
-
-            <ImageView
-                android:id="@+id/ivClose"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:src="@drawable/btn_close"
-                android:contentDescription="닫기 버튼" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="ON AIR mate"
-                android:textColor="@color/main"
-                android:textSize="26sp"
-                android:fontFamily="@font/pretendard_bold"
-                android:layout_marginLeft="28dp"/>
-        </LinearLayout>
-
-        <!-- 로고 이미지 (왼쪽 정렬) -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingVertical="24dp"
-            android:paddingTop="24dp"
-            android:paddingBottom="24dp"
-            android:paddingLeft="40dp"
-            android:gravity="start">
-
+        android:paddingVertical="24dp"
+        android:gravity="start"
+        app:layout_constraintTop_toBottomOf="@id/layout_header">
             <ImageView
                 android:layout_width="80dp"
                 android:layout_height="80dp"
@@ -59,16 +52,15 @@
                 android:src="@drawable/logo_onairmate_typo"
                 android:layout_gravity="start" />
 
+
             <!-- 회원가입 완료 -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="회원가입 완료"
                 android:textColor="@color/main"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.App.SemiBold.20sp"
                 android:layout_marginTop="12dp"
-                android:textAlignment="viewStart"
                 android:gravity="start" />
 
             <!-- 안내 메시지 -->
@@ -77,37 +69,34 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:text="함께해서 더 즐거운 시간 ON AIR mate\n같이보는 재미, 실시간 반응의 즐거움을 느껴보세요!"
-                android:textSize="12sp"
-                android:textColor="@android:color/black"
-                android:gravity="start"
-                android:textAlignment="viewStart"
+                android:textAppearance="@style/TextAppearance.App.Regular.12sp"
                 android:lineSpacingExtra="4dp" />
         </LinearLayout>
 
         <!-- 붉은 안내문 -->
         <TextView
-            android:layout_width="290dp"
+            android:id="@+id/tv_red_info"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="155dp"
             android:text="ON AIR mate는 여러분의 멋진 채팅활동으로 완성됩니다.\n\n타인에게 피해가 가는 행동을 자제해주세요!\n\n채팅도중에는 절대 개인 정보를 공유하지 마세요!\n특히 아이디와 비밀번호, 주민등록번호, 계좌번호 등 신상정보를 공유하시면 안됩니다.\n\n*악성 채팅 및 비정상적인 활동은 운영정책에 따라 제재되며\n심각한 경우 법적 책임이 따를 수 있습니다."
-            android:textSize="12sp"
+            android:textAppearance="@style/TextAppearance.App.Regular.12sp"
             android:textColor="@color/main"
-            android:fontFamily="@font/pretendard_light"
             android:gravity="start"
-            android:layout_gravity="center"/>
+            app:layout_constraintTop_toBottomOf="@id/layout_logo"/>
 
         <!-- 로그인 버튼 -->
-        <Button
-            android:id="@+id/btnLogin"
-            android:layout_width="300dp"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="45dp"
-            android:layout_gravity="center"
             android:paddingVertical="12dp"
             android:background="@drawable/bg_btn_main"
             android:text="로그인 하러가기"
             android:textColor="@color/white"
-            android:textSize="12sp"
-            android:fontFamily="@font/pretendard_semi_bold"/>
-    </LinearLayout>
-</ScrollView>
+            android:textAppearance="@style/TextAppearance.App.SemiBold.14sp"
+            app:layout_constraintTop_toBottomOf="@id/tv_red_info"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="45dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,27 +11,28 @@
 
         <!-- 상단 닫기 버튼 + 타이틀 -->
         <RelativeLayout
+            android:id="@+id/layout_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/btnClose"
+                android:id="@+id/btn_close"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/btn_close"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:paddingLeft="10dp"/>
+                android:layout_marginStart="10dp"/>
 
             <TextView
-                android:id="@+id/tvTitle"
+                android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ON AIR mate"
                 android:textColor="@color/main"
-                android:textSize="28sp"
-                android:fontFamily="@font/pretendard_bold"
+                android:textAppearance="@style/TextAppearance.App.Bold.26sp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true" />
         </RelativeLayout>
