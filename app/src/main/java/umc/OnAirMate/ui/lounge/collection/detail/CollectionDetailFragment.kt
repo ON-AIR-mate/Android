@@ -5,21 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import umc.onairmate.R
-import umc.onairmate.data.model.entity.Bookmark
 import umc.onairmate.data.model.entity.BookmarkData
-import umc.onairmate.data.model.entity.CollectionData
+import umc.onairmate.data.model.entity.CollectionDetailData
 import umc.onairmate.data.model.entity.CollectionVisibility
-import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.request.CreateRoomRequest
 import umc.onairmate.data.model.request.CreateRoomWithBookmarkRequest
 import umc.onairmate.data.model.request.ModifyCollectionRequest
@@ -27,10 +20,8 @@ import umc.onairmate.data.model.request.MoveCollectionRequest
 import umc.onairmate.data.model.request.RoomStartOption
 import umc.onairmate.databinding.FragmentCollectionDetailBinding
 import umc.onairmate.ui.lounge.bookmark.BookmarkEventListener
-import umc.onairmate.ui.lounge.bookmark.BookmarkRVAdapter
 import umc.onairmate.ui.lounge.bookmark.BookmarkViewModel
 import umc.onairmate.ui.lounge.bookmark.move.CollectionMoveDialog
-import umc.onairmate.ui.lounge.collection.CollectionRVAdapter
 import umc.onairmate.ui.lounge.collection.CollectionViewModel
 import umc.onairmate.ui.pop_up.CreateRoomCallback
 import umc.onairmate.ui.pop_up.CreateRoomPopup
@@ -67,7 +58,6 @@ class CollectionDetailFragment : Fragment() {
     }
 
     private fun setupRefreshObserver() {
-
     }
 
     private fun setupObserver() {
@@ -91,7 +81,7 @@ class CollectionDetailFragment : Fragment() {
                         )
                     }
                     override fun onTitleModifyClicked() {
-                        // todo: 팝업 띄워서 제목 변경 유도
+                        showCollectionEditTitlePopup(data)
                     }
                     override fun onDescriptionModified(input: String) {
                         Log.d("detail", "여기다 description")
@@ -128,7 +118,7 @@ class CollectionDetailFragment : Fragment() {
     }
 
     // 컬렉션 제목 변경
-    private fun showCollectionEditTitlePopup(data: CollectionData){
+    private fun showCollectionEditTitlePopup(data: CollectionDetailData){
 
         val dialog = CollectionEditTitleDialog(
             data.title,
@@ -136,15 +126,15 @@ class CollectionDetailFragment : Fragment() {
                 collectionViewModel.modifyCollection(
                     collectionId,
                     request = ModifyCollectionRequest(
-                        title = data.title,
-                        description = modifiedTitle ?: "",
+                        title = modifiedTitle ?: "",
+                        description = data.description,
                         visibility = data.visibility
                     )
                 )
             }
         )
         activity?.supportFragmentManager?.let { fm ->
-            dialog.show(fm, "CreateRoomPopup")
+            dialog.show(fm, "CollectionEditTitlePopup")
         }
     }
 
