@@ -4,6 +4,7 @@ import umc.onairmate.data.api.CollectionService
 import umc.onairmate.data.model.entity.CollectionData
 import umc.onairmate.data.model.entity.CollectionDetailData
 import umc.onairmate.data.model.request.CreateCollectionRequest
+import umc.onairmate.data.model.request.ModifyCollectionRequest
 import umc.onairmate.data.model.request.ShareCollectionRequest
 import umc.onairmate.data.model.response.CollectionListResponse
 import umc.onairmate.data.model.response.CreateCollectionResponse
@@ -34,13 +35,32 @@ class CollectionRepositoryImpl @Inject constructor(
 
     override suspend fun getCollectionDetailInfo(accessToken: String, collectionId: Int): DefaultResponse<CollectionDetailData> {
         return safeApiCall {
-            api.getCollectionDetailInfo(accessToken)
+            api.getCollectionDetailInfo(accessToken, collectionId)
         }
     }
 
     override suspend fun shareCollection(accessToken: String, collectionId: Int, body: ShareCollectionRequest): DefaultResponse<MessageResponse> {
         return safeApiCall {
-            api.shareCollection(accessToken, body)
+            api.shareCollection(accessToken, collectionId, body)
+        }
+    }
+
+    override suspend fun modifyCollection(
+        accessToken: String,
+        collectionId: Int,
+        body: ModifyCollectionRequest
+    ): DefaultResponse<MessageResponse> {
+        return safeApiCall {
+            api.modifyCollection(accessToken, collectionId, body)
+        }
+    }
+
+    override suspend fun deleteCollection(
+        accessToken: String,
+        collectionId: Int
+    ): DefaultResponse<MessageResponse> {
+        return safeApiCall {
+            api.deleteCollection(accessToken, collectionId)
         }
     }
 

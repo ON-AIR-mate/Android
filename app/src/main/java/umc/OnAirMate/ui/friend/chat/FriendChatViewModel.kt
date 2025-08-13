@@ -65,10 +65,6 @@ class FriendChatViewModel @Inject constructor(
         if (content.isBlank()) return
         val json = JSONObject().apply {
             put("receiverId", receiverId)
-<<<<<<< HEAD
-            //put("fromNickname", fromNickname)
-=======
->>>>>>> main
             put("content", content)
             put("fromNickname", fromNickname)
 

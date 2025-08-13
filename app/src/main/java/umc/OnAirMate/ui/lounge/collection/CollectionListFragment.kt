@@ -9,12 +9,15 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.CollectionData
+import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.data.model.request.CreateCollectionRequest
+import umc.onairmate.data.model.request.ShareCollectionRequest
 import umc.onairmate.databinding.FragmentCollectionListBinding
 import umc.onairmate.ui.friend.FriendViewModel
 import umc.onairmate.ui.lounge.collection.create.CollectionCreateDialog
 import umc.onairmate.ui.lounge.collection.create.CreateCollectionCallback
 import umc.onairmate.ui.lounge.collection.send.CollectionShareDialog
+import umc.onairmate.ui.util.SharedPrefUtil
 
 @AndroidEntryPoint
 class CollectionListFragment : Fragment() {
@@ -26,6 +29,8 @@ class CollectionListFragment : Fragment() {
     private val collectionViewModel: CollectionViewModel by viewModels()
     private val friendViewModel: FriendViewModel by viewModels()
 
+    val user = SharedPrefUtil.getData("user_info") ?: UserData()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,19 +40,20 @@ class CollectionListFragment : Fragment() {
 
         initAdapter()
         setClickListener()
-        //initObserver()
+        initObserver()
 
         return binding.root
     }
 
     fun initAdapter() {
-        //collectionViewModel.getCollections()
+        collectionViewModel.getCollections()
+
         adapter = CollectionRVAdapter(object : CollectionEventListener {
             override fun deleteCollection(collection: CollectionData) {
                 // todo: 컬렉션 삭제 팝업 띄워서 삭제하기
             }
             override fun shareCollection(collection: CollectionData) {
-                // todo: 컬렉션 공유 팝업 띄우기
+                showShareDialog(collection)
             }
 
             override fun clickCollectionItem(collection: CollectionData) {
@@ -103,7 +109,11 @@ class CollectionListFragment : Fragment() {
             val friendList = list ?: emptyList()
 
             val dialog = CollectionShareDialog(friendList, { friend ->
-                // todo: 컬렉션 공유하기 api 연결
+                val request = ShareCollectionRequest(
+                    listOf(user.userId, friend.userId)
+                )
+
+                collectionViewModel.shareCollection(collectionData.collectionId ,request)
             })
         }
     }

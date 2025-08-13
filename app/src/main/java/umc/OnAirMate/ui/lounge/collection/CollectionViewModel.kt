@@ -15,6 +15,7 @@ import umc.onairmate.data.model.entity.CollectionDetailData
 import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.data.model.request.CreateCollectionRequest
+import umc.onairmate.data.model.request.ModifyCollectionRequest
 import umc.onairmate.data.model.request.ShareCollectionRequest
 import umc.onairmate.data.model.response.CollectionListResponse
 import umc.onairmate.data.model.response.CreateCollectionResponse
@@ -49,6 +50,15 @@ class CollectionViewModel @Inject constructor(
     private val _shareCollectionMessage = MutableLiveData<MessageResponse>()
     val shareCollectionMessage : LiveData<MessageResponse> get() = _shareCollectionMessage
 
+    // 수정 성공 여부
+    private val _modifyCollectionMessage = MutableLiveData<MessageResponse>()
+    val modifyCollectionMessage : LiveData<MessageResponse> get() = _modifyCollectionMessage
+
+    // 삭제 성공 여부
+    private val _deleteCollectionMessage = MutableLiveData<MessageResponse>()
+    val deleteCollectionMessage : LiveData<MessageResponse> get() = _deleteCollectionMessage
+
+
     // 서버 로딩중 - 프로그래스바
     // api호출시 true, 응답이 오면 false
     private val _isLoading = MutableLiveData<Boolean>()
@@ -74,11 +84,11 @@ class CollectionViewModel @Inject constructor(
 
             when (result) {
                 is DefaultResponse.Success -> {
-                    Log.d("응답 성공", "${result.data}")
+                    Log.d(TAG, "응답성공: ${result.data}")
                     _createdCollectionDataInfo.postValue(result.data)
                 }
                 is DefaultResponse.Error -> {
-                    Log.d("에러", "${result.code} - ${result.message}")
+                    Log.d(TAG, "에러: ${result.code} - ${result.message}")
                 }
             }
 
@@ -102,11 +112,11 @@ class CollectionViewModel @Inject constructor(
 
             when (result) {
                 is DefaultResponse.Success -> {
-                    Log.d("응답 성공", "${result.data}")
+                    Log.d(TAG, "응답성공: ${result.data}")
                     _collectionList.postValue(result.data)
                 }
                 is DefaultResponse.Error -> {
-                    Log.d("에러", "${result.code} - ${result.message}")
+                    Log.d(TAG, "에러: ${result.code} - ${result.message}")
                 }
             }
 
@@ -130,11 +140,11 @@ class CollectionViewModel @Inject constructor(
 
             when (result) {
                 is DefaultResponse.Success -> {
-                    Log.d("응답 성공", "${result.data}")
+                    Log.d(TAG, "응답성공: ${result.data}")
                     _collectionDetailDataInfo.postValue(result.data)
                 }
                 is DefaultResponse.Error -> {
-                    Log.d("에러", "${result.code} - ${result.message}")
+                    Log.d(TAG, "에러: ${result.code} - ${result.message}")
                 }
             }
 
@@ -154,15 +164,69 @@ class CollectionViewModel @Inject constructor(
             }
 
             val result = repository.shareCollection(token, collectionId, request)
-            Log.d(TAG, "getCollectionDetailInfo api 호출")
+            Log.d(TAG, "shareCollection api 호출")
 
             when (result) {
                 is DefaultResponse.Success -> {
-                    Log.d("응답 성공", "${result.data}")
+                    Log.d(TAG, "응답성공: ${result.data}")
                     _shareCollectionMessage.postValue(result.data)
                 }
                 is DefaultResponse.Error -> {
-                    Log.d("에러", "${result.code} - ${result.message}")
+                    Log.d(TAG, "에러: ${result.code} - ${result.message}")
+                }
+            }
+
+            _isLoading.value = false
+        }
+    }
+
+    fun modifyCollection(collectionId: Int, request: ModifyCollectionRequest) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            val token = getToken()
+            if (token == null) {
+                Log.e(TAG, "토큰이 없습니다")
+                _isLoading.value = false
+                return@launch
+            }
+
+            val result = repository.modifyCollection(token, collectionId, request)
+            Log.d(TAG, "modifyCollection api 호출")
+
+            when (result) {
+                is DefaultResponse.Success -> {
+                    Log.d(TAG, "응답성공: ${result.data}")
+                    _modifyCollectionMessage.postValue(result.data)
+                }
+                is DefaultResponse.Error -> {
+                    Log.d(TAG, "에러: ${result.code} - ${result.message}")
+                }
+            }
+
+            _isLoading.value = false
+        }
+    }
+
+    fun deleteCollection(collectionId: Int) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            val token = getToken()
+            if (token == null) {
+                Log.e(TAG, "토큰이 없습니다")
+                _isLoading.value = false
+                return@launch
+            }
+
+            val result = repository.deleteCollection(token, collectionId)
+            Log.d(TAG, "deleteCollection api 호출")
+
+            when (result) {
+                is DefaultResponse.Success -> {
+                    Log.d(TAG, "응답성공: ${result.data}")
+                    _deleteCollectionMessage.postValue(result.data)
+                }
+                is DefaultResponse.Error -> {
+                    Log.d(TAG, "에러: ${result.code} - ${result.message}")
                 }
             }
 

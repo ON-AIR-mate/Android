@@ -51,7 +51,7 @@ class ChatRoomSettingFragment : Fragment() {
         initToggleListener()
         setUpObserver()
         onClickGoBack()
-        setObservers()
+
         return binding.root
     }
 

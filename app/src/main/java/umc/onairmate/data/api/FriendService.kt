@@ -28,7 +28,7 @@ interface FriendService {
         @Body body: FriendRequest
     ): RawDefaultResponse<MessageResponse>
 
-    @GET("friends/request")
+    @GET("friends/requests")
     suspend fun getRequestedFriendList(
         @Header("Authorization") accessToken: String
     ): RawDefaultResponse<List<RequestedFriendData>>

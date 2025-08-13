@@ -7,8 +7,7 @@
     android:paddingHorizontal="13dp"
     android:paddingVertical="24dp"
     android:orientation="vertical"
-    android:background="@drawable/bg_dialog"
-    android:elevation="10dp">
+    android:background="@drawable/bg_dialog">
 
 
     <LinearLayout
@@ -26,8 +25,9 @@
             android:layout_weight="1"/>
 
         <ImageView
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:id="@+id/ic_close"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             android:src="@drawable/btn_close"/>
 
     </LinearLayout>
@@ -35,41 +35,40 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="24dp"
-        android:gravity="center" >
-    <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="24dp" >
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_gravity="center">
 
         <TextView
-            android:id="@+id/tvCountBadge"
+            android:id="@+id/tv_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginStart="6dp"
             android:background="@drawable/bg_count_badge"
             android:clickable="true"
             android:focusable="true"
             android:paddingHorizontal="6dp"
             android:paddingVertical="2dp"
+            android:layout_marginEnd="3dp"
             android:text="45"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
             android:textColor="@android:color/white" />
 
         <TextView
-            android:id="@+id/tvCollectionTitle"
+            android:id="@+id/tv_collection_title"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="웃긴 장면"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.App.SemiBold.20sp" />
-        </LinearLayout>
-
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tvCreatedDate"
+        android:id="@+id/tv_created_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -78,7 +77,7 @@
         android:textColor="@color/disable" />
 
     <TextView
-        android:id="@+id/tvUpdatedDate"
+        android:id="@+id/tv_updated_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -93,7 +92,7 @@
         android:text="해당 컬렉션을 정말 삭제하시겠습니까?"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.App.Medium.14sp"
-        android:paddingBottom="20dp"/>
+        android:layout_marginBottom="20dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -102,7 +101,7 @@
         android:gravity="center">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnDelete"
+            android:id="@+id/btn_delete"
             android:layout_width="100dp"
             android:layout_height="20dp"
             android:background="@drawable/background_box_5dp"
@@ -113,7 +112,7 @@
             android:layout_marginEnd="10dp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnCancel"
+            android:id="@+id/btn_cancel"
             android:layout_width="100dp"
             android:layout_height="20dp"
             android:background="@drawable/background_box_5dp"

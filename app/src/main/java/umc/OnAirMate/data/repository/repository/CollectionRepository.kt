@@ -1,11 +1,13 @@
 package umc.onairmate.data.repository.repository
 
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.Header
-import retrofit2.http.POST
-import umc.onairmate.data.model.entity.CollectionData
+import retrofit2.http.PUT
+import retrofit2.http.Path
 import umc.onairmate.data.model.entity.CollectionDetailData
 import umc.onairmate.data.model.request.CreateCollectionRequest
+import umc.onairmate.data.model.request.ModifyCollectionRequest
 import umc.onairmate.data.model.request.ShareCollectionRequest
 import umc.onairmate.data.model.response.CollectionListResponse
 import umc.onairmate.data.model.response.CreateCollectionResponse
@@ -37,5 +39,18 @@ interface CollectionRepository {
         accessToken: String,
         collectionId: Int,
         body: ShareCollectionRequest
+    ): DefaultResponse<MessageResponse>
+
+    // 컬렉션 수정
+    suspend fun modifyCollection(
+        accessToken: String,
+        collectionId: Int,
+        body: ModifyCollectionRequest
+    ): DefaultResponse<MessageResponse>
+
+    // 컬렉션 삭제
+    suspend fun deleteCollection(
+        accessToken: String,
+        collectionId: Int,
     ): DefaultResponse<MessageResponse>
 }
