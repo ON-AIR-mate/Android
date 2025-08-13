@@ -97,7 +97,7 @@ class CollectionListFragment : Fragment() {
             }
         })
         activity?.supportFragmentManager?.let { fm ->
-            dialog.show(fm, "CreateRoomPopup")
+            dialog.show(fm, "CreateCollectionPopup")
         }
     }
 
@@ -115,6 +115,9 @@ class CollectionListFragment : Fragment() {
 
                 collectionViewModel.shareCollection(collectionData.collectionId ,request)
             })
+            activity?.supportFragmentManager?.let { fm ->
+                dialog.show(fm, "ShareCollectionPopup")
+            }
         }
     }
 
