@@ -52,7 +52,7 @@ class TestViewModel @Inject constructor(
         }
     }
 
-    fun login(id: String, pw: String){
+    fun login(id: String, pw: String, autoLogin : Boolean){
         viewModelScope.launch {
             val body = LoginData(username = id, password = pw)
             val result = repository.login(body)
@@ -63,9 +63,12 @@ class TestViewModel @Inject constructor(
                     spf.edit {
                         putString("access_token", "Bearer " + result.data.accessToken)
                         putString("socket_token",result.data.accessToken)
+                        putString("refresh_token", "Bearer " + result.data.refreshToken)
 
                         putString("nickname", result.data.user.nickname)
                         putInt("userId",result.data.user.userId)
+
+                        putBoolean("auto_login",autoLogin)
                     }
                     SharedPrefUtil.saveData("user_info", result.data.user)
                     _isSuccess.value = true
