@@ -13,6 +13,7 @@ import umc.onairmate.data.model.entity.CollectionVisibility
 import umc.onairmate.databinding.PopupCollectionOptionsBinding
 import umc.onairmate.databinding.RvItemCollectionBinding
 import umc.onairmate.ui.util.NetworkImageLoader
+import umc.onairmate.ui.util.TimeFormatter
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -28,8 +29,8 @@ class CollectionRVAdapter(
             binding.root.setOnClickListener { collectionEventListener.clickCollectionItem(item) }
 
             binding.tvTitle.text = item.title
-            binding.tvGeneratedDate.text = "생성일 : ${formatDate(item.createdAt)}"
-            binding.tvLatestModifiedDate.text = "마지막 수정일 : ${formatDate(item.updatedAt)}"
+            binding.tvGeneratedDate.text = "생성일 : ${TimeFormatter.formatCollectionDate(item.createdAt)}"
+            binding.tvLatestModifiedDate.text = "마지막 수정일 : ${TimeFormatter.formatCollectionDate(item.updatedAt)}"
             binding.tvPrivacy.text = CollectionVisibility.fromApiName(item.visibility)?.displayName ?: item.visibility
             binding.tvCountBadge.text = item.bookmarkCount.toString()
             NetworkImageLoader.thumbnailLoad(binding.ivThumbnail, item.coverImage)
@@ -76,18 +77,6 @@ class CollectionRVAdapter(
             }
 
             popupWindow.showAsDropDown(anchorView, offsetX, offsetY)
-        }
-
-        // 날짜 데이터 포매팅
-        fun formatDate(isoString: String): String {
-            return try {
-                val inputFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
-                val date = LocalDate.parse(isoString, inputFormatter)
-                val outputFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
-                outputFormatter.format(date)
-            } catch (e: DateTimeParseException) {
-                isoString
-            }
         }
     }
 

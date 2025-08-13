@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +17,9 @@ import umc.onairmate.databinding.FragmentCollectionListBinding
 import umc.onairmate.ui.friend.FriendViewModel
 import umc.onairmate.ui.lounge.collection.create.CollectionCreateDialog
 import umc.onairmate.ui.lounge.collection.create.CreateCollectionCallback
+import umc.onairmate.ui.lounge.collection.delete.CollectionDeleteDialog
 import umc.onairmate.ui.lounge.collection.send.CollectionShareDialog
+import umc.onairmate.ui.pop_up.PopupClick
 import umc.onairmate.ui.util.SharedPrefUtil
 
 @AndroidEntryPoint
@@ -41,8 +44,20 @@ class CollectionListFragment : Fragment() {
         initAdapter()
         setClickListener()
         initObserver()
+        setupRefreshObserver()
 
         return binding.root
+    }
+
+    private fun setupRefreshObserver() {
+        collectionViewModel.createdCollectionDataInfo.observe(viewLifecycleOwner) { data ->
+            Toast.makeText(context, data.message, Toast.LENGTH_SHORT).show()
+            collectionViewModel.getCollections()
+        }
+        collectionViewModel.deleteCollectionMessage.observe(viewLifecycleOwner) { data ->
+            Toast.makeText(context, data.message, Toast.LENGTH_SHORT).show()
+            collectionViewModel.getCollections()
+        }
     }
 
     fun initAdapter() {
@@ -50,7 +65,7 @@ class CollectionListFragment : Fragment() {
 
         adapter = CollectionRVAdapter(object : CollectionEventListener {
             override fun deleteCollection(collection: CollectionData) {
-                // todo: 컬렉션 삭제 팝업 띄워서 삭제하기
+                showDeleteDialog(collection)
             }
             override fun shareCollection(collection: CollectionData) {
                 showShareDialog(collection)
@@ -114,6 +129,19 @@ class CollectionListFragment : Fragment() {
             activity?.supportFragmentManager?.let { fm ->
                 dialog.show(fm, "ShareCollectionPopup")
             }
+        }
+    }
+
+    private fun showDeleteDialog(collectionData: CollectionData) {
+        val dialog = CollectionDeleteDialog(collectionData, object : PopupClick {
+            override fun leftClickFunction() {
+                collectionViewModel.deleteCollection(collectionData.collectionId)
+            }
+
+            override fun rightClickFunction() { }
+        })
+        activity?.supportFragmentManager?.let { fm ->
+            dialog.show(fm, "DeleteCollectionPopup")
         }
     }
 

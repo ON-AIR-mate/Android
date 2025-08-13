@@ -12,10 +12,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp" >
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp">
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="17dp"
+            android:layout_height="wrap_content"
             android:text="컬렉션 삭제"
             android:textAppearance="@style/TextAppearance.App.Medium.14sp"/>
 
@@ -50,7 +51,7 @@
             android:focusable="true"
             android:paddingHorizontal="6dp"
             android:paddingVertical="2dp"
-            android:layout_marginEnd="3dp"
+            android:layout_marginEnd="5dp"
             android:text="45"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
@@ -73,6 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="생성일 : 2025.03.25"
+        android:layout_marginTop="3dp"
         android:textAppearance="@style/TextAppearance.App.Regular.12sp"
         android:textColor="@color/disable" />
 
@@ -92,6 +94,7 @@
         android:text="해당 컬렉션을 정말 삭제하시겠습니까?"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.App.Medium.14sp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"/>
 
     <LinearLayout
