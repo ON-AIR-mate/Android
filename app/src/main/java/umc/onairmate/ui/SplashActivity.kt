@@ -16,7 +16,10 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         val spf = this.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
         val token = spf.getString("access_token", null)
         //타이머 종료 후 내부 실행
         Handler().postDelayed(Runnable {

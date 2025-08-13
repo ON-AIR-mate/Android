@@ -1,5 +1,6 @@
 package umc.onairmate.ui.chat_room.message
 
+
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -10,9 +11,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import umc.onairmate.data.model.entity.ChatMessageData
+import umc.onairmate.data.model.entity.RoomData
+import umc.onairmate.data.model.entity.RoomSettingData
 import umc.onairmate.data.model.entity.SocketError
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.repository.repository.ChatRoomRepository
@@ -38,39 +40,54 @@ class VideoChatViewModel @Inject constructor(
     private val _chat = MutableLiveData<ChatMessageData>()
     val chat: LiveData<ChatMessageData> get() = _chat
 
+    private val _isUserNumChanged = MutableLiveData<Boolean>()
+    val isUserNumChanged : LiveData<Boolean> get() = _isUserNumChanged
+
+    // 방 설정 데이터
+    private val _roomSettingDataInfo = MutableLiveData<RoomSettingData>()
+    val roomSettingDataInfo : LiveData<RoomSettingData> get() = _roomSettingDataInfo
+
     fun getToken(): String? {
         return spf.getString("access_token", null)
     }
     fun getHandler(): ChatRoomHandler = handler
 
-    override fun onNewChat(chatMessage: ChatMessageData?) {
+    override fun onNewChat(chatMessage: ChatMessageData) {
         viewModelScope.launch(Dispatchers.Main) {
             Log.d(TAG,"onNewChat : ${chatMessage}")
-            if (chatMessage == null){}
-            else {
-                _chat.postValue(chatMessage!!)
-            }
+            _chat.postValue(chatMessage)
         }
 
     }
 
-    override fun onUserJoined(data: String) {
+    override fun onUserJoined(isSuccess: Boolean) {
         viewModelScope.launch(Dispatchers.Main) {
-            Log.d(TAG,"onUserJoined : ${data}")
+            _isUserNumChanged.value = isSuccess
         }
 
     }
 
-    override fun onError(errorMessage: SocketError?) {
+    override fun onError(errorMessage: SocketError) {
         viewModelScope.launch(Dispatchers.Main) {
-            if (errorMessage == null){}
-            else Log.d(TAG,"error ${errorMessage!!.type} : ${errorMessage!!.message}")
+            Log.d(TAG,"error ${errorMessage.type} : ${errorMessage.message}")
         }
     }
 
-    override fun onUserLeft(data: Int) {
+    override fun onUserLeft(isSuccess: Boolean) {
         viewModelScope.launch(Dispatchers.Main) {
-            Log.d(TAG,"onUserLeft ${data}")
+            _isUserNumChanged.value = isSuccess
+        }
+    }
+
+    override fun onRoomSettingsUpdated(data: RoomData){
+        viewModelScope.launch(Dispatchers.Main) {
+            val settings = RoomSettingData(
+                autoArchiving = data.autoArchiving,
+                invitePermission = data.invitePermission,
+                isPrivate = data.isPrivate,
+                maxParticipants= data.maxParticipants
+            )
+            _roomSettingDataInfo.value = settings
         }
     }
 
@@ -98,7 +115,7 @@ class VideoChatViewModel @Inject constructor(
     }
 
 
-    fun sendMessage(roomId: Int, nickname: String,content: String) {
+    fun sendMessage(roomId: Int, nickname: String, content: String, type: String) {
         if (content.isBlank()) return
 
         Log.d(TAG,"채팅 입력 ${content}")
@@ -106,7 +123,7 @@ class VideoChatViewModel @Inject constructor(
             put("roomId", roomId)
             put("nickname", nickname)
             put("content", content)
-            put("messageType", "general")
+            put("messageType", type)
         }
 
         SocketManager.emit("sendRoomMessage", json)

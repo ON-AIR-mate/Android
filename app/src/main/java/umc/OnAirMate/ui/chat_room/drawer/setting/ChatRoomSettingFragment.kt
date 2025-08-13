@@ -10,7 +10,7 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.InvitePermission
 import umc.onairmate.data.model.entity.ParticipantPreset
@@ -19,6 +19,7 @@ import umc.onairmate.data.model.entity.RoomSettingData
 import umc.onairmate.databinding.FragmentChatRoomSettingBinding
 import umc.onairmate.ui.chat_room.drawer.ChatRoomDrawerFragment
 import umc.onairmate.ui.chat_room.ChatRoomViewModel
+import umc.onairmate.ui.chat_room.message.VideoChatViewModel
 
 val inviteOptions = InvitePermission.entries.map { it.displayName }
 val maxParticipants = ParticipantPreset.entries.map { it.count.toString() }
@@ -29,7 +30,8 @@ val maxParticipants = ParticipantPreset.entries.map { it.count.toString() }
 class ChatRoomSettingFragment : Fragment() {
     private val TAG = this.javaClass.simpleName
 
-    private val chatRoomViewModel: ChatRoomViewModel by viewModels()
+    private val chatRoomViewModel: ChatRoomViewModel by activityViewModels()
+    private val videoChatViewModel: VideoChatViewModel by activityViewModels()
     lateinit var binding: FragmentChatRoomSettingBinding
     lateinit var roomData: RoomData
 
@@ -49,7 +51,7 @@ class ChatRoomSettingFragment : Fragment() {
         initToggleListener()
         setUpObserver()
         onClickGoBack()
-
+        setObservers()
         return binding.root
     }
 

@@ -3,6 +3,8 @@ package umc.onairmate.ui.friend.chat
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,12 +16,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.ChatMessageData
 import umc.onairmate.data.model.entity.FriendData
+import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.data.socket.SocketDispatcher
 import umc.onairmate.data.socket.SocketManager
 import umc.onairmate.databinding.FragmentVideoChatBinding
 import umc.onairmate.ui.chat_room.message.ChatRVAdapter
 import umc.onairmate.ui.chat_room.message.VideoChatViewModel
 import umc.onairmate.ui.friend.FriendViewModel
+import umc.onairmate.ui.util.SharedPrefUtil
 import kotlin.getValue
 
 @AndroidEntryPoint
@@ -27,8 +31,7 @@ class FriendChatFragment: Fragment() {
     private val TAG = javaClass.simpleName
     private var _binding: FragmentVideoChatBinding? = null
     private val binding get() = _binding!!
-    private var userId : Int = 0
-    private var nickname : String = ""
+    private var user : UserData = UserData()
     private var friend : FriendData = FriendData()
     private val viewModel: FriendChatViewModel by viewModels()
 
@@ -43,7 +46,7 @@ class FriendChatFragment: Fragment() {
 
         initData()
         setUpObserver()
-
+        setTextListener()
 
         // 소켓 연결
         val socket = SocketManager.getSocketOrNull()
@@ -52,13 +55,13 @@ class FriendChatFragment: Fragment() {
         }
 
 
-        adapter = FriendChatRVAdapter(userId)
+        adapter = FriendChatRVAdapter(user.userId)
         binding.rvVideoChat.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
         binding.rvVideoChat.adapter = adapter
 
         binding.btnSend.setOnClickListener {
             val text = binding.etInputChat.text.toString()
-            viewModel.sendMessage(friend.userId, nickname, text)
+            viewModel.sendMessage(friend.userId, user.nickname, text)
             binding.etInputChat.setText("")
         }
 
@@ -67,25 +70,39 @@ class FriendChatFragment: Fragment() {
         return binding.root
     }
 
-
+    private fun setTextListener(){
+        binding.etInputChat.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+            override fun afterTextChanged(s: Editable?) {
+                binding.btnSend.isEnabled = !binding.etInputChat.text.isEmpty()
+            }
+        })
+    }
     override fun onResume() {
         super.onResume()
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun initData(){
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        userId = spf.getInt("userId", 0)
-        nickname = spf.getString("nickname","nickname")?:"user"
         friend = arguments?.getParcelable("friendData", FriendData::class.java)!!
-
+        user = SharedPrefUtil.getData("user_info")?: UserData()
     }
 
     private fun setUpObserver() {
         viewModel.generalChat.observe(viewLifecycleOwner) { data ->
             if (data == null) return@observe
-            val id = if (data.sender == nickname) userId else friend.userId
-            val chat = ChatMessageData(messageId = 0,userId= id,data.sender,"",data.message,"GENERAL","")
+            val name = if (data.senderId == user.userId) user.nickname else friend.nickname
+            val profile = if (data.senderId == user.userId) user.profileImage else friend.profileImage
+            val chat = ChatMessageData(
+                messageId = 0,
+                userId= data.senderId,
+                nickname = name,
+                profileImage = profile,
+                content= data.content,
+                messageType =  data.messageType,
+                timestamp = data.createdAt)
             adapter.addGeneralChat(chat)
         }
     }

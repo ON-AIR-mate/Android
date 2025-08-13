@@ -6,13 +6,10 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.databinding.ActivityFriendChatBinding
-import umc.onairmate.ui.MainActivity
 
 @AndroidEntryPoint
 class FriendChatActivity: AppCompatActivity() {
