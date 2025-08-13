@@ -146,8 +146,8 @@ class BookmarkListFragment : Fragment() {
         collectionViewModel.collectionList.observe(viewLifecycleOwner) { data ->
             val collectionList = data.collections ?: emptyList()
 
-            val dialog = CollectionMoveDialog(collectionList, {
-                bookmarkViewModel.moveCollectionOfBookmark(bookmark.bookmarkId, MoveCollectionRequest(it))
+            val dialog = CollectionMoveDialog(collectionList, { collection ->
+                bookmarkViewModel.moveCollectionOfBookmark(bookmark.bookmarkId, MoveCollectionRequest(collection.collectionId))
             })
             activity?.supportFragmentManager?.let { fm ->
                 dialog.show(fm, "CollectionMoveDialog")

@@ -15,7 +15,7 @@ import umc.onairmate.databinding.DialogMoveCollectionBinding
 
 class CollectionMoveDialog(
     private val collectionList: List<CollectionData>,
-    private val moveCollectionCallback: (Int) -> Unit
+    private val moveCollectionCallback: (CollectionData) -> Unit
 ) : DialogFragment() {
     private lateinit var binding: DialogMoveCollectionBinding
     private lateinit var adapter: CollectionMoveRVAdapter
@@ -54,12 +54,12 @@ class CollectionMoveDialog(
 
     fun setClickListener() {
         binding.tvMoveCollection.setOnClickListener {
-            val selectedCollectionId = adapter.getSelectedItem()
+            val selectedCollection = adapter.getSelectedItem()
 
-            if (selectedCollectionId == null) {
+            if (selectedCollection == null) {
                 Toast.makeText(context, "이동할 컬렉션을 선택해주세요!", Toast.LENGTH_SHORT).show()
             } else {
-                moveCollectionCallback(selectedCollectionId)
+                moveCollectionCallback(selectedCollection)
                 dismiss()
             }
         }
