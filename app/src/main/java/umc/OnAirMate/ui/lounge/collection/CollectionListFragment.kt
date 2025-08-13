@@ -18,7 +18,7 @@ import umc.onairmate.ui.friend.FriendViewModel
 import umc.onairmate.ui.lounge.collection.create.CollectionCreateDialog
 import umc.onairmate.ui.lounge.collection.create.CreateCollectionCallback
 import umc.onairmate.ui.lounge.collection.delete.CollectionDeleteDialog
-import umc.onairmate.ui.lounge.collection.send.CollectionShareDialog
+import umc.onairmate.ui.lounge.collection.share.CollectionShareDialog
 import umc.onairmate.ui.pop_up.PopupClick
 import umc.onairmate.ui.util.SharedPrefUtil
 

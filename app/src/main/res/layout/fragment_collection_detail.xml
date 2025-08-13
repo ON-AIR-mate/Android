@@ -1,164 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
-    android:fillViewport="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_bookmarks"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <!-- 썸네일 이미지 -->
-        <ImageView
-            android:id="@+id/ivThumbnail"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/sample_image"
-            android:contentDescription="sample_image"/>
-
-        <!-- 제목 + 수정버튼 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="12dp"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="웃긴 장면"
-                android:textAppearance="@style/TextAppearance.App.SemiBold.20sp" />
-
-            <TextView
-                android:id="@+id/tvCountBadge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:background="@drawable/bg_count_badge"
-                android:paddingHorizontal="6dp"
-                android:paddingVertical="2dp"
-                android:text=""
-                android:textColor="@android:color/white"
-                android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
-                android:clickable="true"
-                android:focusable="true"
-                android:contentDescription="@string/bookmark_count_badge"/>
-                <!--북마크 개수가 0일때는 어케 하나요? // 해결! -->
-
-            <Button
-                android:id="@+id/btnEditTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:includeFontPadding="false"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="2dp"
-                android:text="제목 수정"
-                android:clickable="true"
-                android:focusable="true"
-                android:textColor="@color/black"
-                android:textAppearance="@style/TextAppearance.App.Medium.10sp"
-                android:background="@drawable/bg_button_outline_pink"
-                app:backgroundTint="@null"
-                android:backgroundTint="@null"/>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+        android:layout_height="0dp"
+        android:visibility="visible"
+        android:paddingHorizontal="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/cl_bottom"/>
 
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+    <!-- 바텀뷰만큼 띄우기위한 코드입니다 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-                <TextView
-                    android:id="@+id/tvPrivacy"
-                    android:layout_width="38dp"
-                    android:layout_height="wrap_content"
-                    android:text="나만 보기"
-                    android:textAppearance="@style/TextAppearance.App.Medium.10sp" />
-
-            <ImageView
-                android:id="@+id/btnChangePrivacy"
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:layout_marginStart="4dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:contentDescription="공개범위 변경"
-                android:focusable="true"
-                android:src="@drawable/ic_dropdown"
-                app:tint="@color/text4" />
-            </LinearLayout>
-        </LinearLayout>
-
-
-
-        <!-- 생성일 + 공개범위 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="4dp"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:id="@+id/tvDateCreated"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="생성일 : 2025.03.24"
-                android:textAppearance="@style/TextAppearance.App.Regular.12sp"
-                android:textColor="@color/text4" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="16dp"
-                android:gravity="center_vertical">
-
-
-            </LinearLayout>
-        </LinearLayout>
-
-
-            <EditText
-                android:id="@+id/etDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_input_text"
-                android:text="나의 컬렉션을 소개해주세요! (100자 이내)"
-                android:textAppearance="@style/TextAppearance.App.Regular.12sp"
-                android:layout_marginBottom="16dp"
-                android:maxLines="3"
-                android:padding="12dp"
-                android:gravity="top|start" />
-            <!--빌드 해봐야 함 -->
-
-
-        <!-- 영상 리스트 -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewVideos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
-            tools:itemCount="4"
-            tools:listitem="@layout/item_bookmark" />
-        <!--무한스크롤-->
-
-    </LinearLayout>
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
