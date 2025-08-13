@@ -8,17 +8,19 @@
     android:paddingVertical="24dp"
     android:orientation="vertical"
     android:background="@drawable/bg_dialog"
-    android:elevation="10dp">
+    android:elevation="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp" >
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp">
+
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="17dp"
+            android:layout_height="wrap_content"
             android:text="컬렉션 제목"
             android:textAppearance="@style/TextAppearance.App.Medium.14sp"
-            android:layout_marginBottom="18dp"/>
+            />
 
         <View
             android:layout_width="0dp"
@@ -26,25 +28,28 @@
             android:layout_weight="1"/>
 
         <ImageView
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:id="@+id/iv_close"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             android:src="@drawable/btn_close" />
 
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/etNewTitle"
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_title"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/background_input_text"
         android:text="힐링모먼트"
         android:textAppearance="@style/TextAppearance.App.Regular.12sp"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:paddingVertical="5dp"
+        android:paddingHorizontal="5dp"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnChangeTitle"
+        android:id="@+id/btn_change_title"
         android:layout_width="150dp"
-        android:layout_height="22dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/background_box_5dp"
         android:backgroundTint="@color/main"
         android:text="제목 변경하기"

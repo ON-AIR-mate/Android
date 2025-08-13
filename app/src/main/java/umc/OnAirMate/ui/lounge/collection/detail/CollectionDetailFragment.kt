@@ -26,7 +26,6 @@ import umc.onairmate.data.model.request.ModifyCollectionRequest
 import umc.onairmate.data.model.request.MoveCollectionRequest
 import umc.onairmate.data.model.request.RoomStartOption
 import umc.onairmate.databinding.FragmentCollectionDetailBinding
-import umc.onairmate.ui.lounge.adapter.MoveCollectionAdapter
 import umc.onairmate.ui.lounge.bookmark.BookmarkEventListener
 import umc.onairmate.ui.lounge.bookmark.BookmarkRVAdapter
 import umc.onairmate.ui.lounge.bookmark.BookmarkViewModel
@@ -68,7 +67,7 @@ class CollectionDetailFragment : Fragment() {
     }
 
     private fun setupRefreshObserver() {
-        
+
     }
 
     private fun setupObserver() {
