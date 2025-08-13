@@ -81,7 +81,7 @@ class JoinProfileFragment : Fragment() {
         binding.etPassword.addTextChangedListener(passwordWatcher)
 
         // 완료 버튼 클릭 시 다음 프래그먼트로 이동
-        binding.btnComplete.setOnClickListener {
+        binding.btnJoin.setOnClickListener {
             if (isNicknameValid && isIdValid && isPasswordValid) {
                 parentFragmentManager.commit {
                     replace(R.id.fragment_container, HowToUseFragment())
@@ -154,10 +154,10 @@ class JoinProfileFragment : Fragment() {
 
         val canEnable = isAllFilled && isAllValid
 
-        binding.btnComplete.isEnabled = canEnable
-        binding.btnComplete.setBackgroundResource(
-            if (canEnable) R.drawable.bg_btn_main else R.drawable.bg_btn_disabled
-        )
+//        binding.btnComplete.isEnabled = canEnable
+//        binding.btnComplete.setBackgroundResource(
+//            if (canEnable) R.drawable.bg_btn_main else R.drawable.bg_btn_disabled
+//        )
     }
 
     override fun onDestroyView() {
