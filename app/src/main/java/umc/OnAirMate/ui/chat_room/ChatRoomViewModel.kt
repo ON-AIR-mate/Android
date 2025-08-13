@@ -62,11 +62,11 @@ class ChatRoomViewModel @Inject constructor(
 
             when (result) {
                 is DefaultResponse.Success -> {
-                    Log.d("응답 성공", "${result.data}")
+                    Log.d(TAG, "응답 성공: ${result.data}")
                     _participantDataInfo.postValue(result.data)
                 }
                 is DefaultResponse.Error -> {
-                    Log.d("에러", "${result.code} - ${result.message}")
+                    Log.d(TAG, "에러: ${result.code} - ${result.message}")
                 }
             }
             _isLoading.value = false
@@ -88,11 +88,11 @@ class ChatRoomViewModel @Inject constructor(
 
             when (result) {
                 is DefaultResponse.Success -> {
-                    Log.d("응답 성공", "${result.data}")
+                    Log.d(TAG, "응답 성공: ${result.data}")
                     _roomSettingDataInfo.postValue(result.data)
                 }
                 is DefaultResponse.Error -> {
-                    Log.d("에러", "${result.code} - ${result.message}")
+                    Log.d(TAG, "에러: ${result.code} - ${result.message}")
                 }
             }
             _isLoading.value = false
@@ -114,11 +114,11 @@ class ChatRoomViewModel @Inject constructor(
 
             when (result) {
                 is DefaultResponse.Success -> {
-                    Log.d("응답 성공", "${result.data}")
+                    Log.d(TAG, "응답 성공: ${result.data}")
                     _isRoomSettingModifyDone.postValue(result.data)
                 }
                 is DefaultResponse.Error -> {
-                    Log.d("에러", "${result.code} - ${result.message}")
+                    Log.d(TAG, "에러: ${result.code} - ${result.message}")
                 }
             }
             _isLoading.value = false
