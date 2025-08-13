@@ -200,7 +200,7 @@
                 <ImageView
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:src="@drawable/arrow"/>
+                    android:src="@drawable/ic_arrow"/>
             </LinearLayout>
 
             <!-- 차단 리스트 -->
@@ -222,7 +222,7 @@
                 <ImageView
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:src="@drawable/arrow"/>
+                    android:src="@drawable/ic_arrow"/>
             </LinearLayout>
 
             <!-- 의견 보내기 -->
@@ -244,7 +244,7 @@
                 <ImageView
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:src="@drawable/arrow"/>
+                    android:src="@drawable/ic_arrow"/>
             </LinearLayout>
 
             <!-- 좋아한 컬렉션 -->
@@ -266,7 +266,7 @@
                 <ImageView
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:src="@drawable/arrow"/>
+                    android:src="@drawable/ic_arrow"/>
             </LinearLayout>
 
             <!-- 하단 로고 -->

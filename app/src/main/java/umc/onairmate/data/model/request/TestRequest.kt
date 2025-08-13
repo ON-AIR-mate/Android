@@ -1,7 +1,8 @@
 package umc.onairmate.data.model.request
 
-import android.net.Uri
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 data class TestRequest(
     @SerializedName("username")
@@ -15,6 +16,7 @@ data class TestRequest(
     @SerializedName("agreements")
     val agreements : Agreement
 ){
+    @Parcelize
     data class Agreement(
         @SerializedName("serviceTerms")
         val serviceTerms : Boolean = true,
@@ -32,5 +34,5 @@ data class TestRequest(
         val advertisementNotification : Boolean = true,
         @SerializedName("nightNotification")
         val nightNotification : Boolean = true
-    )
+    ): Parcelable
 }
