@@ -24,4 +24,19 @@
             android:name="collection"
             app:argType="umc.onairmate.ui.lounge.model.Collection" />
     </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="umc.onairmate.ui.profile.ProfileFragment"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_blockListFragment"
+            app:destination="@id/blockListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/blockListFragment"
+        android:name="umc.onairmate.ui.profile.BlockListFragment"
+        tools:layout="@layout/fragment_block_list" />
+
 </navigation>

@@ -10,10 +10,12 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import umc.onairmate.R
 import umc.onairmate.databinding.FragmentProfileBinding
 import umc.onairmate.ui.pop_up.ChangeNicknamePopup
 import umc.onairmate.ui.pop_up.ChangeNicknameViewModel
@@ -69,6 +71,11 @@ class ProfileFragment : Fragment() {
         binding.ivTooltip.setOnClickListener {
             Toast.makeText(requireContext(), "추천 및 제재에 따라 인기도가 조정됩니다.", Toast.LENGTH_LONG).show()
         }
+
+        binding.layoutBlock.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_blockListFragment)
+        }
+
     }
 
     override fun onDestroyView() {
