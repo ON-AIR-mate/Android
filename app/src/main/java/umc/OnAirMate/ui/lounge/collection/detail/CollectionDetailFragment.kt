@@ -107,7 +107,6 @@ class CollectionDetailFragment : Fragment() {
                 },
                 object : BookmarkEventListener {
                     override fun createRoomWithBookmark(bookmark: BookmarkData) {
-                        // todo: 방 생성 팝업 띄워서 방 만들기
                         showCreateRoomPopup(bookmark)
                     }
 
@@ -117,7 +116,6 @@ class CollectionDetailFragment : Fragment() {
                     }
 
                     override fun moveCollection(bookmark: BookmarkData) {
-                        // todo: 팝업 띄워서 어떤 컬렉션으로 보낼지 선택해야함
                         showMoveCollectionPopup(bookmark)
                     }
                 }
@@ -127,6 +125,27 @@ class CollectionDetailFragment : Fragment() {
             binding.rvBookmarks.adapter = adapter
         }
 
+    }
+
+    // 컬렉션 제목 변경
+    private fun showCollectionEditTitlePopup(data: CollectionData){
+
+        val dialog = CollectionEditTitleDialog(
+            data.title,
+            { modifiedTitle ->
+                collectionViewModel.modifyCollection(
+                    collectionId,
+                    request = ModifyCollectionRequest(
+                        title = data.title,
+                        description = modifiedTitle ?: "",
+                        visibility = data.visibility
+                    )
+                )
+            }
+        )
+        activity?.supportFragmentManager?.let { fm ->
+            dialog.show(fm, "CreateRoomPopup")
+        }
     }
 
     // 방 생성 팝업 띄우기

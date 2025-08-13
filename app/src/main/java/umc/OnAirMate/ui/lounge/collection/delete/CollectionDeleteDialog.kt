@@ -53,7 +53,7 @@ class CollectionDeleteDialog (
     }
 
     private fun setOnClickListener() {
-        binding.icClose.setOnClickListener {
+        binding.ivClose.setOnClickListener {
             dismiss()
         }
         binding.btnDelete.setOnClickListener {
