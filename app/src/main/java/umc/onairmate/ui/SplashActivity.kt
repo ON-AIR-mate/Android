@@ -12,17 +12,20 @@ import androidx.core.content.edit
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
+    private val splashHandler = android.os.Handler(android.os.Looper.getMainLooper())
+
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         val spf = this.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val token = spf.getString("access_token", null)
+        val autoLogin = if (spf.contains("auto_login")) spf.getBoolean("auto_login", false) else false
+
         //타이머 종료 후 내부 실행
-        Handler().postDelayed(Runnable {
+        splashHandler.postDelayed(Runnable {
             //앱의 loginActivity로 넘어가기
             // 토큰이 있다면 자동로그인 -> 메인으로 넘어가기
-            val intent =  if(token.isNullOrEmpty())  Intent(this@SplashActivity, LoginActivity::class.java)
-            else Intent(this@SplashActivity, MainActivity::class.java)
+            val intent =  if(autoLogin)  Intent(this@SplashActivity, MainActivity::class.java)
+            else Intent(this@SplashActivity, LoginActivity::class.java)
 
             startActivity(intent)
             //현재 activity 닫기

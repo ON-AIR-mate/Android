@@ -46,11 +46,11 @@ class CollectionListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = CollectionListAdapter(sampleData) { collection ->
-            val action = CollectionListFragmentDirections
-                .actionCollectionListFragmentToCollectionDetailFragment(collection)
-            findNavController().navigate(action)
-        }
+//        adapter = CollectionListAdapter(sampleData) { collection ->
+//            val action = CollectionListFragmentDirections
+//                .actionCollectionListFragmentToCollectionDetailFragment(collection)
+//            findNavController().navigate(action)
+//        }
 
         binding.recyclerViewCollections.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewCollections.adapter = adapter
