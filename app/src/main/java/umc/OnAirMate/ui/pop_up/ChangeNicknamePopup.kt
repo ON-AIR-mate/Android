@@ -24,8 +24,8 @@ class ChangeNicknamePopup : BottomSheetDialogFragment() {
     private var _binding: PopupChangeNicknameBinding? = null
     private val binding get() = _binding!!
 
-    @Inject
-    lateinit var repository: NicknameRepository
+    // 외부에서 중복 체크를 처리하기 위한 콜백 람다 추가
+    var onCheckNickname: ((String, (Boolean) -> Unit) -> Unit)? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,6 +62,19 @@ class ChangeNicknamePopup : BottomSheetDialogFragment() {
                 return@setOnClickListener
             }
 
+            // 외부 콜백 호출해서 중복 검사 요청
+            onCheckNickname?.invoke(nickname) { isDuplicated ->
+                if (isDuplicated) {
+                    Toast.makeText(requireContext(), "이미 사용 중인 닉네임입니다.", Toast.LENGTH_SHORT).show()
+                    binding.editNickname.text?.clear()
+                    binding.checkNickname.setBackgroundResource(R.drawable.bg_btn_disabled)
+                    binding.checkNickname.isEnabled = false
+                } else {
+                    Toast.makeText(requireContext(), "사용 가능한 닉네임입니다!", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            /*
             viewLifecycleOwner.lifecycleScope.launch {
                 val isDuplicated = withContext(Dispatchers.IO) {
                     repository.isNicknameDuplicated(nickname)
@@ -76,6 +89,8 @@ class ChangeNicknamePopup : BottomSheetDialogFragment() {
                     Toast.makeText(requireContext(), "사용 가능한 닉네임입니다!", Toast.LENGTH_SHORT).show()
                 }
             }
+            */
+
         }
     }
 

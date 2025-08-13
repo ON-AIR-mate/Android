@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:layout_marginTop="20dp">
+    android:layout_marginTop="20dp"
+    android:id="@+id/fragment_profile">
 
     <!-- 상단 타이틀 -->
     <TextView
@@ -102,15 +103,13 @@
                         android:fontFamily="@font/pretendard_medium"
                         android:text="개인정보"
                         android:textSize="16sp" />
-                    
+
                     <ImageView
                         android:layout_width="10dp"
                         android:layout_height="10dp"
                         android:layout_marginLeft="214dp"
                         android:src="@drawable/arrow"/>
-                    
                 </LinearLayout>
-                
 
                 <!-- 닉네임 -->
                 <LinearLayout
@@ -137,44 +136,44 @@
                 </LinearLayout>
 
                 <!-- 인기도 영역 -->
-                    <LinearLayout
-                        android:id="@+id/layout_popular_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="17dp"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="15dp">
+                <LinearLayout
+                    android:id="@+id/layout_popular_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="17dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="15dp">
 
-                        <TextView
-                            android:id="@+id/tv_popular"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/pretendard_regular"
-                            android:text="인기도"
-                            android:textSize="14sp" />
+                    <TextView
+                        android:id="@+id/tv_popular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pretendard_regular"
+                        android:text="인기도"
+                        android:textSize="14sp" />
 
-                        <ImageView
-                            android:id="@+id/iv_popularity_icon"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:layout_marginLeft="38dp"
-                            android:src="@drawable/ic_popular" />
+                    <ImageView
+                        android:id="@+id/iv_popularity_icon"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_marginLeft="38dp"
+                        android:src="@drawable/ic_popular" />
 
-                        <TextView
-                            android:id="@+id/tv_popularity_score"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="***점"
-                            android:textSize="14sp"
-                            android:layout_marginLeft="60dp"/>
+                    <TextView
+                        android:id="@+id/tv_popularity_score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="***점"
+                        android:textSize="14sp"
+                        android:layout_marginLeft="60dp"/>
 
-                        <!-- 툴팁 -->
-                        <ImageView
-                            android:id="@+id/iv_tooltip"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:layout_marginLeft="85dp"
-                            android:src="@drawable/ic_question" />
-                    </LinearLayout>
+                    <!-- 툴팁 -->
+                    <ImageView
+                        android:id="@+id/iv_tooltip"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_marginLeft="85dp"
+                        android:src="@drawable/ic_question" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -283,7 +282,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-
             <!-- 하단 로고 -->
             <LinearLayout
                 android:id="@+id/layout_logo"
@@ -292,7 +290,7 @@
                 android:orientation="vertical"
                 android:gravity="center"
                 android:padding="16dp"
-                android:layout_marginStart="@id/layout_my_active">
+                android:layout_marginStart="16dp"> <!-- ✅ 여기 수정 -->
 
                 <ImageView
                     android:id="@+id/onairmate_bottom_logo"
@@ -313,10 +311,7 @@
                     android:text="로그아웃"
                     android:textColor="@color/text5"
                     android:textSize="14sp"
-                    android:fontFamily="@font/pretendard_semi_bold"
-                    app:layout_constraintTop_toBottomOf="@id/onairmate_bottom_logo"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    android:fontFamily="@font/pretendard_semi_bold"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
