@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import umc.onairmate.R
 import umc.onairmate.data.model.entity.CollectionData
 import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.data.model.request.CreateCollectionRequest
@@ -18,6 +20,7 @@ import umc.onairmate.ui.friend.FriendViewModel
 import umc.onairmate.ui.lounge.collection.create.CollectionCreateDialog
 import umc.onairmate.ui.lounge.collection.create.CreateCollectionCallback
 import umc.onairmate.ui.lounge.collection.delete.CollectionDeleteDialog
+import umc.onairmate.ui.lounge.collection.detail.CollectionDetailFragment
 import umc.onairmate.ui.lounge.collection.share.CollectionShareDialog
 import umc.onairmate.ui.pop_up.PopupClick
 import umc.onairmate.ui.util.SharedPrefUtil
@@ -72,7 +75,14 @@ class CollectionListFragment : Fragment() {
             }
 
             override fun clickCollectionItem(collection: CollectionData) {
-                // todo: parentFragment를 detail 뷰로 교체하기
+                val bundle = Bundle()
+                bundle.putInt("collectionId", collection.collectionId)
+                val detail = CollectionDetailFragment()
+                detail.arguments = bundle
+
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.lounge_content_container, detail)
+                    .commit()
             }
         })
         binding.rvCollections.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
