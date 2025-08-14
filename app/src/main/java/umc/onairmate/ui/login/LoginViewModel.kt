@@ -34,12 +34,17 @@ class LoginViewModel @Inject constructor(
 
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     fun clearSuccess() {
         _isSuccess.value = null
     }
 
     fun signUp(id: String, pw: String, nickname: String, profile: String, agreements: TestRequest.Agreement){
         viewModelScope.launch {
+            _isLoading.value = true
             val body =
                 TestRequest(username = id, password = pw, nickname = nickname, profile, agreements)
             val result = repository.signUp(body)
@@ -54,11 +59,13 @@ class LoginViewModel @Inject constructor(
                     _isSuccess.value = false
                 }
             }
+            _isLoading.value = false
         }
     }
 
     fun login(id: String, pw: String, autoLogin : Boolean){
         viewModelScope.launch {
+            _isLoading.value = true
             val body = LoginData(username = id, password = pw)
             val result = repository.login(body)
             Log.d(TAG, "login api 호출")
@@ -83,6 +90,7 @@ class LoginViewModel @Inject constructor(
 
                 }
             }
+            _isLoading.value = false
         }
     }
 

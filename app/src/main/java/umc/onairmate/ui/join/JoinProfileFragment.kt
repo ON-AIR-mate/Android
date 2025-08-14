@@ -30,7 +30,7 @@ class JoinProfileFragment : Fragment() {
     private var nickname : String = ""
     private var id : String = ""
     private var password : String = ""
-    private var profile : String = ""
+    private var profile : String = "default"
 
     private val viewModel: LoginViewModel by viewModels()
 
