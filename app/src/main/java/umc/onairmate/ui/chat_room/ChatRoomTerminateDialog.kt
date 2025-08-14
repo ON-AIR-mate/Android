@@ -25,7 +25,7 @@ class ChatRoomTerminateDialog(
         setClickListener()
 
         // 취소 불가능
-        setCancelable(isCancelable)
+        setCancelable(false)
 
         // 배경 투명 + 밝기 조절 (0.7)
         dialog.window?.let { window ->
