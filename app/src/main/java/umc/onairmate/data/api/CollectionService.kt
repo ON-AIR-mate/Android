@@ -1,0 +1,64 @@
+package umc.onairmate.data.api
+
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
+import umc.onairmate.data.model.entity.CollectionData
+import umc.onairmate.data.model.entity.CollectionDetailData
+import umc.onairmate.data.model.request.CreateCollectionRequest
+import umc.onairmate.data.model.request.ModifyCollectionRequest
+import umc.onairmate.data.model.request.ShareCollectionRequest
+import umc.onairmate.data.model.response.CollectionListResponse
+import umc.onairmate.data.model.response.CreateCollectionResponse
+import umc.onairmate.data.model.response.MessageResponse
+import umc.onairmate.data.model.response.RawDefaultResponse
+
+interface CollectionService {
+
+    // 새로운 컬렉션 생성
+    @POST("collections")
+    suspend fun createCollection(
+        @Header("Authorization") accessToken: String,
+        @Body body: CreateCollectionRequest
+    ): RawDefaultResponse<CreateCollectionResponse>
+
+    // 사용자의 컬렉션 목록 조회
+    @GET("collections")
+    suspend fun getCollections(
+        @Header("Authorization") accessToken: String
+    ): RawDefaultResponse<CollectionListResponse>
+
+    // 특정 컬렉션의 상세 정보 및 북마크 조회
+    @GET("collections/{collectionId}")
+    suspend fun getCollectionDetailInfo(
+        @Header("Authorization") accessToken: String,
+        @Path("collectionId") collectionId: Int,
+    ): RawDefaultResponse<CollectionDetailData>
+
+    // 컬렉션을 친구에게 공유하기
+    @POST("collections/{collectionId}/share")
+    suspend fun shareCollection(
+        @Header("Authorization") accessToken: String,
+        @Path("collectionId") collectionId: Int,
+        @Body body: ShareCollectionRequest
+    ): RawDefaultResponse<MessageResponse>
+
+    // 컬렉션 수정
+    @PUT("collections/{collectionId}")
+    suspend fun modifyCollection(
+        @Header("Authorization") accessToken: String,
+        @Path("collectionId") collectionId: Int,
+        @Body body: ModifyCollectionRequest
+    ): RawDefaultResponse<MessageResponse>
+
+    // 컬렉션 삭제
+    @DELETE("collections/{collectionId}")
+    suspend fun deleteCollection(
+        @Header("Authorization") accessToken: String,
+        @Path("collectionId") collectionId: Int,
+    ): RawDefaultResponse<MessageResponse>
+}

@@ -20,7 +20,7 @@ import umc.onairmate.ui.chat_room.drawer.setting.RoomSettingSpAdapter
 import umc.onairmate.ui.chat_room.drawer.setting.maxParticipants
 
 class CreateRoomPopup (
-private val data : VideoData,
+private val data : VideoData?,
 private val createRoomCallback : CreateRoomCallback
 ): DialogFragment() {
     lateinit var binding: PopupCreateRoomBinding
@@ -70,7 +70,7 @@ private val createRoomCallback : CreateRoomCallback
                     roomName = binding.etInputRoomTitle.text.toString(),
                     maxParticipants = maxParticipants[maxParticipantPosition].toInt(),
                     isPrivate = isPrivate,
-                    videoId = data.videoId,
+                    videoId = data?.videoId ?: "",
                 )
 
                 createRoomCallback.onCreateRoom(roomData)
@@ -89,7 +89,7 @@ private val createRoomCallback : CreateRoomCallback
 
     // 방 정보 주입
     private fun initData(){
-        binding.tvVideoTitle.text = data.title
+        binding.tvVideoTitle.text = data?.title
 
         val maxParticipantsAdapter = RoomSettingSpAdapter(requireContext(), maxParticipants)
         binding.spMaximumParticipant.adapter = maxParticipantsAdapter

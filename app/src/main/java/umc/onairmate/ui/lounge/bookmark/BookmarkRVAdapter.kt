@@ -1,19 +1,13 @@
 package umc.onairmate.ui.lounge.bookmark
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
-import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import umc.onairmate.R
 import umc.onairmate.data.model.entity.BookmarkData
 import umc.onairmate.databinding.RvItemBookmarkBinding
 import umc.onairmate.databinding.RvItemBookmarkHeaderBinding
-import umc.onairmate.ui.util.NetworkImageLoader
 
 class BookmarkRVAdapter(
     private val bookmarkEventListener: BookmarkEventListener
@@ -41,52 +35,6 @@ class BookmarkRVAdapter(
         return when (getItem(position)) {
             is RecyclerItem.Header -> VIEW_TYPE_HEADER
             is RecyclerItem.Bookmark -> VIEW_TYPE_BOOKMARK
-        }
-    }
-
-    inner class BookmarkViewHolder(
-        private val binding: RvItemBookmarkBinding,
-        private val bookmarkEventListener: BookmarkEventListener
-    ) : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(bookmark: BookmarkData) {
-            Log.d("BookmarkRVAdapter", "아이템 만듦요~")
-            // 아이템 전체 클릭 리스너 - 방 생성해야함
-            binding.root.setOnClickListener { bookmarkEventListener.createRoomWithBookmark(bookmark) }
-
-            // 썸네일 이미지 로드
-            NetworkImageLoader.thumbnailLoad(binding.ivThumbnail, bookmark.videoThumbnail)
-
-            binding.tvVideoTitle.text = bookmark.videoTitle
-            // api에서 방 제목을 안넘겨주는 듯..???
-            binding.tvRoomTitle.text = bookmark.bookmarkId.toString()
-            binding.tvBookmarkTime.text = bookmark.message
-            if (bookmark.collectionTitle != null) {
-                binding.tvCollection.text = bookmark.collectionTitle
-                binding.tvCollection.visibility = View.VISIBLE
-            }
-
-            // 더보기 버튼 클릭 리스너
-            binding.btnMore.setOnClickListener { button ->
-                val popup = PopupMenu(button.context, button)
-                popup.menuInflater.inflate(R.menu.bookmark_popup_menu, popup.menu)
-                popup.setOnMenuItemClickListener { menuItem ->
-                    when (menuItem.itemId) {
-                        R.id.action_delete_bookmark -> {
-                            bookmarkEventListener.deleteBookmark(bookmark)
-                            Toast.makeText(button.context, "북마크 삭제 클릭됨", Toast.LENGTH_SHORT).show()
-                            true
-                        }
-                        R.id.action_move_collection -> {
-                            bookmarkEventListener.moveCollection(bookmark)
-                            Toast.makeText(button.context, "컬렉션 이동 클릭됨", Toast.LENGTH_SHORT).show()
-                            true
-                        }
-                        else -> false
-                    }
-                }
-                popup.show()
-            }
         }
     }
 
@@ -148,7 +96,6 @@ class BookmarkRVAdapter(
         allBookmarks: List<BookmarkData>
     ) {
         val itemList = mutableListOf<RecyclerItem>()
-        Log.d("BookmarkRVAdapter", "데이타 삽입요~ ${uncategorizedBookmarks}")
 
         if (uncategorizedBookmarks.isNotEmpty()) {
             itemList.add(RecyclerItem.Header(UNCATEGORIZED_BOOKMARK)) // 정리되지 않은 북마크 헤더

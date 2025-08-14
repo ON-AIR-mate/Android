@@ -17,15 +17,19 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFram
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
+import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.databinding.FragmentChatRoomBinding
 import umc.onairmate.ui.chat_room.message.VideoChatFragment
 import umc.onairmate.ui.home.HomeViewModel
+import umc.onairmate.ui.util.SharedPrefUtil
 
 @AndroidEntryPoint
 class ChatRoomFragment : Fragment() {
 
     lateinit var roomData: RoomData
     lateinit var binding: FragmentChatRoomBinding
+
+    val user = SharedPrefUtil.getData("user_info") ?: UserData()
 
     private val searchRoomViewModel: HomeViewModel by viewModels()
 
@@ -90,7 +94,11 @@ class ChatRoomFragment : Fragment() {
                 val playerUiController = DefaultPlayerUiController(playerView, youTubePlayer)
                 playerUiController.showFullscreenButton(true)
                 playerUiController.showVideoTitle(false)
-                playerUiController.showPlayPauseButton(true)
+                if (user.nickname == roomData.hostNickname) {
+                    playerUiController.showPlayPauseButton(true)
+                } else {
+                    playerUiController.showPlayPauseButton(false)
+                }
                 playerUiController.showYouTubeButton(false)
                 playerView.setCustomPlayerUi(playerUiController.rootView)
 

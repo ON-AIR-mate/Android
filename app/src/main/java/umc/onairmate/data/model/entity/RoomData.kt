@@ -23,7 +23,7 @@ data class RoomData(
     @SerializedName("currentParticipants")
     val currentParticipants : Int = 0,
     @SerializedName("maxParticipants")
-    val maxParticipants : Int = 0,
+    val maxParticipants : Int = 8,
     @SerializedName("duration")
     val duration : String = "",
     @SerializedName("isPrivate")

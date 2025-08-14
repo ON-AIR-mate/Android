@@ -2,6 +2,9 @@ package umc.onairmate.ui.util
 
 import java.time.Duration
 import java.time.Instant
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
 object TimeFormatter {
     fun formatRelativeTime(isoString: String): String {
@@ -26,6 +29,18 @@ object TimeFormatter {
             days in 1..7 -> "${days}일 전"
             days in 8..30 -> "${days / 7}주 전"
             else -> "오래 전"
+        }
+    }
+
+    // 컬렉션 생성/수정 날짜 데이터 포매팅 yyyy.MM.dd 형태
+    fun formatCollectionDate(isoString: String): String {
+        return try {
+            val inputFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
+            val date = LocalDate.parse(isoString, inputFormatter)
+            val outputFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+            outputFormatter.format(date)
+        } catch (e: DateTimeParseException) {
+            isoString
         }
     }
 }

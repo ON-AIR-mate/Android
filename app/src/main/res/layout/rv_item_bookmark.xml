@@ -11,15 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="12dp"
-        android:gravity="center_vertical">
+        android:padding="8dp"
+        android:gravity="top|center">
 
         <ImageView
             android:id="@+id/iv_thumbnail"
-            android:layout_width="100dp"
-            android:layout_height="70dp"
+            android:layout_width="135dp"
+            android:layout_height="76dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background" />
+            android:src="@drawable/img" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -54,33 +54,61 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="영상제목"
-                style="@style/TextAppearance.App.Medium.10sp"
-                android:textColor="@color/black"/>
+                android:textAppearance="@style/TextAppearance.App.Medium.10sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="bottom|center_vertical"
+                android:gravity="bottom|center"
                 android:layout_marginTop="8dp">
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/tv_bookmark_time"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="16:23 ~~~~"
                     android:layout_weight="1"
                     android:textAppearance="@style/TextAppearance.App.Regular.10sp"
-                    android:layout_marginRight="3dp"/>
+                    android:layout_marginRight="3dp"/>-->
 
+                <LinearLayout
+                    android:id="@+id/ll_bookmark_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="3dp" />
 
                 <ImageButton
                     android:id="@+id/btn_more"
                     android:layout_width="16dp"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_more_vert" />
+                    android:src="@drawable/ic_more" />
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_open_bookmarks"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/ic_dropdown"
+                android:layout_gravity="center"
+                android:visibility="visible"
+                android:layout_marginTop="5dp"
+                app:tint="@color/main" />
+
+            <ImageView
+                android:id="@+id/iv_close_bookmarks"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/ic_dropdown"
+                android:rotation="180"
+                android:layout_marginLeft="1dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="5dp"
+                app:tint="@color/main" />
 
         </LinearLayout>
 

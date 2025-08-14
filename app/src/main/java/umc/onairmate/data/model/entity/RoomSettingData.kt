@@ -6,19 +6,20 @@ data class RoomSettingData(
     @SerializedName("autoArchiving")
     val autoArchiving: Boolean = true,
     @SerializedName("invitePermission")
-    val invitePermission: String = InvitePermission.MANAGER_ONLY.label,
+    val invitePermission: String = InvitePermission.HOST.apiName,
     @SerializedName("isPrivate")
     val isPrivate: Boolean = false,
     @SerializedName("maxParticipants")
     val maxParticipants: Int = ParticipantPreset.EIGHT.count
 )
 
-enum class InvitePermission(val label: String) {
-    ALL("모두 허용"),
-    MANAGER_ONLY("방장만 허용");
+enum class InvitePermission(val apiName: String, val displayName: String) {
+    ALL("ALL","모두 허용"),
+    HOST("HOST","방장만 허용");
 
     companion object {
-        fun fromLabel(label: String): InvitePermission? = entries.find { it.label == label }
+        fun fromApiName(apiName: String): InvitePermission? = entries.find { it.apiName.equals(apiName, ignoreCase = true)}
+        fun fromDisplayName(displayName: String): InvitePermission? = entries.find {  it.displayName.equals(displayName, ignoreCase = true) }
     }
 }
 
@@ -28,6 +29,6 @@ enum class ParticipantPreset(val count: Int) {
     THIRTY(30);
 
     companion object {
-        fun fromCount(count: Int): ParticipantPreset? = entries.find { it.count == count }
+        fun fromCount(count: Int): ParticipantPreset? = entries.find { it.count.equals(count)}
     }
 }

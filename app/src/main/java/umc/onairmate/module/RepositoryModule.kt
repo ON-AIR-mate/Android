@@ -9,17 +9,20 @@ import umc.onairmate.data.api.AuthService
 import umc.onairmate.data.api.BookmarkService
 import umc.onairmate.data.api.FriendService
 import umc.onairmate.data.api.ChatRoomService
+import umc.onairmate.data.api.CollectionService
 import umc.onairmate.data.api.HomeService
 import umc.onairmate.data.api.JoinService
 import umc.onairmate.data.repository.repository.BookmarkRepository
 import umc.onairmate.data.repository.repository.FriendRepository
 import umc.onairmate.data.repository.repository.ChatRoomRepository
+import umc.onairmate.data.repository.repository.CollectionRepository
 import umc.onairmate.data.repository.repository.HomeRepository
 import umc.onairmate.data.repository.repository.JoinRepository
 import umc.onairmate.data.repository.repository.AuthRepository
 import umc.onairmate.data.repository.repositoryImpl.BookmarkRepositoryImpl
 import umc.onairmate.data.repository.repositoryImpl.FriendRepositoryImpl
 import umc.onairmate.data.repository.repositoryImpl.ChatRoomRepositoryImpl
+import umc.onairmate.data.repository.repositoryImpl.CollectionRepositoryImpl
 import umc.onairmate.data.repository.repositoryImpl.HomeRepositoryImpl
 import umc.onairmate.data.repository.repositoryImpl.JoinRepositoryImpl
 import umc.onairmate.data.repository.repositoryImpl.AuthRepositoryImpl
@@ -57,6 +60,12 @@ object RepositoryModule {
     fun providesBookmarkRepository(
         bookmarkService: BookmarkService
     ) : BookmarkRepository = BookmarkRepositoryImpl(bookmarkService)
+
+    @ViewModelScoped
+    @Provides
+    fun providesCollectionRepository(
+        collectionService: CollectionService
+    ) : CollectionRepository = CollectionRepositoryImpl(collectionService)
 
     @Module
     @InstallIn(ViewModelComponent::class)
