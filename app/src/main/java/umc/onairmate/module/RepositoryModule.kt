@@ -14,6 +14,7 @@ import umc.onairmate.data.api.HomeService
 import umc.onairmate.data.api.JoinService
 import umc.onairmate.data.repository.repository.BookmarkRepository
 import umc.onairmate.data.api.NicknameService
+import umc.onairmate.data.repository.NicknameRepository
 import umc.onairmate.data.repository.repository.FriendRepository
 import umc.onairmate.data.repository.repository.ChatRoomRepository
 import umc.onairmate.data.repository.repository.CollectionRepository
@@ -27,6 +28,7 @@ import umc.onairmate.data.repository.repositoryImpl.CollectionRepositoryImpl
 import umc.onairmate.data.repository.repositoryImpl.HomeRepositoryImpl
 import umc.onairmate.data.repository.repositoryImpl.JoinRepositoryImpl
 import umc.onairmate.data.repository.repositoryImpl.AuthRepositoryImpl
+import umc.onairmate.data.repository.repositoryImpl.NicknameRepositoryImpl
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -67,11 +69,17 @@ object RepositoryModule {
     fun providesCollectionRepository(
         collectionService: CollectionService
     ) : CollectionRepository = CollectionRepositoryImpl(collectionService)
-            joinService: JoinService
-        ): JoinRepository {
-            return JoinRepositoryImpl(joinService)
-        }
-        fun provideJoinRepository(
-        @ViewModelScoped
-        @Provides
+
+    @ViewModelScoped
+    @Provides
+    fun provideJoinRepository(
+    joinService: JoinService
+    ): JoinRepository = JoinRepositoryImpl(joinService)
+
+    @ViewModelScoped
+    @Provides
+    fun provideNicknameRepository(
+        nicknameService: NicknameService
+    ): NicknameRepository = NicknameRepositoryImpl(nicknameService)
+
 }
