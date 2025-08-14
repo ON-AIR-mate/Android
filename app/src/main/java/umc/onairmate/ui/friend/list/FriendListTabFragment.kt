@@ -115,10 +115,10 @@ class FriendListTabFragment() : Fragment() {
         adapter.setItemClickListener(object: FriendItemClickListener{
             override fun clickMessage(data: FriendData) {
                 viewModel.getDmHistory(data.userId)
-                val bundle = Bundle().apply {
-                    putParcelable("friendData", data)
-                }
-                parentFragmentManager.setFragmentResult("open_friend_chat_activity", bundle)
+//                val bundle = Bundle().apply {
+//                    putParcelable("friendData", data)
+//                }
+//                parentFragmentManager.setFragmentResult("open_friend_chat_activity", bundle)
             }
 
             override fun acceptRequest(data: RequestedFriendData) {

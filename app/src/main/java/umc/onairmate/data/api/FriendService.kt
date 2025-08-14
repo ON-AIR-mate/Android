@@ -8,6 +8,7 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
+import umc.onairmate.data.model.entity.DirectMessageData
 import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.data.model.entity.RequestedFriendData
 import umc.onairmate.data.model.entity.UserData
@@ -64,5 +65,5 @@ interface FriendService {
     suspend fun getDmHistory(
         @Header("Authorization") accessToken: String,
         @Path("friendId") friendId: Int
-    ): RawDefaultResponse<List<String>>
+    ): RawDefaultResponse<List<DirectMessageData>>
 }

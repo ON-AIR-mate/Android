@@ -1,6 +1,7 @@
 package umc.onairmate.data.repository.repositoryImpl
 
 import umc.onairmate.data.api.FriendService
+import umc.onairmate.data.model.entity.DirectMessageData
 import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.data.model.entity.RequestedFriendData
 import umc.onairmate.data.model.entity.UserData
@@ -65,7 +66,7 @@ class FriendRepositoryImpl @Inject constructor(
     override suspend fun getDmHistory(
         accessToken: String,
         friendId: Int
-    ): DefaultResponse<List<String>> {
+    ): DefaultResponse<List<DirectMessageData>> {
         return safeApiCall { api.getDmHistory(accessToken, friendId) }
     }
 }

@@ -102,7 +102,7 @@ class FriendChatFragment: Fragment() {
                 profileImage = profile,
                 content= data.content,
                 messageType =  data.messageType,
-                timestamp = data.createdAt)
+                timestamp = data.timestamp)
             adapter.addGeneralChat(chat)
         }
     }
