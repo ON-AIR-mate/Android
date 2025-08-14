@@ -18,6 +18,7 @@ object SocketDispatcher {
         handler.getEventMap().forEach { (eventName, callback) ->
             socket.off(eventName) // 먼저 기존 리스너 제거 (중복 방지)
             socket.on(eventName) { args ->
+                Log.d("SocketDispatcher", "${eventName}")
                 if (args.isNotEmpty() && args[0] is JSONObject) {
                     try {
                         callback(args[0] as JSONObject)

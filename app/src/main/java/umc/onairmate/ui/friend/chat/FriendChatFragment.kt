@@ -99,7 +99,7 @@ class FriendChatFragment: Fragment() {
                 messageId = 0,
                 userId= data.senderId,
                 nickname = name,
-                profileImage = profile,
+                profileImage = profile?:"",
                 content= data.content,
                 messageType =  data.messageType,
                 timestamp = data.timestamp)
