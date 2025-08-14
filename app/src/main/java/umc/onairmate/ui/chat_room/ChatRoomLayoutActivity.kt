@@ -48,6 +48,7 @@ class ChatRoomLayoutActivity : AppCompatActivity() {
         SocketManager.getSocketOrNull()?.let { socket ->
             if (socket.connected()) {
                 SocketDispatcher.unregisterHandler(socket, videoChatViewModel.getHandler())
+                SocketDispatcher.unregisterHandler(socket, chatRoomViewModel.getHandler())
             }
         }
     }
@@ -57,6 +58,7 @@ class ChatRoomLayoutActivity : AppCompatActivity() {
         val socket = SocketManager.getSocketOrNull()
         if (socket?.connected() == true) {
             SocketDispatcher.registerHandler(socket, videoChatViewModel.getHandler())
+            SocketDispatcher.registerHandler(socket, chatRoomViewModel.getHandler())
         }
 
     }
