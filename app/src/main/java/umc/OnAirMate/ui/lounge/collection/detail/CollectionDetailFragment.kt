@@ -70,7 +70,6 @@ class CollectionDetailFragment : Fragment() {
             adapter = CollectionDetailRVAdapter(
                 object : CollectionDetailEventListener {
                     override fun onVisibilitySelected(selectedVisibility: String) {
-                        Log.d("detail", "여기다 visibility")
                         collectionViewModel.modifyCollection(
                             collectionId,
                             request = ModifyCollectionRequest(
@@ -84,7 +83,6 @@ class CollectionDetailFragment : Fragment() {
                         showCollectionEditTitlePopup(data)
                     }
                     override fun onDescriptionModified(input: String) {
-                        Log.d("detail", "여기다 description")
                         collectionViewModel.modifyCollection(
                             collectionId,
                             request = ModifyCollectionRequest(

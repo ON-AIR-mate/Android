@@ -1,8 +1,8 @@
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     card_view:cardCornerRadius="18dp"
     card_view:cardElevation="0dp"
     android:layout_marginVertical="8dp">
@@ -51,7 +51,7 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:layout_weight="1"
-                        android:text="웃긴 장면"
+                        tools:text="웃긴 장면"
                         android:textAppearance="@style/TextAppearance.App.SemiBold.20sp" />
 
                     <TextView
@@ -62,7 +62,7 @@
                         android:background="@drawable/bg_count_badge"
                         android:paddingHorizontal="6dp"
                         android:paddingVertical="2dp"
-                        android:text="45"
+                        tools:text="45"
                         android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
                         android:textColor="@android:color/white" />
 
@@ -74,7 +74,7 @@
                         android:background="@drawable/bg_button_outline_pink"
                         android:paddingHorizontal="6dp"
                         android:paddingVertical="2dp"
-                        android:text="제목 수정"
+                        android:text="@string/edit_title"
                         android:textAppearance="@style/TextAppearance.App.Medium.12sp"
                         android:textColor="@color/black" />
 
@@ -94,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="생성일 : 2025.03.24"
+                    tools:text="생성일 : 2025.03.24"
                     android:textAppearance="@style/TextAppearance.App.Regular.10sp"
                     android:textColor="@color/text4" />
 
@@ -103,12 +103,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.App.Regular.12sp"
-                    android:hint="나의 컬렉션을 소개해주세요! (100자 이내)"
+                    android:hint="@string/collection_description_hint"
                     android:maxLength="100"
                     android:textColorHint="@color/black"
                     android:background="@drawable/background_input_text"
                     android:paddingVertical="5dp"
-                    android:paddingStart="5dp"
+                    android:paddingHorizontal="5dp"
                     android:layout_marginTop="7dp"/>
 
 

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_marginVertical="5dp"
     android:gravity="center">
@@ -24,7 +25,7 @@
         android:background="@drawable/bg_count_badge"
         android:paddingHorizontal="6dp"
         android:paddingVertical="2dp"
-        android:text="14"
+        tools:text="14"
         android:textColor="@android:color/white"
         android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
         android:clickable="true"
@@ -34,7 +35,7 @@
         android:id="@+id/tv_collection_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="웃긴 장면"
+        tools:text="웃긴 장면"
         android:layout_weight="1"
         android:layout_marginStart="4dp"
         android:textAppearance="@style/TextAppearance.App.SemiBold.16sp" />

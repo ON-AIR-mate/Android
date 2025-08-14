@@ -5,6 +5,9 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
@@ -16,6 +19,8 @@ class CollectionEditTitleDialog (
 ): DialogFragment() {
     lateinit var binding: DialogEditTitleBinding
 
+    var textLength: Int = 0
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = DialogEditTitleBinding.inflate(layoutInflater)
         val builder = AlertDialog.Builder(requireContext())
@@ -24,6 +29,7 @@ class CollectionEditTitleDialog (
 
         binding.etTitle.setText(title)
         setOnClickListener()
+        setTextListener()
 
         // 뒤로가기 가능
         setCancelable(true)
@@ -42,14 +48,29 @@ class CollectionEditTitleDialog (
         return dialog
     }
 
+    private fun setTextListener(){
+        binding.etTitle.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                textLength = s?.length ?: 0
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+    }
+
     private fun setOnClickListener() {
         binding.ivClose.setOnClickListener {
             dismiss()
         }
         binding.btnChangeTitle.setOnClickListener {
             val input = binding.etTitle.text.toString()
-            popupClick(input)
-            dismiss()
+
+            if (input.length in 3..20) {
+                popupClick(input)
+                dismiss()
+            } else {
+                binding.tvTitleLengthErrorMsg.visibility = View.VISIBLE
+            }
         }
     }
 }

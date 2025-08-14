@@ -35,7 +35,7 @@ class CollectionListFragment : Fragment() {
     private val collectionViewModel: CollectionViewModel by viewModels()
     private val friendViewModel: FriendViewModel by viewModels()
 
-    val user = SharedPrefUtil.getData("user_info") ?: UserData()
+    private val user: UserData = SharedPrefUtil.getData("user_info") ?: UserData()
 
     override fun onCreateView(
         inflater: LayoutInflater,

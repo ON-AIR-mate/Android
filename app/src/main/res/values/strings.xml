@@ -34,5 +34,10 @@
     <string name="menu_slideshow">Slideshow</string>
 
     <string name="bookmark_count_badge">4</string>
+    <string name="edit_title">제목 수정</string>
+    <string name="collection_description_hint">나의 컬렉션을 소개해주세요! (100자 이내)</string>
+    <string name="video_search_hint">영상 제목을 검색해 보세요</string>
+    <string name="collection_title_hint">컬렉션 제목을 입력하세요. (3~20자)</string>
+    <string name="collection_title_length_error">컬렉션 제목은 3자 이상 20자 이하로 입력해야 해요.</string>
 
 </resources>

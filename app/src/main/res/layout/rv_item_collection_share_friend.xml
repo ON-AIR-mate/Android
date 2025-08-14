@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:paddingVertical="6dp"
     android:paddingHorizontal="8dp">
 
@@ -19,7 +20,7 @@
         android:id="@+id/tv_user_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="닉네임"
+        tools:text="닉네임"
         android:textAppearance="@style/TextAppearance.App.Regular.14sp"
         android:layout_marginStart="8dp"
         app:layout_constraintStart_toEndOf="@id/iv_profile"
