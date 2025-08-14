@@ -58,28 +58,28 @@ class ProfileFragment : Fragment() {
         // 다른 버튼들에 대한 clickListener도 동일하게 설정
 
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            userViewModel.deleteState.collect { s ->
-                when (s) {
-                    UiState.Loading -> showLoading()
-                    is UiState.Success -> { hideLoading(); toast(s.msg); refreshListAfterDelete() }
-                    is UiState.Error -> { hideLoading(); toast(s.msg) }
-                    else -> Unit
-                }
-            }
-        }
-
-        override fun onDeleteClick(roomId: Long) {
-            AlertDialog.Builder(requireContext())
-                .setMessage("참여한 방 기록을 삭제할까요?")
-                .setPositiveButton("삭제") { _, _ -> userViewModel.deleteParticipated(roomId) }
-                .setNegativeButton("취소", null)
-                .show()
-        }
-
-        private fun refreshListAfterDelete() {
-            // 서버/로컬 리스트 갱신 로직 (재호출 or 로컬 제거) 프로젝트 방식대로
-        }
+//        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+//            userViewModel.deleteState.collect { s ->
+//                when (s) {
+//                    UiState.Loading -> showLoading()
+//                    is UiState.Success -> { hideLoading(); toast(s.msg); refreshListAfterDelete() }
+//                    is UiState.Error -> { hideLoading(); toast(s.msg) }
+//                    else -> Unit
+//                }
+//            }
+//        }
+//
+//        override fun onDeleteClick(roomId: Long) {
+//            AlertDialog.Builder(requireContext())
+//                .setMessage("참여한 방 기록을 삭제할까요?")
+//                .setPositiveButton("삭제") { _, _ -> userViewModel.deleteParticipated(roomId) }
+//                .setNegativeButton("취소", null)
+//                .show()
+//        }
+//
+//        private fun refreshListAfterDelete() {
+//            // 서버/로컬 리스트 갱신 로직 (재호출 or 로컬 제거) 프로젝트 방식대로
+//        }
 
     }
 
