@@ -61,7 +61,6 @@ class ChatRoomFragment : Fragment() {
         initScreen()
         onClickSetting()
         onClickLeaveRoom()
-        initChat()
         onEventListener()
         setObserver()
 
@@ -184,16 +183,10 @@ class ChatRoomFragment : Fragment() {
         playerView.initialize(listener, options)
     }
 
-    // 채팅창에 번들 전달
-    private fun initChat() {
-        val bundle = Bundle()
-        bundle.putParcelable("room_data", roomData)
-        setFragmentResult("room_data", bundle)
-
-    }
 
     private fun onEventListener() {
         chatRoomViewModel.videoSyncDataInfo.observe(viewLifecycleOwner) { data ->
+            Log.d("PlayerObserver", "sync: $data")
             if (user.nickname != roomData.hostNickname) {
                 player?.seekTo(data.currentTime)
                 if (data.status == "playing") player?.play()
@@ -201,6 +194,8 @@ class ChatRoomFragment : Fragment() {
             }
         }
         chatRoomViewModel.videoPlayDataInfo.observe(viewLifecycleOwner) { data ->
+            Log.d("PlayerObserver", "play: $data")
+
             if (user.nickname != roomData.hostNickname) {
                 val elapsed = (System.currentTimeMillis() - data.updatedAt) / 1000.0
                 player?.seekTo(((data.currentTime + elapsed) * 1000).toFloat())
@@ -208,6 +203,8 @@ class ChatRoomFragment : Fragment() {
             }
         }
         chatRoomViewModel.videoPauseData.observe(viewLifecycleOwner) { data ->
+            Log.d("PlayerObserver", "pause: $data")
+
             if (user.nickname != roomData.hostNickname) {
                 player?.seekTo(data.currentTime)
                 player?.pause()
