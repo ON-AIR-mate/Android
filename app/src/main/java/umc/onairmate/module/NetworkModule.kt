@@ -14,7 +14,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import umc.onairmate.OnAirMateApplication
 import umc.onairmate.R
 import umc.onairmate.BuildConfig
-import umc.onairmate.data.api.JoinService
 import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -35,7 +34,7 @@ object NetworkModule {
     fun provideOKHttpClient(): OkHttpClient {
         val interceptor = HttpLoggingInterceptor().apply {
             level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
-                    else  HttpLoggingInterceptor.Level.NONE
+            else  HttpLoggingInterceptor.Level.NONE
         }
 
         val closeInterceptor = Interceptor { chain ->
@@ -54,4 +53,20 @@ object NetworkModule {
             .build()
     }
 
+    @Provides
+    @Singleton
+    @BaseRetrofit
+    fun provideRetrofit(
+        @BaseRetrofit okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .client(okHttpClient)
+            .baseUrl(OnAirMateApplication.getString(R.string.base_url))
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    private inline fun <reified T> Retrofit.buildService(): T{
+        return this.create(T::class.java)
+    }
 }
