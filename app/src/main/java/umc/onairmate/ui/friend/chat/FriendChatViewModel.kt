@@ -26,8 +26,8 @@ class FriendChatViewModel @Inject constructor(
     private val TAG = javaClass.simpleName
     private val spf = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
-    private val _generalChat = MutableLiveData<DirectMessageData>()
-    val generalChat: LiveData<DirectMessageData> get() = _generalChat
+    private val _directMessage = MutableLiveData<DirectMessageData>()
+    val directMessage: LiveData<DirectMessageData> get() = _directMessage
 
     private val handler: FriendHandler = FriendHandler(this)
 
@@ -42,7 +42,7 @@ class FriendChatViewModel @Inject constructor(
     override fun onNewDirectMessage(directMessage: DirectMessageData) {
         viewModelScope.launch(Dispatchers.Main) {
             Log.d(TAG,"onNewDirectMessage : ${directMessage}")
-            _generalChat.postValue(directMessage)
+            _directMessage.postValue(directMessage)
 
         }
     }

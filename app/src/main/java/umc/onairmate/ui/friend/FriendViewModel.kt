@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
+import umc.onairmate.data.model.entity.DirectMessageData
 import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.data.model.entity.RequestedFriendData
 import umc.onairmate.data.model.entity.UserData
@@ -36,6 +37,9 @@ class FriendViewModel @Inject constructor(
 
     private val _searchedUserList =  MutableLiveData<List<UserData>>()
     val searchedUserList : LiveData<List<UserData>> get() = _searchedUserList
+
+    private val _dmHistory = MutableLiveData<List<DirectMessageData>>()
+    val dmHistory: LiveData<List<DirectMessageData>> get() = _dmHistory
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -255,9 +259,11 @@ class FriendViewModel @Inject constructor(
             when (result) {
                 is DefaultResponse.Success -> {
                     Log.d(TAG,"응답 성공 : ${result.data}")
+                    _dmHistory.value = result.data
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
+                    _dmHistory.value = emptyList()
                 }
             }
             _isLoading.value = false

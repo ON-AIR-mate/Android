@@ -14,5 +14,9 @@ data class DirectMessageData (
     @SerializedName("messageType")
     val messageType : String,
     @SerializedName("timestamp")
-    val timestamp: String
+    val timestamp: String,
+    @SerializedName("collection")
+    val collection : CollectionData?,
+    @SerializedName("room")
+    val room : RoomData?
 )
