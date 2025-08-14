@@ -13,22 +13,30 @@ import umc.onairmate.R
  */
 object NetworkImageLoader {
     // 사용법: NetworkImageLoader.thumbnailLoad(이미지뷰, url)
-    fun thumbnailLoad(imageView: ImageView, url: String) {
-        imageView.load(url) {
-            // 로딩중 이미지
-            placeholder(R.drawable.img_loading)
-            // 로딩 실패시 이미지
-            error(R.drawable.img_fail)
+    fun thumbnailLoad(imageView: ImageView, url: String?) {
+        if (url.isNullOrBlank()) {
+            imageView.setImageResource(R.drawable.img)
+        } else {
+            imageView.load(url) {
+                // 로딩중 이미지
+                placeholder(R.drawable.img_loading)
+                // 로딩 실패시 이미지
+                error(R.drawable.img_fail)
+            }
         }
     }
 
     // 사용법: NetworkImageLoader.profileLoad(이미지뷰, url)
-    fun profileLoad(imageView: ImageView, url: String) {
-        imageView.load(url) {
-            // 로딩중 이미지
-            placeholder(R.drawable.ic_empty_profile)
-            // 로딩 실패시 이미지
-            error(R.drawable.ic_empty_profile)
+    fun profileLoad(imageView: ImageView, url: String?) {
+        if (url.isNullOrBlank()) {
+            imageView.setImageResource(R.drawable.ic_empty_profile)
+        } else {
+            imageView.load(url) {
+                // 로딩중 이미지
+                placeholder(R.drawable.ic_empty_profile)
+                // 로딩 실패시 이미지
+                error(R.drawable.ic_empty_profile)
+            }
         }
     }
 }

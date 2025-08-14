@@ -5,12 +5,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import umc.onairmate.data.api.AuthService
 import umc.onairmate.data.api.BookmarkService
 import umc.onairmate.data.api.ChatRoomService
+import umc.onairmate.data.api.CollectionService
 import umc.onairmate.data.api.FriendService
 import umc.onairmate.data.api.HomeService
 import umc.onairmate.data.api.NicknameService
-import umc.onairmate.data.api.TestService
 import javax.inject.Singleton
 
 
@@ -31,7 +32,7 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun testApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): TestService {
+    fun authApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): AuthService {
         return retrofit.buildService()
     }
 
@@ -49,6 +50,12 @@ object ServiceModule {
     @Provides
     @Singleton
     fun bookmarkApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): BookmarkService{
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun collectionApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): CollectionService{
         return retrofit.buildService()
     }
 

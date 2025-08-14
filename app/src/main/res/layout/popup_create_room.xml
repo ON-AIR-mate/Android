@@ -90,9 +90,12 @@
 
             <Spinner
                 android:id="@+id/sp_maximum_participant"
-                android:layout_width="130dp"
-                android:layout_height="40dp"
-                android:textAlignment="viewEnd"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_spinner_visibility"
+                android:dropDownWidth="wrap_content"
+                android:popupBackground="@color/white"
+                android:spinnerMode="dropdown"/>
 
         </LinearLayout>
 

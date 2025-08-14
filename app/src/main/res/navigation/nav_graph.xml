@@ -3,36 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragment_container">
+    app:startDestination="@id/loginFragment"> <!-- startDestination 수정 -->
 
     <fragment
-        android:id="@+id/collectionListFragment"
-        android:name="umc.onairmate.ui.lounge.CollectionListFragment"
-        android:label="컬렉션 목록"
-        tools:layout="@layout/fragment_collection_list">
+        android:id="@+id/loginFragment"
+        android:name="umc.onairmate.ui.login.LoginFragment"
+        android:label="loginFragment"
+        tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/action_collectionListFragment_to_collectionDetailFragment"
-            app:destination="@id/collectionDetailFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/collectionDetailFragment"
-        android:name="umc.onairmate.ui.lounge.CollectionDetailFragment"
-        tools:layout="@layout/fragment_collection_detail">
-
-        <argument
-            android:name="collectionData"
-            app:argType="umc.onairmate.data.model.entity.CollectionData" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/HowToUseFragment"
-        android:name="umc.onairmate.ui.join.HowToUseFragment">
-
-        <action
-            android:id="@+id/action_howToUseFragment_to_loginActivity"
-            app:destination="@id/fragment_container"/>
-
+            android:id="@+id/action_loginFragment_to_joinFragment"
+            app:destination="@id/joinFragment" />
     </fragment>
 
     <fragment
@@ -40,28 +20,52 @@
         android:name="umc.onairmate.ui.join.JoinFragment" >
 
         <action
+            android:id="@+id/action_joinFragment_to_joinDetailFragment"
+            app:destination="@id/joinDetailFragment" />
+        <action
             android:id="@+id/action_joinFragment_to_joinProfileFragment"
             app:destination="@id/joinProfileFragment" />
+        <action
+            android:id="@+id/action_back_to_loginFragment"
+            app:destination="@id/loginFragment"/>
     </fragment>
 
     <fragment
         android:id="@+id/joinProfileFragment"
         android:name="umc.onairmate.ui.join.JoinProfileFragment"
         android:label="JoinProfileFragment"
-        tools:layout="@layout/fragment_join_profile" />
-
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="umc.onairmate.ui.profile.ProfileFragment"
-        tools:layout="@layout/fragment_profile">
+        tools:layout="@layout/fragment_join_profile" >
         <action
-            android:id="@+id/action_profileFragment_to_blockListFragment"
-            app:destination="@id/blockListFragment" />
+            android:id="@+id/action_joinProfileFragment_to_howToUseFragment"
+            app:destination="@id/howToUseFragment"/>
+        <action
+            android:id="@+id/action_back_to_loginFragment"
+            app:destination="@id/loginFragment"/>
     </fragment>
 
     <fragment
-        android:id="@+id/blockListFragment"
-        android:name="umc.onairmate.ui.profile.BlockListFragment"
-        tools:layout="@layout/fragment_block_list" />
+        android:id="@+id/joinDetailFragment"
+        android:name="umc.onairmate.ui.join.JoinDetailFragment"
+        android:label="JoinDetailFragment"
+        tools:layout="@layout/fragment_join_detail">
+        <action
+            android:id="@+id/action_joinDetailFragment_to_joinFragment"
+            app:destination="@id/joinFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/howToUseFragment"
+        android:name="umc.onairmate.ui.join.HowToUseFragment"
+        android:label="HowToUseFragment"
+        tools:layout="@layout/fragment_how_to_use">
+        <action
+            android:id="@+id/action_back_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="false" />
+
+    </fragment>
+
+
 
 </navigation>
