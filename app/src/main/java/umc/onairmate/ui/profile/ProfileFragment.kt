@@ -13,6 +13,7 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.databinding.FragmentProfileBinding
@@ -24,7 +25,8 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private var nickname = ""
-
+    private val userViewModel: UserViewModel by viewModels()
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,6 +56,31 @@ class ProfileFragment : Fragment() {
         binding.tvNicknameValue.text = nickname
 
         // 다른 버튼들에 대한 clickListener도 동일하게 설정
+
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            userViewModel.deleteState.collect { s ->
+                when (s) {
+                    UiState.Loading -> showLoading()
+                    is UiState.Success -> { hideLoading(); toast(s.msg); refreshListAfterDelete() }
+                    is UiState.Error -> { hideLoading(); toast(s.msg) }
+                    else -> Unit
+                }
+            }
+        }
+
+        override fun onDeleteClick(roomId: Long) {
+            AlertDialog.Builder(requireContext())
+                .setMessage("참여한 방 기록을 삭제할까요?")
+                .setPositiveButton("삭제") { _, _ -> userViewModel.deleteParticipated(roomId) }
+                .setNegativeButton("취소", null)
+                .show()
+        }
+
+        private fun refreshListAfterDelete() {
+            // 서버/로컬 리스트 갱신 로직 (재호출 or 로컬 제거) 프로젝트 방식대로
+        }
+
     }
 
     override fun onDestroyView() {

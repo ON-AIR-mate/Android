@@ -56,16 +56,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    @BaseRetrofit
-    fun provideRetrofit(
-        @BaseRetrofit okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
-            .client(okHttpClient)
-            .baseUrl(OnAirMateApplication.getString(R.string.base_url))
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
+
 
     private inline fun <reified T> Retrofit.buildService(): T{
         return this.create(T::class.java)
