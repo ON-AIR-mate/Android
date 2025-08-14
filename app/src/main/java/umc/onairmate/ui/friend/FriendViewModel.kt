@@ -13,6 +13,7 @@ import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.data.model.entity.RequestedFriendData
 import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.data.model.request.AcceptFriendBody
+import umc.onairmate.data.model.request.FriendInviteRequest
 import umc.onairmate.data.model.request.FriendRequest
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.repository.repository.FriendRepository
@@ -215,7 +216,7 @@ class FriendViewModel @Inject constructor(
         }
     }
 
-    fun inviteFriend(userId: Int) {
+    fun inviteFriend(userId: Int, body: FriendInviteRequest) {
         viewModelScope.launch {
             _isLoading.value = true
             val token = getToken()
@@ -224,7 +225,7 @@ class FriendViewModel @Inject constructor(
                 _isLoading.value = false
                 return@launch
             }
-            val result = repository.inviteFriend(token,userId)
+            val result = repository.inviteFriend(token,userId, body)
             Log.d(TAG, "inviteFriend api 호출")
             when (result) {
                 is DefaultResponse.Success -> {

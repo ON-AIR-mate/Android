@@ -5,6 +5,7 @@ import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.data.model.entity.RequestedFriendData
 import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.data.model.request.AcceptFriendBody
+import umc.onairmate.data.model.request.FriendInviteRequest
 import umc.onairmate.data.model.request.FriendRequest
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.model.response.MessageResponse
@@ -54,8 +55,9 @@ class FriendRepositoryImpl @Inject constructor(
 
     override suspend fun inviteFriend(
         accessToken: String,
-        friendId: Int
+        friendId: Int,
+        body: FriendInviteRequest
     ): DefaultResponse<MessageResponse> {
-        return safeApiCall { api.inviteFriend(accessToken, friendId) }
+        return safeApiCall { api.inviteFriend(accessToken, friendId, body) }
     }
 }
