@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import umc.onairmate.data.model.entity.FriendData
@@ -51,6 +52,7 @@ class CollectionShareDialog(
     fun initAdapter() {
         adapter = CollectionShareRVAdapter(friendList, { data ->
             sendCollectionCallback(data)
+            Toast.makeText(context, "${data.nickname}님에게 컬렉션을 공유했습니다.", Toast.LENGTH_SHORT).show()
         })
 
         binding.rvFriendList.layoutManager = LinearLayoutManager(requireContext())
