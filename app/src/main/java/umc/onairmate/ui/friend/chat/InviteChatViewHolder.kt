@@ -1,7 +1,6 @@
 package umc.onairmate.ui.friend.chat
 
 import android.view.Gravity
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.databinding.RvItemInviteChatBinding
@@ -13,14 +12,16 @@ class InviteChatViewHolder(
 ) : RecyclerView.ViewHolder(binding.root){
     fun bind(data : RoomData ,  isMyMessage : Boolean){
         // 크기 제한
-        val parentWidth = (itemView.parent as View).width
-        val targetWidth = (parentWidth * 0.6f).toInt()
-        binding.container.layoutParams.width = targetWidth
+        val dm = itemView.context.resources.displayMetrics
+        val targetWidth = (dm.widthPixels * 0.6f).toInt()
+
+        val params = binding.container.layoutParams
+        params.width = targetWidth
+        binding.container.layoutParams = params
 
 
         // 내가 보낸 메시지
         binding.root.gravity = if(isMyMessage) Gravity.END else Gravity.START
-
         binding.tvRoomName.text = data.roomTitle
         binding.tvRoomUserNum.text = "${data.currentParticipants} / ${data.maxParticipants}"
         binding.tvPlayTime.text = data.duration

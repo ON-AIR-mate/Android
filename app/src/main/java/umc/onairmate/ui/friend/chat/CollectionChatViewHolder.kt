@@ -19,9 +19,12 @@ class CollectionChatViewHolder(
 ) : RecyclerView.ViewHolder(binding.root){
     fun bind(collection: CollectionData,  isMyMessage : Boolean){
         // 크기 제한
-        val parentWidth = (itemView.parent as View).width
-        val targetWidth = (parentWidth * 0.6f).toInt()
-        binding.container.layoutParams.width = targetWidth
+        val dm = itemView.context.resources.displayMetrics
+        val targetWidth = (dm.widthPixels * 0.6f).toInt()
+
+        val params = binding.container.layoutParams
+        params.width = targetWidth
+        binding.container.layoutParams = params
 
         // 내가 보낸 메시지
         binding.root.gravity = if(isMyMessage) Gravity.END else Gravity.START
