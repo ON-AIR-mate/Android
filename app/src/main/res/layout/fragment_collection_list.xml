@@ -7,6 +7,8 @@
     android:paddingHorizontal="16dp"
     tools:context=".ui.lounge.LoungeFragment">
 
+
+
     <!-- 새 컬렉션 생성 버튼 -->
     <LinearLayout
         android:id="@+id/ll_create_collection"

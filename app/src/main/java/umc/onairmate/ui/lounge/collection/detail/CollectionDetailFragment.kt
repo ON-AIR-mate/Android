@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.BookmarkData
@@ -61,6 +62,11 @@ class CollectionDetailFragment : Fragment() {
     }
 
     private fun setupObserver() {
+
+        collectionViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+           // binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        })
+
         collectionViewModel.collectionDetailDataInfo.observe(viewLifecycleOwner) { data ->
             if (data == null) {
                 Toast.makeText(context, "오류가 발생했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()

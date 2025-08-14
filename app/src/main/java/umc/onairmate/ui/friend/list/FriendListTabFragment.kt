@@ -108,6 +108,10 @@ class FriendListTabFragment() : Fragment() {
             Toast.makeText(requireContext(),message, Toast.LENGTH_SHORT).show()
             viewModel.clearResult()
         })
+
+        viewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
     }
 
     private fun setAdapter(){
