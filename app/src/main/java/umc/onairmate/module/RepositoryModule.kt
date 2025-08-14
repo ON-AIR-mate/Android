@@ -13,6 +13,8 @@ import umc.onairmate.data.api.CollectionService
 import umc.onairmate.data.api.HomeService
 import umc.onairmate.data.api.JoinService
 import umc.onairmate.data.repository.repository.BookmarkRepository
+import umc.onairmate.data.api.NicknameService
+import umc.onairmate.data.repository.NicknameRepository
 import umc.onairmate.data.repository.repository.FriendRepository
 import umc.onairmate.data.repository.repository.ChatRoomRepository
 import umc.onairmate.data.repository.repository.CollectionRepository
@@ -26,6 +28,7 @@ import umc.onairmate.data.repository.repositoryImpl.CollectionRepositoryImpl
 import umc.onairmate.data.repository.repositoryImpl.HomeRepositoryImpl
 import umc.onairmate.data.repository.repositoryImpl.JoinRepositoryImpl
 import umc.onairmate.data.repository.repositoryImpl.AuthRepositoryImpl
+import umc.onairmate.data.repository.repositoryImpl.NicknameRepositoryImpl
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -35,7 +38,7 @@ object RepositoryModule {
     @Provides
     fun providesHomeRepository(
         homeService: HomeService
-    ) : HomeRepository = HomeRepositoryImpl(homeService)
+    ): HomeRepository = HomeRepositoryImpl(homeService)
 
     @ViewModelScoped
     @Provides
@@ -47,13 +50,13 @@ object RepositoryModule {
     @Provides
     fun providesFriendRepository(
         friendService: FriendService
-    ) : FriendRepository = FriendRepositoryImpl(friendService)
+    ): FriendRepository = FriendRepositoryImpl(friendService)
 
     @ViewModelScoped
     @Provides
     fun providesChatRoomRepository(
         chatRoomService: ChatRoomService
-    ) : ChatRoomRepository = ChatRoomRepositoryImpl(chatRoomService)
+    ): ChatRoomRepository = ChatRoomRepositoryImpl(chatRoomService)
 
     @ViewModelScoped
     @Provides
@@ -67,16 +70,16 @@ object RepositoryModule {
         collectionService: CollectionService
     ) : CollectionRepository = CollectionRepositoryImpl(collectionService)
 
-    @Module
-    @InstallIn(ViewModelComponent::class)
-    object RepositoryModule {
+    @ViewModelScoped
+    @Provides
+    fun provideJoinRepository(
+    joinService: JoinService
+    ): JoinRepository = JoinRepositoryImpl(joinService)
 
-        @Provides
-        @ViewModelScoped
-        fun provideJoinRepository(
-            joinService: JoinService
-        ): JoinRepository {
-            return JoinRepositoryImpl(joinService)
-        }
-    }
+    @ViewModelScoped
+    @Provides
+    fun provideNicknameRepository(
+        nicknameService: NicknameService
+    ): NicknameRepository = NicknameRepositoryImpl(nicknameService)
+
 }

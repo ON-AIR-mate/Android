@@ -41,5 +41,14 @@
         android:id="@+id/navigation_profile"
         android:name="umc.onairmate.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_blockListFragment"
+            app:destination="@id/blockListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/blockListFragment"
+        android:name="umc.onairmate.ui.profile.BlockListFragment"
+        tools:layout="@layout/fragment_block_list" />
 </navigation>
