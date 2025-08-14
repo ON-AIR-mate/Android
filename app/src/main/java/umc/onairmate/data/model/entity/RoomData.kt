@@ -23,19 +23,19 @@ data class RoomData(
     @SerializedName("currentParticipants")
     val currentParticipants : Int = 0,
     @SerializedName("maxParticipants")
-    val maxParticipants : Int = 0,
+    val maxParticipants : Int = 8,
     @SerializedName("duration")
     val duration : String = "",
     @SerializedName("isPrivate")
     val isPrivate : Boolean = true,
     @SerializedName("isActive")
-    val isActive : Boolean? = null,
+    val isActive : Boolean = true,
     @SerializedName("autoArchiving")
-    val autoArchiving : Boolean? = null,
+    val autoArchiving : Boolean = true,
     @SerializedName("invitePermission")
-    val invitePermission : String? = null,
+    val invitePermission : String = "",
     @SerializedName("createdAt")
-    val createdAt : String? = null,
+    val createdAt : String = "",
     @SerializedName("videoId")
-    val videoId: String? = null
+    val videoId: String = ""
 ) : Parcelable

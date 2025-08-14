@@ -37,6 +37,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="참여자 닉네임"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginEnd="4dp"
             android:textAppearance="@style/TextAppearance.App.Regular.14sp"/>
 
         <ImageView
