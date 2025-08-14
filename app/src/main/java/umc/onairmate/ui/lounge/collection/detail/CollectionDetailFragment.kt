@@ -62,9 +62,8 @@ class CollectionDetailFragment : Fragment() {
     }
 
     private fun setupObserver() {
-
         collectionViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
-           // binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+           binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
         })
 
         collectionViewModel.collectionDetailDataInfo.observe(viewLifecycleOwner) { data ->

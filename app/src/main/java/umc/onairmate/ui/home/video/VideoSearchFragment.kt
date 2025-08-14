@@ -119,6 +119,9 @@ class VideoSearchFragment : Fragment() {
             }
             startActivity(intent)
         }
+        searchVideoViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
 
     }
 
