@@ -10,10 +10,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import umc.onairmate.data.model.entity.DirectMessageData
-import umc.onairmate.data.model.entity.SocketError
+import umc.onairmate.data.model.entity.SocketMessage
 import umc.onairmate.data.socket.SocketManager
 import umc.onairmate.data.socket.handler.FriendHandler
 import umc.onairmate.data.socket.listener.FriendEventListener
@@ -47,7 +46,7 @@ class FriendChatViewModel @Inject constructor(
 
         }
     }
-    override fun onError(errorMessage: SocketError) {
+    override fun onError(errorMessage: SocketMessage) {
         viewModelScope.launch(Dispatchers.Main) {
             Log.d(TAG,"error ${errorMessage.type} : ${errorMessage.message}")
         }
