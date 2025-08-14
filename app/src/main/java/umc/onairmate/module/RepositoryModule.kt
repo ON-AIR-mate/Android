@@ -61,18 +61,13 @@ object RepositoryModule {
         bookmarkService: BookmarkService
     ) : BookmarkRepository = BookmarkRepositoryImpl(bookmarkService)
 
-    @Module
-    @InstallIn(ViewModelComponent::class)
-    object RepositoryModule {
-
-        @Provides
-        @ViewModelScoped
-        fun provideJoinRepository(
+    @Provides
+    @ViewModelScoped
+    fun provideJoinRepository(
             joinService: JoinService
         ): JoinRepository {
             return JoinRepositoryImpl(joinService)
         }
-    }
 
     @ViewModelScoped
     @Provides
