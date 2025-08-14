@@ -44,7 +44,6 @@ class ChatRoomLayoutActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        videoChatViewModel.leaveRoom(roomData.roomId) // 방 나가기 (Socket)
         SocketManager.getSocketOrNull()?.let { socket ->
             if (socket.connected()) {
                 SocketDispatcher.unregisterHandler(socket, videoChatViewModel.getHandler())

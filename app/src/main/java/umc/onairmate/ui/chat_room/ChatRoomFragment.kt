@@ -80,11 +80,16 @@ class ChatRoomFragment : Fragment() {
         childFragmentManager.beginTransaction()
             .replace(R.id.fg_chat_module, chatRoom)
             .commit()
-
     }
 
     fun setObserver() {
+        homeViewModel.leaveRoom.observe(viewLifecycleOwner) { data ->
+            if (data == true) {
+                requireActivity().finish()
+            }
+        }
         // todo: host가 떠났다는걸 어캐 알아요?
+        // leaveroom에 데이터 생김
     }
 
     private fun onClickSetting() {
@@ -213,7 +218,6 @@ class ChatRoomFragment : Fragment() {
         val dialog = ChatRoomLeaveDialog(data, object : PopupClick {
             override fun leftClickFunction() {
                 homeViewModel.leaveRoom(roomData.roomId)
-                requireActivity().finish()
             }
 
             override fun rightClickFunction() {}

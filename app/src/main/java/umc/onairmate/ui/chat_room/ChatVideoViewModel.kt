@@ -50,8 +50,6 @@ class ChatVideoViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-
-
     private fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
     }
