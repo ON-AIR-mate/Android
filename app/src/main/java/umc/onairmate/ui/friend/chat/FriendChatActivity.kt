@@ -5,18 +5,22 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.databinding.ActivityFriendChatBinding
+import umc.onairmate.ui.friend.FriendViewModel
+import kotlin.getValue
 
 @AndroidEntryPoint
 class FriendChatActivity: AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
     private lateinit var binding: ActivityFriendChatBinding
     private var friend : FriendData = FriendData()
-    private var friendNickname :String = ""
+    private val friendViewModel : FriendViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +31,7 @@ class FriendChatActivity: AppCompatActivity() {
         initData()
         setView()
         initClickListener()
+        friendViewModel.getDmHistory(friend.userId)
     }
 
     private fun initData(){

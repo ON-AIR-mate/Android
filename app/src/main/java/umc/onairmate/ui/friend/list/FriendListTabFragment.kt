@@ -125,8 +125,8 @@ class FriendListTabFragment() : Fragment() {
                 val textList = listOf(text,"수락","거절")
                 showPopup(
                     text =textList,
-                    left = {  viewModel.acceptFriend(data.userId, "REJECT") },
-                    right = { viewModel.acceptFriend(data.userId, "ACCEPT")} )
+                    left = { viewModel.acceptFriend(data.requestId, "ACCEPT")},
+                    right = {  viewModel.acceptFriend(data.requestId, "REJECT") })
             }
 
             override fun clickCollection(data: FriendData) {

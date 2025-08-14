@@ -67,16 +67,9 @@ object RepositoryModule {
         collectionService: CollectionService
     ) : CollectionRepository = CollectionRepositoryImpl(collectionService)
 
-    @Module
-    @InstallIn(ViewModelComponent::class)
-    object RepositoryModule {
-
-        @Provides
-        @ViewModelScoped
-        fun provideJoinRepository(
-            joinService: JoinService
-        ): JoinRepository {
-            return JoinRepositoryImpl(joinService)
-        }
-    }
+    @Provides
+    @ViewModelScoped
+    fun provideJoinRepository(
+        joinService: JoinService
+    ): JoinRepository = JoinRepositoryImpl(joinService)
 }
