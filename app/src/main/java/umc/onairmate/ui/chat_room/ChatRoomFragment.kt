@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
@@ -20,9 +21,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.entity.UserData
+import umc.onairmate.data.model.request.CreateRoomRequest
 import umc.onairmate.databinding.FragmentChatRoomBinding
 import umc.onairmate.ui.chat_room.message.VideoChatFragment
 import umc.onairmate.ui.home.HomeViewModel
+import umc.onairmate.ui.pop_up.CreateRoomCallback
+import umc.onairmate.ui.pop_up.CreateRoomPopup
+import umc.onairmate.ui.pop_up.PopupClick
 import umc.onairmate.ui.util.SharedPrefUtil
 
 @AndroidEntryPoint
@@ -37,14 +42,13 @@ class ChatRoomFragment : Fragment() {
 
     val user = SharedPrefUtil.getData("user_info") ?: UserData()
 
-    private val searchRoomViewModel: HomeViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
     private val chatRoomViewModel: ChatVideoViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         roomData = arguments?.getParcelable("room_data", RoomData::class.java)!!
-
     }
 
     override fun onCreateView(
@@ -56,9 +60,11 @@ class ChatRoomFragment : Fragment() {
         initPlayer()
         initScreen()
         onClickSetting()
-        onClickGoBack()
+        onClickLeaveRoom()
         initChat()
         onEventListener()
+        setObserver()
+
         return binding.root
     }
 
@@ -77,17 +83,26 @@ class ChatRoomFragment : Fragment() {
 
     }
 
+    fun setObserver() {
+        // todo: host가 떠났다는걸 어캐 알아요?
+    }
+
     private fun onClickSetting() {
         binding.ivSetting.setOnClickListener {
             (activity as? ChatRoomLayoutActivity)?.openDrawer()
         }
     }
 
-    fun onClickGoBack() {
+    fun onClickLeaveRoom() {
         binding.ivGoBack.setOnClickListener {
-            searchRoomViewModel.leaveRoom(roomData.roomId)
-            requireActivity().finish()
+            showLeaveRoomPopup(roomData)
         }
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                showLeaveRoomPopup(roomData)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
     // 유튜브 모듈
@@ -191,6 +206,20 @@ class ChatRoomFragment : Fragment() {
                 player?.seekTo(data.currentTime)
                 player?.pause()
             }
+        }
+    }
+
+    private fun showLeaveRoomPopup(data: RoomData) {
+        val dialog = ChatRoomLeaveDialog(data, object : PopupClick {
+            override fun leftClickFunction() {
+                homeViewModel.leaveRoom(roomData.roomId)
+                requireActivity().finish()
+            }
+
+            override fun rightClickFunction() {}
+        })
+        activity?.supportFragmentManager?.let { fm ->
+            dialog.show(fm, "LeaveRoomPopup")
         }
     }
 }
