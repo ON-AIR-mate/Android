@@ -1,5 +1,6 @@
 package umc.onairmate.ui.friend.chat
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -92,8 +93,9 @@ class FriendChatRVAdapter(
         }
     }
 
-    fun addChat(data: DirectMessageData) {
+    fun addChat(items: List<DirectMessageData>) {
         val newList = currentList.toMutableList()
+        items.forEach { data ->
         val name = if (data.senderId == user.userId) user.nickname else friend.nickname
         val profile = if (data.senderId == user.userId) user.profileImage else friend.profileImage
         val chat = ChatMessageData(
@@ -109,6 +111,7 @@ class FriendChatRVAdapter(
             "collectionShare" ->   newList.add(RecyclerItem.CollectionChatItem(chat, data.collection!!))
             "roomInvite" ->   newList.add(RecyclerItem.InviteChatItem(chat,data.room!!))
             else -> {}
+            }
         }
         submitList(newList)
     }

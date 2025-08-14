@@ -102,12 +102,11 @@ class FriendChatFragment: Fragment() {
     private fun setUpObserver() {
         chatViewModel.directMessage.observe(viewLifecycleOwner) { data ->
             if (data == null) return@observe
-            adapter.addChat(data)
+            adapter.addChat(listOf(data))
         }
         friendViewModel.dmHistory.observe(viewLifecycleOwner) { list ->
             if (list == null) return@observe
-            for(l in list)
-                adapter.addChat(l)
+            adapter.addChat(list)
         }
     }
 

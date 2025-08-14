@@ -114,7 +114,6 @@ class FriendListTabFragment() : Fragment() {
         adapter = FriendListRVAdapter(requireContext())
         adapter.setItemClickListener(object: FriendItemClickListener{
             override fun clickMessage(data: FriendData) {
-                //viewModel.getDmHistory(data.userId)
                 val bundle = Bundle().apply {
                     putParcelable("friendData", data)
                 }
