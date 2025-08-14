@@ -99,7 +99,7 @@ class FriendChatRVAdapter(
         val name = if (data.senderId == user.userId) user.nickname else friend.nickname
         val profile = if (data.senderId == user.userId) user.profileImage else friend.profileImage
         val chat = ChatMessageData(
-            messageId = 0,
+            messageId = data.messageId,
             userId= data.senderId,
             nickname = name,
             profileImage = profile?:"",
@@ -108,8 +108,12 @@ class FriendChatRVAdapter(
             timestamp = data.timestamp)
         newList.add(RecyclerItem.GeneralChatItem(chat))
         when(data.messageType){
-            "collectionShare" ->   newList.add(RecyclerItem.CollectionChatItem(chat, data.collection!!))
-            "roomInvite" ->   newList.add(RecyclerItem.InviteChatItem(chat,data.room!!))
+            "collectionShare" -> data.collection?.let {
+                newList.add(RecyclerItem.CollectionChatItem(chat, it))
+            }
+            "roomInvite" -> data.room?.let {
+                newList.add(RecyclerItem.InviteChatItem(chat, it))
+            }
             else -> {}
             }
         }

@@ -43,7 +43,18 @@ object SocketDispatcher {
     }
 
 
-
+    fun reregisterAll(socket: Socket) {
+        activeHandlers.forEach { handler ->
+            handler.getEventMap().forEach { (eventName, callback) ->
+                socket.off(eventName)
+                socket.on(eventName) { args ->
+                    if (args.isNotEmpty() && args[0] is JSONObject) {
+                        try { callback(args[0] as JSONObject) } catch (e: Exception) { /* log */ }
+                    }
+                }
+            }
+        }
+    }
 
     /** 모든 핸들러 해제 (필요 시 전체 초기화용) */
     fun clearAllHandlers(socket: Socket) {
