@@ -42,10 +42,11 @@ class ChatRoomLayoutActivity : AppCompatActivity() {
         onDrawerListener()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onPause() {
+        super.onPause()
         SocketManager.getSocketOrNull()?.let { socket ->
             if (socket.connected()) {
+                videoChatViewModel.leaveRoom(roomData.roomId)
                 SocketDispatcher.unregisterHandler(socket, videoChatViewModel.getHandler())
                 SocketDispatcher.unregisterHandler(socket, chatRoomViewModel.getHandler())
             }

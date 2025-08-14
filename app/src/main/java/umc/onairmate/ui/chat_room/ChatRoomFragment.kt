@@ -6,18 +6,24 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.customui.DefaultPlayerUiController
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.customui.PlayerUiController
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.customui.views.YouTubePlayerSeekBar
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.customui.views.YouTubePlayerSeekBarListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.entity.UserData
@@ -42,8 +48,8 @@ class ChatRoomFragment : Fragment() {
 
     val user = SharedPrefUtil.getData("user_info") ?: UserData()
 
-    private val homeViewModel: HomeViewModel by viewModels()
-    private val chatRoomViewModel: ChatVideoViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by activityViewModels()
+    private val chatRoomViewModel: ChatVideoViewModel by activityViewModels()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -122,7 +128,7 @@ class ChatRoomFragment : Fragment() {
                 playerUiController.showVideoTitle(false)
                 if (user.nickname == roomData.hostNickname) {
                     playerUiController.showPlayPauseButton(true)
-                    playerUiController.showSeekBar(true)
+                    playerUiController.showSeekBar(false)
                 } else {
                     playerUiController.showPlayPauseButton(false)
                     playerUiController.showSeekBar(false)
@@ -131,7 +137,7 @@ class ChatRoomFragment : Fragment() {
                 playerView.setCustomPlayerUi(playerUiController.rootView)
 
                 val videoId = roomData.videoId ?: "CgCVZdcKcqY"
-                youTubePlayer.loadVideo(videoId, 0f)
+                youTubePlayer.loadVideo(videoId, currentSecond)
 
                 this@ChatRoomFragment.player = youTubePlayer
             }
@@ -153,10 +159,6 @@ class ChatRoomFragment : Fragment() {
                 state: PlayerConstants.PlayerState
             ) {
                 when (state) {
-                    PlayerConstants.PlayerState.ENDED -> {
-                        // 영상 재생이 끝났을 때
-                        showTerminateRoomPopup(roomData)
-                    }
                     PlayerConstants.PlayerState.PLAYING -> {
                         // 영상 재생 - 방장->참가자 전파
                         if (user.nickname == roomData.hostNickname) {
@@ -173,6 +175,11 @@ class ChatRoomFragment : Fragment() {
                             chatRoomViewModel.sendVideoPlayerControl("video:pause", roomData.roomId, currentSecond)
                         }
                     }
+                    PlayerConstants.PlayerState.ENDED -> {
+                        // 영상 재생이 끝났을 때
+                        Log.d("PlayerHost", "재생 끝: ${currentSecond}초")
+                        showTerminateRoomPopup(roomData)
+                    }
                     else -> {}
                 }
             }
@@ -187,18 +194,15 @@ class ChatRoomFragment : Fragment() {
     private fun onEventListener() {
         chatRoomViewModel.videoSyncDataInfo.observe(viewLifecycleOwner) { data ->
             Log.d("PlayerObserver", "sync: $data")
-            if (user.nickname != roomData.hostNickname) {
-                player?.seekTo(data.currentTime)
-                if (data.status == "playing") player?.play()
-                else player?.pause()
+            if ((user.nickname != roomData.hostNickname)) {
+                currentSecond = data.currentTime
             }
         }
         chatRoomViewModel.videoPlayDataInfo.observe(viewLifecycleOwner) { data ->
             Log.d("PlayerObserver", "play: $data")
 
             if (user.nickname != roomData.hostNickname) {
-                val elapsed = (System.currentTimeMillis() - data.updatedAt) / 1000.0
-                player?.seekTo(((data.currentTime + elapsed) * 1000).toFloat())
+                player?.seekTo(data.currentTime)
                 player?.play()
             }
         }
@@ -230,7 +234,7 @@ class ChatRoomFragment : Fragment() {
     private fun showTerminateRoomPopup(data: RoomData) {
         val dialog = ChatRoomTerminateDialog(object : PopupClick {
             override fun leftClickFunction() {
-                homeViewModel.leaveRoom(roomData.roomId)
+                homeViewModel.leaveRoom(data.roomId)
             }
 
             override fun rightClickFunction() {}
@@ -238,5 +242,19 @@ class ChatRoomFragment : Fragment() {
         activity?.supportFragmentManager?.let { fm ->
             dialog.show(fm, "TerminateRoomPopup")
         }
+    }
+
+    private fun seekBarClickListener(seekBar: SeekBar) {
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {}
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                if ((seekBar != null) and (user.nickname != roomData.hostNickname)) {
+                    chatRoomViewModel.sendVideoPlayerControl("video:play", roomData.roomId, currentSecond)
+                }
+            }
+        })
     }
 }
