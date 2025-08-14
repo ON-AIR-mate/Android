@@ -128,7 +128,7 @@ class ChatRoomFragment : Fragment() {
                 playerUiController.showVideoTitle(false)
                 if (user.nickname == roomData.hostNickname) {
                     playerUiController.showPlayPauseButton(true)
-                    playerUiController.showSeekBar(false)
+                    playerUiController.showSeekBar(true)
                 } else {
                     playerUiController.showPlayPauseButton(false)
                     playerUiController.showSeekBar(false)
@@ -147,9 +147,16 @@ class ChatRoomFragment : Fragment() {
                 if (user.nickname == roomData.hostNickname) {
                     currentSecond = second
                     if (second.toInt() != lastProcessedSecond) {
-                        lastProcessedSecond = second.toInt()
-                        Log.d("PlayerHost", "재생중: ${lastProcessedSecond}초")
-                        chatRoomViewModel.sendVideoPlayerControl("video:sync", roomData.roomId, currentSecond)
+
+                        if ((currentSecond.toInt() - lastProcessedSecond) in -3..3) {
+                            lastProcessedSecond = second.toInt()
+                            Log.d("PlayerHost", "재생중: ${lastProcessedSecond}초")
+                            chatRoomViewModel.sendVideoPlayerControl("video:sync", roomData.roomId, currentSecond)
+                        } else {
+                            lastProcessedSecond = second.toInt()
+                            Log.d("PlayerHost", "재생 시작: ${lastProcessedSecond}초")
+                            chatRoomViewModel.sendVideoPlayerControl("video:play", roomData.roomId, currentSecond)
+                        }
                     }
                 }
             }
