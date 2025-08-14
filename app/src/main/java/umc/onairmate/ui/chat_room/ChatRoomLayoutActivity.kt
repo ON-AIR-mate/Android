@@ -25,7 +25,7 @@ class ChatRoomLayoutActivity : AppCompatActivity() {
     lateinit var roomData: RoomData
     private lateinit var binding: ActivityChatRoomLayoutBinding
 
-    private val chatRoomViewModel: ChatRoomViewModel by viewModels()
+    private val chatRoomViewModel: ChatVideoViewModel by viewModels()
     private val videoChatViewModel: VideoChatViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
