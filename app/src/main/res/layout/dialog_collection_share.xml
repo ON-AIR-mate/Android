@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="30dp"
+    android:paddingHorizontal="13dp"
+    android:paddingVertical="24dp"
+    android:orientation="vertical"
+    android:background="@drawable/bg_dialog"
+    android:elevation="0dp">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="힐링 모먼트"
+        android:layout_marginBottom="8dp"
+        android:textAppearance="@style/TextAppearance.App.SemiBold.20sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_friend_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_marginTop="8dp"
+        android:id="@+id/btn_ok"
+        android:layout_width="150dp"
+        android:layout_height="22dp"
+        android:background="@drawable/background_box_5dp"
+        android:backgroundTint="@color/main"
+        android:text="완료"
+        android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</LinearLayout>
