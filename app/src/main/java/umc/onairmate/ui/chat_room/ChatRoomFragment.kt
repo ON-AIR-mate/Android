@@ -156,6 +156,7 @@ class ChatRoomFragment : Fragment() {
                 when (state) {
                     PlayerConstants.PlayerState.ENDED -> {
                         // 영상 재생이 끝났을 때
+                        showTerminateRoomPopup(roomData)
                     }
                     PlayerConstants.PlayerState.PLAYING -> {
                         // 영상 재생 - 방장->참가자 전파
@@ -214,6 +215,7 @@ class ChatRoomFragment : Fragment() {
         }
     }
 
+    // 뒤로가기, 나가기 버튼으로 방 나가기
     private fun showLeaveRoomPopup(data: RoomData) {
         val dialog = ChatRoomLeaveDialog(data, object : PopupClick {
             override fun leftClickFunction() {
@@ -224,6 +226,20 @@ class ChatRoomFragment : Fragment() {
         })
         activity?.supportFragmentManager?.let { fm ->
             dialog.show(fm, "LeaveRoomPopup")
+        }
+    }
+
+    // 방이 종료됨
+    private fun showTerminateRoomPopup(data: RoomData) {
+        val dialog = ChatRoomTerminateDialog(object : PopupClick {
+            override fun leftClickFunction() {
+                homeViewModel.leaveRoom(roomData.roomId)
+            }
+
+            override fun rightClickFunction() {}
+        })
+        activity?.supportFragmentManager?.let { fm ->
+            dialog.show(fm, "TerminateRoomPopup")
         }
     }
 }
