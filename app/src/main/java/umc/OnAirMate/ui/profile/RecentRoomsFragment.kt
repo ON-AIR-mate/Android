@@ -8,21 +8,24 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.R
+import umc.onairmate.databinding.FragmentRecentRoomsBinding
 
 class RecentRoomsFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     //private lateinit var adapter: BookmarkAdapter
+    private lateinit var binding: FragmentRecentRoomsBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.fragment_recent_rooms, container, false)
+        binding = FragmentRecentRoomsBinding.inflate(inflater, container, false)
+        return binding.root
 
-        recyclerView = view.findViewById(R.id.rv_list)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
 
 //        // 어댑터에 리스너(this) 주입
 //        adapter = BookmarkAdapter(actionListener = this)
@@ -61,8 +64,18 @@ class RecentRoomsFragment : Fragment() {
 //
 //        adapter.submitList(dummyList)
 //
-        return view
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.ivBack.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
+        // 다른 초기화 코드...
+    }
+
 //
 //    // ===== OnBookmarkActionListener 구현 =====
 //    override fun onDeleteBookmark(bookmark: BookmarkData) {

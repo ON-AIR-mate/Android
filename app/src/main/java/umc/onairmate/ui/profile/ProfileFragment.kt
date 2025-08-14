@@ -25,7 +25,6 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private var nickname = ""
-    private val userViewModel: UserViewModel by viewModels()
     
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +56,8 @@ class ProfileFragment : Fragment() {
 
         // 다른 버튼들에 대한 clickListener도 동일하게 설정
 
-
+//        ParticipatedRoomsFragment 새로만듬. 그안에 이 내용이 있다.
+//
 //        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
 //            userViewModel.deleteState.collect { s ->
 //                when (s) {
