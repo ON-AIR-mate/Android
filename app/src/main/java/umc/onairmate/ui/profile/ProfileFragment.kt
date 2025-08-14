@@ -21,6 +21,7 @@ import umc.onairmate.databinding.FragmentProfileBinding
 import umc.onairmate.ui.ImageViewModel
 import umc.onairmate.ui.friend.FriendViewModel
 import umc.onairmate.ui.util.ImagePickerDelegate
+import umc.onairmate.ui.util.NetworkImageLoader
 import kotlin.getValue
 
 
@@ -31,8 +32,9 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private var nickname = ""
+    private var imageUrl =""
 
-    private val viewModel: ImageViewModel by viewModels()
+    private val imageViewModel: ImageViewModel by viewModels()
 
     private lateinit var picker: ImagePickerDelegate
 
@@ -66,12 +68,24 @@ class ProfileFragment : Fragment() {
         binding.tvNicknameValue.text = nickname
 
         // 다른 버튼들에 대한 clickListener도 동일하게 설정
+
+
+        imageViewModel.imageUrl.observe(viewLifecycleOwner){ url ->
+            if (url == null) return@observe
+            imageUrl= url
+            imageViewModel.editProfile(nickname,imageUrl)
+            //NetworkImageLoader.profileLoad(binding.ivProfile, imageUrl)
+        }
+        imageViewModel.isSuccess.observe(viewLifecycleOwner){ isSuccess ->
+            if (isSuccess == null) return@observe
+            NetworkImageLoader.profileLoad(binding.ivProfile, imageUrl)
+        }
     }
 
     private fun setImagePicker(){
         picker = ImagePickerDelegate(this) { uri ->
             if (uri != null) {
-                viewModel.uploadUri(uri)
+                imageViewModel.uploadUri(uri)
             }
         }
         picker.register()
