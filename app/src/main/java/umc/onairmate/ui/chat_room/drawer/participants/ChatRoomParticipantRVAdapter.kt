@@ -31,6 +31,7 @@ class ChatRoomParticipantRVAdapter(
             binding.tvUserNickname.text = user.nickname
             // 프로필 이미지 로드
             NetworkImageLoader.profileLoad(binding.ivUserProfile, user.profileImage)
+            binding.tvUserTier.text = user.popularity.toString()
 
             if (user.userId == userData.userId) {
                 binding.ivMore.visibility = View.GONE

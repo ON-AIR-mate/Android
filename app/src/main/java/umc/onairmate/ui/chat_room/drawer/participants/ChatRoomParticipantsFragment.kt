@@ -50,6 +50,7 @@ class ChatRoomParticipantsFragment : Fragment() {
     fun initScreen() {
         chatRoomViewModel.getParticipantDataInfo(roomData!!.roomId)
         binding.itemRoomManager.tvUserNickname.text = roomData!!.hostNickname
+        binding.itemRoomManager.tvUserTier.text = roomData!!.hostPopularity.toString()
         NetworkImageLoader.profileLoad(binding.itemRoomManager.ivUserProfile, roomData!!.hostProfileImage)
     }
 
