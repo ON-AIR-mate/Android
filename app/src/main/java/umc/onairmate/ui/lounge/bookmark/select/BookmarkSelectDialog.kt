@@ -11,13 +11,10 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import umc.onairmate.data.model.entity.BookmarkData
-import umc.onairmate.data.model.entity.CollectionData
-import umc.onairmate.databinding.DialogMoveCollectionBinding
 import umc.onairmate.databinding.DialogSelectBookmarkBinding
-import umc.onairmate.ui.lounge.bookmark.move.CollectionMoveRVAdapter
 
-class CollectionMoveDialog(
-    private val bookmarkList: List<BookmarkData>,
+class BookmarkSelectDialog(
+    private val bookmarkList: List<BookmarkData?>,
     private val selectBookmarkCallback: (BookmarkData) -> Unit
 ) : DialogFragment() {
     private lateinit var binding: DialogSelectBookmarkBinding
@@ -50,13 +47,13 @@ class CollectionMoveDialog(
     }
 
     fun initAdapter() {
-        adapter = CollectionMoveRVAdapter(bookmarkList)
+        adapter = BookmarkSelectRVAdapter(bookmarkList)
         binding.rvBookmarks.layoutManager = LinearLayoutManager(requireContext())
         binding.rvBookmarks.adapter = adapter
     }
 
     fun setClickListener() {
-        binding.tvTitle.setOnClickListener {
+        binding.btnOk.setOnClickListener {
             val selectedBookmark = adapter.getSelectedItem()
 
             if (selectedBookmark == null) {
