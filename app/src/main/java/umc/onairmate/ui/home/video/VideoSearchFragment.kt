@@ -46,6 +46,7 @@ class VideoSearchFragment : Fragment() {
 
         setTextListener()
         setVideo()
+        
 
         return binding.root
     }

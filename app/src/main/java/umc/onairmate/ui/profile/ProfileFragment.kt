@@ -15,7 +15,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
+import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.databinding.FragmentProfileBinding
+import umc.onairmate.ui.util.NetworkImageLoader
+import umc.onairmate.ui.util.SharedPrefUtil
 
 
 @AndroidEntryPoint
@@ -25,6 +28,8 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
     private var nickname = ""
 
+    private var user : UserData = UserData()
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,6 +37,9 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         nickname = spf.getString("nickname","user")!!
+
+        user = SharedPrefUtil.getData("user_info")?: UserData()
+        initUserData()
 
         return binding.root
     }
@@ -98,5 +106,10 @@ class ProfileFragment : Fragment() {
         binding.ivTooltip.setOnClickListener {
             showTooltip(it, "추천 및 제재에 따라 인기도가 조정됩니다.")
         }
+    }
+
+    private fun initUserData(){
+        binding.tvNicknameValue.text = user.nickname
+        NetworkImageLoader.profileLoad(binding.ivProfile, user.profileImage)
     }
 }

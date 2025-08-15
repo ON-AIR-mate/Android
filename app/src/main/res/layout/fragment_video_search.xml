@@ -6,7 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.video.VideoSearchFragment"
     android:id="@+id/fragment_video_search"
-    android:paddingHorizontal="30dp">
+    android:paddingHorizontal="30dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@color/white">
 
     <LinearLayout
         android:id="@+id/layout_title"
