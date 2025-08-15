@@ -94,9 +94,15 @@ class ProfileFragment : Fragment() {
             //showTooltip(it, "추천 및 제재에 따라 인기도가 조정됩니다.")
         }
 
-        binding.layoutMyRooms.setOnClickListener {  }
-        binding.layoutBlock.setOnClickListener {  }
+        //레이아웃클릭하면 엑티비티 오픈
+        binding.layoutMyRooms.setOnClickListener {
+            openParticipatedRooms()
+        }
+        binding.layoutBlock.setOnClickListener {
+            // openBlockedUsers()
+        }
 
+        //로그아웃
         binding.tvLogout.setOnClickListener {
             val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
             spf.edit { clear() }
@@ -159,4 +165,23 @@ class ProfileFragment : Fragment() {
         binding.tvNickname.text = user.nickname
         NetworkImageLoader.profileLoad(binding.ivProfile, user.profileImage)
     }
+
+    private fun openParticipatedRooms() {
+        // TODO: 실제 대상 액티비티 이름으로 바꿔줘 (예: ParticipatedRoomsActivity)
+        val intent = Intent(requireContext(), ParticipatedRoomsActivity::class.java)
+        startActivity(intent)
+    }
+
+//    private fun openBlockedUsers() {
+//        // TODO: 차단 목록 액티비티/프래그먼트가 다르면 맞게 수정
+//        val intent = Intent(requireContext(), BlockListActivity::class.java)
+//        startActivity(intent)
+//    }
+
+
+
+    private object ExtraKeys {
+        const val ROOM_ID = "roomId"
+    }
+
 }
