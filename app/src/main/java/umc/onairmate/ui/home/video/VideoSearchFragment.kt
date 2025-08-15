@@ -128,6 +128,13 @@ class VideoSearchFragment : Fragment() {
             searchRoomViewModel.clearJoinRoom()
             searchRoomViewModel.clearRoomDetailInfo()
         }
+        searchVideoViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+        searchVideoViewModel.smallLoading.observe(viewLifecycleOwner){ smallLoading ->
+            binding.progressbarSmall.visibility = if (smallLoading) View.VISIBLE else View.GONE
+        }
+
     }
 
 

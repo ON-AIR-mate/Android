@@ -108,6 +108,10 @@ class FriendListTabFragment() : Fragment() {
             Toast.makeText(requireContext(),message, Toast.LENGTH_SHORT).show()
             viewModel.clearResult()
         })
+
+        viewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
     }
 
     private fun setAdapter(){
@@ -143,13 +147,16 @@ class FriendListTabFragment() : Fragment() {
             override fun clickBlock(data: FriendData) {
                 val text = data.nickname+"님을 차단하시겠습니까?"
                 val textList = listOf(text,"예","아니오")
-                showPopup(text =textList, left = {  }, right = {} )
+                showPopup(text =textList, left = {
+                    Toast.makeText(requireContext(),"${data.nickname}님을 차단했습니다.", Toast.LENGTH_SHORT).show() }, right = {} )
             }
 
             override fun clickReport(data: FriendData) {
                 val text = data.nickname+"님을 신고하시겠습니까?"
                 val textList = listOf(text,"예","아니오")
-                showPopup(text =textList, left = {  }, right = {} )
+                showPopup(text =textList, left = {
+                    Toast.makeText(requireContext(),"신고 접수 되었습니다", Toast.LENGTH_SHORT).show()
+                }, right = {} )
             }
 
         })

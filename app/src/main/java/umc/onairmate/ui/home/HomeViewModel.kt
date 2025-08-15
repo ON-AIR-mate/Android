@@ -44,6 +44,9 @@ class HomeViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _smallLoading = MutableLiveData<Boolean>()
+    val smallLoading : LiveData<Boolean> =_smallLoading
+
     fun getToken(): String? {
         return spf.getString("access_token", null)
     }
@@ -104,11 +107,11 @@ class HomeViewModel @Inject constructor(
 
     fun getRoomDetailInfo(roomId : Int){
         viewModelScope.launch {
-            _isLoading.value = true
+            _smallLoading.value = true
             val token = getToken()
             if (token == null) {
                 Log.e(TAG, "토큰이 없습니다")
-                _isLoading.value = false
+                _smallLoading.value = false
                 return@launch
             }
             val result = repository.getRoomDetailInfo(token, roomId)
@@ -122,7 +125,7 @@ class HomeViewModel @Inject constructor(
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
                 }
             }
-            _isLoading.value = false
+            _smallLoading.value = false
         }
     }
     fun clearRoomDetailInfo(){
@@ -131,11 +134,11 @@ class HomeViewModel @Inject constructor(
 
    fun joinRoom( roomId : Int){
        viewModelScope.launch {
-           _isLoading.value = true
+           _smallLoading.value = true
            val token = getToken()
            if (token == null) {
                Log.e(TAG, "토큰이 없습니다")
-               _isLoading.value = false
+               _smallLoading.value = false
                return@launch
            }
            val result = repository.joinRoom(token, roomId)
@@ -150,7 +153,7 @@ class HomeViewModel @Inject constructor(
                    _joinRoom.value = false
                }
            }
-           _isLoading.value = false
+           _smallLoading.value = false
        }
    }
    fun leaveRoom(roomId : Int){
