@@ -122,6 +122,10 @@ class ChatRoomFragment : Fragment() {
                 player?.pause()
             }
         }
+
+        homeViewModel.isLoading.observe(this){ isLoading ->
+            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
     }
 
     private fun onClickSetting() {

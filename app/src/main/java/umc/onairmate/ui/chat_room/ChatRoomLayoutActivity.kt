@@ -72,9 +72,7 @@ class ChatRoomLayoutActivity : AppCompatActivity() {
             if (data) chatRoomViewModel.getParticipantDataInfo(roomData.roomId)
         }
 
-        homeViewModel.isLoading.observe(this){ isLoading ->
-            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
-        }
+
 
     }
 
