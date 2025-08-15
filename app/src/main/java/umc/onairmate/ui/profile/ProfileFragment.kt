@@ -17,7 +17,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.databinding.FragmentProfileBinding
-import umc.onairmate.ui.profile.ParticipatedRoomsActivity
 import umc.onairmate.ui.util.NetworkImageLoader
 import umc.onairmate.ui.util.SharedPrefUtil
 

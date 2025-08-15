@@ -57,12 +57,24 @@
         <item name="android:fontFamily">@font/pretendard_semi_bold</item>
         <item name="android:textColor">@color/black</item>
     </style>
+    <style name="TextAppearance.App.SemiBold.10sp" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">10sp</item>
+        <item name="android:fontFamily">@font/pretendard_semi_bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 
     <style name="TextAppearance.App.SemiBold.8sp" parent="TextAppearance.AppCompat">
         <item name="android:textSize">8sp</item>
         <item name="android:fontFamily">@font/pretendard_semi_bold</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
+    <style name="TextAppearance.App.SemiBold.6sp" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">6sp</item>
+        <item name="android:fontFamily">@font/pretendard_semi_bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
 
 
     <style name="TextAppearance.App.Medium.18sp" parent="TextAppearance.AppCompat">

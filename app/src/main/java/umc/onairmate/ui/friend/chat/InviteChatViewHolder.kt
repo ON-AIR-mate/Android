@@ -26,6 +26,7 @@ class InviteChatViewHolder(
         binding.tvRoomUserNum.text = "${data.currentParticipants} / ${data.maxParticipants}"
         binding.tvPlayTime.text = data.duration
         binding.tvManagerNickname.text = data.hostNickname
+        binding.tvManagerPopularity.text = data.hostPopularity.toString()
 
         NetworkImageLoader.profileLoad(binding.ivManagerProfile, data.hostProfileImage)
         NetworkImageLoader.thumbnailLoad(binding.ivThumbnail,data.videoThumbnail)
