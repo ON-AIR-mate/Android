@@ -48,9 +48,11 @@
 
         <ImageView
             android:id="@+id/iv_more"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:src="@drawable/ic_dots" />
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:src="@drawable/ic_dots"
+            android:paddingStart="16dp"
+            android:paddingVertical="10dp"/>
 
     </LinearLayout>
 
