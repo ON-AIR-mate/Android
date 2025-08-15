@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import umc.onairmate.data.model.entity.BookmarkData
 import umc.onairmate.data.model.entity.CollectionDetailData
+import umc.onairmate.data.model.entity.RoomArchiveData
 import umc.onairmate.databinding.RvItemBookmarkBinding
 import umc.onairmate.databinding.RvItemCollectionDetailBinding
 import umc.onairmate.databinding.RvItemCollectionDetailEmptyBinding
@@ -30,7 +30,7 @@ class CollectionDetailRVAdapter(
         data class Card(val collectionDetailData: CollectionDetailData) : RecyclerItem()
 
         // 뷰 타입 2: 북마크 아이템
-        data class Bookmark(val bookmarkData: BookmarkData) : RecyclerItem()
+        data class Bookmark(val roomArchiveData: RoomArchiveData) : RecyclerItem()
 
         // 뷰 타입 3: 북마크가 비어있을 때 뷰
         object Empty : RecyclerItem()
@@ -68,7 +68,7 @@ class CollectionDetailRVAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (val item = getItem(position)) {
             is RecyclerItem.Card -> (holder as CollectionDetailViewHolder).bind(item.collectionDetailData)
-            is RecyclerItem.Bookmark -> (holder as BookmarkViewHolder).bind(item.bookmarkData)
+            is RecyclerItem.Bookmark -> (holder as BookmarkViewHolder).bind(item.roomArchiveData)
             is RecyclerItem.Empty -> (holder as EmptyViewHolder)
         }
     }
@@ -84,7 +84,7 @@ class CollectionDetailRVAdapter(
             // 타입이 같을 경우, 각 타입의 고유 ID를 비교
             return when (oldItem) {
                 is RecyclerItem.Card -> (newItem as RecyclerItem.Card).collectionDetailData.collectionId == oldItem.collectionDetailData.collectionId
-                is RecyclerItem.Bookmark -> (newItem as RecyclerItem.Bookmark).bookmarkData.bookmarkId == oldItem.bookmarkData.bookmarkId
+                is RecyclerItem.Bookmark -> (newItem as RecyclerItem.Bookmark).roomArchiveData.roomData.roomId == oldItem.roomArchiveData.roomData.roomId
                 else -> false
             }
         }

@@ -1,11 +1,11 @@
 package umc.onairmate.ui.lounge.bookmark
 
-import umc.onairmate.data.model.entity.BookmarkData
+import umc.onairmate.data.model.entity.RoomArchiveData
 
 interface BookmarkEventListener {
-    fun createRoomWithBookmark(bookmark: BookmarkData) {}
+    fun createRoomWithBookmark(roomArchiveData: RoomArchiveData) {}
 
-    fun deleteBookmark(bookmark: BookmarkData) {}
+    fun deleteBookmark(roomArchiveData: RoomArchiveData) {}
 
-    fun moveCollection(bookmark: BookmarkData) {}
+    fun moveCollection(roomArchiveData: RoomArchiveData) {}
 }

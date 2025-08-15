@@ -15,12 +15,12 @@
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="컬렉션 공유"
+        android:text="북마크 선택"
         android:layout_marginBottom="8dp"
         android:textAppearance="@style/TextAppearance.App.SemiBold.20sp" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_friend_list"
+        android:id="@+id/rv_bookmarks"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"

@@ -4,7 +4,6 @@ package umc.onairmate.ui.profile
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -19,11 +18,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.databinding.FragmentProfileBinding
-import umc.onairmate.ui.util.NetworkImageLoader
-import umc.onairmate.ui.util.SharedPrefUtil
 import umc.onairmate.ui.ImageViewModel
 import umc.onairmate.ui.util.ImagePickerDelegate
-import kotlin.getValue
+import umc.onairmate.ui.util.NetworkImageLoader
+import umc.onairmate.ui.util.SharedPrefUtil
 
 
 @AndroidEntryPoint
