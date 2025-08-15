@@ -14,6 +14,8 @@
         android:layout_height="wrap_content"
         android:button="@drawable/checkbox_selector"
         android:padding="0dp"
+        android:clickable="false"
+        android:focusable="false"
         android:minHeight="30dp"
         android:minWidth="30dp"/>
 

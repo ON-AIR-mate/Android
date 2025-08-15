@@ -143,7 +143,7 @@ class CollectionDetailFragment : Fragment() {
         val dialog = CreateRoomPopup(null, object : CreateRoomCallback {
             override fun onCreateRoom(body: CreateRoomRequest) {
                 val requestBody = CreateRoomWithBookmarkRequest(
-                    roomName = body.roomName,
+                    roomTitle = body.roomName,
                     maxParticipants = body.maxParticipants,
                     isPrivate = body.isPrivate,
                     startFrom = RoomStartOption.BEGINNING.apiName

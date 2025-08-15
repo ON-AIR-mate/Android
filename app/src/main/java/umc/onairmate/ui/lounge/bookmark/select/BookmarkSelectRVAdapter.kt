@@ -4,13 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.data.model.entity.BookmarkData
-import umc.onairmate.data.model.entity.CollectionData
-import umc.onairmate.databinding.RvItemMoveCollectionBinding
 import umc.onairmate.databinding.RvItemSelectBookmarkBinding
 
 
-class BookmarkSelectRVAdapter (
-    private val bookmarkList: List<BookmarkData>
+class BookmarkSelectRVAdapter(
+    private val bookmarkList: List<BookmarkData?>
 ) : RecyclerView.Adapter<BookmarkSelectRVAdapter.BookmarkViewHolder>() {
 
     private var selectedItemId: Int? = null
@@ -25,7 +23,7 @@ class BookmarkSelectRVAdapter (
                 if (adapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
 
                 // 1. 현재 클릭된 아이템의 ID와 이전에 선택됐던 ID를 가져옴
-                val clickedId = bookmarkList[adapterPosition].bookmarkId
+                val clickedId = bookmarkList[adapterPosition]?.bookmarkId
                 val previousSelectedId = selectedItemId
 
                 // 2. 선택 상태 업데이트
@@ -40,7 +38,7 @@ class BookmarkSelectRVAdapter (
                 // 3. UI 갱신
                 // 이전에 선택됐던 아이템의 위치를 찾아 갱신 (체크 해제)
                 if (previousSelectedId != null) {
-                    val previousPosition = bookmarkList.indexOfFirst { it.bookmarkId == previousSelectedId }
+                    val previousPosition = bookmarkList.indexOfFirst { it?.bookmarkId == previousSelectedId }
                     if (previousPosition != -1) {
                         notifyItemChanged(previousPosition)
                     }
@@ -60,7 +58,7 @@ class BookmarkSelectRVAdapter (
     }
 
     fun getSelectedItem(): BookmarkData? {
-        return bookmarkList.find { it.bookmarkId == selectedItemId }
+        return bookmarkList.find { it?.bookmarkId == selectedItemId }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkViewHolder {
@@ -71,7 +69,7 @@ class BookmarkSelectRVAdapter (
     }
 
     override fun onBindViewHolder(holder: BookmarkViewHolder, position: Int) {
-        holder.bind(bookmarkList[position])
+        bookmarkList[position]?.let { holder.bind(it) }
     }
 
     override fun getItemCount(): Int = bookmarkList.size
