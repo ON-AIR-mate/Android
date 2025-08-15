@@ -1,7 +1,7 @@
 # OnAirMate Android
 ## Info
 
-Android Studio : Koala
+Android Studio : Ladybug
 
 TargetSDK : 35
 
@@ -9,7 +9,7 @@ minSDK : 26
 
 &nbsp; &nbsp; 
 ## Library  
-- android-youtube-player : 유튜브 영상 재생 
+- com.pierfrancescosoffritti.androidyoutubeplayer : 유튜브 영상 재생 
 - io.socket:socket.io-client : 실시간 채팅
 - com.google.dagger:hilt-android : 의존성 주입
 - com.squareup.retrofit2:retrofit : 네트워크 연결
