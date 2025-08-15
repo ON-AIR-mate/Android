@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import umc.onairmate.data.model.entity.ParticipantData
@@ -20,7 +19,7 @@ import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.model.response.MessageResponse
 import umc.onairmate.data.repository.repository.ChatRoomRepository
 import umc.onairmate.data.socket.SocketManager
-import umc.onairmate.data.socket.handler.RoomHandler
+import umc.onairmate.data.socket.handler.VideoHandler
 import umc.onairmate.data.socket.listener.VideoEventListener
 import javax.inject.Inject
 
@@ -144,8 +143,8 @@ class ChatVideoViewModel @Inject constructor(
     private val _videoPauseDataInfo = MutableLiveData<VideoPauseData>()
     val videoPauseData : LiveData<VideoPauseData> get() = _videoPauseDataInfo
 
-    private val handler: RoomHandler = RoomHandler(this)
-    fun getHandler(): RoomHandler = handler
+    private val handler: VideoHandler = VideoHandler(this)
+    fun getHandler(): VideoHandler = handler
 
     fun sendVideoPlayerControl(type: String, roomId: Int, currentTime: Float) {
         val json = JSONObject().apply {

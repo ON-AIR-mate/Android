@@ -54,14 +54,11 @@ class ChatRoomParticipantsFragment : Fragment() {
 
     // 방 참가자 명단의 어댑터와 뷰 연결
     private fun setParticipants() {
+        // 초기 userList 삽입
         chatRoomViewModel.participantDataInfo.observe(viewLifecycleOwner) { data ->
             val userList = data?.filter { !it.isHost } ?: emptyList()
 
             adapter = ChatRoomParticipantRVAdapter(userList, object : ParticipantItemClickListener {
-                override fun clickMessage(data: ParticipantData) {
-                    TODO("Not yet implemented")
-                }
-
                 override fun clickReport(data: ParticipantData) {
                     TODO("Not yet implemented")
                 }
@@ -82,5 +79,4 @@ class ChatRoomParticipantsFragment : Fragment() {
             binding.rvParticipants.layoutManager = LinearLayoutManager(context)
         }
     }
-
 }

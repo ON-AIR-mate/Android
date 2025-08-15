@@ -10,7 +10,7 @@ import umc.onairmate.data.socket.SocketHandler
 import umc.onairmate.data.socket.listener.VideoEventListener
 import umc.onairmate.data.util.parseJson
 
-class RoomHandler(
+class VideoHandler(
     private val listener: VideoEventListener
 ): SocketHandler {
     override fun getEventMap(): Map<String, (JSONObject) -> Unit> {

@@ -44,7 +44,12 @@ class ChatRoomHandler(
                 listener.onUserJoined(true)
             },
             "userLeft" to { data ->
-                listener.onUserLeft(true)
+                val parsed = parseJson<SocketMessage>(data)
+                if (parsed == null) {
+                    val error = SocketMessage(type = "JSON_PARSE_ERROR", message = data.toString())
+                    listener.onError(error)
+                }
+                else listener.onSuccess(parsed)
             },
             "roomSettingsUpdated" to {data ->
                 val parsed = parseJson<RoomData>(data)

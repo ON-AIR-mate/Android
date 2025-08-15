@@ -27,9 +27,11 @@ import kotlinx.coroutines.delay
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.entity.UserData
+import umc.onairmate.data.model.entity.UserRole
 import umc.onairmate.data.model.request.CreateRoomRequest
 import umc.onairmate.databinding.FragmentChatRoomBinding
 import umc.onairmate.ui.chat_room.message.VideoChatFragment
+import umc.onairmate.ui.chat_room.message.VideoChatViewModel
 import umc.onairmate.ui.home.HomeViewModel
 import umc.onairmate.ui.pop_up.CreateRoomCallback
 import umc.onairmate.ui.pop_up.CreateRoomPopup
@@ -50,6 +52,7 @@ class ChatRoomFragment : Fragment() {
 
     private val homeViewModel: HomeViewModel by activityViewModels()
     private val chatRoomViewModel: ChatVideoViewModel by activityViewModels()
+    private val videoChatViewModel: VideoChatViewModel by activityViewModels()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +70,6 @@ class ChatRoomFragment : Fragment() {
         initScreen()
         onClickSetting()
         onClickLeaveRoom()
-        onEventListener()
         setObserver()
 
         return binding.root
@@ -88,14 +90,48 @@ class ChatRoomFragment : Fragment() {
     }
 
     fun setObserver() {
+        // 현재 유저가 방을 나가는 api가 완료 - 액티비티를 종료
         homeViewModel.leaveRoom.observe(viewLifecycleOwner) { data ->
             if (data == true) {
                 requireActivity().finish()
                 homeViewModel.clearRoomDetailInfo()
             }
         }
-        // todo: host가 떠났다는걸 어캐 알아요?
-        // leaveroom에 데이터 생김
+        // 모든 유저의 방을 나가는 이벤트를 전부 수신 - 방을 나가는 사람이 방장인 경우 방 종료
+        videoChatViewModel.userLeftDataInfo.observe(viewLifecycleOwner) { data ->
+            if (data.role == UserRole.HOST.roleName) {
+                player?.pause()
+                showTerminateRoomPopup(roomData)
+            }
+        }
+
+        // 소켓 통신) participants의 플레이어 상태 변경
+
+        // 1. 처음 입장시 host와 플레이어 싱크
+        chatRoomViewModel.videoSyncDataInfo.observe(viewLifecycleOwner) { data ->
+            Log.d("PlayerObserver", "sync: $data")
+            if ((user.nickname != roomData.hostNickname)) {
+                currentSecond = data.currentTime
+            }
+        }
+        // 2. host가 영상 재생할 경우 플레이어 싱크
+        chatRoomViewModel.videoPlayDataInfo.observe(viewLifecycleOwner) { data ->
+            Log.d("PlayerObserver", "play: $data")
+
+            if (user.nickname != roomData.hostNickname) {
+                player?.seekTo(data.currentTime)
+                player?.play()
+            }
+        }
+        // 3. host가 영상 일시정지할 경우 플레이어 싱크
+        chatRoomViewModel.videoPauseData.observe(viewLifecycleOwner) { data ->
+            Log.d("PlayerObserver", "pause: $data")
+
+            if (user.nickname != roomData.hostNickname) {
+                player?.seekTo(data.currentTime)
+                player?.pause()
+            }
+        }
     }
 
     private fun onClickSetting() {
@@ -105,9 +141,12 @@ class ChatRoomFragment : Fragment() {
     }
 
     fun onClickLeaveRoom() {
+        // 방 나가기 버튼 눌렀을 때 팝업 띄우기
         binding.ivGoBack.setOnClickListener {
             showLeaveRoomPopup(roomData)
         }
+
+        // 뒤로가기 버튼 눌렀을 때도 팝업 띄우기
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 showLeaveRoomPopup(roomData)
@@ -198,32 +237,6 @@ class ChatRoomFragment : Fragment() {
         playerView.initialize(listener, options)
     }
 
-
-    private fun onEventListener() {
-        chatRoomViewModel.videoSyncDataInfo.observe(viewLifecycleOwner) { data ->
-            Log.d("PlayerObserver", "sync: $data")
-            if ((user.nickname != roomData.hostNickname)) {
-                currentSecond = data.currentTime
-            }
-        }
-        chatRoomViewModel.videoPlayDataInfo.observe(viewLifecycleOwner) { data ->
-            Log.d("PlayerObserver", "play: $data")
-
-            if (user.nickname != roomData.hostNickname) {
-                player?.seekTo(data.currentTime)
-                player?.play()
-            }
-        }
-        chatRoomViewModel.videoPauseData.observe(viewLifecycleOwner) { data ->
-            Log.d("PlayerObserver", "pause: $data")
-
-            if (user.nickname != roomData.hostNickname) {
-                player?.seekTo(data.currentTime)
-                player?.pause()
-            }
-        }
-    }
-
     // 뒤로가기, 나가기 버튼으로 방 나가기
     private fun showLeaveRoomPopup(data: RoomData) {
         val dialog = ChatRoomLeaveDialog(data, object : PopupClick {
@@ -250,19 +263,5 @@ class ChatRoomFragment : Fragment() {
         activity?.supportFragmentManager?.let { fm ->
             dialog.show(fm, "TerminateRoomPopup")
         }
-    }
-
-    private fun seekBarClickListener(seekBar: SeekBar) {
-        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {}
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                if ((seekBar != null) and (user.nickname != roomData.hostNickname)) {
-                    chatRoomViewModel.sendVideoPlayerControl("video:play", roomData.roomId, currentSecond)
-                }
-            }
-        })
     }
 }
