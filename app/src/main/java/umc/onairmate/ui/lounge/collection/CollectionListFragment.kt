@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
@@ -60,6 +61,9 @@ class CollectionListFragment : Fragment() {
         collectionViewModel.deleteCollectionMessage.observe(viewLifecycleOwner) { data ->
             Toast.makeText(context, data.message, Toast.LENGTH_SHORT).show()
             collectionViewModel.getCollections()
+        }
+        collectionViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
     }
 
@@ -131,7 +135,7 @@ class CollectionListFragment : Fragment() {
 
             val dialog = CollectionShareDialog(friendList, { friend ->
                 val request = ShareCollectionRequest(
-                    listOf(user.userId, friend.userId)
+                    listOf(friend.userId)
                 )
 
                 collectionViewModel.shareCollection(collectionData.collectionId ,request)

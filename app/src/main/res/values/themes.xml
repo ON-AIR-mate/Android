@@ -1,6 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.OnAirMate" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <item name="android:fitsSystemWindows">true</item>
+
+
+        <item name="android:windowBackground">@color/white</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/main</item>
         <item name="colorPrimaryVariant">@color/disable</item>
@@ -9,6 +14,8 @@
         <item name="colorSecondary">@color/sub</item>
         <item name="colorSecondaryVariant">@color/input</item>
         <item name="colorOnSecondary">@color/black</item>
+        <item name="android:windowLightStatusBar">false</item>
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->

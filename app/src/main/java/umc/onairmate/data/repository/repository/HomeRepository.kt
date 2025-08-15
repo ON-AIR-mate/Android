@@ -14,7 +14,7 @@ interface HomeRepository {
     suspend fun getRoomDetailInfo( accessToken: String, roomId : Int) : DefaultResponse<RoomData>
     suspend fun createRoom( accessToken: String, body : CreateRoomRequest): DefaultResponse<CreateRoomResponse>
     suspend fun joinRoom( accessToken: String, roomId : Int): DefaultResponse<String>
-    suspend fun leaveRoom(accessToken: String, roomId : Int): DefaultResponse<String>
+    suspend fun leaveRoom(accessToken: String, roomId : Int): DefaultResponse<MessageResponse>
 
     // 영상 검색
     suspend fun searchVideoList(accessToken: String, query: String, limit: Int): DefaultResponse<List<VideoData>>

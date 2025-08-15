@@ -14,7 +14,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.data.model.request.TestRequest.*
 import umc.onairmate.databinding.FragmentJoinProfileBinding
+import umc.onairmate.ui.ImageViewModel
 import umc.onairmate.ui.login.LoginViewModel
+import umc.onairmate.ui.util.ImagePickerDelegate
+import umc.onairmate.ui.util.NetworkImageLoader
 import kotlin.getValue
 
 @AndroidEntryPoint
@@ -30,9 +33,12 @@ class JoinProfileFragment : Fragment() {
     private var nickname : String = ""
     private var id : String = ""
     private var password : String = ""
-    private var profile : String = ""
+    private var profile : String = "default"
 
-    private val viewModel: LoginViewModel by viewModels()
+    private val imageViewModel: ImageViewModel by viewModels()
+    private lateinit var picker: ImagePickerDelegate
+
+    private val loginViewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +53,7 @@ class JoinProfileFragment : Fragment() {
         initUI()
         initListeners()
         setUpObserver()
+        setImagePicker()
     }
 
     private fun initUI() {
@@ -60,7 +67,7 @@ class JoinProfileFragment : Fragment() {
         // 닉네임 중복확인 버튼
         binding.tvNicknameStatus.setOnClickListener {
             val nickname = binding.etNickname.text.toString()
-            viewModel.checkNickname(nickname)
+            loginViewModel.checkNickname(nickname)
         }
 
         // 비밀번호 유효성 체크
@@ -69,7 +76,7 @@ class JoinProfileFragment : Fragment() {
         // 완료 버튼 클릭 시 다음 프래그먼트로 이동
         binding.btnJoin.setOnClickListener {
             val agreement = arguments?.getParcelable<Agreement>("agreement")?: Agreement()
-            viewModel.signUp(
+            loginViewModel.signUp(
                 id = id,
                 pw = password,
                 nickname = nickname,
@@ -79,15 +86,24 @@ class JoinProfileFragment : Fragment() {
         }
 
         binding.btnProfileSelect.setOnClickListener {
-            // 이미지 런쳐 실행
+            picker.launch()
         }
 
         binding.btnClose.setOnClickListener {
             findNavController().popBackStack(R.id.loginFragment, false)
         }
     }
+    private fun setImagePicker(){
+        picker = ImagePickerDelegate(this) { uri ->
+            if (uri != null) {
+                imageViewModel.uploadUri(uri)
+            }
+        }
+        picker.register()
+    }
+
     private fun setUpObserver(){
-        viewModel.available.observe(viewLifecycleOwner){available ->
+        loginViewModel.available.observe(viewLifecycleOwner){available ->
             if (available == null) return@observe
             if (available){
                 binding.tvNicknameStatus.text = "사용가능"
@@ -105,23 +121,23 @@ class JoinProfileFragment : Fragment() {
             binding.tvNicknameGuide.visibility = View.VISIBLE
             updateCompleteButtonState()
         }
-        viewModel.isSuccess.observe(viewLifecycleOwner){isSuccess ->
+        loginViewModel.isSuccess.observe(viewLifecycleOwner){isSuccess ->
             if (isSuccess == null) return@observe
             if (isSuccess){
                 findNavController().navigate(R.id.action_joinProfileFragment_to_howToUseFragment)
-//                parentFragmentManager.commit {
-//                    replace(R.id.fragment_container, HowToUseFragment())
-//                    addToBackStack(null)
-//                }
             }
             else{
                 Toast.makeText(requireContext(), "입력값을 다시 확인해주세요.", Toast.LENGTH_SHORT).show()
-                //binding.btnJoin.isEnabled = isSuccess
+                binding.tvIdGuide.visibility = View.INVISIBLE
+            //binding.btnJoin.isEnabled = isSuccess
             }
-            viewModel.clearSuccess()
+            loginViewModel.clearSuccess()
         }
-        // 이미지 뷰모델 작성
-        // -> 응답이 오면그걸 프로필 이미지에 반영
+        imageViewModel.imageUrl.observe(viewLifecycleOwner){ url ->
+            if (url == null) return@observe
+            profile = url
+            NetworkImageLoader.profileLoad(binding.ivProfile, profile)
+        }
 
     }
 

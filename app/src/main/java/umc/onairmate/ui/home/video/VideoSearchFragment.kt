@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,6 +46,7 @@ class VideoSearchFragment : Fragment() {
 
         setTextListener()
         setVideo()
+        
 
         return binding.root
     }
@@ -72,7 +74,6 @@ class VideoSearchFragment : Fragment() {
     private fun setVideo() {
         searchVideoViewModel.searchedVideos.observe(viewLifecycleOwner) { data ->
             val videoList = data ?: emptyList()
-            Log.d("VideoSearch", "Video list size: ${videoList.size}")
 
             // 어댑터가 이미 연결되어 있다면 데이터만 갱신
             if (::adapter.isInitialized) {
@@ -100,24 +101,38 @@ class VideoSearchFragment : Fragment() {
 
         searchVideoViewModel.videoDetailInfo.observe(viewLifecycleOwner) { data ->
             if (data == null) return@observe
-            Log.d("Check", "observe triggered with data: $data")
             showCreateRoomPopup(data)
+            searchVideoViewModel.clearVideoDetailInfo()
         }
 
         searchVideoViewModel.createdRoomInfo.observe(viewLifecycleOwner) { data ->
+            if (data == null) return@observe
             // 방 정보 받아오기
             searchRoomViewModel.getRoomDetailInfo(data.roomId)
+            searchVideoViewModel.clearCreatedRoomInfo()
         }
 
         // 채팅방 화면 열기
         searchRoomViewModel.roomDetailInfo.observe(viewLifecycleOwner) { data ->
-            Log.d("Check", "roomDetailInfo called")
-            val roomData = data ?: RoomData()
-
-            val intent = Intent(requireActivity(), ChatRoomLayoutActivity::class.java).apply {
-                putExtra("room_data", roomData)
+            if (data == null) return@observe
+            else {
+                (activity?.supportFragmentManager?.findFragmentByTag("CreateRoomPopup")
+                        as? androidx.fragment.app.DialogFragment
+                        )?.dismissAllowingStateLoss()
+                // 방 액티비티로 전환
+                val intent = Intent(requireActivity(), ChatRoomLayoutActivity::class.java).apply {
+                    putExtra("room_data", data)
+                }
+                startActivity(intent)
             }
-            startActivity(intent)
+            searchRoomViewModel.clearJoinRoom()
+            searchRoomViewModel.clearRoomDetailInfo()
+        }
+        searchVideoViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+        searchVideoViewModel.smallLoading.observe(viewLifecycleOwner){ smallLoading ->
+            binding.progressbarSmall.visibility = if (smallLoading) View.VISIBLE else View.GONE
         }
 
     }
@@ -126,8 +141,6 @@ class VideoSearchFragment : Fragment() {
 
     // 방 생성 팝업 띄우기
     private fun showCreateRoomPopup(data : VideoData){
-        searchVideoViewModel.clearVideoDetailInfo()
-        Log.d("Check", "showCreateRoomPopup called")
 
         val dialog = CreateRoomPopup(data, object : CreateRoomCallback {
             override fun onCreateRoom(body: CreateRoomRequest) {

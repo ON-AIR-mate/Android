@@ -3,8 +3,8 @@ package umc.onairmate.data.model.request
 import com.google.gson.annotations.SerializedName
 
 data class CreateRoomWithBookmarkRequest(
-    @SerializedName("roomName")
-    val roomName : String,
+    @SerializedName("roomTitle")
+    val roomTitle : String,
     @SerializedName("maxParticipants")
     val maxParticipants : Int,
     @SerializedName("isPrivate")

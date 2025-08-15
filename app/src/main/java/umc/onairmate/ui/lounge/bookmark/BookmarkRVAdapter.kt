@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.data.model.entity.BookmarkData
+import umc.onairmate.data.model.entity.RoomArchiveData
 import umc.onairmate.databinding.RvItemBookmarkBinding
 import umc.onairmate.databinding.RvItemBookmarkHeaderBinding
 
@@ -27,7 +28,7 @@ class BookmarkRVAdapter(
         data class Header(val title: String) : RecyclerItem()
 
         // 뷰 타입 2: 북마크 아이템
-        data class Bookmark(val bookmarkData: BookmarkData) : RecyclerItem()
+        data class Bookmark(val roomArchiveData: RoomArchiveData) : RecyclerItem()
     }
 
     // 리스트의 각 아이템 종류에 따라 뷰 타입을 반환
@@ -65,7 +66,7 @@ class BookmarkRVAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (val item = getItem(position)) {
             is RecyclerItem.Header -> (holder as HeaderViewHolder).bind(item)
-            is RecyclerItem.Bookmark -> (holder as BookmarkViewHolder).bind(item.bookmarkData)
+            is RecyclerItem.Bookmark -> (holder as BookmarkViewHolder).bind(item.roomArchiveData)
         }
     }
 
@@ -80,7 +81,7 @@ class BookmarkRVAdapter(
             // 타입이 같을 경우, 각 타입의 고유 ID를 비교
             return when (oldItem) {
                 is RecyclerItem.Header -> (newItem as RecyclerItem.Header).title == oldItem.title
-                is RecyclerItem.Bookmark -> (newItem as RecyclerItem.Bookmark).bookmarkData.bookmarkId == oldItem.bookmarkData.bookmarkId
+                is RecyclerItem.Bookmark -> (newItem as RecyclerItem.Bookmark) == oldItem
             }
         }
 
@@ -92,8 +93,8 @@ class BookmarkRVAdapter(
 
     // 데이터 삽입 -> 각각의 리스트가 비어 있는 경우에 따라 다른 ITEM 삽입
     fun initData(
-        uncategorizedBookmarks: List<BookmarkData>,
-        allBookmarks: List<BookmarkData>
+        uncategorizedBookmarks: List<RoomArchiveData>,
+        allBookmarks: List<RoomArchiveData>
     ) {
         val itemList = mutableListOf<RecyclerItem>()
 

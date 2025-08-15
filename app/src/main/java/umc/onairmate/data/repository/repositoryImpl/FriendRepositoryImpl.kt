@@ -1,13 +1,16 @@
 package umc.onairmate.data.repository.repositoryImpl
 
 import umc.onairmate.data.api.FriendService
+import umc.onairmate.data.model.entity.DirectMessageData
 import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.data.model.entity.RequestedFriendData
 import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.data.model.request.AcceptFriendBody
+import umc.onairmate.data.model.request.FriendInviteRequest
 import umc.onairmate.data.model.request.FriendRequest
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.model.response.MessageResponse
+import umc.onairmate.data.model.response.RawDefaultResponse
 import umc.onairmate.data.repository.repository.FriendRepository
 import umc.onairmate.data.util.safeApiCall
 import javax.inject.Inject
@@ -54,8 +57,16 @@ class FriendRepositoryImpl @Inject constructor(
 
     override suspend fun inviteFriend(
         accessToken: String,
-        friendId: Int
+        friendId: Int,
+        body: FriendInviteRequest
     ): DefaultResponse<MessageResponse> {
-        return safeApiCall { api.inviteFriend(accessToken, friendId) }
+        return safeApiCall { api.inviteFriend(accessToken, friendId, body) }
+    }
+
+    override suspend fun getDmHistory(
+        accessToken: String,
+        friendId: Int
+    ): DefaultResponse<List<DirectMessageData>> {
+        return safeApiCall { api.getDmHistory(accessToken, friendId) }
     }
 }

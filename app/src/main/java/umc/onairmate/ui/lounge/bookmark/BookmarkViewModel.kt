@@ -76,11 +76,11 @@ class BookmarkViewModel @Inject constructor(
 
             when (result) {
                 is DefaultResponse.Success -> {
-                    Log.d("응답 성공", "${result.data}")
+                    Log.d(TAG, "${result.data}")
                     _createdBookmarkDataInfo.postValue(result.data)
                 }
                 is DefaultResponse.Error -> {
-                    Log.d("에러", "${result.code} - ${result.message}")
+                    Log.d(TAG, "${result.code} - ${result.message}")
                 }
             }
 
@@ -111,11 +111,11 @@ class BookmarkViewModel @Inject constructor(
 
             when (result) {
                 is DefaultResponse.Success -> {
-                    Log.d("응답 성공", "${result.data}")
+                    Log.d(TAG, "${result.data}")
                     _bookmarkList.postValue(result.data)
                 }
                 is DefaultResponse.Error -> {
-                    Log.d("에러", "${result.code} - ${result.message}")
+                    Log.d(TAG, "${result.code} - ${result.message}")
                 }
             }
 
@@ -139,11 +139,11 @@ class BookmarkViewModel @Inject constructor(
 
             when (result) {
                 is DefaultResponse.Success -> {
-                    Log.d("응답 성공", "${result.data}")
+                    Log.d(TAG, "${result.data}")
                     _isBookmarkDeleted.postValue(result.data)
                 }
                 is DefaultResponse.Error -> {
-                    Log.d("에러", "${result.code} - ${result.message}")
+                    Log.d(TAG, "${result.code} - ${result.message}")
                 }
             }
 
@@ -167,11 +167,11 @@ class BookmarkViewModel @Inject constructor(
 
             when (result) {
                 is DefaultResponse.Success -> {
-                    Log.d("응답 성공", "${result.data}")
+                    Log.d(TAG, "${result.data}")
                     _isBookmarkMoved.postValue(result.data)
                 }
                 is DefaultResponse.Error -> {
-                    Log.d("에러", "${result.code} - ${result.message}")
+                    Log.d(TAG, "${result.code} - ${result.message}")
                 }
             }
 
@@ -195,11 +195,11 @@ class BookmarkViewModel @Inject constructor(
 
             when (result) {
                 is DefaultResponse.Success -> {
-                    Log.d("응답 성공", "${result.data}")
+                    Log.d(TAG, "${result.data}")
                     _createdRoomDataInfo.postValue(result.data)
                 }
                 is DefaultResponse.Error -> {
-                    Log.d("에러", "${result.code} - ${result.message}")
+                    Log.d(TAG, "${result.code} - ${result.message}")
                 }
             }
 

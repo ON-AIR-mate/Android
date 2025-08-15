@@ -21,5 +21,5 @@ data class CollectionDetailData(
     @SerializedName("visibility")
     val visibility: String,
     @SerializedName("bookmarks")
-    val bookmarks: List<BookmarkData>
+    val bookmarks: List<RoomArchiveData>
 ): Serializable

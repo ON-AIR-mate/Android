@@ -2,99 +2,120 @@ package umc.onairmate.ui.profile
 
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
+import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.databinding.FragmentProfileBinding
-import umc.onairmate.ui.profile.ParticipatedRoomsActivity
+import umc.onairmate.ui.ImageViewModel
+import umc.onairmate.ui.util.ImagePickerDelegate
+
+import kotlin.getValue
+import androidx.core.content.edit
+import umc.onairmate.ui.login.LoginActivity
+import umc.onairmate.ui.util.NetworkImageLoader
+import umc.onairmate.ui.util.SharedPrefUtil
+
+
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
+    private val TAG = this.javaClass.simpleName
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-    private var nickname = ""
+    private var imageUrl =""
+
+    private var user : UserData = UserData()
     
+    private val imageViewModel: ImageViewModel by viewModels()
+
+    private lateinit var picker: ImagePickerDelegate
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        nickname = spf.getString("nickname","user")!!
+        setImagePicker()
+
+        user = SharedPrefUtil.getData("user_info")?: UserData()
+        initUserData()
 
         return binding.root
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.btnChangeProfile.setOnClickListener {
-            Toast.makeText(requireContext(), "프로필 사진 변경 클릭", Toast.LENGTH_SHORT).show()
-        }
-
-        binding.ivTooltip.setOnClickListener {
-            Toast.makeText(requireContext(), "추천 및 제재에 따라 인기도가 조정됩니다.", Toast.LENGTH_LONG).show()
-        }
-
-        binding.layoutMyRooms.setOnClickListener {
-            // 참여한 방 이동
-        }
-
-        binding.tvNicknameValue.text = nickname
-
-        // 다른 버튼들에 대한 clickListener도 동일하게 설정
-
-        binding.markMyRooms.setOnClickListener {
-            // 이동!
-            startActivity(ParticipatedRoomsActivity.newIntent(requireContext()))
-            // 또는: startActivity(Intent(requireContext(), ParticipatedRoomsActivity::class.java))
-        }
-
-
-
-//        ParticipatedRoomsFragment 새로만듬. 그안에 이 내용이 있다.
-//
-//        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-//            userViewModel.deleteState.collect { s ->
-//                when (s) {
-//                    UiState.Loading -> showLoading()
-//                    is UiState.Success -> { hideLoading(); toast(s.msg); refreshListAfterDelete() }
-//                    is UiState.Error -> { hideLoading(); toast(s.msg) }
-//                    else -> Unit
-//                }
-//            }
-//        }
-//
-//        override fun onDeleteClick(roomId: Long) {
-//            AlertDialog.Builder(requireContext())
-//                .setMessage("참여한 방 기록을 삭제할까요?")
-//                .setPositiveButton("삭제") { _, _ -> userViewModel.deleteParticipated(roomId) }
-//                .setNegativeButton("취소", null)
-//                .show()
-//        }
-//
-//        private fun refreshListAfterDelete() {
-//            // 서버/로컬 리스트 갱신 로직 (재호출 or 로컬 제거) 프로젝트 방식대로
-//        }
-
+        setObservers()
+        initEventListeners()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+
+    private fun setObservers(){
+        imageViewModel.imageUrl.observe(viewLifecycleOwner){ url ->
+            if (url == null) return@observe
+            imageUrl= url
+            imageViewModel.editProfile(user.nickname,imageUrl)
+        }
+        imageViewModel.isSuccess.observe(viewLifecycleOwner){ isSuccess ->
+            if (isSuccess == null) return@observe
+            NetworkImageLoader.profileLoad(binding.ivProfile, imageUrl)
+        }
+        imageViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun initEventListeners() {
+        binding.btnChangeProfile.setOnClickListener {
+            picker.launch()
+        }
+        binding.ivPopularityHelp.setOnClickListener {
+            //showTooltip(it, "추천 및 제재에 따라 인기도가 조정됩니다.")
+        }
+
+        binding.layoutMyRooms.setOnClickListener {  }
+        binding.layoutBlock.setOnClickListener {  }
+
+        binding.tvLogout.setOnClickListener {
+            val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+            spf.edit { clear() }
+            val intent = Intent(requireActivity(), LoginActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
+        }
+
+    }
+
+    private fun setImagePicker(){
+        picker = ImagePickerDelegate(this) { uri ->
+            if (uri != null) {
+                imageViewModel.uploadUri(uri)
+            }
+        }
+        picker.register()
+    }
+
 
     //도움말 클릭시 글귀 표시
     private fun showTooltip(anchorView: View, message: String) {
@@ -130,8 +151,12 @@ class ProfileFragment : Fragment() {
             anchorY - anchorView.height - 20  // 말풍선 높이 조절
         )
 
-        binding.ivTooltip.setOnClickListener {
-            showTooltip(it, "추천 및 제재에 따라 인기도가 조정됩니다.")
-        }
+
+    }
+
+    private fun initUserData(){
+        Log.d(TAG,"initUserData")
+        binding.tvNickname.text = user.nickname
+        NetworkImageLoader.profileLoad(binding.ivProfile, user.profileImage)
     }
 }

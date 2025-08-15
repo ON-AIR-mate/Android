@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginHorizontal="30dp"
     android:paddingHorizontal="13dp"
     android:paddingVertical="24dp"
@@ -14,7 +15,7 @@
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="힐링 모먼트"
+        android:text="컬렉션 공유"
         android:layout_marginBottom="8dp"
         android:textAppearance="@style/TextAppearance.App.SemiBold.20sp" />
 

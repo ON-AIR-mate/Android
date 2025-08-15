@@ -69,4 +69,6 @@ object NetworkModule {
     private inline fun <reified T> Retrofit.buildService(): T{
         return this.create(T::class.java)
     }
+
+
 }

@@ -29,12 +29,12 @@
             android:layout_height="12dp"
             android:src="@drawable/ic_playtime"/>
         <TextView
-            android:id="@+id/tv_play_time"
+            android:id="@+id/tv_view_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1:06:15"
-            android:textAppearance="@style/TextAppearance.App.Medium.12sp"
-            android:layout_marginStart="5dp"/>
+            android:layout_marginStart="5dp"
+            android:text="10k"
+            android:textAppearance="@style/TextAppearance.App.Medium.10sp"/>
 
     </LinearLayout>
     <TextView
@@ -79,13 +79,6 @@
             android:layout_weight="1"
             android:textAppearance="@style/TextAppearance.App.Regular.12sp"
             android:layout_marginStart="5dp"/>
-
-        <TextView
-            android:id="@+id/tv_view_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="10k"
-            android:textAppearance="@style/TextAppearance.App.Medium.12sp"/>
 
     </LinearLayout>
 

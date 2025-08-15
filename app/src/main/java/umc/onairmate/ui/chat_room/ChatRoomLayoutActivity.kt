@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
@@ -17,6 +18,7 @@ import umc.onairmate.data.socket.SocketManager
 import umc.onairmate.databinding.ActivityChatRoomLayoutBinding
 import umc.onairmate.ui.chat_room.drawer.ChatRoomDrawerFragment
 import umc.onairmate.ui.chat_room.message.VideoChatViewModel
+import umc.onairmate.ui.home.HomeViewModel
 import kotlin.getValue
 
 @AndroidEntryPoint
@@ -25,8 +27,9 @@ class ChatRoomLayoutActivity : AppCompatActivity() {
     lateinit var roomData: RoomData
     private lateinit var binding: ActivityChatRoomLayoutBinding
 
-    private val chatRoomViewModel: ChatRoomViewModel by viewModels()
+    private val chatRoomViewModel: ChatVideoViewModel by viewModels()
     private val videoChatViewModel: VideoChatViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,12 +45,13 @@ class ChatRoomLayoutActivity : AppCompatActivity() {
         onDrawerListener()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        videoChatViewModel.leaveRoom(roomData.roomId) // 방 나가기 (Socket)
+    override fun onPause() {
+        super.onPause()
         SocketManager.getSocketOrNull()?.let { socket ->
             if (socket.connected()) {
+                videoChatViewModel.leaveRoom(roomData.roomId)
                 SocketDispatcher.unregisterHandler(socket, videoChatViewModel.getHandler())
+                SocketDispatcher.unregisterHandler(socket, chatRoomViewModel.getHandler())
             }
         }
     }
@@ -57,6 +61,7 @@ class ChatRoomLayoutActivity : AppCompatActivity() {
         val socket = SocketManager.getSocketOrNull()
         if (socket?.connected() == true) {
             SocketDispatcher.registerHandler(socket, videoChatViewModel.getHandler())
+            SocketDispatcher.registerHandler(socket, chatRoomViewModel.getHandler())
         }
 
     }
@@ -66,6 +71,9 @@ class ChatRoomLayoutActivity : AppCompatActivity() {
             Log.d(TAG,"UserChange")
             if (data) chatRoomViewModel.getParticipantDataInfo(roomData.roomId)
         }
+
+
+
     }
 
     private fun initScreen() {
