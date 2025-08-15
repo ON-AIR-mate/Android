@@ -28,4 +28,5 @@ interface AuthService {
     suspend fun checkNickname(
         @Path ("nickname") nickname : String
     ) : RawDefaultResponse<CheckNicknameResponse>
+
 }
