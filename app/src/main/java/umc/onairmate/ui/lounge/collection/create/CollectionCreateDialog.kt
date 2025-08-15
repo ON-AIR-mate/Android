@@ -13,10 +13,11 @@ import android.view.WindowManager
 import android.widget.AdapterView
 import androidx.fragment.app.DialogFragment
 import umc.onairmate.data.model.entity.CollectionVisibility
-import umc.onairmate.data.model.request.CreateCollectionRequest
+import umc.onairmate.data.model.request.CollectionCreateRequest
 import umc.onairmate.databinding.DialogCreateCollectionBinding
 import umc.onairmate.ui.home.room.HomeSortTypeSpinnerAdapter
 
+// 컬렉션 생성 팝업
 class CollectionCreateDialog(
     private val createCollectionCallback: CreateCollectionCallback
 ) : DialogFragment() {
@@ -84,7 +85,7 @@ class CollectionCreateDialog(
     private fun setOnClickListener() {
         binding.btnChangeTitle.setOnClickListener {
             if (textLength in 3..20) {
-                val requestData = CreateCollectionRequest(
+                val requestData = CollectionCreateRequest(
                     title = binding.etCollectionTitle.text.toString(),
                     description = "",
                     visibility = CollectionVisibility.fromDisplayName(selectedVisibility)!!.apiName
@@ -106,5 +107,5 @@ class CollectionCreateDialog(
 }
 
 interface CreateCollectionCallback {
-    fun onCreateCollection(requestData: CreateCollectionRequest) {}
+    fun onCreateCollection(requestData: CollectionCreateRequest) {}
 }

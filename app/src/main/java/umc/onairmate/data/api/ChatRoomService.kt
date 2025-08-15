@@ -35,8 +35,6 @@ interface ChatRoomService {
         @Path("roomId") roomId: Int,
     ): RawDefaultResponse<List<ParticipantData>>
 
-    // ai 요약이랑 북마크 생성도 여긴가?
-
     // 채팅 로그 조회
     @GET("rooms/{roomId}/messages")
     suspend fun getChatHistory(

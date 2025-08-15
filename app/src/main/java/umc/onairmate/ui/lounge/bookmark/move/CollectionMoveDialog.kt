@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import umc.onairmate.data.model.entity.CollectionData
 import umc.onairmate.databinding.DialogMoveCollectionBinding
 
+// 북마크의 컬렉션 이동 팝업
 class CollectionMoveDialog(
     private val collectionList: List<CollectionData>,
     private val moveCollectionCallback: (CollectionData) -> Unit
@@ -52,6 +53,7 @@ class CollectionMoveDialog(
         binding.rvCollectionList.adapter = adapter
     }
 
+    // 팝업 클릭 리스너
     fun setClickListener() {
         binding.tvMoveCollection.setOnClickListener {
             val selectedCollection = adapter.getSelectedItem()
