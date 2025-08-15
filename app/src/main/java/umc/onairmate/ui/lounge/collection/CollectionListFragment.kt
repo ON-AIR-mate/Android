@@ -63,7 +63,7 @@ class CollectionListFragment : Fragment() {
             collectionViewModel.getCollections()
         }
         collectionViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
-            //binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
     }
 
