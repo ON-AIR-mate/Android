@@ -10,7 +10,7 @@
         android:id="@+id/tv_popup_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="영상 시청이 종료되었습니다."
+        android:text="영상 시청이 종료되었습니다.\n방이 자동으로 종료됩니다."
         android:textAppearance="@style/TextAppearance.App.Medium.14sp"
         android:gravity="center"
         android:padding="10dp"

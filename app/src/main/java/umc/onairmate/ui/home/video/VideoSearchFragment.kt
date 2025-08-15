@@ -74,7 +74,6 @@ class VideoSearchFragment : Fragment() {
     private fun setVideo() {
         searchVideoViewModel.searchedVideos.observe(viewLifecycleOwner) { data ->
             val videoList = data ?: emptyList()
-            Log.d("VideoSearch", "Video list size: ${videoList.size}")
 
             // 어댑터가 이미 연결되어 있다면 데이터만 갱신
             if (::adapter.isInitialized) {
@@ -102,7 +101,6 @@ class VideoSearchFragment : Fragment() {
 
         searchVideoViewModel.videoDetailInfo.observe(viewLifecycleOwner) { data ->
             if (data == null) return@observe
-            Log.d("Check", "observe triggered with data: $data")
             showCreateRoomPopup(data)
             searchVideoViewModel.clearVideoDetailInfo()
         }
@@ -136,7 +134,6 @@ class VideoSearchFragment : Fragment() {
 
     // 방 생성 팝업 띄우기
     private fun showCreateRoomPopup(data : VideoData){
-        Log.d("Check", "showCreateRoomPopup called")
 
         val dialog = CreateRoomPopup(data, object : CreateRoomCallback {
             override fun onCreateRoom(body: CreateRoomRequest) {
