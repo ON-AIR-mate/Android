@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.ParticipantData
 import umc.onairmate.data.model.entity.RoomData
+import umc.onairmate.data.model.entity.UserRole
 import umc.onairmate.databinding.FragmentChatRoomParticipantsBinding
 import umc.onairmate.ui.chat_room.ChatVideoViewModel
 import umc.onairmate.ui.chat_room.message.VideoChatViewModel
@@ -41,6 +42,7 @@ class ChatRoomParticipantsFragment : Fragment() {
         Log.d("data", "room : ${roomData}")
 
         initScreen()
+        setupAdapter()
         setParticipants()
 
         return binding.root
@@ -52,31 +54,41 @@ class ChatRoomParticipantsFragment : Fragment() {
         NetworkImageLoader.profileLoad(binding.itemRoomManager.ivUserProfile, roomData!!.hostProfileImage)
     }
 
+    fun setupAdapter() {
+        adapter = ChatRoomParticipantRVAdapter( object : ParticipantItemClickListener {
+            override fun clickReport(data: ParticipantData) {
+                TODO("Not yet implemented")
+            }
+
+            override fun clickRecommend(data: ParticipantData) {
+                TODO("Not yet implemented")
+            }
+
+            override fun clickAddFriend(data: ParticipantData) {
+                TODO("Not yet implemented")
+            }
+
+            override fun clickBlock(data: ParticipantData) {
+                TODO("Not yet implemented")
+            }
+        })
+        binding.rvParticipants.adapter = adapter
+        binding.rvParticipants.layoutManager = LinearLayoutManager(context)
+    }
+
     // 방 참가자 명단의 어댑터와 뷰 연결
     private fun setParticipants() {
         // 초기 userList 삽입
         chatRoomViewModel.participantDataInfo.observe(viewLifecycleOwner) { data ->
             val userList = data?.filter { !it.isHost } ?: emptyList()
+            adapter.submitList(userList)
+        }
 
-            adapter = ChatRoomParticipantRVAdapter(userList, object : ParticipantItemClickListener {
-                override fun clickReport(data: ParticipantData) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun clickRecommend(data: ParticipantData) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun clickAddFriend(data: ParticipantData) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun clickBlock(data: ParticipantData) {
-                    TODO("Not yet implemented")
-                }
-            })
-            binding.rvParticipants.adapter = adapter
-            binding.rvParticipants.layoutManager = LinearLayoutManager(context)
+        // 업데이트된 userList 삽입
+        videoChatViewModel.userLeftDataInfo.observe(viewLifecycleOwner) { data ->
+            if (data.role == UserRole.PARTICIPANTS.roleName) {
+                adapter.submitList(data.roomParticipants)
+            }
         }
     }
 }
