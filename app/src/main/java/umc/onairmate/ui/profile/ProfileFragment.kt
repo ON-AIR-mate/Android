@@ -17,7 +17,7 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.databinding.FragmentProfileBinding
-
+import umc.onairmate.ui.profile.ParticipatedRoomsActivity
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
@@ -55,6 +55,14 @@ class ProfileFragment : Fragment() {
         binding.tvNicknameValue.text = nickname
 
         // 다른 버튼들에 대한 clickListener도 동일하게 설정
+
+        binding.markMyRooms.setOnClickListener {
+            // 이동!
+            startActivity(ParticipatedRoomsActivity.newIntent(requireContext()))
+            // 또는: startActivity(Intent(requireContext(), ParticipatedRoomsActivity::class.java))
+        }
+
+
 
 //        ParticipatedRoomsFragment 새로만듬. 그안에 이 내용이 있다.
 //
