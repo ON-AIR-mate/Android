@@ -86,7 +86,7 @@ class VideoChatFragment: Fragment() {
         })
     }
     private fun initData(){
-        roomId = arguments?.getInt("roomId", 0)!!
+        roomId = arguments?.getInt("roomId") ?: 0
         user = SharedPrefUtil.getData("user_info")?: UserData()
 
     }

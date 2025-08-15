@@ -51,6 +51,7 @@ class FriendChatFragment: Fragment() {
     ): View {
         _binding = FragmentVideoChatBinding.inflate(inflater, container, false)
 
+        binding.btnSend.isEnabled = false
         initData()
         setUpObserver()
         setTextListener()
@@ -102,10 +103,21 @@ class FriendChatFragment: Fragment() {
         super.onResume()
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    private fun initData(){
-        friend = arguments?.getParcelable("friendData", FriendData::class.java)!!
-        user = SharedPrefUtil.getData("user_info")?: UserData()
+    private fun initData() {
+        val parsedFriend =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                arguments?.getParcelable("friendData", FriendData::class.java)
+            } else {
+                @Suppress("DEPRECATION")
+                arguments?.getParcelable<FriendData>("friendData")
+            }
+        if (parsedFriend == null) {
+            Toast.makeText(requireContext(), "친구 정보가 없습니다.", Toast.LENGTH_SHORT).show()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+            return
+        }
+        friend = parsedFriend
+        user = SharedPrefUtil.getData("user_info") ?: UserData()
     }
 
     private fun setUpObserver() {
@@ -113,10 +125,12 @@ class FriendChatFragment: Fragment() {
             if (data == null) return@observe
             adapter.addChat(listOf(data))
         }
+
         friendViewModel.dmHistory.observe(viewLifecycleOwner) { list ->
             if (list == null) return@observe
             adapter.addChat(list)
         }
+
         homeViewModel.joinRoom.observe(viewLifecycleOwner){ data ->
             if (data == null) return@observe
             (activity?.supportFragmentManager?.findFragmentByTag("JoinRoomPopup")
