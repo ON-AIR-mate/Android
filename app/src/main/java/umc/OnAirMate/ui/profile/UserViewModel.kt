@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
+import umc.onairmate.R
 import androidx.lifecycle.Observer
 import android.widget.Toast
 import umc.onairmate.data.model.entity.ParticipantData
@@ -19,6 +20,7 @@ import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.model.response.MessageResponse
 import javax.inject.Inject
 import androidx.lifecycle.map
+import umc.onairmate.ui.profile.ParticipatedRoomItem
 
 
 @HiltViewModel
@@ -35,9 +37,8 @@ class UserViewModel @Inject constructor(
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
 
-    private val _rooms = MutableLiveData<List<ParticipatedRoomData>>(emptyList())
-    val rooms: LiveData<List<ParticipatedRoomData>> get() = _rooms
-
+    private val _rooms = MutableLiveData<List<ParticipatedRoomItem>>(emptyList())
+    val rooms: LiveData<List<ParticipatedRoomItem>> get() = _rooms
 
     //UX향상을 위해 서버가 로딩중임을 프로그래스바로 표시할 때 사용예정
     //api호출시 true, 응답이 오면 false로 한다 정도로만 생각
@@ -95,9 +96,26 @@ class UserViewModel @Inject constructor(
             val token = getToken() ?: return@launch
             _isLoading.value = true
             when (val res = repository.getParticipatedRoom(token)) {
-                is DefaultResponse.Success -> _rooms.postValue(res.data)
-                is DefaultResponse.Error -> handleError(res.code?.toIntOrNull() ?: -1, res.message)
+                is DefaultResponse.Success<List<ParticipatedRoomData>> -> {
+                    val mapped: List<ParticipatedRoomItem> = res.data.map { d ->
+                        ParticipatedRoomItem(
+                            roomId       = d.roomId.toLong(),
+                            roomtitle    = d.roomTitle,
+                            videotitle   = d.videoTitle,
+                            bookmarktime = d.bookmarks.firstOrNull()?.timeline ?: 0,
+                            lastEnteredAt= d.participatedAt
+                        )
+                    }
+                    _rooms.postValue(mapped)
+                }
+                is DefaultResponse.Error -> {
+                    handleError(
+                        code = res.code?.toIntOrNull() ?: -1,
+                        msg = res.message
+                    )
+                }
             }
+
             _isLoading.value = false
         }
 
@@ -134,34 +152,40 @@ class UserViewModel @Inject constructor(
         // 필요 시 토스트/로그
         Log.e("UserViewModel", "loadParticipatedRooms error $code $msg")
     }
-}
 
+    fun loadRecentParticipatedRooms() {
+        viewModelScope.launch {
+            val token = getToken() ?: return@launch
+            _isLoading.value = true
 
-// 예시: UserViewModel.kt 혹은 RecentRoomsViewModel.kt
-fun loadRecentParticipatedRooms() {
-    viewModelScope.launch {
-        val token = getToken() ?: return@launch
-        _isLoading.value = true
+            when (val res = repository.getParticipatedRoom(token)) {
+                is DefaultResponse.Success -> {
+                    val mapped = res.data.map { room ->
+                        ParticipatedRoomItem(
+                            roomId = room.roomId.toLong(),
+                            roomtitle = room.roomTitle,
+                            videotitle = room.videoTitle,
+                            bookmarktime = room.bookmarks.firstOrNull()?.timeline ?: 0,
+                            lastEnteredAt = room.participatedAt
+                        )
+                    }.sortedByDescending { it.lastEnteredAt.toMillisSafe() }   // ★ 내림차순
 
-        when (val res = repository.getParticipatedRooms(token)) {
-            is DefaultResponse.Success -> {
-                val mapped = res.data.map { room ->
-                    ParticipatedRoomItem(
-                        roomId = room.roomId.toLong(),
-                        roomtitle = room.title,
-                        videotitle = room.lastVideoTitle ?: room.title,  // 서버 필드에 맞춰 조정
-                        bookmarktime = room.bookmarkTimeSec ?: 0,        // 서버 필드에 맞춰 조정
-                        lastEnteredAt = room.lastEnteredAt               // ★ 정렬 기준
-                    )
-                }.sortedByDescending { it.lastEnteredAt.toMillisSafe() }   // ★ 내림차순
+                    _rooms.postValue(mapped) // LiveData<List<ParticipatedRoomItem>>
+                }
+                is DefaultResponse.Error
+                    -> handleError(
+                    code = res.code?.toIntOrNull() ?: -1,
+                    msg = res.message
+                )
 
-                _rooms.postValue(mapped) // LiveData<List<ParticipatedRoomItem>>
             }
-            is DefaultResponse.Error -> handleError(res.code, res.message)
+            _isLoading.value = false
         }
-        _isLoading.value = false
     }
+
 }
+
+
 
 // 편의 확장: String? → Long(에폭 ms)
 private fun String?.toMillisSafe(): Long = try {

@@ -21,5 +21,7 @@ data class BookmarkData(
     @SerializedName("bookmarkId")
     val bookmarkId: Int,
     @SerializedName("message")
-    val message: String
+    val message: String,
+    @SerializedName("timeline")
+    val timeline: Int
 )

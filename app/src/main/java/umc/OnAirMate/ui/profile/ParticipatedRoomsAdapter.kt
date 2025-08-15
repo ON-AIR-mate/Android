@@ -6,15 +6,21 @@ import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.annotations.SerializedName
 import umc.onairmate.R
 import umc.onairmate.databinding.RvItemBookmarkBinding
 import umc.onairmate.ui.profile.OnRoomActionListener
 
 data class ParticipatedRoomItem(
+    @SerializedName("roomId")
     val roomId: Long,
+    @SerializedName("roomtitle")
     val roomtitle: String,
+    @SerializedName("videotitle")
     val videotitle: String,
+    @SerializedName("bookmarktime")
     val bookmarktime: Int,
+    @SerializedName("lastEnteredAt")
     val lastEnteredAt: String?
     // 필요 필드 추가
 )
@@ -29,10 +35,11 @@ class ParticipatedRoomsAdapter(
             fun bind(item: ParticipatedRoomItem) {
             binding.tvRoomTitle.text = item.roomtitle
             binding.tvVideoTitle.text = item.videotitle
-            binding.tvBookmarkTime.text = item.bookmarktime.toString()
+                binding.tvBookmarkTime.text = item.bookmarktime.toString()
 
                 // 카드 전체 클릭 → 방 입장
-                root.setOnClickListener { listener.onRoomClick(item.roomId) }
+                //화면명세서에 있지 않은 기능임
+//                binding.root.setOnClickListener { listener.onRoomClick(item.roomId) }
 
                 // 삭제 버튼(또는 more 메뉴) 클릭 시 콜백
                 binding.btnMore.setOnClickListener { anchor ->

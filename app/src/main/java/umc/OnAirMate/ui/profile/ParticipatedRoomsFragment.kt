@@ -11,13 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import androidx.lifecycle.Observer
 import umc.onairmate.R
-
+import androidx.core.os.bundleOf
+import umc.onairmate.data.model.entity.BookmarkData as ParticipatedRoomData
 import umc.onairmate.databinding.FragmentRecentRoomsBinding
+import androidx.navigation.fragment.findNavController
 
-interface OnRoomActionListener {
-    fun onRoomClick(roomId: Long)
-    fun onDeleteClick(roomId: Long)
-}
 
 @AndroidEntryPoint
 class ParticipatedRoomsFragment :Fragment(R.layout.fragment_recent_rooms), OnRoomActionListener{
@@ -39,6 +37,15 @@ class ParticipatedRoomsFragment :Fragment(R.layout.fragment_recent_rooms), OnRoo
         binding.rvList.adapter = adapter
 
         userViewModel.rooms.observe(viewLifecycleOwner) { list ->
+//            val uiList = list.map { d ->
+//                ParticipatedRoomItem(
+//                    roomId = d.roomId.toLong(),          // 타입 맞춰주기 (Long/Int 확인)
+//                    roomtitle = d.roomTitle,
+//                    videotitle = d.videoTitle,
+//                    bookmarktime = d.bookmarks.firstOrNull()?.timeline ?: 0 ,
+//                    lastEnteredAt = d.participatedAt
+//                )
+//            }
             adapter.submitList(list) // 이미 ViewModel에서 “최근순” 정렬 완료
         }
 
@@ -60,13 +67,16 @@ class ParticipatedRoomsFragment :Fragment(R.layout.fragment_recent_rooms), OnRoo
         })
 
         }
-    override fun onRoomClick(roomId: Long) {
-        // 방 상세로 이동
-        findNavController().navigate(
-            R.id.action_recentRooms_to_roomDetail,
-            bundleOf("roomId" to roomId)
-        )
-    }
+
+
+//      화면 명세서에 있지 않은 기능임
+//    override fun onRoomClick(roomId: Long) {
+//        // 방 상세로 이동
+//        findNavController().navigate(
+//            R.id.action_recentRooms_to_roomDetail,
+//            bundleOf("roomId" to roomId)
+//        )
+//    }
         // 처음 리스트 채우기(이미 있다면 생략)
         // adapter.submitList(initialList)
 
