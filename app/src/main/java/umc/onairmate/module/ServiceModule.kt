@@ -74,11 +74,6 @@ object ServiceModule {
         return retrofit.buildService()
     }
 
-    @Provides
-    @Singleton
-    fun joinApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): JoinService {
-        return retrofit.buildService()
-    }
 
     @Provides
     @Singleton
