@@ -11,6 +11,12 @@ import androidx.fragment.app.DialogFragment
 import umc.onairmate.databinding.DialogTerminateRoomBinding
 import umc.onairmate.ui.pop_up.PopupClick
 
+/**
+ * ChatRoomTerminateDialog: 비디오가 끝까지 재생되었거나 방장이 퇴장하며 방이 종료되었을 때의 팝업
+ * - 리소스: dialog_terminate_room
+ * - 매개변수
+ *   1. clickFunc: 팝업에서 특정 버튼을 눌렀을 때의 상호작용 지정
+ */
 class ChatRoomTerminateDialog(
     private val clickFunc: PopupClick
 ) : DialogFragment() {

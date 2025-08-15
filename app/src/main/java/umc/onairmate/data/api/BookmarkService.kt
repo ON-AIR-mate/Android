@@ -8,13 +8,13 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
-import umc.onairmate.data.model.request.CreateBookmarkRequest
-import umc.onairmate.data.model.request.CreateRoomWithBookmarkRequest
+import umc.onairmate.data.model.request.BookmarkCreateRequest
+import umc.onairmate.data.model.request.RoomWithBookmarkCreateRequest
 import umc.onairmate.data.model.response.BookmarkListResponse
-import umc.onairmate.data.model.response.CreateBookmarkResponse
-import umc.onairmate.data.model.response.CreateRoomWithBookmarkResponse
+import umc.onairmate.data.model.response.BookmarkCreateResponse
+import umc.onairmate.data.model.response.RoomWithBookmarkCreateResponse
 import umc.onairmate.data.model.response.MessageResponse
-import umc.onairmate.data.model.request.MoveCollectionRequest
+import umc.onairmate.data.model.request.CollectionMoveRequest
 import umc.onairmate.data.model.response.RawDefaultResponse
 
 interface BookmarkService {
@@ -23,8 +23,8 @@ interface BookmarkService {
     @POST("bookmarks")
     suspend fun createBookmark(
         @Header("Authorization") accessToken: String,
-        @Body body: CreateBookmarkRequest
-    ): RawDefaultResponse<CreateBookmarkResponse>
+        @Body body: BookmarkCreateRequest
+    ): RawDefaultResponse<BookmarkCreateResponse>
 
     // 북마크 목록 조회
     @GET("bookmarks")
@@ -46,7 +46,7 @@ interface BookmarkService {
     suspend fun moveCollectionOfBookmark(
         @Header("Authorization") accessToken: String,
         @Path("bookmarkId") bookmarkId: Int,
-        @Body body: MoveCollectionRequest
+        @Body body: CollectionMoveRequest
     ): RawDefaultResponse<MessageResponse>
 
     // 북마크로 방 생성
@@ -54,6 +54,6 @@ interface BookmarkService {
     suspend fun createRoomWithBookmark(
         @Header("Authorization") accessToken: String,
         @Path("bookmarkId") bookmarkId: Int,
-        @Body body: CreateRoomWithBookmarkRequest
-    ): RawDefaultResponse<CreateRoomWithBookmarkResponse>
+        @Body body: RoomWithBookmarkCreateRequest
+    ): RawDefaultResponse<RoomWithBookmarkCreateResponse>
 }

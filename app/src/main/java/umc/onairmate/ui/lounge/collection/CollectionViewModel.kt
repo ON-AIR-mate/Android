@@ -1,7 +1,6 @@
 package umc.onairmate.ui.lounge.collection
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,15 +9,12 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
-import umc.onairmate.data.model.entity.CollectionData
 import umc.onairmate.data.model.entity.CollectionDetailData
-import umc.onairmate.data.model.entity.FriendData
-import umc.onairmate.data.model.entity.UserData
-import umc.onairmate.data.model.request.CreateCollectionRequest
-import umc.onairmate.data.model.request.ModifyCollectionRequest
-import umc.onairmate.data.model.request.ShareCollectionRequest
+import umc.onairmate.data.model.request.CollectionCreateRequest
+import umc.onairmate.data.model.request.CollectionModifyRequest
+import umc.onairmate.data.model.request.CollectionShareRequest
 import umc.onairmate.data.model.response.CollectionListResponse
-import umc.onairmate.data.model.response.CreateCollectionResponse
+import umc.onairmate.data.model.response.CollectionCreateResponse
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.model.response.MessageResponse
 import umc.onairmate.data.repository.repository.CollectionRepository
@@ -35,8 +31,8 @@ class CollectionViewModel @Inject constructor(
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
     // 만들어진 북마크 정보
-    private val _createdCollectionDataInfo = MutableLiveData<CreateCollectionResponse>()
-    val createdCollectionDataInfo : LiveData<CreateCollectionResponse> get() = _createdCollectionDataInfo
+    private val _createdCollectionDataInfo = MutableLiveData<CollectionCreateResponse>()
+    val createdCollectionDataInfo : LiveData<CollectionCreateResponse> get() = _createdCollectionDataInfo
 
     // 사용자의 컬렉션 리스트
     private val _collectionList = MutableLiveData<CollectionListResponse>()
@@ -69,7 +65,7 @@ class CollectionViewModel @Inject constructor(
     }
 
     // 컬렉션 생성
-    fun createCollection(collectionCreateData: CreateCollectionRequest) {
+    fun createCollection(collectionCreateData: CollectionCreateRequest) {
         viewModelScope.launch {
             _isLoading.value = true
             val token = getToken()
@@ -153,7 +149,7 @@ class CollectionViewModel @Inject constructor(
     }
 
     // 컬렉션 공유하기
-    fun shareCollection(collectionId: Int, request: ShareCollectionRequest) {
+    fun shareCollection(collectionId: Int, request: CollectionShareRequest) {
         viewModelScope.launch {
             _isLoading.value = true
             val token = getToken()
@@ -180,7 +176,7 @@ class CollectionViewModel @Inject constructor(
         }
     }
 
-    fun modifyCollection(collectionId: Int, request: ModifyCollectionRequest) {
+    fun modifyCollection(collectionId: Int, request: CollectionModifyRequest) {
         viewModelScope.launch {
             _isLoading.value = true
             val token = getToken()

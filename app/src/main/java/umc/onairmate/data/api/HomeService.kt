@@ -56,12 +56,14 @@ interface HomeService {
         @Query("limit") limit: Int
     ): RawDefaultResponse<List<VideoData>>
 
+    // 영상 1개의 세부 정보 검색
     @GET("youtube/videos/{videoId}")
     suspend fun getVideoDetailInfo(
         @Header("Authorization") accessToken: String,
         @Path("videoId") videoId: String
     ): RawDefaultResponse<VideoData>
 
+    // 추천 영상
     @GET("youtube/recommendations")
     suspend fun getRecommendVideoList(
         @Header("Authorization") accessToken: String,

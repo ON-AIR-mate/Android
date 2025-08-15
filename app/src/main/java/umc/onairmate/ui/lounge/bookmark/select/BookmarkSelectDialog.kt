@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import umc.onairmate.data.model.entity.BookmarkData
 import umc.onairmate.databinding.DialogSelectBookmarkBinding
 
+// 북마크 선택 팝업
 class BookmarkSelectDialog(
     private val bookmarkList: List<BookmarkData?>,
     private val selectBookmarkCallback: (BookmarkData) -> Unit

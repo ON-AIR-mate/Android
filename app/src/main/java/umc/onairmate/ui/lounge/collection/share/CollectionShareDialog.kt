@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.databinding.DialogCollectionShareBinding
 
+// 컬렉션 공유 팝업
 class CollectionShareDialog(
     private val friendList: List<FriendData>,
     private val sendCollectionCallback: (FriendData) -> Unit
