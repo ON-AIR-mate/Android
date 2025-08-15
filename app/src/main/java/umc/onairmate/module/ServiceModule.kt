@@ -12,7 +12,6 @@ import umc.onairmate.data.api.CollectionService
 import umc.onairmate.data.api.FriendService
 import umc.onairmate.data.api.HomeService
 import umc.onairmate.data.api.JoinService
-import umc.onairmate.data.api.TestService
 import umc.onairmate.data.api.UserService
 import javax.inject.Singleton
 
