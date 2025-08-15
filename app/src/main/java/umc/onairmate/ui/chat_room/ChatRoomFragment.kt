@@ -91,6 +91,7 @@ class ChatRoomFragment : Fragment() {
         homeViewModel.leaveRoom.observe(viewLifecycleOwner) { data ->
             if (data == true) {
                 requireActivity().finish()
+                homeViewModel.clearRoomDetailInfo()
             }
         }
         // todo: host가 떠났다는걸 어캐 알아요?
