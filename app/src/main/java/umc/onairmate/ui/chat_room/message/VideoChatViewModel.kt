@@ -85,12 +85,7 @@ class VideoChatViewModel @Inject constructor(
 
     override fun onUserLeft(userLeftData: UserLeftData) {
         viewModelScope.launch(Dispatchers.Main) {
-            val data = UserLeftData(
-                leftUser = userLeftData.leftUser,
-                role = userLeftData.role,
-                roomParticipants = userLeftData.roomParticipants
-            )
-            _userLeftDataInfo.value = data
+            _userLeftDataInfo.value = userLeftData
         }
     }
 

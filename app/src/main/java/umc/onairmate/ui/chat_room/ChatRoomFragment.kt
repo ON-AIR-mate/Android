@@ -6,35 +6,24 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SeekBar
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.setFragmentResult
-import androidx.fragment.app.viewModels
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.customui.DefaultPlayerUiController
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.customui.PlayerUiController
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.customui.views.YouTubePlayerSeekBar
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.customui.views.YouTubePlayerSeekBarListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.entity.UserData
-import umc.onairmate.data.model.entity.UserRole
-import umc.onairmate.data.model.request.CreateRoomRequest
 import umc.onairmate.databinding.FragmentChatRoomBinding
 import umc.onairmate.ui.chat_room.message.VideoChatFragment
 import umc.onairmate.ui.chat_room.message.VideoChatViewModel
 import umc.onairmate.ui.home.HomeViewModel
-import umc.onairmate.ui.pop_up.CreateRoomCallback
-import umc.onairmate.ui.pop_up.CreateRoomPopup
 import umc.onairmate.ui.pop_up.PopupClick
 import umc.onairmate.ui.util.SharedPrefUtil
 
@@ -99,9 +88,9 @@ class ChatRoomFragment : Fragment() {
         }
         // 모든 유저의 방을 나가는 이벤트를 전부 수신 - 방을 나가는 사람이 방장인 경우 방 종료
         videoChatViewModel.userLeftDataInfo.observe(viewLifecycleOwner) { data ->
-            if (data.role == UserRole.HOST.roleName) {
+            if (data.isHost) {
+                showTerminateRoomPopup()
                 player?.pause()
-                showTerminateRoomPopup(roomData)
             }
         }
 
@@ -190,11 +179,9 @@ class ChatRoomFragment : Fragment() {
 
                         if ((currentSecond.toInt() - lastProcessedSecond) in -3..3) {
                             lastProcessedSecond = second.toInt()
-                            Log.d("PlayerHost", "재생중: ${lastProcessedSecond}초")
                             chatRoomViewModel.sendVideoPlayerControl("video:sync", roomData.roomId, currentSecond)
                         } else {
                             lastProcessedSecond = second.toInt()
-                            Log.d("PlayerHost", "재생 시작: ${lastProcessedSecond}초")
                             chatRoomViewModel.sendVideoPlayerControl("video:play", roomData.roomId, currentSecond)
                         }
                     }
@@ -210,7 +197,6 @@ class ChatRoomFragment : Fragment() {
                         // 영상 재생 - 방장->참가자 전파
                         if (user.nickname == roomData.hostNickname) {
                             val playTime = currentSecond
-                            Log.d("PlayerHost", "재생 시작: ${playTime}초")
                             chatRoomViewModel.sendVideoPlayerControl("video:play", roomData.roomId, currentSecond)
                         }
                     }
@@ -218,14 +204,12 @@ class ChatRoomFragment : Fragment() {
                         // 영상 일시정지 - 방장->참가자 전파
                         if (user.nickname == roomData.hostNickname) {
                             val pauseTime = lastProcessedSecond
-                            Log.d("PlayerHost", "멈춤: ${pauseTime}초")
                             chatRoomViewModel.sendVideoPlayerControl("video:pause", roomData.roomId, currentSecond)
                         }
                     }
                     PlayerConstants.PlayerState.ENDED -> {
                         // 영상 재생이 끝났을 때
-                        Log.d("PlayerHost", "재생 끝: ${currentSecond}초")
-                        showTerminateRoomPopup(roomData)
+                        showTerminateRoomPopup()
                     }
                     else -> {}
                 }
@@ -241,7 +225,12 @@ class ChatRoomFragment : Fragment() {
     private fun showLeaveRoomPopup(data: RoomData) {
         val dialog = ChatRoomLeaveDialog(data, object : PopupClick {
             override fun leftClickFunction() {
-                homeViewModel.leaveRoom(roomData.roomId)
+                if (user.nickname == roomData.hostNickname) {
+                    homeViewModel.leaveRoom(roomData.roomId)
+                } else {
+                    requireActivity().finish()
+                    homeViewModel.clearRoomDetailInfo()
+                }
             }
 
             override fun rightClickFunction() {}
@@ -252,10 +241,15 @@ class ChatRoomFragment : Fragment() {
     }
 
     // 방이 종료됨
-    private fun showTerminateRoomPopup(data: RoomData) {
+    private fun showTerminateRoomPopup() {
         val dialog = ChatRoomTerminateDialog(object : PopupClick {
             override fun leftClickFunction() {
-                homeViewModel.leaveRoom(data.roomId)
+                if (user.nickname == roomData.hostNickname) {
+                    homeViewModel.leaveRoom(roomData.roomId)
+                } else {
+                    requireActivity().finish()
+                    homeViewModel.clearRoomDetailInfo()
+                }
             }
 
             override fun rightClickFunction() {}
@@ -264,4 +258,5 @@ class ChatRoomFragment : Fragment() {
             dialog.show(fm, "TerminateRoomPopup")
         }
     }
+
 }

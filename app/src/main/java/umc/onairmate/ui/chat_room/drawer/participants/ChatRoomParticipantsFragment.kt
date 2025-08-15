@@ -3,17 +3,16 @@ package umc.onairmate.ui.chat_room.drawer.participants
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.ParticipantData
 import umc.onairmate.data.model.entity.RoomData
-import umc.onairmate.data.model.entity.UserRole
 import umc.onairmate.databinding.FragmentChatRoomParticipantsBinding
 import umc.onairmate.ui.chat_room.ChatVideoViewModel
 import umc.onairmate.ui.chat_room.message.VideoChatViewModel
@@ -86,8 +85,8 @@ class ChatRoomParticipantsFragment : Fragment() {
 
         // 업데이트된 userList 삽입
         videoChatViewModel.userLeftDataInfo.observe(viewLifecycleOwner) { data ->
-            if (data.role == UserRole.PARTICIPANTS.roleName) {
-                adapter.submitList(data.roomParticipants)
+            if (!data.isHost) {
+                adapter.submitList(data.roomParticipants.filter { !it.isHost })
             }
         }
     }

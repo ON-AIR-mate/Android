@@ -136,12 +136,10 @@ class SearchVideoViewModel @Inject constructor(
 
     fun clearVideoDetailInfo(){
         _videoDetailInfo.value = null
-        Log.d("Check", "${_createdRoomInfo.value}")
     }
 
     fun clearCreatedRoomInfo() {
         _createdRoomInfo.value = null
-        Log.d("Check", "${_createdRoomInfo.value}")
     }
 
     fun getRecommendVideoList(keyword: String, limit: Int) {
