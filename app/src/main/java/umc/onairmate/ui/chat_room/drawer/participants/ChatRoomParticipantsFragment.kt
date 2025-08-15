@@ -85,9 +85,7 @@ class ChatRoomParticipantsFragment : Fragment() {
 
         // 업데이트된 userList 삽입
         videoChatViewModel.userLeftDataInfo.observe(viewLifecycleOwner) { data ->
-            if (!data.isHost) {
-                adapter.submitList(data.roomParticipants.filter { !it.isHost })
-            }
+            adapter.submitList(data.roomParticipants.filter { !it.isHost })
         }
     }
 }

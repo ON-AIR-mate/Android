@@ -88,7 +88,8 @@ class ChatRoomFragment : Fragment() {
         }
         // 모든 유저의 방을 나가는 이벤트를 전부 수신 - 방을 나가는 사람이 방장인 경우 방 종료
         videoChatViewModel.userLeftDataInfo.observe(viewLifecycleOwner) { data ->
-            if (data.isHost) {
+            Log.d("이게오냐", "${data}")
+            if (data.roomParticipants.isEmpty()) {
                 showTerminateRoomPopup()
                 player?.pause()
             }
@@ -225,12 +226,7 @@ class ChatRoomFragment : Fragment() {
     private fun showLeaveRoomPopup(data: RoomData) {
         val dialog = ChatRoomLeaveDialog(data, object : PopupClick {
             override fun leftClickFunction() {
-                if (user.nickname == roomData.hostNickname) {
-                    homeViewModel.leaveRoom(roomData.roomId)
-                } else {
-                    requireActivity().finish()
-                    homeViewModel.clearRoomDetailInfo()
-                }
+                homeViewModel.leaveRoom(roomData.roomId)
             }
 
             override fun rightClickFunction() {}
