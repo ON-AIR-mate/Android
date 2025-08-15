@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity() {
             c.popBackStack(c.graph.startDestinationId, false)
         }
 
+
         connectSocket()
     }
 

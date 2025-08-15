@@ -5,6 +5,8 @@
     android:id="@+id/nav_friend"
     app:startDestination="@id/navigation_friend">
 
+    <include app:graph="@navigation/nav_search" />
+
 <fragment
         android:id="@+id/navigation_friend"
         android:name="umc.onairmate.ui.friend.FriendFragment"
@@ -12,8 +14,8 @@
         tools:layout="@layout/fragment_friend" >
         <action
             android:id="@+id/action_friend_to_search_video"
-            app:destination="@+id/navigation_search_video" />
+            app:destination="@id/nav_search" />
     </fragment>
-    <include app:graph="@navigation/nav_search" />
+
 
 </navigation>

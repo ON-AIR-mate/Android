@@ -8,7 +8,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-
 typealias NavControllerLiveData = MutableLiveData<NavController>
 
 fun BottomNavigationView.setupWithNavController(
@@ -28,8 +27,10 @@ fun BottomNavigationView.setupWithNavController(
         val navHostFragment = obtainNavHostFragment(
             fragmentManager, fragmentTag, navGraphId, containerId
         )
-        val graphId = navHostFragment.navController.graph.id
-        graphIdToTagMap[graphId] = fragmentTag
+
+        // 메뉴 itemId와 동일한 startDestinationId를 key로 매핑
+        val startDestinationId = navHostFragment.navController.graph.startDestinationId
+        graphIdToTagMap[startDestinationId] = fragmentTag
 
         if (index == 0) {
             fragmentManager.beginTransaction()
@@ -48,8 +49,15 @@ fun BottomNavigationView.setupWithNavController(
     // 탭 전환 시 해당 NavHost로 전환
     setOnItemSelectedListener { item ->
         val newlySelectedTag = graphIdToTagMap[item.itemId] ?: return@setOnItemSelectedListener false
-        val currentTag = graphIdToTagMap[selectedController.value?.graph?.id] ?: firstGraphTag
-        if (newlySelectedTag == currentTag) return@setOnItemSelectedListener true
+        val currentTag = graphIdToTagMap[selectedController.value?.graph?.startDestinationId] ?: firstGraphTag
+
+        // 어떤 탭이든 클릭 시 무조건 루트로 복귀
+        val targetController = (fragmentManager.findFragmentByTag(newlySelectedTag) as NavHostFragment).navController
+        targetController.popBackStack(targetController.graph.startDestinationId, false)
+
+        if (newlySelectedTag == currentTag) {
+            return@setOnItemSelectedListener true
+        }
 
         val newlySelectedFragment = fragmentManager.findFragmentByTag(newlySelectedTag) as NavHostFragment
         val currentFragment = fragmentManager.findFragmentByTag(currentTag!!) as NavHostFragment
@@ -65,12 +73,13 @@ fun BottomNavigationView.setupWithNavController(
         true
     }
 
+
     // 딥링크 처리(선택적)
     setupDeepLinks(
         navGraphIds, fragmentManager, graphIdToTagMap, containerId, intent
     ) { controller ->
         selectedController.value = controller
-        this.selectedItemId = controller.graph.id
+        this.selectedItemId = controller.graph.startDestinationId
     }
 
     return selectedController

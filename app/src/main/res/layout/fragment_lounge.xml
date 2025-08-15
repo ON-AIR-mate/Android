@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.lounge.LoungeFragment">
+    tools:context=".ui.lounge.LoungeFragment"
+    android:layout_marginHorizontal="30dp"
+    android:background="@color/white">
 
     <!-- 전체 상단 영역 -->
     <LinearLayout
@@ -14,7 +16,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingHorizontal="16dp"
         android:paddingTop="16dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
