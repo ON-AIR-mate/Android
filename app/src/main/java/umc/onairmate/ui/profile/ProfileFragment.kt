@@ -22,9 +22,7 @@ import umc.onairmate.databinding.FragmentProfileBinding
 import umc.onairmate.ui.util.NetworkImageLoader
 import umc.onairmate.ui.util.SharedPrefUtil
 import umc.onairmate.ui.ImageViewModel
-import umc.onairmate.ui.friend.FriendViewModel
 import umc.onairmate.ui.util.ImagePickerDelegate
-import umc.onairmate.ui.util.NetworkImageLoader
 import kotlin.getValue
 
 
