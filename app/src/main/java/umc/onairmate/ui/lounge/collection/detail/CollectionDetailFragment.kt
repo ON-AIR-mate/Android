@@ -14,6 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.BookmarkData
 import umc.onairmate.data.model.entity.CollectionDetailData
 import umc.onairmate.data.model.entity.CollectionVisibility
+import umc.onairmate.data.model.entity.RoomArchiveData
 import umc.onairmate.data.model.request.CreateRoomRequest
 import umc.onairmate.data.model.request.CreateRoomWithBookmarkRequest
 import umc.onairmate.data.model.request.ModifyCollectionRequest
@@ -99,17 +100,17 @@ class CollectionDetailFragment : Fragment() {
                     }
                 },
                 object : BookmarkEventListener {
-                    override fun createRoomWithBookmark(bookmark: BookmarkData) {
-                        showCreateRoomPopup(bookmark)
+                    override fun createRoomWithBookmark(roomArchiveData: RoomArchiveData) {
+                        //showCreateRoomPopup(bookmark)
                     }
 
-                    override fun deleteBookmark(bookmark: BookmarkData) {
-                        bookmarkViewModel.deleteBookmark(bookmark.bookmarkId)
+                    override fun deleteBookmark(roomArchiveData: RoomArchiveData) {
+                        //bookmarkViewModel.deleteBookmark(bookmark.bookmarkId)
                         Toast.makeText(context, "북마크가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
                     }
 
-                    override fun moveCollection(bookmark: BookmarkData) {
-                        showMoveCollectionPopup(bookmark)
+                    override fun moveCollection(roomArchiveData: RoomArchiveData) {
+                        //showMoveCollectionPopup(bookmark)
                     }
                 }
             )
@@ -147,7 +148,7 @@ class CollectionDetailFragment : Fragment() {
         val dialog = CreateRoomPopup(null, object : CreateRoomCallback {
             override fun onCreateRoom(body: CreateRoomRequest) {
                 val requestBody = CreateRoomWithBookmarkRequest(
-                    roomName = body.roomName,
+                    roomTitle = body.roomName,
                     maxParticipants = body.maxParticipants,
                     isPrivate = body.isPrivate,
                     startFrom = RoomStartOption.BEGINNING.apiName

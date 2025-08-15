@@ -20,26 +20,13 @@
         android:minWidth="30dp"/>
 
     <TextView
-        android:id="@+id/tv_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
-        android:background="@drawable/bg_count_badge"
-        android:paddingHorizontal="6dp"
-        android:paddingVertical="2dp"
-        tools:text="14"
-        android:textColor="@android:color/white"
-        android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
-        android:clickable="true"
-        android:focusable="true" />
-
-    <TextView
-        android:id="@+id/tv_collection_title"
+        android:id="@+id/tv_message"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:text="웃긴 장면"
+        tools:text="00:00:00 아기상어 뚜루루뚜루"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        android:layout_marginStart="4dp"
-        android:textAppearance="@style/TextAppearance.App.SemiBold.16sp" />
+        android:layout_marginHorizontal="4dp"
+        android:textAppearance="@style/TextAppearance.App.Medium.14sp" />
 
 </LinearLayout>

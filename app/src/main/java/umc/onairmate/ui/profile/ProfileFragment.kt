@@ -18,13 +18,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.databinding.FragmentProfileBinding
-import umc.onairmate.ui.util.NetworkImageLoader
-import umc.onairmate.ui.util.SharedPrefUtil
 import umc.onairmate.ui.ImageViewModel
 import umc.onairmate.ui.util.ImagePickerDelegate
+
 import kotlin.getValue
 import androidx.core.content.edit
 import umc.onairmate.ui.login.LoginActivity
+import umc.onairmate.ui.util.NetworkImageLoader
+import umc.onairmate.ui.util.SharedPrefUtil
+
 
 
 @AndroidEntryPoint
