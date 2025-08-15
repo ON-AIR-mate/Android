@@ -25,6 +25,7 @@ object SocketManager {
         currentSocket.off()
         currentSocket.on(Socket.EVENT_CONNECT) {
             Log.d(TAG, "Socket connected")
+            SocketDispatcher.reregisterAll(currentSocket)
         }
         currentSocket.on(Socket.EVENT_DISCONNECT) {
             Log.d(TAG, "Socket disconnected")

@@ -46,7 +46,7 @@ interface HomeService {
     suspend fun leaveRoom(
         @Header("Authorization") accessToken: String,
         @Path("roomId") roomId : Int
-    ): RawDefaultResponse<String>
+    ): RawDefaultResponse<MessageResponse>
 
     // 영상 검색
     @GET("youtube/search")

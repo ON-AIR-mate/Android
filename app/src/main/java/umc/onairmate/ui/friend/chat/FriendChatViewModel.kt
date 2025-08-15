@@ -10,10 +10,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import umc.onairmate.data.model.entity.DirectMessageData
-import umc.onairmate.data.model.entity.SocketError
+import umc.onairmate.data.model.entity.SocketMessage
 import umc.onairmate.data.socket.SocketManager
 import umc.onairmate.data.socket.handler.FriendHandler
 import umc.onairmate.data.socket.listener.FriendEventListener
@@ -27,8 +26,8 @@ class FriendChatViewModel @Inject constructor(
     private val TAG = javaClass.simpleName
     private val spf = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
-    private val _generalChat = MutableLiveData<DirectMessageData>()
-    val generalChat: LiveData<DirectMessageData> get() = _generalChat
+    private val _directMessage = MutableLiveData<DirectMessageData>()
+    val directMessage: LiveData<DirectMessageData> get() = _directMessage
 
     private val handler: FriendHandler = FriendHandler(this)
 
@@ -43,13 +42,19 @@ class FriendChatViewModel @Inject constructor(
     override fun onNewDirectMessage(directMessage: DirectMessageData) {
         viewModelScope.launch(Dispatchers.Main) {
             Log.d(TAG,"onNewDirectMessage : ${directMessage}")
-            _generalChat.postValue(directMessage)
+            _directMessage.postValue(directMessage)
 
         }
     }
-    override fun onError(errorMessage: SocketError) {
+    override fun onError(errorMessage: SocketMessage) {
         viewModelScope.launch(Dispatchers.Main) {
             Log.d(TAG,"error ${errorMessage.type} : ${errorMessage.message}")
+        }
+    }
+
+    override fun onSuccess(successMessage: SocketMessage) {
+        viewModelScope.launch(Dispatchers.Main) {
+            Log.d(TAG,"success ${successMessage.type} : ${successMessage.message}")
         }
     }
 
@@ -61,13 +66,11 @@ class FriendChatViewModel @Inject constructor(
         SocketManager.emit("joinDM", json)
     }
 
-    fun sendMessage(receiverId: Int,fromNickname: String,  content: String) {
+    fun sendMessage(receiverId: Int, content: String) {
         if (content.isBlank()) return
         val json = JSONObject().apply {
             put("receiverId", receiverId)
             put("content", content)
-            put("fromNickname", fromNickname)
-
             put("messageType",GENERAL_MESSAGE )
         }
 

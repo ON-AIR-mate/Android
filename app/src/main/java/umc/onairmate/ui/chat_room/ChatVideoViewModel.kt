@@ -9,18 +9,25 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import umc.onairmate.data.model.entity.ParticipantData
 import umc.onairmate.data.model.entity.RoomSettingData
+import umc.onairmate.data.model.entity.VideoPauseData
+import umc.onairmate.data.model.entity.VideoPlayData
+import umc.onairmate.data.model.entity.VideoSyncData
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.model.response.MessageResponse
 import umc.onairmate.data.repository.repository.ChatRoomRepository
+import umc.onairmate.data.socket.SocketManager
+import umc.onairmate.data.socket.handler.VideoHandler
+import umc.onairmate.data.socket.listener.VideoEventListener
 import javax.inject.Inject
 
 @HiltViewModel
-class ChatRoomViewModel @Inject constructor(
+class ChatVideoViewModel @Inject constructor(
     private val repository: ChatRoomRepository,
     @ApplicationContext private val context: Context
-) : ViewModel() {
+) : ViewModel(), VideoEventListener {
     private val TAG = this.javaClass.simpleName
 
     // 토큰
@@ -122,6 +129,46 @@ class ChatRoomViewModel @Inject constructor(
                 }
             }
             _isLoading.value = false
+        }
+    }
+
+    // 방장의 플레이어 재생 데이터
+    private val _videoSyncDataInfo = MutableLiveData<VideoSyncData>()
+    val videoSyncDataInfo : LiveData<VideoSyncData> get() = _videoSyncDataInfo
+
+    // 방장의 플레이어 재생 수신
+    private val _videoPlayDataInfo = MutableLiveData<VideoPlayData>()
+    val videoPlayDataInfo : LiveData<VideoPlayData> get() = _videoPlayDataInfo
+
+    private val _videoPauseDataInfo = MutableLiveData<VideoPauseData>()
+    val videoPauseData : LiveData<VideoPauseData> get() = _videoPauseDataInfo
+
+    private val handler: VideoHandler = VideoHandler(this)
+    fun getHandler(): VideoHandler = handler
+
+    fun sendVideoPlayerControl(type: String, roomId: Int, currentTime: Float) {
+        val json = JSONObject().apply {
+            put("roomId", roomId)
+            put("currentTime", currentTime)
+        }
+        SocketManager.emit(type, json)
+    }
+
+    override fun syncVideo(syncData: VideoSyncData) {
+        viewModelScope.launch {
+            _videoSyncDataInfo.postValue(syncData)
+        }
+    }
+
+    override fun onVideoPlay(playData: VideoPlayData) {
+        viewModelScope.launch {
+            _videoPlayDataInfo.postValue(playData)
+        }
+    }
+
+    override fun onVideoPause(pauseData: VideoPauseData) {
+        viewModelScope.launch {
+            _videoPauseDataInfo.postValue(pauseData)
         }
     }
 }

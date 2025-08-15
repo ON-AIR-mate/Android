@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginHorizontal="40dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:minWidth="300dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background_box_5dp"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:id="@+id/ll_room_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!--유저 프로필 이미지 들어갈 자리-->
+        <ImageView
+            android:id="@+id/iv_host_profile"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginRight="3dp"
+            android:src="@drawable/ic_empty_profile"/>
+
+
+        <!--닉네임 들어갈 자리-->
+        <TextView
+            android:id="@+id/tv_host_nickname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            tools:text="참여자 닉네임"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginEnd="4dp"
+            android:textAppearance="@style/TextAppearance.App.Regular.12sp"/>
+
+        <TextView
+            android:id="@+id/tv_room_user_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="10 / 15명"
+            android:textAppearance="@style/TextAppearance.App.Medium.12sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_video_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_room_info">
+
+        <ImageView
+            android:id="@+id/iv_thumbnail"
+            android:layout_width="135dp"
+            android:layout_height="76dp"
+            android:src="@drawable/background_input_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_play_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/ic_playtime" />
+
+                <TextView
+                    android:id="@+id/tv_play_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="1:06:15"
+                    android:textAppearance="@style/TextAppearance.App.Medium.12sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_room_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="3dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                tools:text="방 제목"
+                android:textAppearance="@style/TextAppearance.App.Medium.14sp" />
+
+            <TextView
+                android:id="@+id/tv_video_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="3dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                tools:text="영상 제목"
+                android:textAppearance="@style/TextAppearance.App.Regular.14sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_leave_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="퇴장하시겠습니까?"
+        android:textAppearance="@style/TextAppearance.App.Medium.14sp"
+        app:layout_constraintTop_toBottomOf="@id/ll_video_info"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_host_leave_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="*퇴장하실 경우 방은 자동으로 종료됩니다."
+        android:visibility="invisible"
+        android:textAppearance="@style/TextAppearance.App.Regular.10sp"
+        android:textColor="@color/main"
+        app:layout_constraintTop_toBottomOf="@id/tv_leave_confirm"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="4dp"/>
+
+    <TextView
+        android:id="@+id/btn_left"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_box_5dp"
+        android:backgroundTint="@color/main"
+        android:text="확인"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="10dp"
+        android:paddingVertical="2dp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toBottomOf="@id/tv_host_leave_message"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_right"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/btn_right"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_box_5dp"
+        android:backgroundTint="@color/disable"
+        android:text="취소"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:paddingVertical="2dp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toBottomOf="@id/tv_host_leave_message"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_left"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
