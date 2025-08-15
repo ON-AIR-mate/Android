@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/progressbar"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -13,10 +12,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="gone"
+        android:gravity="center"
         android:background="@color/white"
         android:clickable="true"
         android:focusable="true"
-        android:elevation="8dp">
+        android:translationZ="1dp">
         <ProgressBar
             style="?android:attr/progressBarStyle"
             android:layout_width="40dp"
@@ -24,7 +24,7 @@
             android:layout_gravity="center"
             android:translationZ="1dp"
             android:indeterminateTint="@color/main"/>
-    </FrameLayout>
+    </LinearLayout>
 
 
     <LinearLayout

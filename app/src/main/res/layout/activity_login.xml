@@ -14,6 +14,7 @@
         android:layout_height="40dp"
         android:indeterminateTint="@color/main"
         android:visibility="gone"
+        android:translationZ="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
