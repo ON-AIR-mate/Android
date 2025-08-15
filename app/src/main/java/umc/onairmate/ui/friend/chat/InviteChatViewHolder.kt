@@ -1,5 +1,6 @@
 package umc.onairmate.ui.friend.chat
 
+import android.util.Log
 import android.view.Gravity
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.data.model.entity.RoomData
@@ -22,6 +23,8 @@ class InviteChatViewHolder(
 
         // 내가 보낸 메시지
         binding.root.gravity = if(isMyMessage) Gravity.END else Gravity.START
+
+
         binding.tvRoomName.text = data.roomTitle
         binding.tvRoomUserNum.text = "${data.currentParticipants} / ${data.maxParticipants}"
         binding.tvPlayTime.text = data.duration

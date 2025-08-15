@@ -102,6 +102,8 @@ class HomeFragment : Fragment() {
                 searchHandler.postDelayed(searchRunnable!!, 300) // 300ms 디바운스
             }
         })
+
+        //
         binding.etInputKeyword.setOnEditorActionListener{v, actionId, event ->
             if(actionId == EditorInfo.IME_ACTION_DONE){
                 val imm = v.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

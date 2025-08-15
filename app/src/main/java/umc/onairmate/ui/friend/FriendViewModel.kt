@@ -51,19 +51,6 @@ class FriendViewModel @Inject constructor(
         return spf.getString("access_token", null)
     }
 
-    private fun initDummyFriend() : List<FriendData>{
-        val dummy = arrayListOf<FriendData>()
-        for(i in 1..20)
-            dummy.add(FriendData(19,"이현서","",0,false))
-        return dummy
-    }
-    private fun initDummyRequest() : List<RequestedFriendData>{
-        val dummy = arrayListOf<RequestedFriendData>()
-        for(i in 1..5){
-            dummy.add(RequestedFriendData(i,i,"request${i}","",0,"time"))
-        }
-        return dummy
-    }
 
     fun clearResult(){
         _result.value=null

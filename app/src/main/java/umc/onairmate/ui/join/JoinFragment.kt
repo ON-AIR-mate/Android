@@ -126,12 +126,6 @@ class JoinFragment : Fragment() {
             .show()
     }
 
-    private fun backToLogin() = with(binding) {
-        btnClose.setOnClickListener {
-            findNavController().navigate(R.id.action_joinDetailFragment_to_joinFragment)
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
