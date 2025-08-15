@@ -7,9 +7,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import umc.onairmate.R
+import dagger.hilt.android.AndroidEntryPoint
 
-// Hilt 쓰면 액티비티에도 달아줘야 프래그먼트 주입 가능
-// @AndroidEntryPoint
+
+@AndroidEntryPoint
 class ParticipatedRoomsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
