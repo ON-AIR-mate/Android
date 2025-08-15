@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
     android:id="@+id/sectionContainer"
@@ -17,8 +18,7 @@
         android:layout_height="wrap_content"
         android:text="정리되지 않은 북마크"
         android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.App.Medium.12sp"
         android:paddingBottom="12dp" />
 
     <!-- 내부 영상 리스트 -->
@@ -27,7 +27,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:nestedScrollingEnabled="false"
-        android:overScrollMode="never" />
+        android:overScrollMode="never"
+        tools:itemCount="4"
+        tools:listitem="@layout/item_bookmark"/>
 
     </LinearLayout>
 

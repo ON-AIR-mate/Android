@@ -8,10 +8,12 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
+import umc.onairmate.data.model.entity.DirectMessageData
 import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.data.model.entity.RequestedFriendData
 import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.data.model.request.AcceptFriendBody
+import umc.onairmate.data.model.request.FriendInviteRequest
 import umc.onairmate.data.model.request.FriendRequest
 import umc.onairmate.data.model.response.MessageResponse
 import umc.onairmate.data.model.response.RawDefaultResponse
@@ -28,7 +30,7 @@ interface FriendService {
         @Body body: FriendRequest
     ): RawDefaultResponse<MessageResponse>
 
-    @GET("friends/request")
+    @GET("friends/requests")
     suspend fun getRequestedFriendList(
         @Header("Authorization") accessToken: String
     ): RawDefaultResponse<List<RequestedFriendData>>
@@ -55,6 +57,13 @@ interface FriendService {
     @POST("friends/{friendId}/invite")
     suspend fun inviteFriend(
         @Header("Authorization") accessToken: String,
-        @Path("friendId") friendId: Int
+        @Path("friendId") friendId: Int,
+        @Body body: FriendInviteRequest
     ): RawDefaultResponse<MessageResponse>
+
+    @GET("chat/direct/{friendId}/message")
+    suspend fun getDmHistory(
+        @Header("Authorization") accessToken: String,
+        @Path("friendId") friendId: Int
+    ): RawDefaultResponse<List<DirectMessageData>>
 }

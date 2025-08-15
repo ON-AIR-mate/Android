@@ -6,6 +6,8 @@ import org.json.JSONObject
 import java.util.Collections
 
 object SocketDispatcher {
+    private val TAG = this.javaClass.simpleName
+
     private val activeHandlers = mutableListOf<SocketHandler>().apply {
         Collections.synchronizedList(this)
     }
@@ -17,8 +19,8 @@ object SocketDispatcher {
 
         handler.getEventMap().forEach { (eventName, callback) ->
             socket.off(eventName) // 먼저 기존 리스너 제거 (중복 방지)
-
             socket.on(eventName) { args ->
+                Log.d(TAG, eventName)
                 if (args.isNotEmpty() && args[0] is JSONObject) {
                     try {
                         callback(args[0] as JSONObject)
@@ -43,7 +45,18 @@ object SocketDispatcher {
     }
 
 
-
+    fun reregisterAll(socket: Socket) {
+        activeHandlers.forEach { handler ->
+            handler.getEventMap().forEach { (eventName, callback) ->
+                socket.off(eventName)
+                socket.on(eventName) { args ->
+                    if (args.isNotEmpty() && args[0] is JSONObject) {
+                        try { callback(args[0] as JSONObject) } catch (e: Exception) { /* log */ }
+                    }
+                }
+            }
+        }
+    }
 
     /** 모든 핸들러 해제 (필요 시 전체 초기화용) */
     fun clearAllHandlers(socket: Socket) {

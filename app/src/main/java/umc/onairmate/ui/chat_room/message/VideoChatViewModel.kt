@@ -16,6 +16,7 @@ import umc.onairmate.data.model.entity.ChatMessageData
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.entity.RoomSettingData
 import umc.onairmate.data.model.entity.SocketMessage
+import umc.onairmate.data.model.entity.UserLeftData
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.repository.repository.ChatRoomRepository
 import umc.onairmate.data.socket.SocketManager
@@ -47,6 +48,9 @@ class VideoChatViewModel @Inject constructor(
     private val _roomSettingDataInfo = MutableLiveData<RoomSettingData>()
     val roomSettingDataInfo : LiveData<RoomSettingData> get() = _roomSettingDataInfo
 
+    private val _userLeftDataInfo = MutableLiveData<UserLeftData>()
+    val userLeftDataInfo : LiveData<UserLeftData> get() = _userLeftDataInfo
+    
     fun getToken(): String? {
         return spf.getString("access_token", null)
     }
@@ -73,9 +77,15 @@ class VideoChatViewModel @Inject constructor(
         }
     }
 
-    override fun onUserLeft(isSuccess: Boolean) {
+    override fun onSuccess(successMessage: SocketMessage) {
         viewModelScope.launch(Dispatchers.Main) {
-            _isUserNumChanged.value = isSuccess
+            Log.d(TAG,"success ${successMessage.type} : ${successMessage.message}")
+        }
+    }
+
+    override fun onUserLeft(userLeftData: UserLeftData) {
+        viewModelScope.launch(Dispatchers.Main) {
+            _userLeftDataInfo.value = userLeftData
         }
     }
 

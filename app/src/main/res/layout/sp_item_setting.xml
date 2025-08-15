@@ -14,8 +14,8 @@
         android:textColor="@color/black"
         tools:text="Sort"
         android:gravity="center_vertical"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="8dp"
+        android:paddingHorizontal="4dp"
+        android:paddingVertical="4dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 

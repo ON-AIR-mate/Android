@@ -9,23 +9,26 @@ import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
+import umc.onairmate.data.model.request.FriendInviteRequest
 import umc.onairmate.databinding.FragmentChatRoomSidePannelBinding
 import umc.onairmate.databinding.PopupInviteFriendBinding
 import umc.onairmate.ui.chat_room.ChatRoomLayoutActivity
 import umc.onairmate.ui.chat_room.drawer.participants.ChatRoomParticipantsFragment
 import umc.onairmate.ui.chat_room.drawer.setting.ChatRoomSettingFragment
+import umc.onairmate.ui.chat_room.message.VideoChatViewModel
 import umc.onairmate.ui.friend.FriendViewModel
 
 @AndroidEntryPoint
 class ChatRoomDrawerFragment : Fragment() {
 
-    private val friendViewModel: FriendViewModel by viewModels()
+    private val friendViewModel: FriendViewModel by activityViewModels()
 
     lateinit var binding: FragmentChatRoomSidePannelBinding
     lateinit var roomData: RoomData
@@ -108,8 +111,9 @@ class ChatRoomDrawerFragment : Fragment() {
             val friendList = data ?: emptyList()
 
             invitePopupRVAdapter = InviteFriendRVAdapter(friendList, {
+                val body = FriendInviteRequest(roomData.roomId)
                 // 3. 친구 초대 api 요청
-                friendViewModel.inviteFriend(it.userId)
+                friendViewModel.inviteFriend(it.userId, body)
                 // 4. 초대 이후 로직 (메시지를 띄운다던가..)
                 Toast.makeText(this.context, "${it.nickname}님에게 초대를 발송했습니다.", Toast.LENGTH_SHORT).show()
                 invitePopupWindow?.dismiss()

@@ -9,10 +9,12 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
+import umc.onairmate.data.model.entity.DirectMessageData
 import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.data.model.entity.RequestedFriendData
 import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.data.model.request.AcceptFriendBody
+import umc.onairmate.data.model.request.FriendInviteRequest
 import umc.onairmate.data.model.request.FriendRequest
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.repository.repository.FriendRepository
@@ -35,6 +37,9 @@ class FriendViewModel @Inject constructor(
 
     private val _searchedUserList =  MutableLiveData<List<UserData>>()
     val searchedUserList : LiveData<List<UserData>> get() = _searchedUserList
+
+    private val _dmHistory = MutableLiveData<List<DirectMessageData>>()
+    val dmHistory: LiveData<List<DirectMessageData>> get() = _dmHistory
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -215,7 +220,7 @@ class FriendViewModel @Inject constructor(
         }
     }
 
-    fun inviteFriend(userId: Int) {
+    fun inviteFriend(userId: Int, body: FriendInviteRequest) {
         viewModelScope.launch {
             _isLoading.value = true
             val token = getToken()
@@ -224,7 +229,7 @@ class FriendViewModel @Inject constructor(
                 _isLoading.value = false
                 return@launch
             }
-            val result = repository.inviteFriend(token,userId)
+            val result = repository.inviteFriend(token,userId, body)
             Log.d(TAG, "inviteFriend api 호출")
             when (result) {
                 is DefaultResponse.Success -> {
@@ -234,6 +239,31 @@ class FriendViewModel @Inject constructor(
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
                     _result.postValue(result.message)
+                }
+            }
+            _isLoading.value = false
+        }
+    }
+
+    fun getDmHistory(friendId: Int) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            val token = getToken()
+            if (token == null) {
+                Log.e(TAG, "토큰이 없습니다")
+                _isLoading.value = false
+                return@launch
+            }
+            val result = repository.getDmHistory(token,friendId)
+            Log.d(TAG, "getDmHistory api 호출")
+            when (result) {
+                is DefaultResponse.Success -> {
+                    Log.d(TAG,"응답 성공 : ${result.data}")
+                    _dmHistory.value = result.data
+                }
+                is DefaultResponse.Error -> {
+                    Log.e(TAG, "에러: ${result.code} - ${result.message} ")
+                    _dmHistory.value = emptyList()
                 }
             }
             _isLoading.value = false

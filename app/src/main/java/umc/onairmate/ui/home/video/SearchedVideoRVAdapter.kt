@@ -20,14 +20,12 @@ class SearchedVideoRVAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(video: VideoData) {
-            Log.d("Check", "binding video: ${video.title}")
             NetworkImageLoader.thumbnailLoad(binding.ivThumbnail, video.thumbnail)
             binding.tvVideoTitle.text = video.title
             binding.tvChannelName.text = video.channelName
             binding.tvViewCount.text = "조회수 ${formatNumberClean(video.viewCount)}"
 
             binding.root.setOnClickListener {
-                Log.d("Check", "Clicked video: ${video.title}")
                 searchVideoEventListener.createRoom(video)
             }
         }

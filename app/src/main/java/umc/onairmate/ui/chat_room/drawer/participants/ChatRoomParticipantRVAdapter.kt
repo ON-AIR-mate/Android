@@ -5,34 +5,45 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.data.model.entity.ParticipantData
+import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.databinding.PopupParticipantOptionsBinding
 import umc.onairmate.databinding.RvItemChatRoomUserBinding
+import umc.onairmate.ui.home.room.RoomRVAdapter.RecyclerItem
 import umc.onairmate.ui.util.NetworkImageLoader
+import umc.onairmate.ui.util.SharedPrefUtil
 
 class ChatRoomParticipantRVAdapter(
-    private var userList: List<ParticipantData>,
     private val itemClick : ParticipantItemClickListener
-) : RecyclerView.Adapter<ChatRoomParticipantRVAdapter.ViewHolder>() {
+) : ListAdapter<ParticipantData, ChatRoomParticipantRVAdapter.ViewHolder>(ParticipantRVAdapterDiffCallback) {
 
     // ViewHolder: 아이템 레이아웃과 바인딩
     inner class ViewHolder(
         private val binding: RvItemChatRoomUserBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
+        val userData = SharedPrefUtil.getData("user_info") ?: UserData()
+
         fun bind(user: ParticipantData) {
             binding.tvUserNickname.text = user.nickname
             // 프로필 이미지 로드
             NetworkImageLoader.profileLoad(binding.ivUserProfile, user.profileImage)
-            // todo: 인기도를 어떻게 표현해야되는지..? 잘 모르겠슴
+            binding.tvUserTier.text = user.popularity.toString()
 
-            binding.ivMore.setOnClickListener {
-                showPopupMenu(binding.ivMore, adapterPosition, user)
+            if (user.userId == userData.userId) {
+                binding.ivMore.visibility = View.GONE
+            } else {
+                binding.ivMore.visibility = View.VISIBLE
+                binding.ivMore.setOnClickListener {
+                    showPopupMenu(binding.ivMore, user)
+                }
             }
         }
 
-        private fun showPopupMenu(anchorView: View, position: Int, data: ParticipantData){
+        private fun showPopupMenu(anchorView: View, data: ParticipantData){
             val popupBinding = PopupParticipantOptionsBinding.inflate(LayoutInflater.from(anchorView.context))
 
             // PopupWindow 생성
@@ -80,7 +91,6 @@ class ChatRoomParticipantRVAdapter(
         }
     }
 
-    //
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = RvItemChatRoomUserBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
@@ -90,8 +100,22 @@ class ChatRoomParticipantRVAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(userList[position])
+        holder.bind(getItem(position))
     }
 
-    override fun getItemCount(): Int = userList.size
+    object ParticipantRVAdapterDiffCallback : DiffUtil.ItemCallback<ParticipantData>() {
+        override fun areItemsTheSame(
+            oldItem: ParticipantData,
+            newItem: ParticipantData
+        ): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(
+            oldItem: ParticipantData,
+            newItem: ParticipantData
+        ): Boolean {
+            return oldItem == newItem
+        }
+    }
 }

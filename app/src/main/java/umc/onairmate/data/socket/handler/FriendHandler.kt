@@ -12,6 +12,7 @@ class FriendHandler(
     private val listener: FriendEventListener
 ) : SocketHandler {
     override fun getEventMap(): Map<String, (JSONObject) -> Unit> {
+        Log.d("FriendHandler","data ${String}")
         return mapOf(
             "receiveDirectMessage" to {data ->
                 Log.d("FriendHandler","data ${data}")
@@ -31,7 +32,17 @@ class FriendHandler(
                 // 파싱 실패 시 기본 에러 객체 생성
                 val safeError = parsed ?: SocketMessage(type = "JSON_PARSE_ERROR", message = data.toString())
                 listener.onError(safeError)
+            },
+            "success" to { data ->
+                val parsed = parseJson<SocketMessage>(data)
+                if (parsed == null) {
+                    val error =  SocketMessage(type = "JSON_PARSE_ERROR", message = data.toString())
+                    listener.onError(error)
+                }
+                else listener.onSuccess(parsed)
             }
+
+
         )
     }
 }

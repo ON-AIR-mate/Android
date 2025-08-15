@@ -25,7 +25,7 @@ class ChatRoomLayoutActivity : AppCompatActivity() {
     lateinit var roomData: RoomData
     private lateinit var binding: ActivityChatRoomLayoutBinding
 
-    private val chatRoomViewModel: ChatRoomViewModel by viewModels()
+    private val chatRoomViewModel: ChatVideoViewModel by viewModels()
     private val videoChatViewModel: VideoChatViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -42,12 +42,13 @@ class ChatRoomLayoutActivity : AppCompatActivity() {
         onDrawerListener()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        videoChatViewModel.leaveRoom(roomData.roomId) // 방 나가기 (Socket)
+    override fun onPause() {
+        super.onPause()
         SocketManager.getSocketOrNull()?.let { socket ->
             if (socket.connected()) {
+                videoChatViewModel.leaveRoom(roomData.roomId)
                 SocketDispatcher.unregisterHandler(socket, videoChatViewModel.getHandler())
+                SocketDispatcher.unregisterHandler(socket, chatRoomViewModel.getHandler())
             }
         }
     }
@@ -57,6 +58,7 @@ class ChatRoomLayoutActivity : AppCompatActivity() {
         val socket = SocketManager.getSocketOrNull()
         if (socket?.connected() == true) {
             SocketDispatcher.registerHandler(socket, videoChatViewModel.getHandler())
+            SocketDispatcher.registerHandler(socket, chatRoomViewModel.getHandler())
         }
 
     }

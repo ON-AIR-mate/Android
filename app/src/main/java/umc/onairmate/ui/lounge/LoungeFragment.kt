@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.databinding.FragmentLoungeBinding
 import umc.onairmate.ui.lounge.bookmark.BookmarkListFragment
+import umc.onairmate.ui.lounge.collection.CollectionListFragment
 
 /**
  * LoungeFragment: '라운지' 화면의 진입점

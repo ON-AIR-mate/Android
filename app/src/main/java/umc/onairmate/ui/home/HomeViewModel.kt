@@ -38,6 +38,9 @@ class HomeViewModel @Inject constructor(
     private val _joinRoom = MutableLiveData<Boolean?>()
     val joinRoom : LiveData<Boolean?> get() = _joinRoom
 
+    private val _leaveRoom = MutableLiveData<Boolean?>()
+    val leaveRoom : LiveData<Boolean?> get() = _leaveRoom
+
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -141,7 +144,6 @@ class HomeViewModel @Inject constructor(
                is DefaultResponse.Success -> {
                    Log.d(TAG,"응답 성공 : ${result.data}")
                    _joinRoom.value = true
-
                }
                is DefaultResponse.Error -> {
                    Log.e(TAG, "에러: ${result.code} - ${result.message} ")
@@ -165,10 +167,11 @@ class HomeViewModel @Inject constructor(
            when (result) {
                is DefaultResponse.Success -> {
                    Log.d(TAG,"응답 성공 : ${result.data}")
-
+                   _leaveRoom.value = true
                }
                is DefaultResponse.Error -> {
                    Log.e(TAG, "에러: ${result.code} - ${result.message} ")
+                   _leaveRoom.value = false
                }
            }
            _isLoading.value = false

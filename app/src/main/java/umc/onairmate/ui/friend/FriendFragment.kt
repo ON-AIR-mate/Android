@@ -77,9 +77,7 @@ class FriendFragment : Fragment() {
         binding.ivYoutubeSearch.setOnClickListener {
             findNavController().navigate(R.id.action_friend_to_search_video)
         }
-
         binding.ivNotification.setOnClickListener {
-
         }
     }
 

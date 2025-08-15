@@ -11,7 +11,7 @@ data class FriendData(
     @SerializedName("nickname")
     val nickname : String = "",
     @SerializedName("profileImage")
-    val profileImage : String = "",
+    val profileImage : String? = "",
     @SerializedName("popularity")
     val popularity : Int = 0,
     @SerializedName("isOnline")

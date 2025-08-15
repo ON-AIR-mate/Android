@@ -6,5 +6,5 @@ import umc.onairmate.data.model.entity.SocketMessage
 interface FriendEventListener {
     fun onNewDirectMessage(directMessage: DirectMessageData){}
     fun onError(errorMessage: SocketMessage){}
-
+    fun onSuccess(successMessage : SocketMessage){}
 }

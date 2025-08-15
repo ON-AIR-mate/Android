@@ -13,7 +13,7 @@ data class BookmarkData(
     @SerializedName("createdAt")
     val createdAt: String,
     @SerializedName("message")
-    val message: String,
+    val message: List<String>,
     @SerializedName("timeline")
     val timeline: Int,
     @SerializedName("videoThumbnail")
