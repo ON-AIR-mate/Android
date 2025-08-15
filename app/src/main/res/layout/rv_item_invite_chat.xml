@@ -82,12 +82,18 @@
                 android:layout_height="12dp"
                 android:layout_marginEnd="2dp"
                 android:src="@drawable/ic_empty_profile"/>
-            <ImageView
-                android:id="@+id/iv_manager_popularity"
+
+            <TextView
+                android:id="@+id/tv_manager_popularity"
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_popularity_4"/>
+                android:text="1"
+                android:background="@drawable/bg_count_badge"
+                android:backgroundTint="@color/disable"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.App.SemiBold.6sp"
+                android:textColor="@android:color/white" />
+
             <TextView
                 android:id="@+id/tv_manager_nickname"
                 android:layout_width="wrap_content"

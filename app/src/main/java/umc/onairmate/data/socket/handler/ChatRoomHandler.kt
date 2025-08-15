@@ -5,6 +5,7 @@ import org.json.JSONObject
 import umc.onairmate.data.model.entity.ChatMessageData
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.entity.SocketMessage
+import umc.onairmate.data.model.entity.UserLeftData
 import umc.onairmate.data.socket.SocketHandler
 import umc.onairmate.data.socket.listener.ChatRoomEventListener
 import umc.onairmate.data.util.parseJson
@@ -44,7 +45,14 @@ class ChatRoomHandler(
                 listener.onUserJoined(true)
             },
             "userLeft" to { data ->
-                listener.onUserLeft(true)
+                val parsed = parseJson<UserLeftData>(data)
+                if (parsed == null) {
+                    val error = SocketMessage(type = "JSON_PARSE_ERROR", message = data.toString())
+                    listener.onError(error)
+                }
+                else {
+                    listener.onUserLeft(parsed)
+                }
             },
             "roomSettingsUpdated" to {data ->
                 val parsed = parseJson<RoomData>(data)

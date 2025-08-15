@@ -3,11 +3,11 @@ package umc.onairmate.ui.chat_room.drawer.participants
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,6 +41,7 @@ class ChatRoomParticipantsFragment : Fragment() {
         Log.d("data", "room : ${roomData}")
 
         initScreen()
+        setupAdapter()
         setParticipants()
 
         return binding.root
@@ -49,38 +50,43 @@ class ChatRoomParticipantsFragment : Fragment() {
     fun initScreen() {
         chatRoomViewModel.getParticipantDataInfo(roomData!!.roomId)
         binding.itemRoomManager.tvUserNickname.text = roomData!!.hostNickname
+        binding.itemRoomManager.tvUserTier.text = roomData!!.hostPopularity.toString()
         NetworkImageLoader.profileLoad(binding.itemRoomManager.ivUserProfile, roomData!!.hostProfileImage)
+    }
+
+    fun setupAdapter() {
+        adapter = ChatRoomParticipantRVAdapter( object : ParticipantItemClickListener {
+            override fun clickReport(data: ParticipantData) {
+                TODO("Not yet implemented")
+            }
+
+            override fun clickRecommend(data: ParticipantData) {
+                TODO("Not yet implemented")
+            }
+
+            override fun clickAddFriend(data: ParticipantData) {
+                TODO("Not yet implemented")
+            }
+
+            override fun clickBlock(data: ParticipantData) {
+                TODO("Not yet implemented")
+            }
+        })
+        binding.rvParticipants.adapter = adapter
+        binding.rvParticipants.layoutManager = LinearLayoutManager(context)
     }
 
     // 방 참가자 명단의 어댑터와 뷰 연결
     private fun setParticipants() {
+        // 초기 userList 삽입
         chatRoomViewModel.participantDataInfo.observe(viewLifecycleOwner) { data ->
             val userList = data?.filter { !it.isHost } ?: emptyList()
+            adapter.submitList(userList)
+        }
 
-            adapter = ChatRoomParticipantRVAdapter(userList, object : ParticipantItemClickListener {
-                override fun clickMessage(data: ParticipantData) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun clickReport(data: ParticipantData) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun clickRecommend(data: ParticipantData) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun clickAddFriend(data: ParticipantData) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun clickBlock(data: ParticipantData) {
-                    TODO("Not yet implemented")
-                }
-            })
-            binding.rvParticipants.adapter = adapter
-            binding.rvParticipants.layoutManager = LinearLayoutManager(context)
+        // 업데이트된 userList 삽입
+        videoChatViewModel.userLeftDataInfo.observe(viewLifecycleOwner) { data ->
+            adapter.submitList(data.roomParticipants.filter { !it.isHost })
         }
     }
-
 }
