@@ -23,12 +23,7 @@
             android:text="ON AIR mate"
             android:textColor="@color/main"
             android:textAppearance="@style/TextAppearance.App.Bold.26sp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/info_youtube_api"
-            android:textColor="@color/text4"
-            android:textAppearance="@style/TextAppearance.App.Regular.8sp"/>
+
     </LinearLayout>
 
     <!-- 스크롤 뷰 -->
@@ -38,7 +33,7 @@
         android:layout_height="0dp"
         android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@id/layout_title"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toTopOf="@id/cl_bottom">
 
         <LinearLayout
             android:id="@+id/layout_scroll_content"
@@ -60,7 +55,7 @@
             <Button
                 android:id="@+id/btn_change_profile"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="44dp"
                 android:text="프로필 사진 변경"
                 android:textSize="12sp"
                 android:backgroundTint="@color/input"
@@ -74,101 +69,94 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="개인정보"
-                android:textStyle="bold"
-                android:textSize="16sp"
+                android:textAppearance="@style/TextAppearance.App.Medium.16sp"
                 android:layout_marginTop="24dp"
-                android:layout_marginStart="20dp" />
+                 />
 
             <!-- 닉네임 -->
             <LinearLayout
                 android:id="@+id/layout_nickname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/profileImage">
 
                 <TextView
-                    android:id="@+id/tv_nickname_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
                     android:text="닉네임"
-                    android:textSize="14sp"
-                    android:layout_marginStart="20dp"/>
+                    android:textAppearance="@style/TextAppearance.App.Regular.14sp"/>
 
                 <TextView
-                    android:id="@+id/tv_nickname_value"
+                    android:id="@+id/tv_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:text="[사용자 닉네임]"
+                    android:textColor="@color/black"
                     android:textSize="14sp"
-                    android:layout_marginStart="30dp"/>
+                    app:layout_constraintStart_toEndOf="@+id/nicknameTitle"
+                    app:layout_constraintTop_toTopOf="@+id/nicknameTitle" />
+
             </LinearLayout>
 
-            <!-- 인기도 영역 -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_popular"
+            <LinearLayout
+                android:id="@+id/layout_popularity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_marginTop="16dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp">
+                android:gravity="center_vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_nickname">
 
-                <!-- 왼쪽 콘텐츠 -->
-                <LinearLayout
-                    android:id="@+id/layout_popular_content"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginStart="12dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    android:text="인기도"
+                    android:textColor="@color/black"
+                    android:layout_marginEnd="16dp"
+                    android:textAppearance="@style/TextAppearance.App.Regular.14sp"/>
 
-                    <TextView
-                        android:id="@+id/tv_popular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="인기도"
-                        android:textSize="14sp"
-                        android:layout_marginEnd="12dp" />
-
-                    <ImageView
-                        android:id="@+id/iv_popularity_icon"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_popular"
-                        android:layout_marginEnd="12dp" />
-
-                    <TextView
-                        android:id="@+id/tv_popularity_score"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="***점"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-                <!-- 툴팁 -->
                 <ImageView
-                    android:id="@+id/iv_tooltip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_popular"
+                    android:layout_marginEnd="12dp"/>
+
+                <TextView
+                    android:id="@+id/tv_popularity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="48dp"
+                    android:text="***점"
+                    android:textAppearance="@style/TextAppearance.App.Regular.12sp"
+                    android:gravity="end|center_vertical" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+
+                <ImageView
+                    android:id="@+id/iv_popularity_help"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:src="@drawable/ic_question"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/layout_popular_content"
-                    android:layout_marginEnd="12dp" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    app:layout_constraintTop_toTopOf="@+id/popularityTitle"
+                    app:layout_constraintStart_toEndOf="@+id/popularityValue"
+                    android:layout_marginStart="4dp"/>
+            </LinearLayout>
 
-            <!-- 나의 활동 -->
+
             <TextView
                 android:id="@+id/tv_my_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="나의 활동"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="20dp"/>
+                android:textAppearance="@style/TextAppearance.App.Medium.16sp"
+                android:layout_marginTop="24dp"
+                />
 
             <!-- 참여한 방 -->
             <LinearLayout
@@ -177,14 +165,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:padding="16dp">
+                android:layout_marginVertical="5dp"
+                android:paddingVertical="6dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="참여한 방"
-                    android:textSize="14sp"/>
+                    android:textAppearance="@style/TextAppearance.App.Regular.14sp"/>
 
                 <ImageView
                     android:layout_width="16dp"
@@ -199,14 +188,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:padding="16dp">
+                android:layout_marginVertical="5dp"
+                android:paddingVertical="6dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="차단 리스트"
-                    android:textSize="14sp"/>
+                    android:textAppearance="@style/TextAppearance.App.Regular.14sp"/>
 
                 <ImageView
                     android:layout_width="16dp"
@@ -221,14 +211,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:padding="16dp">
+                android:layout_marginVertical="5dp"
+                android:paddingVertical="6dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="의견 보내기"
-                    android:textSize="14sp"/>
+                    android:textAppearance="@style/TextAppearance.App.Regular.14sp"/>
 
                 <ImageView
                     android:layout_width="16dp"
@@ -243,14 +234,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:padding="16dp">
+                android:layout_marginVertical="5dp"
+                android:paddingVertical="6dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="좋아한 컬렉션"
-                    android:textSize="14sp"/>
+                    android:textAppearance="@style/TextAppearance.App.Regular.14sp"/>
 
                 <ImageView
                     android:layout_width="16dp"
@@ -258,6 +250,33 @@
                     android:src="@drawable/ic_arrow"/>
             </LinearLayout>
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_onairmate_logo_bottom"
+                android:layout_gravity="center"
+                android:layout_marginTop="70dp"
+                android:layout_marginBottom="50dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="로그아웃"
+                android:textColor="@color/text5"
+                android:background="@drawable/background_logout"
+                android:textAppearance="@style/TextAppearance.App.SemiBold.14sp"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="2dp"
+                android:layout_marginBottom="50dp"
+                android:layout_gravity="center_horizontal"/>
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
+
+    <!-- 바텀뷰만큼 띄우기위한 코드입니다 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
