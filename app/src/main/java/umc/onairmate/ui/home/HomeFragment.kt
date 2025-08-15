@@ -154,6 +154,9 @@ class HomeFragment : Fragment() {
             showJoinRoomPopup()
             homeViewModel.clearRoomDetailInfo()
         }
+        homeViewModel.smallLoading.observe(viewLifecycleOwner){ smallLoading ->
+            binding.progressbarSmall.visibility = if (smallLoading) View.VISIBLE else View.GONE
+        }
 
         searchVideoViewModel.recommendedVideos.observe(viewLifecycleOwner) {videos ->
             if(videos == null) return@observe

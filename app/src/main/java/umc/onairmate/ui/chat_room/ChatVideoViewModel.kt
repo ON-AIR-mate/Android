@@ -56,11 +56,9 @@ class ChatVideoViewModel @Inject constructor(
 
     fun getParticipantDataInfo(roomId: Int) {
         viewModelScope.launch {
-            _isLoading.value = true
             val token = getToken()
             if (token == null) {
                 Log.e(TAG, "토큰이 없습니다")
-                _isLoading.value = false
                 return@launch
             }
 
@@ -76,17 +74,14 @@ class ChatVideoViewModel @Inject constructor(
                     Log.d(TAG, "에러: ${result.code} - ${result.message}")
                 }
             }
-            _isLoading.value = false
         }
     }
 
     fun getRoomSetting(roomId: Int) {
         viewModelScope.launch {
-            _isLoading.value = true
             val token = getToken()
             if (token == null) {
                 Log.e(TAG, "토큰이 없습니다")
-                _isLoading.value = false
                 return@launch
             }
 
@@ -102,17 +97,14 @@ class ChatVideoViewModel @Inject constructor(
                     Log.d(TAG, "에러: ${result.code} - ${result.message}")
                 }
             }
-            _isLoading.value = false
         }
     }
 
     fun setRoomSetting(roomId: Int, roomSetting: RoomSettingData) {
         viewModelScope.launch {
-            _isLoading.value = true
             val token = getToken()
             if (token == null) {
                 Log.e(TAG, "토큰이 없습니다")
-                _isLoading.value = false
                 return@launch
             }
 
@@ -128,7 +120,6 @@ class ChatVideoViewModel @Inject constructor(
                     Log.d(TAG, "에러: ${result.code} - ${result.message}")
                 }
             }
-            _isLoading.value = false
         }
     }
 
