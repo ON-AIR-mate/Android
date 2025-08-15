@@ -2,8 +2,11 @@ package umc.onairmate.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -18,6 +21,7 @@ import umc.onairmate.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private var currentNavController: LiveData<NavController>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,14 +33,49 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
+        val navGraphIds = listOf(
+            R.navigation.nav_home,
+            R.navigation.nav_lounge,
+            R.navigation.nav_friend,
+            R.navigation.nav_profile
+        )
+        
+
+        binding.navView.setupWithNavController(navController)
+
+        // 2) 현재 목적지와 BottomNav 동기화 (혹시라도 틀어지면 잡아줌)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            val id = destination.id
+            Log.d("BNV", "destination=${resources.getResourceEntryName(id)}")
+            when (id) {
                 R.id.navigation_home,
                 R.id.navigation_lounge,
                 R.id.navigation_friend,
-                R.id.navigation_profile
-            )
-        )
+                R.id.navigation_profile -> {
+                    if (binding.navView.selectedItemId != id) {
+                        binding.navView.selectedItemId = id
+                    }
+                }
+                else -> { /* 서브화면이면 탭 상태 유지 */ }
+            }
+        }
+
+        binding.navView.setOnItemReselectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    navController.popBackStack(R.id.navigation_home, false)
+                }
+                R.id.navigation_lounge -> {
+                    navController.popBackStack(R.id.navigation_lounge, false)
+                }
+                R.id.navigation_friend -> {
+                    navController.popBackStack(R.id.navigation_friend, false)
+                }
+                R.id.navigation_profile -> {
+                    navController.popBackStack(R.id.navigation_profile, false)
+                }
+            }
+        }
 
         navView.setupWithNavController(navController)
 

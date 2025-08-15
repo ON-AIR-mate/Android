@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_lounge">
+    <fragment
+        android:id="@+id/navigation_lounge"
+        android:name="umc.onairmate.ui.lounge.LoungeFragment"
+        android:label="@string/title_lounge"
+        tools:layout="@layout/fragment_lounge" />
+</navigation>

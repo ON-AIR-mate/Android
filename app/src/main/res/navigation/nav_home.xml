@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_home"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="umc.onairmate.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home"/>
+    <include app:graph="@navigation/nav_search" />
+    <action
+        android:id="@+id/action_home_to_search_video"
+        app:destination="@+id/navigation_search_video" />
+</navigation>
