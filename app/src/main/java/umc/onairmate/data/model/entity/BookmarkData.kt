@@ -8,16 +8,8 @@ import kotlinx.parcelize.Parcelize
 data class BookmarkData(
     @SerializedName("bookmarkId")
     val bookmarkId: Int,
-    @SerializedName("collectionTitle")
-    val collectionTitle: String? = null,
-    @SerializedName("createdAt")
-    val createdAt: String,
     @SerializedName("message")
-    val message: List<String>,
+    val message: String,
     @SerializedName("timeline")
-    val timeline: Int,
-    @SerializedName("videoThumbnail")
-    val videoThumbnail: String,
-    @SerializedName("videoTitle")
-    val videoTitle: String
+    val timeline: Int
 ): Parcelable
