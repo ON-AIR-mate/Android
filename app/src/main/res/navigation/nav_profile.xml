@@ -2,7 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navigation_profile">
+    android:id="@+id/nav_profile"
+    app:startDestination="@id/navigation_profile">
     <fragment
         android:id="@+id/navigation_profile"
         android:name="umc.onairmate.ui.profile.ProfileFragment"

@@ -17,6 +17,7 @@ fun BottomNavigationView.setupWithNavController(
     containerId: Int,
     intent: Intent
 ): LiveData<NavController> {
+
     val graphIdToTagMap = mutableMapOf<Int, String>()
     val selectedController = NavControllerLiveData()
     var firstGraphTag: String? = null
