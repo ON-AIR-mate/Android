@@ -125,6 +125,16 @@ class BookmarkListFragment : Fragment() {
             searchRoomViewModel.clearJoinRoom()
             searchRoomViewModel.clearRoomDetailInfo()
         }
+        bookmarkViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+        searchRoomViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+        searchRoomViewModel.smallLoading.observe(viewLifecycleOwner){ smallLoading ->
+            binding.progressbar.visibility = if (smallLoading) View.VISIBLE else View.GONE
+        }
+
     }
 
     // 어디서 시작할지 팝업 띄우기

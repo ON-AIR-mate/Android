@@ -39,10 +39,13 @@ class ImageViewModel @Inject constructor(
     val isSuccess: LiveData<Boolean> = _isSuccess
 
     fun editProfile(nickname: String, url: String){
+
         viewModelScope.launch {
+            _isLoading.value = true
             val token = getToken()
             if (token == null) {
                 Log.e(TAG, "토큰이 없습니다")
+                _isLoading.value = false
                 return@launch
             }
             val body = ProfileRequest(nickname = nickname, profileImage = url)
@@ -58,6 +61,7 @@ class ImageViewModel @Inject constructor(
                     _isSuccess.value = false
                 }
             }
+            _isLoading.value = false
         }
     }
 

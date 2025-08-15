@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -51,6 +52,7 @@ class ProfileFragment : Fragment() {
         setImagePicker()
 
         user = SharedPrefUtil.getData("user_info")?: UserData()
+        initUserData()
 
         return binding.root
     }
@@ -59,7 +61,6 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initUserData()
         setObservers()
         initEventListeners()
     }
@@ -75,11 +76,13 @@ class ProfileFragment : Fragment() {
             if (url == null) return@observe
             imageUrl= url
             imageViewModel.editProfile(user.nickname,imageUrl)
-            //NetworkImageLoader.profileLoad(binding.ivProfile, imageUrl)
         }
         imageViewModel.isSuccess.observe(viewLifecycleOwner){ isSuccess ->
             if (isSuccess == null) return@observe
             NetworkImageLoader.profileLoad(binding.ivProfile, imageUrl)
+        }
+        imageViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
     }
 
@@ -152,6 +155,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun initUserData(){
+        Log.d(TAG,"initUserData")
         binding.tvNickname.text = user.nickname
         NetworkImageLoader.profileLoad(binding.ivProfile, user.profileImage)
     }
