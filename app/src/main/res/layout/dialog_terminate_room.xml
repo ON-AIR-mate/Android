@@ -10,7 +10,7 @@
         android:id="@+id/tv_popup_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="[닉네임]님의 친구요청을 수락하시겠습니까?"
+        android:text="영상 시청이 종료되었습니다."
         android:textAppearance="@style/TextAppearance.App.Medium.14sp"
         android:gravity="center"
         android:padding="10dp"
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/background_box_5dp"
         android:backgroundTint="@color/main"
-        android:text="수락"
+        android:text="퇴장하기"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
         android:textColor="@color/white"
@@ -33,27 +33,8 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintTop_toBottomOf="@id/tv_popup_text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btn_right"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/btn_right"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/background_box_5dp"
-        android:backgroundTint="@color/disable"
-        android:text="거절"
-        android:gravity="center"
-        android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
-        android:textColor="@color/white"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="10dp"
-        android:paddingVertical="2dp"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintTop_toBottomOf="@id/tv_popup_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btn_left"
-        app:layout_constraintEnd_toEndOf="parent"/>
 
 
 

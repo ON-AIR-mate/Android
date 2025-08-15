@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment"
-    android:paddingHorizontal="30dp">
+    android:fitsSystemWindows="true"
+    android:layout_marginHorizontal="30dp">
 
     <LinearLayout
         android:id="@+id/layout_title"

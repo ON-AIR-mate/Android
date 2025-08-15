@@ -131,7 +131,7 @@ class CollectionListFragment : Fragment() {
 
             val dialog = CollectionShareDialog(friendList, { friend ->
                 val request = ShareCollectionRequest(
-                    listOf( friend.userId)
+                    listOf(friend.userId)
                 )
 
                 collectionViewModel.shareCollection(collectionData.collectionId ,request)

@@ -6,6 +6,8 @@ import org.json.JSONObject
 import java.util.Collections
 
 object SocketDispatcher {
+    private val TAG = this.javaClass.simpleName
+
     private val activeHandlers = mutableListOf<SocketHandler>().apply {
         Collections.synchronizedList(this)
     }
@@ -18,7 +20,7 @@ object SocketDispatcher {
         handler.getEventMap().forEach { (eventName, callback) ->
             socket.off(eventName) // 먼저 기존 리스너 제거 (중복 방지)
             socket.on(eventName) { args ->
-                Log.d("SocketDispatcher", "${eventName}")
+                Log.d(TAG, eventName)
                 if (args.isNotEmpty() && args[0] is JSONObject) {
                     try {
                         callback(args[0] as JSONObject)

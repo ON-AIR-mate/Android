@@ -38,8 +38,8 @@ class SearchVideoViewModel @Inject constructor(
     val recommendedVideos : LiveData<List<VideoData>> get() = _recommendedVideos
 
     // 만들어진 방 id
-    private val _createdRoomInfo = MutableLiveData<CreateRoomResponse>()
-    val createdRoomInfo : LiveData<CreateRoomResponse> get() = _createdRoomInfo
+    private val _createdRoomInfo = MutableLiveData<CreateRoomResponse?>()
+    val createdRoomInfo : LiveData<CreateRoomResponse?> get() = _createdRoomInfo
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading : LiveData<Boolean> = _isLoading
@@ -134,12 +134,14 @@ class SearchVideoViewModel @Inject constructor(
         }
     }
 
-    fun setVideoDetailInfo(data: VideoData) {
-        _videoDetailInfo.value = data
+    fun clearVideoDetailInfo(){
+        _videoDetailInfo.value = null
+        Log.d("Check", "${_createdRoomInfo.value}")
     }
 
-    fun clearVideoDetailInfo(){
-        _videoDetailInfo.value=null
+    fun clearCreatedRoomInfo() {
+        _createdRoomInfo.value = null
+        Log.d("Check", "${_createdRoomInfo.value}")
     }
 
     fun getRecommendVideoList(keyword: String, limit: Int) {

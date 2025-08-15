@@ -14,15 +14,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.ParticipantData
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.databinding.FragmentChatRoomParticipantsBinding
-import umc.onairmate.ui.chat_room.ChatRoomViewModel
+import umc.onairmate.ui.chat_room.ChatVideoViewModel
 import umc.onairmate.ui.chat_room.message.VideoChatViewModel
+import umc.onairmate.ui.util.NetworkImageLoader
 
 @AndroidEntryPoint
 class ChatRoomParticipantsFragment : Fragment() {
 
-    private val chatRoomViewModel: ChatRoomViewModel by activityViewModels()
+    private val chatRoomViewModel: ChatVideoViewModel by activityViewModels()
     private val videoChatViewModel: VideoChatViewModel by activityViewModels()
-
 
     lateinit var binding: FragmentChatRoomParticipantsBinding
 
@@ -49,17 +49,19 @@ class ChatRoomParticipantsFragment : Fragment() {
     fun initScreen() {
         chatRoomViewModel.getParticipantDataInfo(roomData!!.roomId)
         binding.itemRoomManager.tvUserNickname.text = roomData!!.hostNickname
+        NetworkImageLoader.profileLoad(binding.itemRoomManager.ivUserProfile, roomData!!.hostProfileImage)
     }
 
     // 방 참가자 명단의 어댑터와 뷰 연결
     private fun setParticipants() {
         chatRoomViewModel.participantDataInfo.observe(viewLifecycleOwner) { data ->
-            val userList = data ?: emptyList()
+            val userList = data?.filter { !it.isHost } ?: emptyList()
 
-            adapter = ChatRoomParticipantRVAdapter(userList, object: ParticipantItemClickListener {
+            adapter = ChatRoomParticipantRVAdapter(userList, object : ParticipantItemClickListener {
                 override fun clickMessage(data: ParticipantData) {
                     TODO("Not yet implemented")
                 }
+
                 override fun clickReport(data: ParticipantData) {
                     TODO("Not yet implemented")
                 }
@@ -82,39 +84,3 @@ class ChatRoomParticipantsFragment : Fragment() {
     }
 
 }
-
-// 더미데이터
-val userList: List<ParticipantData> = listOf(
-    ParticipantData(
-        nickname = "참가자1",
-        isHost = false,
-        joinedAt = "",
-        popularity = 0,
-        profileImage = "",
-        userId = 0
-    ),
-    ParticipantData(
-        nickname = "참가자2",
-        isHost = false,
-        joinedAt = "",
-        popularity = 0,
-        profileImage = "",
-        userId = 0
-    ),
-    ParticipantData(
-        nickname = "참가자3",
-        isHost = false,
-        joinedAt = "",
-        popularity = 0,
-        profileImage = "",
-        userId = 0
-    ),
-    ParticipantData(
-        nickname = "참가자4",
-        isHost = false,
-        joinedAt = "",
-        popularity = 0,
-        profileImage = "",
-        userId = 0
-    )
-)

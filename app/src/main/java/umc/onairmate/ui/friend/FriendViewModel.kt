@@ -220,7 +220,7 @@ class FriendViewModel @Inject constructor(
         }
     }
 
-    fun inviteFriend(friendId: Int,roomId: Int) {
+    fun inviteFriend(userId: Int, body: FriendInviteRequest) {
         viewModelScope.launch {
             _isLoading.value = true
             val token = getToken()
@@ -229,7 +229,7 @@ class FriendViewModel @Inject constructor(
                 _isLoading.value = false
                 return@launch
             }
-            val result = repository.inviteFriend(token,friendId, FriendInviteRequest(roomId))
+            val result = repository.inviteFriend(token,userId, body)
             Log.d(TAG, "inviteFriend api 호출")
             when (result) {
                 is DefaultResponse.Success -> {
