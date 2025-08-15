@@ -63,12 +63,6 @@ class ImageViewModel @Inject constructor(
 
     fun uploadUri(uri: Uri){
         viewModelScope.launch {
-
-            val token = getToken()
-            if (token == null) {
-                Log.e(TAG, "토큰이 없습니다")
-                return@launch
-            }
             val part = UriToMultipartUtil.uriToMultipart(context, uri, "profileImage")
             val result = repository.uploadImage( part)
             Log.d(TAG, "uploadUri api 호출")
