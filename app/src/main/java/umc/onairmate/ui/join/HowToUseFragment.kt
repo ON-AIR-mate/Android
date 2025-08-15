@@ -44,7 +44,7 @@ class HowToUseFragment : Fragment() {
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     findNavController().popBackStack(R.id.loginFragment, false)
-                    // 2) Activity에 위임해 로그인 UI를 다시 보이게(현재 onBackPressed가 그 로직 보유)
+                    // Activity에 위임해 로그인 UI를 다시 보이게(현재 onBackPressed가 그 로직 보유)
                     (requireActivity() as LoginActivity).onBackPressed()
                 }
             }

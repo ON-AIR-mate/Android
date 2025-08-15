@@ -38,6 +38,7 @@ class ImageViewModel @Inject constructor(
     private val _isSuccess = MutableLiveData<Boolean>()
     val isSuccess: LiveData<Boolean> = _isSuccess
 
+    // 프로필 정보 수정
     fun editProfile(nickname: String, url: String){
 
         viewModelScope.launch {
@@ -65,6 +66,7 @@ class ImageViewModel @Inject constructor(
         }
     }
 
+    // 이미지 S3서버에 업로드
     fun uploadUri(uri: Uri){
         viewModelScope.launch {
             val part = UriToMultipartUtil.uriToMultipart(context, uri, "profileImage")

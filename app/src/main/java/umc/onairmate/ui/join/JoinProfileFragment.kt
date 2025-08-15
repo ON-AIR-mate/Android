@@ -93,6 +93,8 @@ class JoinProfileFragment : Fragment() {
             findNavController().popBackStack(R.id.loginFragment, false)
         }
     }
+
+    // 이미지 선택창 출력
     private fun setImagePicker(){
         picker = ImagePickerDelegate(this) { uri ->
             if (uri != null) {
@@ -121,6 +123,7 @@ class JoinProfileFragment : Fragment() {
             binding.tvNicknameGuide.visibility = View.VISIBLE
             updateCompleteButtonState()
         }
+
         loginViewModel.isSuccess.observe(viewLifecycleOwner){isSuccess ->
             if (isSuccess == null) return@observe
             if (isSuccess){
