@@ -46,9 +46,7 @@ class VideoSearchFragment : Fragment() {
 
         setTextListener()
         setVideo()
-
-        // 클릭 중첩 방지
-        binding.ivYoutubeSearch.setOnClickListener {}
+        
 
         return binding.root
     }

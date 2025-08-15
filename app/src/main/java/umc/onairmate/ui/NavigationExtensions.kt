@@ -51,7 +51,7 @@ fun BottomNavigationView.setupWithNavController(
         val newlySelectedTag = graphIdToTagMap[item.itemId] ?: return@setOnItemSelectedListener false
         val currentTag = graphIdToTagMap[selectedController.value?.graph?.startDestinationId] ?: firstGraphTag
 
-        // 어떤 탭이든 클릭 시 무조건 루트로 복귀
+        // 루트로 pop
         val targetController = (fragmentManager.findFragmentByTag(newlySelectedTag) as NavHostFragment).navController
         targetController.popBackStack(targetController.graph.startDestinationId, false)
 
@@ -61,6 +61,16 @@ fun BottomNavigationView.setupWithNavController(
 
         val newlySelectedFragment = fragmentManager.findFragmentByTag(newlySelectedTag) as NavHostFragment
         val currentFragment = fragmentManager.findFragmentByTag(currentTag!!) as NavHostFragment
+
+        // 터치 이벤트 제어
+        currentFragment.view?.apply {
+            isClickable = false
+            isFocusable = false
+        }
+        newlySelectedFragment.view?.apply {
+            isClickable = true
+            isFocusable = true
+        }
 
         fragmentManager.beginTransaction()
             .hide(currentFragment)
