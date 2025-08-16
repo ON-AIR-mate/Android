@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginHorizontal="30dp"
+    android:paddingHorizontal="13dp"
+    android:paddingVertical="24dp"
+    android:orientation="vertical"
+    android:background="@drawable/bg_dialog">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="내 라운지에 가져오기"
+            android:textAppearance="@style/TextAppearance.App.Medium.14sp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/btn_close"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_gravity="center">
+
+        <TextView
+            android:id="@+id/tv_collection_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            tools:text="[닉네임]의 웃긴 장면"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textAppearance="@style/TextAppearance.App.SemiBold.20sp" />
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/bg_count_badge"
+            android:paddingHorizontal="6dp"
+            android:paddingVertical="2dp"
+            android:layout_marginEnd="5dp"
+            tools:text="45"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="해당 컬렉션을 정말 삭제하시겠습니까?"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.App.Medium.14sp"
+        android:layout_marginBottom="20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_delete"
+            android:layout_width="100dp"
+            android:layout_height="20dp"
+            android:background="@drawable/background_box_5dp"
+            android:backgroundTint="@color/main"
+            android:text="삭제"
+            android:textColor="@color/white"
+            android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
+            android:layout_marginEnd="10dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="100dp"
+            android:layout_height="20dp"
+            android:background="@drawable/background_box_5dp"
+            android:backgroundTint="@color/disable"
+            android:text="취소"
+            android:textColor="@color/white"
+            android:textAppearance="@style/TextAppearance.App.SemiBold.12sp" />
+
+    </LinearLayout>
+</LinearLayout>
