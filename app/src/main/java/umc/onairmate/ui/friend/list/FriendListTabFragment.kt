@@ -50,8 +50,8 @@ class FriendListTabFragment() : Fragment() {
             }
         }
 
-        const val LIST_TYPE = 0
-        const val REQUEST_TYPE = 1
+        const val LIST_TYPE = 0 // 친구 리스트 조회
+        const val REQUEST_TYPE = 1 // 받은 요청 리스트 조회
 
     }
 
@@ -80,6 +80,7 @@ class FriendListTabFragment() : Fragment() {
         _binding = null
     }
 
+    // 선택된 탭에 따라 다른 api 호출
     private fun initData(){
         if (type == LIST_TYPE) viewModel.getFriendList()
         if (type == REQUEST_TYPE) viewModel.getRequestedFriendList()
@@ -108,11 +109,17 @@ class FriendListTabFragment() : Fragment() {
             Toast.makeText(requireContext(),message, Toast.LENGTH_SHORT).show()
             viewModel.clearResult()
         })
+
+        viewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
     }
 
     private fun setAdapter(){
         adapter = FriendListRVAdapter(requireContext())
         adapter.setItemClickListener(object: FriendItemClickListener{
+
+            // 1대1 채팅 화면 이동
             override fun clickMessage(data: FriendData) {
                 val bundle = Bundle().apply {
                     putParcelable("friendData", data)
@@ -120,6 +127,7 @@ class FriendListTabFragment() : Fragment() {
                 parentFragmentManager.setFragmentResult("open_friend_chat_activity", bundle)
             }
 
+            // 받은 요청 처리
             override fun acceptRequest(data: RequestedFriendData) {
                 val text = data.nickname+"님의 친구요청을 수락하시겠습니까?"
                 val textList = listOf(text,"수락","거절")
@@ -129,9 +137,12 @@ class FriendListTabFragment() : Fragment() {
                     right = {  viewModel.acceptFriend(data.requestId, "REJECT") })
             }
 
+            // 친구 콜렉션 방문
             override fun clickCollection(data: FriendData) {
                 // 인탠트 필요
             }
+
+            // 삭제하기
             override fun clickDelete(data: FriendData) {
                 val text = data.nickname+"님을 친구 목록에서 삭제하시겠습니까?"
                 val textList = listOf(text,"예","아니오")
@@ -140,16 +151,21 @@ class FriendListTabFragment() : Fragment() {
                     viewModel.deleteFriend(data.userId) }, right = {} )
             }
 
+            // 차단하기
             override fun clickBlock(data: FriendData) {
                 val text = data.nickname+"님을 차단하시겠습니까?"
                 val textList = listOf(text,"예","아니오")
-                showPopup(text =textList, left = {  }, right = {} )
+                showPopup(text =textList, left = {
+                    Toast.makeText(requireContext(),"${data.nickname}님을 차단했습니다.", Toast.LENGTH_SHORT).show() }, right = {} )
             }
 
+            // 신고하기
             override fun clickReport(data: FriendData) {
                 val text = data.nickname+"님을 신고하시겠습니까?"
                 val textList = listOf(text,"예","아니오")
-                showPopup(text =textList, left = {  }, right = {} )
+                showPopup(text =textList, left = {
+                    Toast.makeText(requireContext(),"신고 접수 되었습니다", Toast.LENGTH_SHORT).show()
+                }, right = {} )
             }
 
         })
@@ -158,6 +174,7 @@ class FriendListTabFragment() : Fragment() {
     }
 
 
+    // 2버튼 팝업 출력 
     private fun showPopup(text : List<String>, right : ()-> Unit?, left: () -> Unit?) {
         val dialog = TwoButtonPopup(text,object : PopupClick{
             override fun rightClickFunction() { right() }

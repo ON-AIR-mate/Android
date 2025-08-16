@@ -22,6 +22,7 @@ class FriendListRVAdapter(
         itemClick = listener
     }
 
+    // 친구목록 과 요청 구분
     companion object{
         private const val VIEW_TYPE_LIST = 0
         private const val VIEW_TYPE_REQUEST = 1
@@ -69,12 +70,15 @@ class FriendListRVAdapter(
         }
     }
 
+    // 친구 목록 삽입
     fun initFriendList(items : List<FriendData>){
         submitList(emptyList())
         val itemList = mutableListOf<RecyclerItem>()
         itemList.addAll(items .map { RecyclerItem.ListTypeItem(it)}) // 방 리스트 아이템
         submitList(itemList)
     }
+
+    // 받은 요청 목록 삽입
     fun initRequestList(items : List<RequestedFriendData>){
         submitList(emptyList())
         val itemList = mutableListOf<RecyclerItem>()

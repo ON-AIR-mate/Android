@@ -26,9 +26,8 @@ class FriendFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val tabList = arrayListOf("친구 목록", "받은 요청", "친구 찾기")
-    private val viewModel: FriendViewModel by viewModels()
 
-    // 결과 콜백
+    // 결과 콜백 -> 영상검색으로 전환여부 결정
     private val  friendChatActivityLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -63,6 +62,7 @@ class FriendFragment : Fragment() {
         _binding = FragmentFriendBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        // 뷰페이저 설정
         val adapter = FriendVPAdapter(this)
         binding.vpFriend.adapter = adapter
         binding.vpFriend.setUserInputEnabled(false);
@@ -73,18 +73,13 @@ class FriendFragment : Fragment() {
         initClickListener()
         return root
     }
+
     private fun initClickListener(){
         binding.ivYoutubeSearch.setOnClickListener {
             findNavController().navigate(R.id.action_friend_to_search_video)
         }
         binding.ivNotification.setOnClickListener {
         }
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
     }
 
     override fun onDestroyView() {

@@ -2,16 +2,17 @@ package umc.onairmate.ui.profile
 
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,8 +21,13 @@ import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.databinding.FragmentProfileBinding
 import umc.onairmate.ui.ImageViewModel
 import umc.onairmate.ui.util.ImagePickerDelegate
+
+import kotlin.getValue
+import androidx.core.content.edit
+import umc.onairmate.ui.login.LoginActivity
 import umc.onairmate.ui.util.NetworkImageLoader
 import umc.onairmate.ui.util.SharedPrefUtil
+
 
 
 @AndroidEntryPoint
@@ -30,7 +36,6 @@ class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-    private var nickname = ""
     private var imageUrl =""
 
     private var user : UserData = UserData()
@@ -44,8 +49,6 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        nickname = spf.getString("nickname","user")!!
         setImagePicker()
 
         user = SharedPrefUtil.getData("user_info")?: UserData()
@@ -54,36 +57,54 @@ class ProfileFragment : Fragment() {
         return binding.root
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setObservers()
+        initEventListeners()
+    }
 
-        binding.btnChangeProfile.setOnClickListener {
-            picker.launch()
-        }
-
-        binding.ivTooltip.setOnClickListener {
-            Toast.makeText(requireContext(), "추천 및 제재에 따라 인기도가 조정됩니다.", Toast.LENGTH_LONG).show()
-        }
-
-        binding.layoutMyRooms.setOnClickListener {
-            // 참여한 방 이동
-        }
-
-        binding.tvNicknameValue.text = nickname
-
-        // 다른 버튼들에 대한 clickListener도 동일하게 설정
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
 
+    private fun setObservers(){
         imageViewModel.imageUrl.observe(viewLifecycleOwner){ url ->
             if (url == null) return@observe
             imageUrl= url
-            imageViewModel.editProfile(nickname,imageUrl)
-            //NetworkImageLoader.profileLoad(binding.ivProfile, imageUrl)
+            imageViewModel.editProfile(user.nickname,imageUrl)
         }
         imageViewModel.isSuccess.observe(viewLifecycleOwner){ isSuccess ->
             if (isSuccess == null) return@observe
             NetworkImageLoader.profileLoad(binding.ivProfile, imageUrl)
         }
+        imageViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun initEventListeners() {
+        binding.btnChangeProfile.setOnClickListener {
+            picker.launch()
+        }
+        binding.ivPopularityHelp.setOnClickListener {
+            //showTooltip(it, "추천 및 제재에 따라 인기도가 조정됩니다.")
+        }
+
+        binding.layoutMyRooms.setOnClickListener {  }
+        binding.layoutBlock.setOnClickListener {  }
+
+        binding.tvLogout.setOnClickListener {
+            val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+            spf.edit { clear() }
+            val intent = Intent(requireActivity(), LoginActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
+        }
+
     }
 
     private fun setImagePicker(){
@@ -95,10 +116,6 @@ class ProfileFragment : Fragment() {
         picker.register()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
     //도움말 클릭시 글귀 표시
     private fun showTooltip(anchorView: View, message: String) {
@@ -134,13 +151,12 @@ class ProfileFragment : Fragment() {
             anchorY - anchorView.height - 20  // 말풍선 높이 조절
         )
 
-        binding.ivTooltip.setOnClickListener {
-            showTooltip(it, "추천 및 제재에 따라 인기도가 조정됩니다.")
-        }
+
     }
 
     private fun initUserData(){
-        binding.tvNicknameValue.text = user.nickname
+        Log.d(TAG,"initUserData")
+        binding.tvNickname.text = user.nickname
         NetworkImageLoader.profileLoad(binding.ivProfile, user.profileImage)
     }
 }

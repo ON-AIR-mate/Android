@@ -17,6 +17,7 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,6 +55,9 @@ class HomeFragment : Fragment() {
     private val searchHandler = Handler(Looper.getMainLooper())
 
     private lateinit var roomData: RoomData
+
+    private var roomFlag : Boolean = false
+    private var videoFlag : Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -98,6 +102,8 @@ class HomeFragment : Fragment() {
                 searchHandler.postDelayed(searchRunnable!!, 300) // 300ms 디바운스
             }
         })
+
+        //
         binding.etInputKeyword.setOnEditorActionListener{v, actionId, event ->
             if(actionId == EditorInfo.IME_ACTION_DONE){
                 val imm = v.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -150,6 +156,9 @@ class HomeFragment : Fragment() {
             showJoinRoomPopup()
             homeViewModel.clearRoomDetailInfo()
         }
+        homeViewModel.smallLoading.observe(viewLifecycleOwner){ smallLoading ->
+            binding.progressbarSmall.visibility = if (smallLoading) View.VISIBLE else View.GONE
+        }
 
         searchVideoViewModel.recommendedVideos.observe(viewLifecycleOwner) {videos ->
             if(videos == null) return@observe
@@ -178,6 +187,18 @@ class HomeFragment : Fragment() {
             homeViewModel.clearJoinRoom()
 
         }
+        homeViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            roomFlag = isLoading
+            checkRefresh()
+        })
+        searchVideoViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            videoFlag = isLoading
+            checkRefresh()
+        })
+    }
+    private fun checkRefresh() {
+        val isLoading = roomFlag || videoFlag
+        binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     // 상단 버튼들

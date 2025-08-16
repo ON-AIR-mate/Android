@@ -8,10 +8,12 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="end">
 
+    <!--배경 프래그먼트-->
     <include
         android:id="@+id/fragment_container"
         layout="@layout/fragment_chat_room" />
 
+    <!--drawer 프래그먼트-->
     <include
         android:id="@+id/fragment_drawer"
         layout="@layout/fragment_chat_room_side_pannel"/>

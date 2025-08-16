@@ -16,6 +16,7 @@ import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.repository.repository.HomeRepository
 import javax.inject.Inject
 
+// 영상 검색과 관련된 뷰모델
 @HiltViewModel
 class SearchVideoViewModel @Inject constructor(
     private val repository: HomeRepository,
@@ -44,17 +45,21 @@ class SearchVideoViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading : LiveData<Boolean> = _isLoading
 
+    private val _smallLoading = MutableLiveData<Boolean>()
+    val smallLoading : LiveData<Boolean> =_smallLoading
+
     fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
     }
 
+    // 방 만들기
     fun createRoom(body: CreateRoomRequest) {
         viewModelScope.launch {
-            _isLoading.value = true
+            _smallLoading.value = true
             val token = getToken()
             if (token == null) {
                 Log.e(TAG, "토큰이 없습니다")
-                _isLoading.value = false
+                _smallLoading.value = false
                 return@launch
             }
 
@@ -70,10 +75,11 @@ class SearchVideoViewModel @Inject constructor(
                     Log.e(TAG, "create room 에러: ${result.code} - ${result.message} ")
                 }
             }
-            _isLoading.value = false
+            _smallLoading.value = false
         }
     }
 
+    // 영상 검색
     fun searchVideoList(query: String, limit: Int) {
         viewModelScope.launch {
             // 빈 문자열 검사
@@ -107,13 +113,14 @@ class SearchVideoViewModel @Inject constructor(
         }
     }
 
+    // 영상 상세 정보
     fun getVideoDetailInfo(videoId: String) {
         viewModelScope.launch {
-            _isLoading.value = true
+            _smallLoading.value = true
             val token = getToken()
             if (token == null) {
                 Log.e(TAG, "토큰이 없습니다")
-                _isLoading.value = false
+                _smallLoading.value = false
                 return@launch
             }
 
@@ -130,18 +137,21 @@ class SearchVideoViewModel @Inject constructor(
                 }
             }
 
-            _isLoading.value = false
+            _smallLoading.value = false
         }
     }
 
+    // 영상 상세 정보 지우기
     fun clearVideoDetailInfo(){
         _videoDetailInfo.value = null
     }
 
+    // 만들어진 방 정보 지우기
     fun clearCreatedRoomInfo() {
         _createdRoomInfo.value = null
     }
 
+    // 추천 영상
     fun getRecommendVideoList(keyword: String, limit: Int) {
         viewModelScope.launch {
             _isLoading.value = true

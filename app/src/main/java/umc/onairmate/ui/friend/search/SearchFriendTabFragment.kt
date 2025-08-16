@@ -28,7 +28,7 @@ class SearchFriendTabFragment: Fragment() {
     private var _binding: FragmentSearchFriendTabBinding? = null
     private val binding get() = _binding!!
     private val viewModel: FriendViewModel by viewModels()
-    lateinit private var adapter : SearchUserRVAdapter
+    private lateinit var adapter : SearchUserRVAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +37,21 @@ class SearchFriendTabFragment: Fragment() {
     ): View {
         _binding = FragmentSearchFriendTabBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        initAdapter()
+        setTextListener()
+        setObservers()
+
+        return root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.etInputNickname.setText("")   // 입력창 초기화
+
+    }
+
+    // 리사이클러뷰 설정
+    private fun initAdapter(){
         adapter = SearchUserRVAdapter { data  ->
             val text = data.nickname + "님에게 친구요청을 보내시겠습니까?"
             val textList = listOf(text, "예", "아니오")
@@ -50,18 +65,6 @@ class SearchFriendTabFragment: Fragment() {
         }
         binding.rvUserList.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL, false)
         binding.rvUserList.adapter = adapter
-
-        setTextListener()
-        setObservers()
-
-        return root
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding.etInputNickname.setText("")
-        viewModel.searchUser(binding.etInputNickname.text.toString())
-
     }
 
 
@@ -78,11 +81,13 @@ class SearchFriendTabFragment: Fragment() {
             Toast.makeText(requireContext(),message, Toast.LENGTH_SHORT).show()
             viewModel.clearResult()
         })
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        })
 
     }
 
     private fun setTextListener(){
-
         // 엔터누르면 입력 왼료되도록
         binding.etInputNickname.setOnEditorActionListener{v, actionId, event ->
             if(actionId == EditorInfo.IME_ACTION_DONE){

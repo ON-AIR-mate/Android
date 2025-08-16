@@ -38,11 +38,15 @@ class ImageViewModel @Inject constructor(
     private val _isSuccess = MutableLiveData<Boolean>()
     val isSuccess: LiveData<Boolean> = _isSuccess
 
+    // 프로필 정보 수정
     fun editProfile(nickname: String, url: String){
+
         viewModelScope.launch {
+            _isLoading.value = true
             val token = getToken()
             if (token == null) {
                 Log.e(TAG, "토큰이 없습니다")
+                _isLoading.value = false
                 return@launch
             }
             val body = ProfileRequest(nickname = nickname, profileImage = url)
@@ -58,17 +62,13 @@ class ImageViewModel @Inject constructor(
                     _isSuccess.value = false
                 }
             }
+            _isLoading.value = false
         }
     }
 
+    // 이미지 S3서버에 업로드
     fun uploadUri(uri: Uri){
         viewModelScope.launch {
-
-            val token = getToken()
-            if (token == null) {
-                Log.e(TAG, "토큰이 없습니다")
-                return@launch
-            }
             val part = UriToMultipartUtil.uriToMultipart(context, uri, "profileImage")
             val result = repository.uploadImage( part)
             Log.d(TAG, "uploadUri api 호출")

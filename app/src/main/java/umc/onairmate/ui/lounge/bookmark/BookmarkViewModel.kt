@@ -9,12 +9,12 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
-import umc.onairmate.data.model.request.CreateBookmarkRequest
-import umc.onairmate.data.model.request.CreateRoomWithBookmarkRequest
-import umc.onairmate.data.model.request.MoveCollectionRequest
+import umc.onairmate.data.model.request.BookmarkCreateRequest
+import umc.onairmate.data.model.request.RoomWithBookmarkCreateRequest
+import umc.onairmate.data.model.request.CollectionMoveRequest
 import umc.onairmate.data.model.response.BookmarkListResponse
-import umc.onairmate.data.model.response.CreateBookmarkResponse
-import umc.onairmate.data.model.response.CreateRoomWithBookmarkResponse
+import umc.onairmate.data.model.response.BookmarkCreateResponse
+import umc.onairmate.data.model.response.RoomWithBookmarkCreateResponse
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.model.response.MessageResponse
 import umc.onairmate.data.repository.repository.BookmarkRepository
@@ -32,8 +32,8 @@ class BookmarkViewModel @Inject constructor(
 
 
     // 만들어진 북마크 정보
-    private val _createdBookmarkDataInfo = MutableLiveData<CreateBookmarkResponse>()
-    val createdBookmarkDataInfo : LiveData<CreateBookmarkResponse> get() = _createdBookmarkDataInfo
+    private val _createdBookmarkDataInfo = MutableLiveData<BookmarkCreateResponse>()
+    val createdBookmarkDataInfo : LiveData<BookmarkCreateResponse> get() = _createdBookmarkDataInfo
 
     // 사용자의 북마크 목록
     private val _bookmarkList = MutableLiveData<BookmarkListResponse>()
@@ -48,8 +48,8 @@ class BookmarkViewModel @Inject constructor(
     val isBookmarkMoved : LiveData<MessageResponse> get() = _isBookmarkMoved
 
     // 생성된 방 정보
-    private val _createdRoomDataInfo = MutableLiveData<CreateRoomWithBookmarkResponse>()
-    val createdRoomDataInfo : LiveData<CreateRoomWithBookmarkResponse> get() = _createdRoomDataInfo
+    private val _createdRoomDataInfo = MutableLiveData<RoomWithBookmarkCreateResponse>()
+    val createdRoomDataInfo : LiveData<RoomWithBookmarkCreateResponse> get() = _createdRoomDataInfo
 
     // 서버 로딩중 - 프로그래스바
     // api호출시 true, 응답이 오면 false
@@ -61,7 +61,7 @@ class BookmarkViewModel @Inject constructor(
     }
 
     // 북마크 생성
-    fun createBookmark(bookmarkCreateData: CreateBookmarkRequest) {
+    fun createBookmark(bookmarkCreateData: BookmarkCreateRequest) {
         viewModelScope.launch {
             _isLoading.value = true
             val token = getToken()
@@ -152,7 +152,7 @@ class BookmarkViewModel @Inject constructor(
     }
 
     // 북마크 컬렉션 이동
-    fun moveCollectionOfBookmark(bookmarkId: Int, collectionData: MoveCollectionRequest) {
+    fun moveCollectionOfBookmark(bookmarkId: Int, collectionData: CollectionMoveRequest) {
         viewModelScope.launch {
             _isLoading.value = true
             val token = getToken()
@@ -180,7 +180,7 @@ class BookmarkViewModel @Inject constructor(
     }
 
     // 북마크로 방 생성
-    fun createRoomWithBookmark(bookmarkId: Int, roomSettingData: CreateRoomWithBookmarkRequest) {
+    fun createRoomWithBookmark(bookmarkId: Int, roomSettingData: RoomWithBookmarkCreateRequest) {
         viewModelScope.launch {
             _isLoading.value = true
             val token = getToken()

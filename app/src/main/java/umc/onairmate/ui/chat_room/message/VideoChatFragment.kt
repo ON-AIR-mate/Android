@@ -55,7 +55,9 @@ class VideoChatFragment: Fragment() {
             binding.etInputChat.setText("")
         }
 
+        // 방 참여
         videoChatViewModel.joinRoom(roomId,user.nickname)
+
         return binding.root
     }
 
@@ -64,16 +66,19 @@ class VideoChatFragment: Fragment() {
         videoChatViewModel.getChatHistory(roomId)
     }
 
+
+    // 북마크 여부 감지
     private fun checkBookMark(input: String): Boolean {
         val regex = Regex("^\\d{2}:\\d{2}:\\d{2}")
         val result = regex.containsMatchIn(input)
-        Log.d("CheckBookMark", "input=[$input], result=$result")
         return result
     }
+
     override fun onResume() {
         super.onResume()
 
     }
+
 
     private fun setTextListener(){
         binding.etInputChat.addTextChangedListener(object : TextWatcher {
@@ -85,6 +90,8 @@ class VideoChatFragment: Fragment() {
             }
         })
     }
+
+    // 초기값 읽어오기
     private fun initData(){
         roomId = arguments?.getInt("roomId", 0)!!
         user = SharedPrefUtil.getData("user_info")?: UserData()

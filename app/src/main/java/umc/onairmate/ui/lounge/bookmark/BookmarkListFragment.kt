@@ -11,14 +11,11 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import umc.onairmate.data.model.entity.Bookmark
 import umc.onairmate.data.model.entity.BookmarkData
-import umc.onairmate.data.model.entity.CollectionData
 import umc.onairmate.data.model.entity.RoomArchiveData
 import umc.onairmate.data.model.entity.VideoData
 import umc.onairmate.data.model.request.CreateRoomRequest
-import umc.onairmate.data.model.request.CreateRoomWithBookmarkRequest
-import umc.onairmate.data.model.request.MoveCollectionRequest
+import umc.onairmate.data.model.request.RoomWithBookmarkCreateRequest
 import umc.onairmate.data.model.request.RoomStartOption
 import umc.onairmate.data.model.response.BookmarkListResponse
 import umc.onairmate.databinding.FragmentBookmarkListBinding
@@ -125,6 +122,16 @@ class BookmarkListFragment : Fragment() {
             searchRoomViewModel.clearJoinRoom()
             searchRoomViewModel.clearRoomDetailInfo()
         }
+        bookmarkViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+        searchRoomViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+        searchRoomViewModel.smallLoading.observe(viewLifecycleOwner){ smallLoading ->
+            binding.progressbar.visibility = if (smallLoading) View.VISIBLE else View.GONE
+        }
+
     }
 
     // 어디서 시작할지 팝업 띄우기
@@ -145,7 +152,7 @@ class BookmarkListFragment : Fragment() {
 
         val dialog = CreateRoomPopup(videoData, object : CreateRoomCallback {
             override fun onCreateRoom(body: CreateRoomRequest) {
-                val requestBody = CreateRoomWithBookmarkRequest(
+                val requestBody = RoomWithBookmarkCreateRequest(
                     roomTitle = body.roomName,
                     maxParticipants = body.maxParticipants,
                     isPrivate = body.isPrivate,

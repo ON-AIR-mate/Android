@@ -11,12 +11,14 @@ object SocketDispatcher {
     private val activeHandlers = mutableListOf<SocketHandler>().apply {
         Collections.synchronizedList(this)
     }
-    /** 핸들러 등록 (필요 시점에 호출) */
+
+    // 핸들러 등록 (필요 시점에 호출)
     fun registerHandler(socket: Socket, handler: SocketHandler) {
         if (!activeHandlers.contains(handler)) {
             activeHandlers.add(handler)
         }
 
+        // 이벤트 수신 후 파싱
         handler.getEventMap().forEach { (eventName, callback) ->
             socket.off(eventName) // 먼저 기존 리스너 제거 (중복 방지)
             socket.on(eventName) { args ->
@@ -45,6 +47,7 @@ object SocketDispatcher {
     }
 
 
+    // 화면 재개시 소켓 다시 연결
     fun reregisterAll(socket: Socket) {
         activeHandlers.forEach { handler ->
             handler.getEventMap().forEach { (eventName, callback) ->

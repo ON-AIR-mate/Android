@@ -6,15 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.CollectionData
 import umc.onairmate.data.model.entity.UserData
-import umc.onairmate.data.model.request.CreateCollectionRequest
-import umc.onairmate.data.model.request.ShareCollectionRequest
+import umc.onairmate.data.model.request.CollectionCreateRequest
+import umc.onairmate.data.model.request.CollectionShareRequest
 import umc.onairmate.databinding.FragmentCollectionListBinding
 import umc.onairmate.ui.friend.FriendViewModel
 import umc.onairmate.ui.lounge.collection.create.CollectionCreateDialog
@@ -60,6 +59,9 @@ class CollectionListFragment : Fragment() {
         collectionViewModel.deleteCollectionMessage.observe(viewLifecycleOwner) { data ->
             Toast.makeText(context, data.message, Toast.LENGTH_SHORT).show()
             collectionViewModel.getCollections()
+        }
+        collectionViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
     }
 
@@ -113,7 +115,7 @@ class CollectionListFragment : Fragment() {
 
     private fun showCreateCollectionPopup() {
         val dialog = CollectionCreateDialog(object : CreateCollectionCallback {
-            override fun onCreateCollection(requestData: CreateCollectionRequest) {
+            override fun onCreateCollection(requestData: CollectionCreateRequest) {
                 collectionViewModel.createCollection(requestData)
             }
         })
@@ -130,7 +132,7 @@ class CollectionListFragment : Fragment() {
             val friendList = list ?: emptyList()
 
             val dialog = CollectionShareDialog(friendList, { friend ->
-                val request = ShareCollectionRequest(
+                val request = CollectionShareRequest(
                     listOf(friend.userId)
                 )
 

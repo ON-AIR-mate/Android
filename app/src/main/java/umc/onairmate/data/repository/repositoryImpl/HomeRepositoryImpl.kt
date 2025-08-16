@@ -52,6 +52,7 @@ class HomeRepositoryImpl  @Inject constructor(
         return safeApiCall{api.leaveRoom(accessToken, roomId)}
     }
 
+    // 영상 검색
     override suspend fun searchVideoList(
         accessToken: String,
         query: String,
@@ -62,6 +63,7 @@ class HomeRepositoryImpl  @Inject constructor(
         }
     }
 
+    // 영상 1개의 세부 정보 검색
     override suspend fun getVideoDetailInfo(
         accessToken: String,
         videoId: String
@@ -71,6 +73,7 @@ class HomeRepositoryImpl  @Inject constructor(
         }
     }
 
+    // 추천 영상
     override suspend fun getRecommendVideoList(
         accessToken: String,
         keyword: String,

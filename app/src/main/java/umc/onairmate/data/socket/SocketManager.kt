@@ -18,11 +18,12 @@ object SocketManager {
 
     }
 
+    // 연결
     @Synchronized
     fun connect() {
         val currentSocket = socket ?: return
         if (currentSocket.connected()) return
-        currentSocket.off()
+        currentSocket.off() // 중복 연결 방지
         currentSocket.on(Socket.EVENT_CONNECT) {
             Log.d(TAG, "Socket connected")
             SocketDispatcher.reregisterAll(currentSocket)
@@ -37,6 +38,7 @@ object SocketManager {
         currentSocket.connect()
     }
 
+    // 연결 해제
     fun disconnect() {
         try {
             socket?.let {
@@ -50,6 +52,7 @@ object SocketManager {
     }
 
 
+    // 전송
     fun emit(eventType: String, data: JSONObject) {
         val currentSocket = socket
         if (currentSocket == null || !currentSocket.connected()) {

@@ -13,6 +13,7 @@ import umc.onairmate.databinding.DialogDeleteCollectionBinding
 import umc.onairmate.ui.pop_up.PopupClick
 import umc.onairmate.ui.util.TimeFormatter
 
+// 북마크 삭제 팝업
 class CollectionDeleteDialog (
     private val collectionData: CollectionData,
     private val popupClick: PopupClick

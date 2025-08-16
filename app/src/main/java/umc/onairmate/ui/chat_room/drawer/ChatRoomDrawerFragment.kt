@@ -25,6 +25,7 @@ import umc.onairmate.ui.chat_room.drawer.setting.ChatRoomSettingFragment
 import umc.onairmate.ui.chat_room.message.VideoChatViewModel
 import umc.onairmate.ui.friend.FriendViewModel
 
+// 채팅방 drawer 프래그먼트
 @AndroidEntryPoint
 class ChatRoomDrawerFragment : Fragment() {
 
@@ -34,7 +35,9 @@ class ChatRoomDrawerFragment : Fragment() {
     lateinit var roomData: RoomData
     private val bundle = Bundle()
 
+    // 하위 프래그먼트 뷰 전환을 위한 변수
     private var isSettingScreen = false
+
     private var invitePopupWindow: PopupWindow? = null
     private var invitePopupRVAdapter: InviteFriendRVAdapter? = null
 
@@ -58,12 +61,14 @@ class ChatRoomDrawerFragment : Fragment() {
         return binding.root
     }
 
+    // 초기설정: 참가자 목록
     fun initScreen() {
         isSettingScreen = false
         bundle.putParcelable("room_data", roomData)
         changeFrameToParticipant()
     }
 
+    // 세팅 아이콘으로 참가자 목록과 방 설정 화면 변경 가능
     fun onClickSetting() {
         binding.ivSetting.setOnClickListener {
             bundle.putParcelable("room_data", roomData)
@@ -83,6 +88,7 @@ class ChatRoomDrawerFragment : Fragment() {
         }
     }
 
+    // 친구 초대 팝업
     fun showInviteFriendPopup(anchorView: View) {
         val popupBinding = PopupInviteFriendBinding.inflate(LayoutInflater.from(anchorView.context))
 
@@ -103,9 +109,9 @@ class ChatRoomDrawerFragment : Fragment() {
 
         // 팝업을 anchorView(여기서는 버튼) 아래에 표시합니다.
         invitePopupWindow?.showAsDropDown(anchorView)
-        // 5. profit!!
     }
 
+    // 친구 목록 불러오기
     fun observeFriendList() {
         friendViewModel.friendList.observe(viewLifecycleOwner) { data ->
             val friendList = data ?: emptyList()
@@ -121,6 +127,7 @@ class ChatRoomDrawerFragment : Fragment() {
         }
     }
 
+    // 참가자 목록 화면으로 이동하는 로직
     fun changeFrameToParticipant() {
         val participants = ChatRoomParticipantsFragment()
         participants.arguments = bundle
@@ -130,6 +137,7 @@ class ChatRoomDrawerFragment : Fragment() {
             .commit()
     }
 
+    // 방 설정 화면으로 이동하는 로직
     fun changeFrameToSetting() {
         val setting = ChatRoomSettingFragment()
         setting.arguments = bundle

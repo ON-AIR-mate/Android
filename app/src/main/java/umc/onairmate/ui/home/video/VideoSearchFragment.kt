@@ -27,16 +27,16 @@ import umc.onairmate.ui.home.HomeViewModel
 import umc.onairmate.ui.pop_up.CreateRoomCallback
 import umc.onairmate.ui.pop_up.CreateRoomPopup
 
+// 유튜브 영상 검색 화면
 @AndroidEntryPoint
 class VideoSearchFragment : Fragment() {
 
     private lateinit var binding: FragmentVideoSearchBinding
+
     private val searchRoomViewModel: HomeViewModel by viewModels()
     private val searchVideoViewModel: SearchVideoViewModel by viewModels()
-    private lateinit var adapter: SearchedVideoRVAdapter
 
-    private var searchRunnable: Runnable? = null
-    private val searchHandler = Handler(Looper.getMainLooper())
+    private lateinit var adapter: SearchedVideoRVAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,14 +45,15 @@ class VideoSearchFragment : Fragment() {
         binding = FragmentVideoSearchBinding.inflate(layoutInflater)
 
         setTextListener()
-        setVideo()
+        setupObserver()
         
 
         return binding.root
     }
 
+    // 영상 검색어 입력 리스너
     private fun setTextListener(){
-        // 엔터누르면 입력 왼료되도록
+        // 엔터누르면 입력 완료되도록
         binding.etInputKeyword.setOnEditorActionListener{v, actionId, event ->
             if(actionId == EditorInfo.IME_ACTION_DONE){
                 val imm = v.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -71,7 +72,9 @@ class VideoSearchFragment : Fragment() {
         }
     }
 
-    private fun setVideo() {
+    // 옵저버 모음
+    private fun setupObserver() {
+        // api에서 영상 리스트 오면 어댑터에 submit
         searchVideoViewModel.searchedVideos.observe(viewLifecycleOwner) { data ->
             val videoList = data ?: emptyList()
 
@@ -99,12 +102,14 @@ class VideoSearchFragment : Fragment() {
             }
         }
 
+        // 선택한 영상에 대한 정보가 오면 방 만들기 팝업 띄우기
         searchVideoViewModel.videoDetailInfo.observe(viewLifecycleOwner) { data ->
             if (data == null) return@observe
             showCreateRoomPopup(data)
             searchVideoViewModel.clearVideoDetailInfo()
         }
 
+        // 만든 방에 대한 정보가 오면 방에 대한 상세 정보 받기
         searchVideoViewModel.createdRoomInfo.observe(viewLifecycleOwner) { data ->
             if (data == null) return@observe
             // 방 정보 받아오기
@@ -112,7 +117,7 @@ class VideoSearchFragment : Fragment() {
             searchVideoViewModel.clearCreatedRoomInfo()
         }
 
-        // 채팅방 화면 열기
+        // 방 상세정보 오면 채팅방 화면 열기
         searchRoomViewModel.roomDetailInfo.observe(viewLifecycleOwner) { data ->
             if (data == null) return@observe
             else {
@@ -125,12 +130,18 @@ class VideoSearchFragment : Fragment() {
                 }
                 startActivity(intent)
             }
+            // 방 다시 안열리게 정보 삭제
             searchRoomViewModel.clearJoinRoom()
             searchRoomViewModel.clearRoomDetailInfo()
         }
+        searchVideoViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+        searchVideoViewModel.smallLoading.observe(viewLifecycleOwner){ smallLoading ->
+            binding.progressbarSmall.visibility = if (smallLoading) View.VISIBLE else View.GONE
+        }
+
     }
-
-
 
     // 방 생성 팝업 띄우기
     private fun showCreateRoomPopup(data : VideoData){
@@ -144,11 +155,6 @@ class VideoSearchFragment : Fragment() {
         activity?.supportFragmentManager?.let { fm ->
             dialog.show(fm, "CreateRoomPopup")
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        searchRunnable?.let { searchHandler.removeCallbacks(it) }
     }
 
 }

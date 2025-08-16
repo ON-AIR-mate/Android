@@ -27,16 +27,25 @@ import umc.onairmate.ui.home.HomeViewModel
 import umc.onairmate.ui.pop_up.PopupClick
 import umc.onairmate.ui.util.SharedPrefUtil
 
+/**
+ * ChatRoomFragment: ChatRoomLayoutActivity의 배경 프래그먼트
+ * - 리소스: chat_room_fragment
+ * - 번들로 RoomData를 넘겨 받아야 함
+ * - 상위 액티비티: ChatRoomLayoutActivity (Drawer 레이아웃)
+ * - 하위 프래그먼트: VideoChatFragment (채팅 화면)
+ */
 @AndroidEntryPoint
 class ChatRoomFragment : Fragment() {
 
     lateinit var roomData: RoomData
     lateinit var binding: FragmentChatRoomBinding
 
-    private var player: YouTubePlayer? = null
-    private var currentSecond: Float = 0f
-    private var lastProcessedSecond: Int = 0
+    // 유튜브 플레이어 관련 변수
+    private var player: YouTubePlayer? = null   // 유튜브 플레이어 객체
+    private var currentSecond: Float = 0f       // 유튜브 플레이어의 현재 시간 (초단위)
+    private var lastProcessedSecond: Int = 0    // 유튜브 플레이어의 이전 소켓 처리 시간 (초단위)
 
+    // 현재 유저의 정보
     val user = SharedPrefUtil.getData("user_info") ?: UserData()
 
     private val homeViewModel: HomeViewModel by activityViewModels()
@@ -55,6 +64,7 @@ class ChatRoomFragment : Fragment() {
     ): View {
         binding = FragmentChatRoomBinding.inflate(inflater, container, false)
 
+        // 방
         initPlayer()
         initScreen()
         onClickSetting()
@@ -65,8 +75,10 @@ class ChatRoomFragment : Fragment() {
     }
 
     fun initScreen() {
+        // 뷰 초기화
         binding.tvRoomTitle.text = roomData.roomTitle
 
+        // 채팅 화면과 연결
         val bundle = Bundle()
         bundle.putInt("roomId", roomData.roomId)
 
@@ -122,8 +134,14 @@ class ChatRoomFragment : Fragment() {
                 player?.pause()
             }
         }
+
+        // 로딩 프로그래스바
+        homeViewModel.isLoading.observe(viewLifecycleOwner){ isLoading ->
+            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
     }
 
+    // 햄버거 메뉴 클릭시 drawer 열기
     private fun onClickSetting() {
         binding.ivSetting.setOnClickListener {
             (activity as? ChatRoomLayoutActivity)?.openDrawer()
@@ -145,43 +163,56 @@ class ChatRoomFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
-    // 유튜브 모듈
+    // 유튜브 모듈 지정
     fun initPlayer() {
         val playerView = binding.youtubePlayer
         lifecycle.addObserver(playerView)
 
+        // 유튜브 플레이어 리스너
         val listener : YouTubePlayerListener = object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
-                // set custom ui
+                // 유튜브 플레이어 커스텀 ui
                 val playerUiController = DefaultPlayerUiController(playerView, youTubePlayer)
-                playerUiController.showFullscreenButton(false)
-                playerUiController.showVideoTitle(false)
+
+                playerUiController.showFullscreenButton(false)      // 전체화면 버튼 비활성화
+                playerUiController.showVideoTitle(false)            // 영상 제목 비활성화 (유튜브 앱으로 연결됨)
+                playerUiController.showYouTubeButton(false)         // 유튜브 버튼 비활성화 (유튜브 앱으로 연결됨)
+
                 if (user.nickname == roomData.hostNickname) {
-                    playerUiController.showPlayPauseButton(true)
-                    playerUiController.showSeekBar(true)
+                    // host만 재생, 정지, 프로그래스바 조작 가능
+                    playerUiController.showPlayPauseButton(true)    // 재생/정지 버튼 활성화
+                    playerUiController.showSeekBar(true)            // 프로그래스바 활성화
                 } else {
-                    playerUiController.showPlayPauseButton(false)
-                    playerUiController.showSeekBar(false)
+                    // host가 아니면 재생, 정지, 프로그래스바 조작 불가능
+                    playerUiController.showPlayPauseButton(false)   // 재생/정지 버튼 비활성화
+                    playerUiController.showSeekBar(false)           // 프로그래스바 비활성화
                 }
-                playerUiController.showYouTubeButton(false)
+
+                // 플레이어 뷰에 커스텀 ui 지정
                 playerView.setCustomPlayerUi(playerUiController.rootView)
 
+                // 방 데이터의 동영상 정보를 플레이어에 연동
                 val videoId = roomData.videoId ?: "CgCVZdcKcqY"
                 youTubePlayer.loadVideo(videoId, currentSecond)
 
+                // 프래그먼트에서 플레이어 조작할 수 있게 지정
                 this@ChatRoomFragment.player = youTubePlayer
             }
 
-            // 현재 영상 재생 위치
+            // 현재 영상 재생 위치 (0.1초마다 실행됨)
             override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
+                // host의 재생 시점 동기화
                 if (user.nickname == roomData.hostNickname) {
                     currentSecond = second
-                    if (second.toInt() != lastProcessedSecond) {
 
+                    // 1초마다 소켓에 emit
+                    if (second.toInt() != lastProcessedSecond) {
                         if ((currentSecond.toInt() - lastProcessedSecond) in -3..3) {
+                            // 1. 새로 들어온 유저의 플레이어 동기화
                             lastProcessedSecond = second.toInt()
                             chatRoomViewModel.sendVideoPlayerControl("video:sync", roomData.roomId, currentSecond)
                         } else {
+                            // 2. host의 프로그래스바 조작 동기화
                             lastProcessedSecond = second.toInt()
                             chatRoomViewModel.sendVideoPlayerControl("video:play", roomData.roomId, currentSecond)
                         }
@@ -189,6 +220,7 @@ class ChatRoomFragment : Fragment() {
                 }
             }
 
+            // 유튜브 플레이어의 state 감지해 소켓 통신
             override fun onStateChange(
                 youTubePlayer: YouTubePlayer,
                 state: PlayerConstants.PlayerState
@@ -209,7 +241,7 @@ class ChatRoomFragment : Fragment() {
                         }
                     }
                     PlayerConstants.PlayerState.ENDED -> {
-                        // 영상 재생이 끝났을 때
+                        // 영상 재생이 끝났을 때 -> 방 끝남 팝업
                         showTerminateRoomPopup()
                     }
                     else -> {}
@@ -222,7 +254,7 @@ class ChatRoomFragment : Fragment() {
         playerView.initialize(listener, options)
     }
 
-    // 뒤로가기, 나가기 버튼으로 방 나가기
+    // 방 나가기 팝업 띄우기
     private fun showLeaveRoomPopup(data: RoomData) {
         val dialog = ChatRoomLeaveDialog(data, object : PopupClick {
             override fun leftClickFunction() {
@@ -236,13 +268,15 @@ class ChatRoomFragment : Fragment() {
         }
     }
 
-    // 방이 종료됨
+    // 방이 종료됨 팝업 띄우기
     private fun showTerminateRoomPopup() {
         val dialog = ChatRoomTerminateDialog(object : PopupClick {
             override fun leftClickFunction() {
                 if (user.nickname == roomData.hostNickname) {
+                    // host일 경우 api 통신으로 방 삭제
                     homeViewModel.leaveRoom(roomData.roomId)
                 } else {
+                    // 일반 참가자일 경우 이미 방이 사라졌으므로 화면만 전환
                     requireActivity().finish()
                     homeViewModel.clearRoomDetailInfo()
                 }
