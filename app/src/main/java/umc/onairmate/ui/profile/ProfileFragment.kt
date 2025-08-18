@@ -95,7 +95,6 @@ class ProfileFragment : Fragment() {
         }
 
         binding.layoutMyRooms.setOnClickListener {  }
-        binding.layoutBlock.setOnClickListener {  }
 
         binding.tvLogout.setOnClickListener {
             val spf = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
