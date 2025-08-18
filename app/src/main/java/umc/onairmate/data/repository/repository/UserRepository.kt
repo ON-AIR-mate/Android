@@ -1,11 +1,8 @@
 package umc.onairmate.data.repository.repository
 
-import retrofit2.http.GET
-import retrofit2.http.Header
+import umc.onairmate.data.model.entity.ParticipatedRoomData
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.model.response.MessageResponse
-import umc.onairmate.data.model.response.ParticipatedRoomData
-import umc.onairmate.data.model.response.RawDefaultResponse
 
 interface UserRepository {
 
@@ -15,6 +12,6 @@ interface UserRepository {
 
     suspend fun deleteParticipatedRoom(
         accessToken: String, // "Bearer xxx"
-        roomId: Long
+        roomId: Int
     ): DefaultResponse<MessageResponse>
 }

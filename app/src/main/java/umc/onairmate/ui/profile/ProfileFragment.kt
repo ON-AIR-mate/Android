@@ -25,6 +25,7 @@ import umc.onairmate.ui.util.ImagePickerDelegate
 import kotlin.getValue
 import androidx.core.content.edit
 import umc.onairmate.ui.login.LoginActivity
+import umc.onairmate.ui.profile.participated_room.ParticipatedRoomsActivity
 import umc.onairmate.ui.util.NetworkImageLoader
 import umc.onairmate.ui.util.SharedPrefUtil
 
@@ -156,8 +157,6 @@ class ProfileFragment : Fragment() {
             anchorX - popupView.measuredWidth / 2 + anchorView.width / 2,
             anchorY - anchorView.height - 20  // 말풍선 높이 조절
         )
-
-
     }
 
     private fun initUserData(){
@@ -167,7 +166,6 @@ class ProfileFragment : Fragment() {
     }
 
     private fun openParticipatedRooms() {
-        // TODO: 실제 대상 액티비티 이름으로 바꿔줘 (예: ParticipatedRoomsActivity)
         val intent = Intent(requireContext(), ParticipatedRoomsActivity::class.java)
         startActivity(intent)
     }

@@ -1,4 +1,4 @@
-package umc.onairmate.data.model.response
+package umc.onairmate.data.model.entity
 
 import com.google.gson.annotations.SerializedName
 
@@ -15,13 +15,4 @@ data class ParticipatedRoomData(
     val participatedAt: String,
     @SerializedName("bookmarks")
     val bookmarks: List<BookmarkData>
-)
-
-data class BookmarkData(
-    @SerializedName("bookmarkId")
-    val bookmarkId: Int,
-    @SerializedName("message")
-    val message: String,
-    @SerializedName("timeline")
-    val timeline: Int
 )

@@ -1,9 +1,9 @@
 package umc.onairmate.data.repository.repositoryImpl
 
 import umc.onairmate.data.api.UserService
+import umc.onairmate.data.model.entity.ParticipatedRoomData
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.model.response.MessageResponse
-import umc.onairmate.data.model.response.ParticipatedRoomData
 import umc.onairmate.data.repository.repository.UserRepository
 import umc.onairmate.data.util.safeApiCall
 import javax.inject.Inject
@@ -17,7 +17,7 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun deleteParticipatedRoom(
         accessToken: String,
-        roomId: Long
+        roomId: Int
     ): DefaultResponse<MessageResponse> {
         return safeApiCall { api.deleteParticipatedRoom(accessToken,roomId) }
     }

@@ -44,7 +44,7 @@
         </activity>
 
         <activity
-            android:name=".ui.profile.ParticipatedRoomsActivity"
+            android:name=".ui.profile.participated_room.ParticipatedRoomsActivity"
             android:exported="false" />
 
         <activity android:name=".ui.SplashActivity"
