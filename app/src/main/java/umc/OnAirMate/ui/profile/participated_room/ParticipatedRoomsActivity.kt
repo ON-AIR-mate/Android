@@ -24,25 +24,26 @@ class ParticipatedRoomsActivity : AppCompatActivity() {
 
     private val userViewModel: UserViewModel by viewModels()
 
-    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
         binding = ActivityParticipatedRoomsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         initScreen()
         setupAdapter()
         setupObserver()
-
-        return binding.root
     }
 
     private fun initScreen() {
-        userViewModel.loadParticipatedRooms()
+        //userViewModel.loadParticipatedRooms()
     }
 
 
     private fun setupAdapter() {
         adapter = ParticipatedRoomsAdapter(object : ParticipatedRoomEventListener {
             override fun onDeleteClick(roomId: Int) {
-                userViewModel.deleteParticipatedRoom(roomId)
+                //userViewModel.deleteParticipatedRoom(roomId)
             }
         })
 
