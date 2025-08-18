@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import androidx.recyclerview.widget.RecyclerView
+import umc.onairmate.R
 import umc.onairmate.data.model.entity.ParticipantData
 import umc.onairmate.databinding.PopupParticipantOptionsBinding
 import umc.onairmate.databinding.RvItemChatRoomUserBinding
@@ -72,8 +73,18 @@ class ChatRoomParticipantRVAdapter(
                 popupWindow.dismiss()
             }
             popupBinding.tvBlock.setOnClickListener {
-                itemClick.clickBlock(data)
+                //itemClick.clickBlock(data)
                 popupWindow.dismiss()
+
+                // 다이얼로그 뷰 inflate
+                val dialogView = LayoutInflater.from(anchorView.context)
+                    .inflate(R.layout.dialog_block, null)
+
+                val dialog = android.app.AlertDialog.Builder(anchorView.context)
+                    .setView(dialogView)
+                    .create()
+
+                dialog.show()
             }
 
             popupWindow.showAsDropDown(anchorView, offsetX, offsetY)
