@@ -24,6 +24,7 @@ import umc.onairmate.ui.util.ImagePickerDelegate
 
 import kotlin.getValue
 import androidx.core.content.edit
+import umc.onairmate.databinding.PopupTooltipBinding
 import umc.onairmate.ui.login.LoginActivity
 import umc.onairmate.ui.util.NetworkImageLoader
 import umc.onairmate.ui.util.SharedPrefUtil
@@ -91,7 +92,7 @@ class ProfileFragment : Fragment() {
             picker.launch()
         }
         binding.ivPopularityHelp.setOnClickListener {
-            //showTooltip(it, "추천 및 제재에 따라 인기도가 조정됩니다.")
+            showTooltip(it, "추천 및 제재에 따라 인기도가 조정됩니다.")
         }
 
         binding.layoutMyRooms.setOnClickListener {  }
@@ -118,16 +119,14 @@ class ProfileFragment : Fragment() {
 
     //도움말 클릭시 글귀 표시
     private fun showTooltip(anchorView: View, message: String) {
-        val inflater = LayoutInflater.from(anchorView.context)
-        val popupView = inflater.inflate(R.layout.popup_tooltip, null)
+        val tooltipBinding = PopupTooltipBinding.inflate(LayoutInflater.from(anchorView.context))
 
         // 텍스트 설정
-        val tooltipText = popupView.findViewById<TextView>(R.id.tooltip_text)
-        tooltipText.text = message
+        tooltipBinding.tooltipText.text = message
 
         // PopupWindow 생성
         val popupWindow = PopupWindow(
-            popupView,
+            tooltipBinding.root,
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT,
             true
@@ -136,20 +135,17 @@ class ProfileFragment : Fragment() {
             setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
 
-        // 위치 계산
-        val location = IntArray(2)
-        anchorView.getLocationOnScreen(location)
-
-        val anchorX = location[0]
-        val anchorY = location[1]
-
-        // anchorView 위에 말풍선 위치 조정
-        popupWindow.showAtLocation(
-            anchorView, Gravity.NO_GRAVITY,
-            anchorX - popupView.measuredWidth / 2 + anchorView.width / 2,
-            anchorY - anchorView.height - 20  // 말풍선 높이 조절
+        tooltipBinding.root.measure(
+            View.MeasureSpec.UNSPECIFIED,
+            View.MeasureSpec.UNSPECIFIED
         )
 
+        val popupWidth = tooltipBinding.root.measuredWidth
+        val offsetX = -popupWidth + anchorView.width
+        val offsetY = 0
+        
+
+        popupWindow.showAsDropDown(anchorView, offsetX, offsetY)
 
     }
 
