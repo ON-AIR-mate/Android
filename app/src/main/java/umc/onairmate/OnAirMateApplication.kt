@@ -47,10 +47,4 @@ class OnAirMateApplication : Application(), DefaultLifecycleObserver {
         SocketManager.disconnect()
     }
 
-
-    // 토큰 받아오기
-    private fun getToken(): String?{
-        val spf = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        return spf.getString("access_token", null)
-    }
 }

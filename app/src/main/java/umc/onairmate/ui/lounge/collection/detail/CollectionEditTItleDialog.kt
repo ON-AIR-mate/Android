@@ -13,6 +13,7 @@ import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import umc.onairmate.databinding.DialogEditTitleBinding
 
+// 방 제목 변경 팝업
 class CollectionEditTitleDialog (
     private val title: String,
     private val popupClick: (String) -> Unit

@@ -72,40 +72,5 @@ class LoungeFragment : Fragment() {
         // 선택된 뷰의 isSelected만 true로 변경
         selectedView.isSelected = true
     }
-/*
-    private fun showDeleteConfirmationDialog(
-        collection: LoungeCollection,
-        onDeleteClick: (LoungeCollection) -> Unit
-    ) {
-        val builder = AlertDialog.Builder(requireContext())
-        val dialogView = layoutInflater.inflate(R.layout.dialog_delete_collection, null)
-
-
-        builder.setView(dialogView)
-        val dialog = builder.create()
-
-        val tvTitle = dialogView.findViewById<TextView>(R.id.tvCollectionTitle)
-        val tvCreated = dialogView.findViewById<TextView>(R.id.tvCreatedDate)
-        val tvUpdated = dialogView.findViewById<TextView>(R.id.tvUpdatedDate)
-        val btnDelete = dialogView.findViewById<Button>(R.id.btnDelete)
-        val btnCancel = dialogView.findViewById<Button>(R.id.btnCancel)
-
-        tvTitle.text = collection.title
-        tvCreated.text = "생성일 : ${collection.dateCreated}"
-        tvUpdated.text = "마지막 수정일 : ${collection.lastUpdated}"
-
-        btnDelete.setOnClickListener {
-            // 실제 삭제 로직 호출
-            onDeleteClick(collection)
-            dialog.dismiss()
-        }
-
-        btnCancel.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialog.show()
-    }*/
-
 }
 

@@ -32,9 +32,6 @@ class HomeViewModel @Inject constructor(
     private val _roomListResponse = MutableLiveData<RoomListResponse>()
     val roomListResponse : LiveData<RoomListResponse> get() = _roomListResponse
 
-    private val _recommendedVideo = MutableLiveData<List<String>>()
-    val recommendedVideo : LiveData<List<String>> get() = _recommendedVideo
-
     private val _joinRoom = MutableLiveData<Boolean?>()
     val joinRoom : LiveData<Boolean?> get() = _joinRoom
 
@@ -53,31 +50,6 @@ class HomeViewModel @Inject constructor(
     fun clearJoinRoom() {
         _joinRoom.value = null
     }
-
-    // 테스트용 더미데이터 생성
-    private fun getDummyRoom(n : Int) : List<RoomData>{
-        val dummy = arrayListOf<RoomData>()
-        for(i in 0.. n) dummy.add(
-            RoomData(
-            roomId = i,
-            roomTitle = "dummy ${i}",
-            videoTitle = "",
-            videoThumbnail = "",
-            hostNickname = "host${i}",
-            hostProfileImage = "",
-            currentParticipants = i,
-            maxParticipants = 10,
-            duration = "00:45:20"
-            )
-        )
-        return dummy
-    }
-    private fun getDummyString(n : Int) : List<String>{
-        val dummy = arrayListOf<String>()
-        for(i in 0.. n) dummy.add("DummyData ${i}")
-        return dummy
-    }
-
 
     // 방 목록 가져오기
     fun getRoomList(sortBy : String, searchType : String, keyword : String){
@@ -98,7 +70,7 @@ class HomeViewModel @Inject constructor(
                 }
                 is DefaultResponse.Error -> {
                     Log.e(TAG, "에러: ${result.code} - ${result.message} ")
-                    _roomData.value = getDummyRoom(5)
+                    _roomData.value = emptyList()
                 }
             }
             _isLoading.value = false
@@ -180,10 +152,5 @@ class HomeViewModel @Inject constructor(
            _isLoading.value = false
        }
    }
-
-    // 추천영상 가져오기
-    fun getRecommendedVideo(){
-        _recommendedVideo.value = getDummyString(5)
-    }
 
 }

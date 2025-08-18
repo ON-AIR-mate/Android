@@ -16,6 +16,7 @@ class SearchTypeSpinnerAdapter(
     private val items: List<String>
     ) : ArrayAdapter<String>(context, 0, items) {
 
+        // 드롭다운 아이템 설정
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         val binding: SpItemSearchTypeBinding = if (convertView == null) {
             SpItemSearchTypeBinding.inflate(LayoutInflater.from(context), parent, false)
@@ -49,8 +50,4 @@ class SearchTypeSpinnerAdapter(
         return view
     }
 
-    private fun ConvertDPtoPX(context: Context, dp: Int): Int {
-        val density = context.resources.displayMetrics.density
-        return Math.round(dp.toFloat() * density)
-    }
 }

@@ -21,12 +21,20 @@ import umc.onairmate.ui.chat_room.message.VideoChatViewModel
 import umc.onairmate.ui.home.HomeViewModel
 import kotlin.getValue
 
+/**
+ * ChatRoomLayoutActivity: 비디오 채팅방의 가장 바깥 activty
+ * - 리소스: activity_chat_room_layout
+ * - intent로 RoomData를 넘겨 받아야 함.
+ * - 하위 프래그먼트 1: ChatRoomFragment (DrawerLayout의 배경 프래그먼트)
+ * - 하위 프래그먼트 2: ChatRoomDrawerFragment (DrawerLayout의 drawer 프래그먼트)
+ */
 @AndroidEntryPoint
 class ChatRoomLayoutActivity : AppCompatActivity() {
     private val TAG = javaClass.simpleName
     lateinit var roomData: RoomData
     private lateinit var binding: ActivityChatRoomLayoutBinding
 
+    // 하위 프래그먼트에서 activtyViewModels를 사용하므로 하위 프래그먼트에서 쓰는 뷰모델을 여기서 선언
     private val chatRoomViewModel: ChatVideoViewModel by viewModels()
     private val videoChatViewModel: VideoChatViewModel by viewModels()
     private val homeViewModel: HomeViewModel by viewModels()
@@ -37,9 +45,13 @@ class ChatRoomLayoutActivity : AppCompatActivity() {
         binding = ActivityChatRoomLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 소켓 연결
         connectSocket()
+
+        // roomData 받아오기
         roomData = intent.getParcelableExtra("room_data", RoomData::class.java)!!
-        Log.d("data", "room : ${roomData}")
+
+        // 초기화 로직
         setObserver()
         initScreen()
         onDrawerListener()
@@ -47,9 +59,10 @@ class ChatRoomLayoutActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
+        // 소켓 핸들러 unregister
         SocketManager.getSocketOrNull()?.let { socket ->
             if (socket.connected()) {
-                videoChatViewModel.leaveRoom(roomData.roomId)
+                videoChatViewModel.leaveRoom(roomData.roomId) // emit leaveRoom
                 SocketDispatcher.unregisterHandler(socket, videoChatViewModel.getHandler())
                 SocketDispatcher.unregisterHandler(socket, chatRoomViewModel.getHandler())
             }
@@ -71,11 +84,9 @@ class ChatRoomLayoutActivity : AppCompatActivity() {
             Log.d(TAG,"UserChange")
             if (data) chatRoomViewModel.getParticipantDataInfo(roomData.roomId)
         }
-
-
-
     }
 
+    // Drawer Layout의 배경 프래그먼트와 drawer 프래그먼트 지정
     private fun initScreen() {
         val bundle = Bundle()
         bundle.putParcelable("room_data", roomData)
@@ -86,19 +97,23 @@ class ChatRoomLayoutActivity : AppCompatActivity() {
         chatRoom.arguments = bundle
         drawer.arguments = bundle
 
+        // 배경 프래그먼트 연결
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, chatRoom)
             .commit()
 
+        // drawer 프래그먼트 연결
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_drawer, drawer)
             .commit()
     }
 
+    // 하위 프래그먼트에서 drawer 열기 동작
     fun openDrawer() {
         binding.drawerLayout.openDrawer(GravityCompat.END)
     }
 
+    // 하위 프래그먼트에서 drawer 닫기 동작
     fun closeDrawer() {
         binding.drawerLayout.closeDrawer(GravityCompat.END)
     }

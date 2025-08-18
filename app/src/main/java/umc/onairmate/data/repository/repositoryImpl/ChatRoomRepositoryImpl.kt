@@ -15,6 +15,7 @@ class ChatRoomRepositoryImpl @Inject constructor(
     private val api: ChatRoomService
 ): ChatRoomRepository {
 
+    // 방 설정 조회
     override suspend fun getRoomSetting(
         accessToken: String,
         roomId: Int
@@ -24,6 +25,7 @@ class ChatRoomRepositoryImpl @Inject constructor(
         }
     }
 
+    // 방 설정 수정
     override suspend fun setRoomSetting(
         accessToken: String,
         roomId: Int,
@@ -34,6 +36,7 @@ class ChatRoomRepositoryImpl @Inject constructor(
         }
     }
 
+    // 방 참여자 목록 조회
     override suspend fun getParticipantList(
         accessToken: String,
         roomId: Int
@@ -43,6 +46,7 @@ class ChatRoomRepositoryImpl @Inject constructor(
         }
     }
 
+    // 채팅 로그 조회
     override suspend fun getChatHistory(
         accessToken: String,
         roomId: Int

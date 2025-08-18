@@ -16,6 +16,7 @@ import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.repository.repository.HomeRepository
 import javax.inject.Inject
 
+// 영상 검색과 관련된 뷰모델
 @HiltViewModel
 class SearchVideoViewModel @Inject constructor(
     private val repository: HomeRepository,
@@ -51,6 +52,7 @@ class SearchVideoViewModel @Inject constructor(
         return sharedPreferences.getString("access_token", null)
     }
 
+    // 방 만들기
     fun createRoom(body: CreateRoomRequest) {
         viewModelScope.launch {
             _smallLoading.value = true
@@ -77,6 +79,7 @@ class SearchVideoViewModel @Inject constructor(
         }
     }
 
+    // 영상 검색
     fun searchVideoList(query: String, limit: Int) {
         viewModelScope.launch {
             // 빈 문자열 검사
@@ -110,6 +113,7 @@ class SearchVideoViewModel @Inject constructor(
         }
     }
 
+    // 영상 상세 정보
     fun getVideoDetailInfo(videoId: String) {
         viewModelScope.launch {
             _smallLoading.value = true
@@ -137,14 +141,17 @@ class SearchVideoViewModel @Inject constructor(
         }
     }
 
+    // 영상 상세 정보 지우기
     fun clearVideoDetailInfo(){
         _videoDetailInfo.value = null
     }
 
+    // 만들어진 방 정보 지우기
     fun clearCreatedRoomInfo() {
         _createdRoomInfo.value = null
     }
 
+    // 추천 영상
     fun getRecommendVideoList(keyword: String, limit: Int) {
         viewModelScope.launch {
             _isLoading.value = true

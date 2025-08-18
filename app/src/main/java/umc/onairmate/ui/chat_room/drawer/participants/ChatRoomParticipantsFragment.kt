@@ -25,6 +25,7 @@ import umc.onairmate.ui.pop_up.PopupClick
 import umc.onairmate.ui.pop_up.TwoButtonPopup
 import umc.onairmate.ui.util.NetworkImageLoader
 
+// 채팅방 참가자 목록 프래그먼트
 @AndroidEntryPoint
 class ChatRoomParticipantsFragment : Fragment() {
 
@@ -57,15 +58,20 @@ class ChatRoomParticipantsFragment : Fragment() {
     }
 
     fun initScreen() {
+        // 방 참가자 목록 api 호출
         chatRoomViewModel.getParticipantDataInfo(roomData!!.roomId)
+
+        // host 정보 주입
         binding.itemRoomManager.tvUserNickname.text = roomData!!.hostNickname
         binding.itemRoomManager.tvUserTier.text = roomData!!.hostPopularity.toString()
         binding.itemRoomManager.ivMore.setOnClickListener { showPopupMenu( binding.itemRoomManager.ivMore,hostData!! ) }
         NetworkImageLoader.profileLoad(binding.itemRoomManager.ivUserProfile, roomData!!.hostProfileImage)
     }
 
+    // 방 참가자 리사이클러뷰 어댑터 설정
     fun setupAdapter() {
         adapter = ChatRoomParticipantRVAdapter( object : ParticipantItemClickListener {
+            // 팝업 - 신고 클릭
             override fun clickReport(data: ParticipantData) {
                 val text = data.nickname+"님을 신고하시겠습니까?"
                 val textList = listOf(text,"예","아니오")
@@ -74,14 +80,17 @@ class ChatRoomParticipantsFragment : Fragment() {
                 }, right = {} )
             }
 
+            // 팝업 - 추천하기 클릭
             override fun clickRecommend(data: ParticipantData) {
                 Toast.makeText(requireContext(),"${data.nickname}님을 추천했습니다.", Toast.LENGTH_SHORT).show()
             }
 
+            // 팝업 - 친구 추가 클릭
             override fun clickAddFriend(data: ParticipantData) {
                 friendViewModel.requestFriend(data.userId)
             }
 
+            // 팝업 - 차단하기 클릭
             override fun clickBlock(data: ParticipantData) {
                 val text = data.nickname+"님을 차단하시겠습니까?"
                 val textList = listOf(text,"예","아니오")
@@ -90,11 +99,13 @@ class ChatRoomParticipantsFragment : Fragment() {
                 }, right = {} )
             }
         })
+
+        // 뷰와 어댑터 연결
         binding.rvParticipants.adapter = adapter
         binding.rvParticipants.layoutManager = LinearLayoutManager(context)
     }
 
-    // 방 참가자 명단의 어댑터와 뷰 연결
+    // 방 참가자 명단과 어댑터 연결
     private fun setParticipants() {
         // 초기 userList 삽입
         chatRoomViewModel.participantDataInfo.observe(viewLifecycleOwner) { data ->
@@ -124,6 +135,7 @@ class ChatRoomParticipantsFragment : Fragment() {
         dialog.show(activity?.supportFragmentManager!!, "ChatRoomParticipantsPopup")
     }
 
+    // 방장 뷰에 대한 팝업 메뉴
     private fun showPopupMenu(anchorView: View, data: ParticipantData){
         val popupBinding = PopupParticipantOptionsBinding.inflate(LayoutInflater.from(anchorView.context))
 

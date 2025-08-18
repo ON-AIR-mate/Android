@@ -54,14 +54,36 @@ class FriendChatFragment: Fragment() {
         initData()
         setUpObserver()
         setTextListener()
+        initAdapter()
 
         // 소켓 연결
         val socket = SocketManager.getSocketOrNull()
         socket?.let {
             SocketDispatcher.registerHandler(it, chatViewModel.getHandler())
         }
+        chatViewModel.joinDM(friend.userId)
 
 
+        // 뒤로가기 버튼
+        binding.btnSend.setOnClickListener {
+            val text = binding.etInputChat.text.toString()
+            chatViewModel.sendMessage(friend.userId, text)
+            binding.etInputChat.setText("")
+        }
+
+        return binding.root
+    }
+
+
+    // 데이터 읽어오기
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun initData(){
+        friend = arguments?.getParcelable("friendData", FriendData::class.java)!!
+        user = SharedPrefUtil.getData("user_info")?: UserData()
+    }
+
+    // 라사이클러뷰 설정
+    private fun initAdapter(){
         adapter = FriendChatRVAdapter(user, friend, object : FriendChatEventListener{
             override fun collectionClick(data: CollectionData) {
                 TODO("Not yet implemented")
@@ -69,7 +91,7 @@ class FriendChatFragment: Fragment() {
 
             override fun invite(data: RoomData) {
                 roomData = data
-
+                showJoinRoomPopup()
             }
 
         })
@@ -77,17 +99,9 @@ class FriendChatFragment: Fragment() {
         binding.rvVideoChat.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
         binding.rvVideoChat.adapter = adapter
 
-        binding.btnSend.setOnClickListener {
-            val text = binding.etInputChat.text.toString()
-            chatViewModel.sendMessage(friend.userId, text)
-            binding.etInputChat.setText("")
-        }
-
-
-        chatViewModel.joinDM(friend.userId)
-        return binding.root
     }
 
+    // 입력창 설정
     private fun setTextListener(){
         binding.etInputChat.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -98,15 +112,8 @@ class FriendChatFragment: Fragment() {
             }
         })
     }
-    override fun onResume() {
-        super.onResume()
-    }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    private fun initData(){
-        friend = arguments?.getParcelable("friendData", FriendData::class.java)!!
-        user = SharedPrefUtil.getData("user_info")?: UserData()
-    }
+
 
     private fun setUpObserver() {
         chatViewModel.directMessage.observe(viewLifecycleOwner) { data ->

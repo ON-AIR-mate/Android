@@ -2,7 +2,7 @@ package umc.onairmate.data.model.request
 
 import com.google.gson.annotations.SerializedName
 
-data class ModifyCollectionRequest (
+data class CollectionModifyRequest (
     @SerializedName("title")
     val title: String,
     @SerializedName("description")

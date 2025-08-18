@@ -32,6 +32,7 @@ class ImagePickerDelegate(
         }
     }
 
+    // 이미지 선택창 실행
     fun launch() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             pickMedia.launch(

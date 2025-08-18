@@ -1,7 +1,6 @@
 package umc.onairmate.ui.lounge.collection.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,9 +15,9 @@ import umc.onairmate.data.model.entity.CollectionDetailData
 import umc.onairmate.data.model.entity.CollectionVisibility
 import umc.onairmate.data.model.entity.RoomArchiveData
 import umc.onairmate.data.model.request.CreateRoomRequest
-import umc.onairmate.data.model.request.CreateRoomWithBookmarkRequest
-import umc.onairmate.data.model.request.ModifyCollectionRequest
-import umc.onairmate.data.model.request.MoveCollectionRequest
+import umc.onairmate.data.model.request.RoomWithBookmarkCreateRequest
+import umc.onairmate.data.model.request.CollectionModifyRequest
+import umc.onairmate.data.model.request.CollectionMoveRequest
 import umc.onairmate.data.model.request.RoomStartOption
 import umc.onairmate.databinding.FragmentCollectionDetailBinding
 import umc.onairmate.ui.lounge.bookmark.BookmarkEventListener
@@ -28,6 +27,7 @@ import umc.onairmate.ui.lounge.collection.CollectionViewModel
 import umc.onairmate.ui.pop_up.CreateRoomCallback
 import umc.onairmate.ui.pop_up.CreateRoomPopup
 
+// 컬렉션 세부 화면 프래그먼트
 @AndroidEntryPoint
 class CollectionDetailFragment : Fragment() {
 
@@ -67,6 +67,7 @@ class CollectionDetailFragment : Fragment() {
            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
         })
 
+        // 컬렉션 정보 + 북마크 리사이클러뷰 어댑터 연결
         collectionViewModel.collectionDetailDataInfo.observe(viewLifecycleOwner) { data ->
             if (data == null) {
                 Toast.makeText(context, "오류가 발생했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
@@ -78,7 +79,7 @@ class CollectionDetailFragment : Fragment() {
                     override fun onVisibilitySelected(selectedVisibility: String) {
                         collectionViewModel.modifyCollection(
                             collectionId,
-                            request = ModifyCollectionRequest(
+                            request = CollectionModifyRequest(
                                 title = data.title,
                                 description = data.description ?: "",
                                 visibility = CollectionVisibility.fromDisplayName(selectedVisibility)!!.apiName
@@ -91,7 +92,7 @@ class CollectionDetailFragment : Fragment() {
                     override fun onDescriptionModified(input: String) {
                         collectionViewModel.modifyCollection(
                             collectionId,
-                            request = ModifyCollectionRequest(
+                            request = CollectionModifyRequest(
                                 title = data.title,
                                 description = input ?: "",
                                 visibility = data.visibility
@@ -129,7 +130,7 @@ class CollectionDetailFragment : Fragment() {
             { modifiedTitle ->
                 collectionViewModel.modifyCollection(
                     collectionId,
-                    request = ModifyCollectionRequest(
+                    request = CollectionModifyRequest(
                         title = modifiedTitle ?: "",
                         description = data.description,
                         visibility = data.visibility
@@ -147,7 +148,7 @@ class CollectionDetailFragment : Fragment() {
 
         val dialog = CreateRoomPopup(null, object : CreateRoomCallback {
             override fun onCreateRoom(body: CreateRoomRequest) {
-                val requestBody = CreateRoomWithBookmarkRequest(
+                val requestBody = RoomWithBookmarkCreateRequest(
                     roomTitle = body.roomName,
                     maxParticipants = body.maxParticipants,
                     isPrivate = body.isPrivate,
@@ -163,6 +164,7 @@ class CollectionDetailFragment : Fragment() {
         }
     }
 
+    // 컬렉션 이동 팝업 띄우기
     private fun showMoveCollectionPopup(bookmark: BookmarkData) {
         collectionViewModel.getCollections()
 
@@ -170,7 +172,7 @@ class CollectionDetailFragment : Fragment() {
             val collectionList = data.collections ?: emptyList()
 
             val dialog = CollectionMoveDialog(collectionList, { collection ->
-                bookmarkViewModel.moveCollectionOfBookmark(bookmark.bookmarkId, MoveCollectionRequest(collection.collectionId))
+                bookmarkViewModel.moveCollectionOfBookmark(bookmark.bookmarkId, CollectionMoveRequest(collection.collectionId))
             })
             activity?.supportFragmentManager?.let { fm ->
                 dialog.show(fm, "CollectionMoveDialog")
