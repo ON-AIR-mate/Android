@@ -41,8 +41,12 @@
             android:exported="true"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan">
-
         </activity>
+
+        <activity
+            android:name=".ui.profile.participated_room.ParticipatedRoomsActivity"
+            android:exported="false" />
+
         <activity android:name=".ui.SplashActivity"
             android:exported="true">
             <intent-filter>

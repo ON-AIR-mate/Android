@@ -12,6 +12,7 @@ import umc.onairmate.data.api.CollectionService
 import umc.onairmate.data.api.FriendService
 import umc.onairmate.data.api.HomeService
 import umc.onairmate.data.api.JoinService
+import umc.onairmate.data.api.UserService
 import umc.onairmate.data.api.ImageService
 import javax.inject.Singleton
 
@@ -57,15 +58,22 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun collectionApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): CollectionService{
+    fun joinApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): JoinService{
         return retrofit.buildService()
     }
 
     @Provides
     @Singleton
-    fun joinApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): JoinService {
+    fun userApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): UserService {
         return retrofit.buildService()
     }
+
+    @Provides
+    @Singleton
+    fun collectionApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): CollectionService{
+        return retrofit.buildService()
+    }
+
 
     @Provides
     @Singleton

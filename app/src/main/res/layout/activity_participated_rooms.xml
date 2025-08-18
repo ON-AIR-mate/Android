@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:paddingHorizontal="20dp"
+    android:orientation="vertical">
+
+    <!-- 툴바 행 -->
+    <LinearLayout
+        android:id="@+id/ll_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingVertical="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back_arrow"
+            android:layout_marginEnd="8dp"/>
+
+        <TextView
+            android:id="@+id/tv_toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="입장한 방"
+            android:textAppearance="@style/TextAppearance.App.SemiBold.16sp" />
+    </LinearLayout>
+
+    <!-- 아래 리스트 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_participated_rooms"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/ll_title"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <!--비어있을 때 레이아웃-->
+    <LinearLayout
+        android:id="@+id/layout_empty"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/ll_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/iv_empty_image"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_marginTop="66dp"
+            android:src="@drawable/ic_empty_room"/>
+
+        <TextView
+            android:id="@+id/tv_empty_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="최근 입장한 방이 없습니다."
+            android:textAppearance="@style/TextAppearance.App.Medium.14sp"
+            android:gravity="center"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="48dp"
+            app:layout_constraintTop_toBottomOf="@id/iv_empty_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
