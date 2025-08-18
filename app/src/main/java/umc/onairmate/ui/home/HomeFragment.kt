@@ -146,7 +146,6 @@ class HomeFragment : Fragment() {
                     binding.layoutRecommendVideo.visibility = View.GONE
                 else
                     searchVideoViewModel.getRecommendVideoList(input, 10)
-
             }
             else {
                 binding.layoutEmpty.visibility = View.GONE
@@ -157,7 +156,9 @@ class HomeFragment : Fragment() {
         homeViewModel.roomDetailInfo.observe(viewLifecycleOwner){data ->
             if (data == null) return@observe
             roomData = data
-            showJoinRoomPopup()
+            // 비공개방의 경우 참여 불가
+            if (roomData.isPrivate) Toast.makeText(requireContext(),"비공개 방에는 참여할 수 없습니다", Toast.LENGTH_SHORT).show()
+            else showJoinRoomPopup()
             homeViewModel.clearRoomDetailInfo()
         }
         homeViewModel.smallLoading.observe(viewLifecycleOwner){ smallLoading ->
