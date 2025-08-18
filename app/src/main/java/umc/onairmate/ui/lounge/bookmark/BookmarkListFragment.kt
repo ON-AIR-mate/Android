@@ -14,6 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.BookmarkData
 import umc.onairmate.data.model.entity.RoomArchiveData
 import umc.onairmate.data.model.entity.VideoData
+import umc.onairmate.data.model.request.CollectionMoveRequest
 import umc.onairmate.data.model.request.CreateRoomRequest
 import umc.onairmate.data.model.request.RoomWithBookmarkCreateRequest
 import umc.onairmate.data.model.request.RoomStartOption
@@ -22,6 +23,7 @@ import umc.onairmate.databinding.FragmentBookmarkListBinding
 import umc.onairmate.ui.chat_room.ChatRoomLayoutActivity
 import umc.onairmate.ui.home.HomeViewModel
 import umc.onairmate.ui.lounge.bookmark.move.CollectionMoveDialog
+import umc.onairmate.ui.lounge.bookmark.select.BookmarkSelectDialog
 import umc.onairmate.ui.lounge.collection.CollectionViewModel
 import umc.onairmate.ui.pop_up.CreateRoomCallback
 import umc.onairmate.ui.pop_up.CreateRoomPopup
@@ -36,6 +38,8 @@ class BookmarkListFragment : Fragment() {
     private val collectionViewModel: CollectionViewModel by viewModels()
     private val searchRoomViewModel: HomeViewModel by viewModels()
     private lateinit var adapter: BookmarkRVAdapter
+
+    private var selectedBookmark: BookmarkData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,17 +67,20 @@ class BookmarkListFragment : Fragment() {
         adapter = BookmarkRVAdapter(object : BookmarkEventListener {
             override fun createRoomWithBookmark(roomArchiveData: RoomArchiveData) {
                 // todo: 방 생성 팝업 띄워서 방 만들기
-                roomArchiveData.bookmarks[0]?.let { showCreateRoomPopup(it, roomArchiveData) }
+                //roomArchiveData.bookmarks[0]?.let { showCreateRoomPopup(it, roomArchiveData) }
             }
 
             override fun deleteBookmark(roomArchiveData: RoomArchiveData) {
-                //bookmarkViewModel.deleteBookmark(bookmark.bookmarkId)
-                Toast.makeText(context, "북마크가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                showSelectBookmarkPopup(roomArchiveData)
+                if (selectedBookmark != null)  {
+                    bookmarkViewModel.deleteBookmark(selectedBookmark!!.bookmarkId)
+                    Toast.makeText(context, "북마크가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                }
             }
 
             override fun moveCollection(roomArchiveData: RoomArchiveData) {
                 // todo: 팝업 띄워서 어떤 컬렉션으로 보낼지 선택해야함
-                roomArchiveData.bookmarks[0]?.let { showMoveCollectionPopup(it) }
+                showMoveCollectionPopup(roomArchiveData)
             }
         })
 
@@ -135,16 +142,21 @@ class BookmarkListFragment : Fragment() {
     }
 
     // 어디서 시작할지 팝업 띄우기
-    // 근데 한 북마크에 메시지 여러개하면 북마크부터 시작이 어디서부터 시작인데
-    private fun showSelectBookmarkPopup() {
-
+    private fun showSelectBookmarkPopup(roomArchiveData: RoomArchiveData) {
+        val dialog = BookmarkSelectDialog(roomArchiveData.bookmarks, { selectedItem ->
+            selectedBookmark = selectedItem
+            Log.d("여기야여기", "${selectedBookmark}")
+        })
+        activity?.supportFragmentManager?.let { fm ->
+            dialog.show(fm, "SelectBookmarkPopup")
+        }
     }
 
     // 방 생성 팝업 띄우기
     private fun showCreateRoomPopup(data: BookmarkData, roomArchiveData: RoomArchiveData){
         val videoData = VideoData(
             channelName = "",
-            thumbnail = roomArchiveData.roomData.videoThumbnail,
+            thumbnail = roomArchiveData.roomData.videoThumbnail ?: "",
             title = roomArchiveData.roomData.videoTitle,
             uploadTime = "",
             viewCount = 0L
@@ -164,18 +176,29 @@ class BookmarkListFragment : Fragment() {
             }
         })
         activity?.supportFragmentManager?.let { fm ->
-            dialog.show(fm, "CreateRoomPopup")
+            dialog.show(fm, "SelectBookmarkPopup")
         }
     }
 
-    private fun showMoveCollectionPopup(bookmark: BookmarkData) {
+    // 컬렉션 이동 팝업 띄우기
+    private fun showMoveCollectionPopup(roomArchiveData: RoomArchiveData) {
         collectionViewModel.getCollections()
+
+        (activity?.supportFragmentManager?.findFragmentByTag("SelectBookmarkPopup")
+                as? androidx.fragment.app.DialogFragment
+                )?.dismissAllowingStateLoss()
 
         collectionViewModel.collectionList.observe(viewLifecycleOwner) { data ->
             val collectionList = data.collections ?: emptyList()
 
             val dialog = CollectionMoveDialog(collectionList, { collection ->
-                //bookmarkViewModel.moveCollectionOfBookmark(bookmark.bookmarkId, MoveCollectionRequest(collection.collectionId))
+                // todo: 북마크 옮기는 것도 북마크 개별로 체크해서 옮겨야됨?
+                // 그냥 방 데이터랑 통째로 있는걸로 옮기면 안되나
+                // 임시코드: 북마크 데이터 하나씩 넘기기
+                roomArchiveData.bookmarks[0]?.bookmarkId?.let {
+                    bookmarkViewModel.moveCollectionOfBookmark(
+                        it, CollectionMoveRequest(collection.collectionId))
+                }
             })
             activity?.supportFragmentManager?.let { fm ->
                 dialog.show(fm, "CollectionMoveDialog")
