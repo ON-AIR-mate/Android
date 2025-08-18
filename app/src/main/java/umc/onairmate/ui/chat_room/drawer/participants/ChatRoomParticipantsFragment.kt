@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import umc.onairmate.R
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -73,11 +74,13 @@ class ChatRoomParticipantsFragment : Fragment() {
         adapter = ChatRoomParticipantRVAdapter( object : ParticipantItemClickListener {
             // 팝업 - 신고 클릭
             override fun clickReport(data: ParticipantData) {
-                val text = data.nickname+"님을 신고하시겠습니까?"
-                val textList = listOf(text,"예","아니오")
-                showPopup(text =textList, left = {
-                    Toast.makeText(requireContext(),"신고 접수 되었습니다", Toast.LENGTH_SHORT).show()
-                }, right = {} )
+//                val text = data.nickname+"님을 신고하시겠습니까?"
+//                val textList = listOf(text,"예","아니오")
+//                showPopup(text =textList, left = {
+//                    Toast.makeText(requireContext(),"신고 접수 되었습니다", Toast.LENGTH_SHORT).show()
+//                }, right = {} )
+
+                showReportPopup()
             }
 
             // 팝업 - 추천하기 클릭
@@ -164,11 +167,12 @@ class ChatRoomParticipantsFragment : Fragment() {
 
         // 클릭 리스너 연결
         popupBinding.tvReport.setOnClickListener {
-            val text = data.nickname+"님을 신고하시겠습니까?"
-            val textList = listOf(text,"예","아니오")
-            showPopup(text =textList, left = {
-                Toast.makeText(requireContext(),"신고 접수 되었습니다", Toast.LENGTH_SHORT).show()
-            }, right = {} )
+//            val text = data.nickname+"님을 신고하시겠습니까?"
+//            val textList = listOf(text,"예","아니오")
+//            showPopup(text =textList, left = {
+//                Toast.makeText(requireContext(),"신고 접수 되었습니다", Toast.LENGTH_SHORT).show()
+//            }, right = {} )
+            showReportPopup()
             popupWindow.dismiss()
         }
         popupBinding.tvRecommend.setOnClickListener {
@@ -189,5 +193,16 @@ class ChatRoomParticipantsFragment : Fragment() {
         }
 
         popupWindow.showAsDropDown(anchorView, offsetX, offsetY)
+    }
+
+    private fun showReportPopup(){
+        val dialogView = LayoutInflater.from(requireContext())
+            .inflate(R.layout.dialog_block, null)
+
+        val dialog = android.app.AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+
+        dialog.show()
     }
 }

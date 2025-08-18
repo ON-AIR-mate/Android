@@ -8,6 +8,7 @@ import android.widget.PopupWindow
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import umc.onairmate.R
 import umc.onairmate.data.model.entity.ParticipantData
 import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.databinding.PopupParticipantOptionsBinding

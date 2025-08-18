@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:layout_width="320dp"
+    android:layout_height="494dp">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="[닉네임]의 신고 사유"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingBottom="16dp"/>
+
+    <CheckBox
+        android:id="@+id/cbSpam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="스팸, 도배"/>
+
+    <CheckBox
+        android:id="@+id/cbSports"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="스포성 채팅"/>
+
+    <CheckBox
+        android:id="@+id/cbAbuse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="욕설"/>
+
+    <CheckBox
+        android:id="@+id/cbHate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="혐오 발언"/>
+
+    <CheckBox
+        android:id="@+id/cbNickname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="부적절한 닉네임 사용"/>
+
+    <EditText
+        android:id="@+id/etExtraReason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="추가적인 신고 사유를 작성해주세요."
+        android:minHeight="80dp"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="제출"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>
