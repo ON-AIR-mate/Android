@@ -36,14 +36,18 @@ class ParticipatedRoomsActivity : AppCompatActivity() {
     }
 
     private fun initScreen() {
-        //userViewModel.loadParticipatedRooms()
+        userViewModel.loadParticipatedRooms()
+
+        binding.ivBack.setOnClickListener {
+            finish()
+        }
     }
 
 
     private fun setupAdapter() {
         adapter = ParticipatedRoomsAdapter(object : ParticipatedRoomEventListener {
             override fun onDeleteClick(roomId: Int) {
-                //userViewModel.deleteParticipatedRoom(roomId)
+                userViewModel.deleteParticipatedRoom(roomId)
             }
         })
 

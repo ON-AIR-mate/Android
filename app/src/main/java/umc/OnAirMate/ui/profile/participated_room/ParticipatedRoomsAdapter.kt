@@ -33,7 +33,6 @@ class ParticipatedRoomsAdapter(
             binding.tvVideoTitle.text = item.videoTitle
             NetworkImageLoader.thumbnailLoad(binding.ivThumbnail, item.videoThumbnail)
 
-
             val inflater = LayoutInflater.from(itemView.context)
 
             // 북마크 타임라인 처리
