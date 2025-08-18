@@ -232,7 +232,10 @@ class HomeFragment : Fragment() {
     }
     private fun checkRefresh() {
         val isLoading = roomFlag || videoFlag
-        binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        if(!binding.refreshLayout.isRefreshing)
+            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        if (!isLoading && binding.refreshLayout.isRefreshing)
+            binding.refreshLayout.isRefreshing = false
     }
 
     // 상단 버튼들
@@ -243,6 +246,9 @@ class HomeFragment : Fragment() {
 
         binding.ivNotification.setOnClickListener {
 
+        }
+        binding.refreshLayout.setOnRefreshListener{
+            resetData()
         }
     }
 
