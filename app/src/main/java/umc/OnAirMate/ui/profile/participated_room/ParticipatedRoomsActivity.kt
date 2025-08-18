@@ -32,7 +32,7 @@ class ParticipatedRoomsActivity : AppCompatActivity() {
     private fun initScreen() {
         userViewModel.loadParticipatedRooms()
 
-        binding.ivBack.setOnClickListener {
+        binding.llTitle.setOnClickListener {
             finish()
         }
     }
