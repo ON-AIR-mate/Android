@@ -12,6 +12,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import umc.onairmate.data.model.entity.ParticipatedRoomData
 import umc.onairmate.data.model.response.DefaultResponse
+import umc.onairmate.data.model.response.MessageResponse
 import umc.onairmate.data.repository.repository.UserRepository
 import javax.inject.Inject
 
@@ -35,19 +36,11 @@ class UserViewModel @Inject constructor(
     val isLoading: LiveData<Boolean> = _isLoading
 
     // 삭제 요청의 진행 상태(UiState)를 저장하고 외부에서 관찰할 수 있도록 제공
-    private val _deleteState = MutableLiveData<UiState>(UiState.Idle)
-    val deleteState : LiveData<UiState> get() = _deleteState
+    private val _deleteInfo = MutableLiveData<String>()
+    val deleteInfo : LiveData<String> get() = _deleteInfo
 
     private fun getToken(): String? {
         return sharedPreferences.getString("access_token", null)
-    }
-
-    val deleteMessage: LiveData<String?> = deleteState.map { state ->
-        when (state) {
-            is UiState.Success -> state.msg
-            is UiState.Error   -> state.msg
-            else               -> null            // Loading/Idle은 메시지 없음
-        }
     }
 
     fun loadParticipatedRooms() {
@@ -87,7 +80,6 @@ class UserViewModel @Inject constructor(
                 _isLoading.value = false
                 return@launch
             }
-            _deleteState.value = UiState.Loading
 
             val result = repository.deleteParticipatedRoom(token, roomId)
             Log.d(TAG, "deleteParticipatedRoom api 호출")
@@ -95,21 +87,13 @@ class UserViewModel @Inject constructor(
             when (result) {
                 is DefaultResponse.Success -> {
                     Log.d(TAG, "${result.data}")
-                    _deleteState.value = UiState.Success(result.data.message)
+                    _deleteInfo.postValue(result.data.message)
                 }
                 is DefaultResponse.Error -> {
                     Log.d(TAG, "${result.code} - ${result.message}")
-                    _deleteState.value = UiState.Error(result.message)
+                    _deleteInfo.postValue(result.message)
                 }
             }
         }
     }
-}
-
-
-sealed interface UiState {
-    data object Idle : UiState
-    data object Loading : UiState
-    data class Success(val msg: String) : UiState
-    data class Error(val msg: String) : UiState
 }

@@ -69,12 +69,12 @@ class ParticipatedRoomsActivity : AppCompatActivity() {
         }
 
         // 방 삭제
-        userViewModel.deleteState.observe(this) { deleteInfo ->
+        userViewModel.deleteInfo.observe(this) { deleteInfo ->
             val data = deleteInfo ?: null
             if (data == null) return@observe
 
             // 삭제 후 메시지
-            Toast.makeText(this, "${userViewModel.deleteState.value}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "${userViewModel.deleteInfo.value}", Toast.LENGTH_SHORT).show()
             // 방 리스트 다시 로드
             userViewModel.loadParticipatedRooms()
         }

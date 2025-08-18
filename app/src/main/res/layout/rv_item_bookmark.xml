@@ -46,6 +46,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="방 제목"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:layout_marginBottom="3dp"
                 style="@style/TextAppearance.App.Medium.12sp"
                 android:textColor="@color/black" />
@@ -54,6 +56,8 @@
                 android:id="@+id/tv_video_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:text="영상제목"
                 android:textAppearance="@style/TextAppearance.App.Medium.10sp" />
 
@@ -84,32 +88,33 @@
 
                 <ImageButton
                     android:id="@+id/btn_more"
-                    android:layout_width="16dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="3dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_more" />
             </LinearLayout>
 
             <ImageView
                 android:id="@+id/iv_open_bookmarks"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@drawable/ic_dropdown"
                 android:layout_gravity="center"
                 android:visibility="visible"
-                android:layout_marginTop="5dp"
+                android:padding="5dp"
                 app:tint="@color/main" />
 
             <ImageView
                 android:id="@+id/iv_close_bookmarks"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@drawable/ic_dropdown"
                 android:rotation="180"
                 android:layout_marginLeft="1dp"
                 android:layout_gravity="center"
                 android:visibility="gone"
-                android:layout_marginTop="5dp"
+                android:padding="5dp"
                 app:tint="@color/main" />
 
         </LinearLayout>
