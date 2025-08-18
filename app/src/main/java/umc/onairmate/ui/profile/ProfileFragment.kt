@@ -143,7 +143,7 @@ class ProfileFragment : Fragment() {
         val popupWidth = tooltipBinding.root.measuredWidth
         val offsetX = -popupWidth + anchorView.width
         val offsetY = 0
-        
+
 
         popupWindow.showAsDropDown(anchorView, offsetX, offsetY)
 

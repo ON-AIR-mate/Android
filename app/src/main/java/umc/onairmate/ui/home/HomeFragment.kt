@@ -140,9 +140,13 @@ class HomeFragment : Fragment() {
         homeViewModel.roomListResponse.observe(viewLifecycleOwner){response ->
             if (response == null) return@observe
             if (response.continueWatching.isEmpty() && response.onAirRooms.isEmpty()){
-                val input = binding.etInputKeyword.text.toString()
-                searchVideoViewModel.getRecommendVideoList(input, 10)
                 binding.layoutEmpty.visibility = View.VISIBLE
+                val input = binding.etInputKeyword.text.toString()
+                if (input.isBlank())
+                    binding.layoutRecommendVideo.visibility = View.GONE
+                else
+                    searchVideoViewModel.getRecommendVideoList(input, 10)
+
             }
             else {
                 binding.layoutEmpty.visibility = View.GONE
@@ -162,6 +166,7 @@ class HomeFragment : Fragment() {
 
         searchVideoViewModel.recommendedVideos.observe(viewLifecycleOwner) {videos ->
             if(videos == null) return@observe
+            binding.layoutRecommendVideo.visibility = View.VISIBLE
             recommendVideo(videos)
         }
         searchVideoViewModel.videoDetailInfo.observe(viewLifecycleOwner) { data ->
@@ -225,7 +230,6 @@ class HomeFragment : Fragment() {
                 id: Long
             ) {
                 val selectedItem = parent?.getItemAtPosition(position) as String
-                Log.d(TAG,"pos : ${position} / selected Item ${selectedItem}")
                 searchType = when(position) {
                     0 -> "videoTitle"
                     1 -> "roomTitle"
