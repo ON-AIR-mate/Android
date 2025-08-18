@@ -1,17 +1,10 @@
 package umc.onairmate.ui.profile.participated_room
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
-import umc.onairmate.R
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.databinding.ActivityParticipatedRoomsBinding
 import umc.onairmate.ui.profile.UserViewModel
