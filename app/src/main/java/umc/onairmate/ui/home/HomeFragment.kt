@@ -15,17 +15,25 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.entity.VideoData
 import umc.onairmate.data.model.request.CreateRoomRequest
 import umc.onairmate.databinding.FragmentHomeBinding
+import umc.onairmate.ui.NavViewModel
 import umc.onairmate.ui.chat_room.ChatRoomLayoutActivity
 import umc.onairmate.ui.home.room.HomeEventListener
 import umc.onairmate.ui.home.room.RoomRVAdapter
@@ -47,6 +55,7 @@ class HomeFragment : Fragment() {
 
     private val homeViewModel: HomeViewModel by viewModels()
     private val searchVideoViewModel: SearchVideoViewModel by viewModels()
+    private val navViewModel: NavViewModel by activityViewModels()
 
     private var sortBy : String = "latest"
     private var searchType : String = "videoTitle"
@@ -66,6 +75,17 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
+        // 바텀 네비 선택시 데이터 초기화
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
+                navViewModel.events.collect { menuId ->
+                    if (menuId == R.id.navigation_home) {
+                        //resetData()
+                    }
+                }
+            }
+        }
+
         setView()
         setUpObserver()
         setSearchSpinner()
@@ -76,17 +96,25 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        // 초기 데이터 삽입
-        homeViewModel.getRoomList(sortBy, searchType, keyword)
-        Log.d(TAG,"Resume")
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG,"onViewCreated")
+        resetData()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+    private fun resetData() {
+        Log.d(TAG,"reset Home")
+        binding.etInputKeyword.setText("")
+        homeViewModel.getRoomList(sortBy, searchType, keyword)
+    }
+
 
     private fun setTextListener(){
         binding.etInputKeyword.addTextChangedListener(object : TextWatcher {
