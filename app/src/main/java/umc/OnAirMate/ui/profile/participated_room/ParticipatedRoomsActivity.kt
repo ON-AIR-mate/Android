@@ -1,6 +1,7 @@
 package umc.onairmate.ui.profile.participated_room
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -55,8 +56,12 @@ class ParticipatedRoomsActivity : AppCompatActivity() {
             val participatedRooms = rooms ?: emptyList()
 
             if (participatedRooms.isEmpty()) {
-                //
+                binding.layoutEmpty.visibility = View.VISIBLE
+                binding.rvParticipatedRooms.visibility = View.GONE
             } else {
+                binding.layoutEmpty.visibility = View.GONE
+                binding.rvParticipatedRooms.visibility = View.VISIBLE
+
                 adapter.submitList(rooms)
             }
         }
