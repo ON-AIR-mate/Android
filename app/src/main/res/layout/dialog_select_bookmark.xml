@@ -37,7 +37,7 @@
         android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
         android:textColor="@color/white"
         android:layout_gravity="center"
-        android:layout_marginEnd="10dp"
+        android:layout_marginVertical="7dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

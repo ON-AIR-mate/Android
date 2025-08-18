@@ -13,7 +13,7 @@ data class BookmarkRoomData(
     @SerializedName("roomName")
     val roomName: String,
     @SerializedName("videoThumbnail")
-    val videoThumbnail: String,
+    val videoThumbnail: String?,
     @SerializedName("videoTitle")
     val videoTitle: String
 ): Parcelable
