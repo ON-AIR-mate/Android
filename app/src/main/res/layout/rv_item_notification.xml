@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="신뢰도가 n레벨로 상승하였습니다."
-        android:textAppearance="@style/TextAppearance.App.Regular.14sp"
+        android:textAppearance="@style/TextAppearance.App.Regular.12sp"
        />
     <View
         android:layout_width="0dp"

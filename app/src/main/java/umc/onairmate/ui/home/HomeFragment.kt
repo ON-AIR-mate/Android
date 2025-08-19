@@ -35,6 +35,7 @@ import umc.onairmate.data.model.request.CreateRoomRequest
 import umc.onairmate.databinding.FragmentHomeBinding
 import umc.onairmate.ui.NavViewModel
 import umc.onairmate.ui.chat_room.ChatRoomLayoutActivity
+import umc.onairmate.ui.home.notification.NotificationViewModel
 import umc.onairmate.ui.home.room.HomeEventListener
 import umc.onairmate.ui.home.room.RoomRVAdapter
 import umc.onairmate.ui.home.video.SearchVideoViewModel
@@ -56,6 +57,7 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
     private val searchVideoViewModel: SearchVideoViewModel by viewModels()
     private val navViewModel: NavViewModel by activityViewModels()
+    private val notificationViewModel: NotificationViewModel by viewModels()
 
     private var sortBy : String = "latest"
     private var searchType : String = "videoTitle"
@@ -113,6 +115,7 @@ class HomeFragment : Fragment() {
         Log.d(TAG,"reset Home")
         binding.etInputKeyword.setText("")
         homeViewModel.getRoomList(sortBy, searchType, keyword)
+        notificationViewModel.getUnreadCount()
     }
 
 
@@ -229,6 +232,11 @@ class HomeFragment : Fragment() {
             videoFlag = isLoading
             checkRefresh()
         })
+
+        notificationViewModel.count.observe(viewLifecycleOwner){count ->
+            if(count == null) return@observe
+
+        }
     }
     private fun checkRefresh() {
         val isLoading = roomFlag || videoFlag
