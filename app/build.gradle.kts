@@ -91,4 +91,7 @@ dependencies {
     implementation("io.socket:socket.io-client:2.1.0") {
         exclude(group = "org.json", module = "json") // 충돌 방지
     }
+
+    // ai 요약 감정 분석 flexbox
+    implementation(libs.flexbox)
 }
