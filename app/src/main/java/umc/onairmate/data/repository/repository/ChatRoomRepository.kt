@@ -1,8 +1,5 @@
 package umc.onairmate.data.repository.repository
 
-import retrofit2.http.Body
-import retrofit2.http.Header
-import retrofit2.http.POST
 import umc.onairmate.data.model.entity.ChatMessageData
 import umc.onairmate.data.model.entity.ParticipantData
 import umc.onairmate.data.model.entity.RoomSettingData
@@ -10,7 +7,6 @@ import umc.onairmate.data.model.request.SummaryCreateRequest
 import umc.onairmate.data.model.request.SummaryFeedbackRequest
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.model.response.MessageResponse
-import umc.onairmate.data.model.response.RawDefaultResponse
 import umc.onairmate.data.model.response.SummaryCreateResponse
 
 interface ChatRoomRepository {

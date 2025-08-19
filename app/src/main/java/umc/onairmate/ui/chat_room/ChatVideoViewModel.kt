@@ -15,8 +15,11 @@ import umc.onairmate.data.model.entity.RoomSettingData
 import umc.onairmate.data.model.entity.VideoPauseData
 import umc.onairmate.data.model.entity.VideoPlayData
 import umc.onairmate.data.model.entity.VideoSyncData
+import umc.onairmate.data.model.request.SummaryCreateRequest
+import umc.onairmate.data.model.request.SummaryFeedbackRequest
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.model.response.MessageResponse
+import umc.onairmate.data.model.response.SummaryCreateResponse
 import umc.onairmate.data.repository.repository.ChatRoomRepository
 import umc.onairmate.data.socket.SocketManager
 import umc.onairmate.data.socket.handler.VideoHandler
@@ -176,6 +179,64 @@ class ChatVideoViewModel @Inject constructor(
     override fun onVideoPause(pauseData: VideoPauseData) {
         viewModelScope.launch {
             _videoPauseDataInfo.postValue(pauseData)
+        }
+    }
+
+    /* ai 요약 */
+
+    // 생성된 채팅 요약
+    private val _createdSummaryDataInfo = MutableLiveData<SummaryCreateResponse>()
+    val createdSummaryDataInfo : LiveData<SummaryCreateResponse> get() = _createdSummaryDataInfo
+
+    // 피드백 제출 후 메시지
+    private val _isFeedbackSent = MutableLiveData<MessageResponse>()
+    val isFeedbackSent : LiveData<MessageResponse> get() = _isFeedbackSent
+
+    // 방 종료시 채팅 요약 생성
+    fun createChatSummary(body: SummaryCreateRequest) {
+        viewModelScope.launch {
+            val token = getToken()
+            if (token == null) {
+                Log.e(TAG, "토큰이 없습니다")
+                return@launch
+            }
+
+            val result = repository.createChatSummary(token, body)
+            Log.d(TAG, "createChatSummary api 호출")
+
+            when (result) {
+                is DefaultResponse.Success -> {
+                    Log.d(TAG, "응답 성공: ${result.data}")
+                    _createdSummaryDataInfo.postValue(result.data)
+                }
+                is DefaultResponse.Error -> {
+                    Log.d(TAG, "에러: ${result.code} - ${result.message}")
+                }
+            }
+        }
+    }
+
+    // 요약에 대한 피드백 제출
+    fun sendFeedbackForSummary(summaryId: String, body: SummaryFeedbackRequest) {
+        viewModelScope.launch {
+            val token = getToken()
+            if (token == null) {
+                Log.e(TAG, "토큰이 없습니다")
+                return@launch
+            }
+
+            val result = repository.sendFeedbackForSummary(token, summaryId, body)
+            Log.d(TAG, "sendFeedbackForSummary api 호출")
+
+            when (result) {
+                is DefaultResponse.Success -> {
+                    Log.d(TAG, "응답 성공: ${result.data}")
+                    _isFeedbackSent.postValue(result.data)
+                }
+                is DefaultResponse.Error -> {
+                    Log.d(TAG, "에러: ${result.code} - ${result.message}")
+                }
+            }
         }
     }
 }
