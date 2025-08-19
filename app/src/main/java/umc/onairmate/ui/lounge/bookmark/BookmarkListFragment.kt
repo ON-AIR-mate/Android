@@ -77,7 +77,9 @@ class BookmarkListFragment : Fragment() {
             }
 
             override fun moveCollection(roomArchiveData: RoomArchiveData) {
-                showMoveCollectionPopup(roomArchiveData)
+                showSelectBookmarkPopup(roomArchiveData, { selectedBookmark ->
+                    showMoveCollectionPopup(selectedBookmark)
+                })
             }
         })
 
@@ -180,7 +182,7 @@ class BookmarkListFragment : Fragment() {
     }
 
     // 컬렉션 이동 팝업 띄우기
-    private fun showMoveCollectionPopup(roomArchiveData: RoomArchiveData) {
+    private fun showMoveCollectionPopup(bookmarkData: BookmarkData) {
         collectionViewModel.getCollections()
 
         (activity?.supportFragmentManager?.findFragmentByTag("SelectBookmarkPopup")
@@ -191,13 +193,7 @@ class BookmarkListFragment : Fragment() {
             val collectionList = data.collections ?: emptyList()
 
             val dialog = CollectionMoveDialog(collectionList, { collection ->
-                // todo: 북마크 옮기는 것도 북마크 개별로 체크해서 옮겨야됨?
-                // 그냥 방 데이터랑 통째로 있는걸로 옮기면 안되나
-                // 임시코드: 북마크 데이터 하나씩 넘기기
-                roomArchiveData.bookmarks[0]?.bookmarkId?.let {
-                    bookmarkViewModel.moveCollectionOfBookmark(
-                        it, CollectionMoveRequest(collection.collectionId))
-                }
+                bookmarkViewModel.moveCollectionOfBookmark(bookmarkData.bookmarkId, CollectionMoveRequest(collection.collectionId))
             })
             activity?.supportFragmentManager?.let { fm ->
                 dialog.show(fm, "CollectionMoveDialog")
