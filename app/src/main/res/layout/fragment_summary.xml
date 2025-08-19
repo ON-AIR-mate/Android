@@ -73,10 +73,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingHorizontal="16dp"
         app:alignItems="flex_start"
         app:flexWrap="wrap"
-        app:justifyContent="flex_start" />
+        android:paddingVertical="4dp"
+        app:justifyContent="flex_start">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="즐거움 45%"
+            android:textAlignment="center"
+            android:backgroundTint="@color/happy"
+            android:background="@drawable/background_box_5dp"
+            android:textColor="@color/white"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"/>
+
+    </com.google.android.flexbox.FlexboxLayout>
 
     <TextView
         android:layout_width="wrap_content"
