@@ -72,7 +72,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="해당 컬렉션을 정말 삭제하시겠습니까?"
+        android:text="해당 컬렉션을 가져오시겠습니까?"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.App.Medium.14sp"
         android:layout_marginBottom="20dp"/>
@@ -89,7 +89,7 @@
             android:layout_height="20dp"
             android:background="@drawable/background_box_5dp"
             android:backgroundTint="@color/main"
-            android:text="삭제"
+            android:text="확인"
             android:textColor="@color/white"
             android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
             android:layout_marginEnd="10dp" />

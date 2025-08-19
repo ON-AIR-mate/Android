@@ -9,6 +9,7 @@
     tools:context=".ui.lounge.LoungeFragment"
     android:layout_marginHorizontal="30dp"
     android:background="@color/white">
+    <!-- tools:context 이거 삭제? -->
 
     <!-- 전체 상단 영역 -->
     <LinearLayout
@@ -27,10 +28,10 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/loungeTitle"
+                android:id="@+id/personalloungeTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="My Lounge"
+                android:text="[닉네임]'s Lounge"
                 android:textAppearance="@style/TextAppearance.App.Bold.24sp" />
 
             <ImageButton
@@ -39,8 +40,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:background="@null"
-                android:src="@drawable/ic_goout"
-                android:contentDescription="나가기" />
+                android:src="@drawable/ic_gift"
+                android:contentDescription="선물 아이콘" />
         </RelativeLayout>
 
         <TextView
@@ -55,29 +56,16 @@
 
         <!-- 탭 버튼 -->
         <LinearLayout
-            android:id="@+id/list_select_buttons"
+            android:id="@+id/personal_list_select_buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:orientation="horizontal"
             android:gravity="start" >
 
-            <TextView
-                android:id="@+id/tv_all_list"
-                style="@style/TextAppearance.App.Medium.14sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingVertical="5dp"
-                android:paddingHorizontal="12dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/round_button_selector"
-                android:text="전체 목록"
-                android:clickable="true"
-                android:focusable="true"
-                android:textColor="@color/white" />
 
             <TextView
-                android:id="@+id/tv_collection_list"
+                android:id="@+id/personal_tv_collection_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingVertical="5dp"
@@ -94,11 +82,11 @@
 
     <!--자식 프래그먼트(전체 목록, 컬렉션별 목록)가 들어갈 부분-->
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/lounge_content_container"
+        android:id="@+id/personal_lounge_content_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        tools:layout="@layout/fragment_bookmark_list"
+        tools:layout="@layout/fragment_personal_collection_list"
         app:layout_constraintTop_toBottomOf="@+id/loungeHeaderLayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

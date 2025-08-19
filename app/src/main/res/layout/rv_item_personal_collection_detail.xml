@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background" />
+            android:src="@drawable/sample_image" />
 
         <!-- 내용 + 메뉴 -->
         <LinearLayout
@@ -28,7 +28,7 @@
             android:gravity="center_vertical"
             android:paddingHorizontal="12dp"
             android:paddingVertical="8dp"
-            android:background="#F5F5F5">
+            android:background="@color/white">
 
             <!-- 왼쪽 정보 칼럼 -->
             <LinearLayout
@@ -50,11 +50,12 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
+
                         tools:text="웃긴 장면"
                         android:textAppearance="@style/TextAppearance.App.SemiBold.20sp" />
 
                     <TextView
-                        android:id="@+id/tvCountBadge"
+                        android:id="@+id/tv_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
@@ -64,19 +65,19 @@
                         tools:text="45"
                         android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
                         android:textColor="@android:color/white" />
-
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"/>
 
-                    <ImageView
-                        android:id="@+id/iv_more"
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/sp_visibility"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="3dp"
-                        android:src="@drawable/ic_more" />
+                        android:background="@drawable/custom_spinner_visibility"
+                        android:dropDownWidth="wrap_content"
+                        android:popupBackground="@color/white"
+                        android:spinnerMode="dropdown" />
                 </LinearLayout>
 
                 <!-- 생성일 -->
@@ -89,35 +90,20 @@
                     android:textAppearance="@style/TextAppearance.App.Regular.10sp"
                     android:textColor="@color/text4" />
 
-                <!-- 마지막 수정일(왼쪽) + 비공개(오른쪽) 같은 줄 -->
-                <LinearLayout
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/et_input_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:textAppearance="@style/TextAppearance.App.Regular.12sp"
+                    android:hint="@string/collection_description_hint"
+                    android:maxLength="100"
+                    android:textColorHint="@color/black"
+                    android:background="@drawable/background_input_text"
+                    android:paddingVertical="5dp"
+                    android:paddingHorizontal="5dp"
+                    android:layout_marginTop="7dp"/>
 
-                    <TextView
-                        android:id="@+id/tv_latest_modified_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="마지막 수정일 : 2025.06.23"
-                        android:textAppearance="@style/TextAppearance.App.Regular.10sp"
-                        android:textColor="@color/text4"/>
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:id="@+id/tv_privacy"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="비공개"
-                        android:textAppearance="@style/TextAppearance.App.Regular.10sp"
-                        android:textColor="@color/text4" />
-                </LinearLayout>
             </LinearLayout>
 
             <!-- 메뉴 아이콘 -->
