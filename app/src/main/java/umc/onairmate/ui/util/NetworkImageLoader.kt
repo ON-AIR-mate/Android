@@ -15,7 +15,7 @@ object NetworkImageLoader {
     // 사용법: NetworkImageLoader.thumbnailLoad(이미지뷰, url)
     fun thumbnailLoad(imageView: ImageView, url: String?) {
         if (url.isNullOrBlank()) {
-            imageView.setImageResource(R.drawable.background_box_5dp)
+            // url 빌 경우 배경색만 보이게
         } else {
             imageView.load(url) {
                 // 로딩중 이미지
