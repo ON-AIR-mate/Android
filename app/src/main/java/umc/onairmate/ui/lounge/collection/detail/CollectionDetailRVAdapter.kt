@@ -101,7 +101,7 @@ class CollectionDetailRVAdapter(
         val itemList = mutableListOf<RecyclerItem>()
 
         itemList.add(RecyclerItem.Card(collectionDetailData))
-        if (collectionDetailData.bookmarks.isEmpty()) {
+        if (collectionDetailData.bookmarks.isNullOrEmpty()) {
             itemList.add(RecyclerItem.Empty)
         } else {
             itemList.addAll(collectionDetailData.bookmarks.map { RecyclerItem.Bookmark(it) })
