@@ -39,8 +39,6 @@ class BookmarkListFragment : Fragment() {
     private val searchRoomViewModel: HomeViewModel by viewModels()
     private lateinit var adapter: BookmarkRVAdapter
 
-    private var selectedBookmark: BookmarkData? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -66,20 +64,19 @@ class BookmarkListFragment : Fragment() {
     private fun setAdapter() {
         adapter = BookmarkRVAdapter(object : BookmarkEventListener {
             override fun createRoomWithBookmark(roomArchiveData: RoomArchiveData) {
-                // todo: 방 생성 팝업 띄워서 방 만들기
-                //roomArchiveData.bookmarks[0]?.let { showCreateRoomPopup(it, roomArchiveData) }
+                showSelectBookmarkPopup(roomArchiveData, { selectedBookmark ->
+                    showCreateRoomPopup(selectedBookmark, roomArchiveData)
+                })
             }
 
             override fun deleteBookmark(roomArchiveData: RoomArchiveData) {
-                showSelectBookmarkPopup(roomArchiveData)
-                if (selectedBookmark != null)  {
-                    bookmarkViewModel.deleteBookmark(selectedBookmark!!.bookmarkId)
+                showSelectBookmarkPopup(roomArchiveData, { selectedBookmark ->
+                    bookmarkViewModel.deleteBookmark(selectedBookmark.bookmarkId)
                     Toast.makeText(context, "북마크가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
-                }
+                })
             }
 
             override fun moveCollection(roomArchiveData: RoomArchiveData) {
-                // todo: 팝업 띄워서 어떤 컬렉션으로 보낼지 선택해야함
                 showMoveCollectionPopup(roomArchiveData)
             }
         })
@@ -110,6 +107,9 @@ class BookmarkListFragment : Fragment() {
         bookmarkViewModel.createdRoomDataInfo.observe(viewLifecycleOwner) { data ->
             if (data == null) return@observe
             else {
+                (activity?.supportFragmentManager?.findFragmentByTag("SelectBookmarkPopup")
+                        as? androidx.fragment.app.DialogFragment
+                        )?.dismissAllowingStateLoss()
                 searchRoomViewModel.getRoomDetailInfo(data.roomId)
             }
         }
@@ -142,10 +142,9 @@ class BookmarkListFragment : Fragment() {
     }
 
     // 어디서 시작할지 팝업 띄우기
-    private fun showSelectBookmarkPopup(roomArchiveData: RoomArchiveData) {
+    private fun showSelectBookmarkPopup(roomArchiveData: RoomArchiveData, afterAction: (BookmarkData) -> Unit) {
         val dialog = BookmarkSelectDialog(roomArchiveData.bookmarks, { selectedItem ->
-            selectedBookmark = selectedItem
-            Log.d("여기야여기", "${selectedBookmark}")
+            afterAction(selectedItem)
         })
         activity?.supportFragmentManager?.let { fm ->
             dialog.show(fm, "SelectBookmarkPopup")
@@ -172,7 +171,7 @@ class BookmarkListFragment : Fragment() {
                 )
 
                 // 북마크로 방 생성 api 호출
-                //bookmarkViewModel.createRoomWithBookmark(data.bookmarkId, requestBody)
+                bookmarkViewModel.createRoomWithBookmark(data.bookmarkId, requestBody)
             }
         })
         activity?.supportFragmentManager?.let { fm ->

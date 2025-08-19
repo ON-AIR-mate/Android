@@ -67,6 +67,13 @@ class ChatRoomParticipantsFragment : Fragment() {
         // host 정보 주입
         binding.itemRoomManager.tvUserNickname.text = roomData!!.hostNickname
         binding.itemRoomManager.tvUserTier.text = roomData!!.hostPopularity.toString()
+        if (user.nickname == roomData!!.hostNickname) {
+            // host일 경우 host item 더보기 버튼 빼기
+            binding.itemRoomManager.ivMore.visibility = View.GONE
+        } else {
+            // host가 아닐 경우 host item 더보기 버튼-팝업 연결
+            binding.itemRoomManager.ivMore.setOnClickListener { showPopupMenu( binding.itemRoomManager.ivMore, hostData!! ) }
+        }
 
         NetworkImageLoader.profileLoad(binding.itemRoomManager.ivUserProfile, roomData!!.hostProfileImage)
     }
@@ -112,16 +119,10 @@ class ChatRoomParticipantsFragment : Fragment() {
     private fun setParticipants() {
         // 초기 userList 삽입
         chatRoomViewModel.participantDataInfo.observe(viewLifecycleOwner) { data ->
-            val userList = data?.filter { !it.isHost } ?: emptyList()
-            hostData = data?.firstOrNull { it.isHost }
+            if (data == null) return@observe
 
-            if (user.nickname == hostData!!.nickname) {
-                // host일 경우 host item 더보기 버튼 빼기
-                binding.itemRoomManager.ivMore.visibility = View.GONE
-            } else {
-                // host가 아닐 경우 host item 더보기 버튼-팝업 연결
-                binding.itemRoomManager.ivMore.setOnClickListener { showPopupMenu( binding.itemRoomManager.ivMore, hostData!! ) }
-            }
+            val userList = data.filter { !it.isHost } ?: emptyList()
+            hostData = data.firstOrNull { it.isHost }
 
             adapter.submitList(userList)
         }
