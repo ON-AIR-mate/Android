@@ -15,7 +15,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.RoomData
@@ -43,6 +45,16 @@ class VideoSearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentVideoSearchBinding.inflate(layoutInflater)
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    // 여기서 원하는 동작 실행 (아이콘과 동일하게)
+                    findNavController().popBackStack()
+                }
+            }
+        )
 
         setTextListener()
         setupObserver()

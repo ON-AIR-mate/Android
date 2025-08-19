@@ -245,7 +245,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.ivNotification.setOnClickListener {
-
+            findNavController().navigate(R.id.action_home_to_notification)
         }
         binding.refreshLayout.setOnRefreshListener{
             resetData()
