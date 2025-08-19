@@ -235,7 +235,7 @@ class HomeFragment : Fragment() {
 
         notificationViewModel.count.observe(viewLifecycleOwner){count ->
             if(count == null) return@observe
-
+            binding.ivHasChange.visibility =  if(count > 0) View.VISIBLE else View.GONE
         }
     }
     private fun checkRefresh() {
