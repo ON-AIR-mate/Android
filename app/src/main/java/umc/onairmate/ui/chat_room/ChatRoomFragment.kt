@@ -23,6 +23,7 @@ import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.databinding.FragmentChatRoomBinding
 import umc.onairmate.ui.chat_room.message.VideoChatFragment
 import umc.onairmate.ui.chat_room.message.VideoChatViewModel
+import umc.onairmate.ui.chat_room.summary.SummaryFragment
 import umc.onairmate.ui.home.HomeViewModel
 import umc.onairmate.ui.pop_up.PopupClick
 import umc.onairmate.ui.util.SharedPrefUtil
@@ -87,6 +88,20 @@ class ChatRoomFragment : Fragment() {
 
         childFragmentManager.beginTransaction()
             .replace(R.id.fg_chat_module, chatRoom)
+            .commit()
+    }
+
+    // ai 요약 불러오기
+    fun setupSummaryScreen() {
+        // ai 요약 화면과 연결
+        val bundle = Bundle()
+        bundle.putInt("roomId", roomData.roomId)
+
+        val summary = SummaryFragment()
+        summary.arguments = bundle
+
+        childFragmentManager.beginTransaction()
+            .replace(R.id.fg_chat_module, summary)
             .commit()
     }
 
