@@ -73,6 +73,10 @@ class NotificationFragment : Fragment() {
     }
 
     private fun initData(data : NotificationResponse){
+//        if (data.today.isEmpty()) binding.tvToday.visibility = View.GONE
+//        if (data.yesterday.isEmpty()) binding.tvYesterday.visibility = View.GONE
+//        if (data.recentDays.isEmpty()) binding.tvRecentDays.visibility = View.GONE
+
         todayAdapter.addData(data.today)
         yesterdayAdapter.addData(data.yesterday)
         recentAdapter.addData(data.recentDays)

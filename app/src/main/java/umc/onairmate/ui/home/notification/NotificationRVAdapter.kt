@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.data.model.entity.NotificationData
 import umc.onairmate.databinding.RvItemNotificationBinding
+import umc.onairmate.ui.util.TimeFormatter
 
 
 class NotificationRVAdapter(
@@ -36,13 +37,17 @@ class NotificationRVAdapter(
     inner class ViewHolder(private val binding: RvItemNotificationBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(pos: Int){
             Log.d("bind", "itemd ${items[pos]}")
-            binding.tvTime.text = items[pos].createdAt
+            binding.tvTime.text = if (items[pos].notificationId == 0) "" else TimeFormatter.formatRelativeTimeNotification(items[pos].createdAt)
             binding.tvMessage.text = items[pos].message
         }
     }
 
     fun addData(list: List<NotificationData>){
-        items.addAll(list)
+        if (list.isEmpty()) {
+            val empty = NotificationData(message = "알림이 없어요")
+            items.add(empty)
+        }
+        else items.addAll(list)
         notifyDataSetChanged()
     }
 }
