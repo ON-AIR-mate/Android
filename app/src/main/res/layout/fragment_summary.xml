@@ -108,7 +108,7 @@
             android:id="@+id/tv_bookmark_empty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="해당 방에서 타임라인 댓글을 작성하지 않았습니다."
+            android:text="해당 방에서 타임라인 댓글을 작성하지 않았습니다."
             android:textColor="@color/text3"
             android:textAppearance="@style/TextAppearance.App.Regular.12sp"
             android:visibility="visible"
