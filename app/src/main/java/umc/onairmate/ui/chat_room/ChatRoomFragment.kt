@@ -20,6 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.entity.UserData
+import umc.onairmate.data.model.request.SummaryCreateRequest
 import umc.onairmate.databinding.FragmentChatRoomBinding
 import umc.onairmate.ui.chat_room.message.VideoChatFragment
 import umc.onairmate.ui.chat_room.message.VideoChatViewModel
@@ -95,7 +96,7 @@ class ChatRoomFragment : Fragment() {
     fun setupSummaryScreen() {
         // ai 요약 화면과 연결
         val bundle = Bundle()
-        bundle.putInt("roomId", roomData.roomId)
+        bundle.putParcelable("roomData", roomData)
 
         val summary = SummaryFragment()
         summary.arguments = bundle
@@ -284,17 +285,19 @@ class ChatRoomFragment : Fragment() {
     }
 
     // 방이 종료됨 팝업 띄우기
+    // 방 종료 조건: 방장강제종료/영상끝남 -> 요약 화면에서 나가기 처리
     private fun showTerminateRoomPopup() {
+        setupSummaryScreen()
         val dialog = ChatRoomTerminateDialog(object : PopupClick {
             override fun leftClickFunction() {
-                if (user.nickname == roomData.hostNickname) {
+                /*if (user.nickname == roomData.hostNickname) {
                     // host일 경우 api 통신으로 방 삭제
                     homeViewModel.leaveRoom(roomData.roomId)
                 } else {
                     // 일반 참가자일 경우 이미 방이 사라졌으므로 화면만 전환
                     requireActivity().finish()
                     homeViewModel.clearRoomDetailInfo()
-                }
+                }*/
             }
 
             override fun rightClickFunction() {}

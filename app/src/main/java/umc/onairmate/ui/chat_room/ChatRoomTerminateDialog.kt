@@ -50,6 +50,7 @@ class ChatRoomTerminateDialog(
     private fun setClickListener() {
         binding.btnLeft.setOnClickListener {
             clickFunc.leftClickFunction()
+            dismiss()
         }
     }
 }
