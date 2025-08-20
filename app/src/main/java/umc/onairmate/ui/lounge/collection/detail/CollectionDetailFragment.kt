@@ -170,7 +170,7 @@ class CollectionDetailFragment : Fragment() {
                     collectionId,
                     request = CollectionModifyRequest(
                         title = modifiedTitle ?: "",
-                        description = data.description,
+                        description = data.description ?: "",
                         visibility = data.visibility
                     )
                 )
@@ -207,7 +207,7 @@ class CollectionDetailFragment : Fragment() {
                     roomTitle = body.roomName,
                     maxParticipants = body.maxParticipants,
                     isPrivate = body.isPrivate,
-                    startFrom = RoomStartOption.BEGINNING.apiName
+                    startFrom = RoomStartOption.BOOKMARK.apiName
                 )
 
                 // 북마크로 방 생성 api 호출
