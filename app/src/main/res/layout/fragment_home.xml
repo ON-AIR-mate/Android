@@ -148,16 +148,15 @@
         android:layout_height="0dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintTop_toBottomOf="@id/layout_search"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/cl_bottom"
         >
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_contents"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/layout_search"
-        app:layout_constraintBottom_toTopOf="@id/cl_bottom"/>
+      />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

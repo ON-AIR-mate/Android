@@ -114,7 +114,7 @@ class HomeFragment : Fragment() {
     private fun resetData() {
         Log.d(TAG,"reset Home")
         binding.etInputKeyword.setText("")
-        homeViewModel.getRoomList(sortBy, searchType, keyword)
+        homeViewModel.getRoomList(sortBy, searchType, "")
         notificationViewModel.getUnreadCount()
     }
 

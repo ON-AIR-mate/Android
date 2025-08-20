@@ -100,9 +100,6 @@ class ProfileFragment : Fragment() {
         binding.layoutMyRooms.setOnClickListener {
             openParticipatedRooms()
         }
-        binding.layoutBlock.setOnClickListener {
-            // openBlockedUsers()
-        }
 
         //로그아웃
         binding.tvLogout.setOnClickListener {
