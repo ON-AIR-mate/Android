@@ -127,8 +127,8 @@ class SummaryFragment : Fragment() {
         // 북마크 찾아 넣기
         bookmarkViewModel.bookmarkList.observe(viewLifecycleOwner) { data ->
             if ((data == null) or (data.uncategorized.find { it.roomData.roomId == roomData.roomId } == null)) {
-                // 이번 방의 데이터 없음
-                binding.tvBookmarkEmpty.visibility = View.VISIBLE
+                    // 이번 방의 데이터 없음
+                    binding.tvBookmarkEmpty.visibility = View.VISIBLE
             } else {
                 binding.tvBookmarkEmpty.visibility = View.GONE
                 binding.fbFeelings.removeAllViews()
