@@ -15,7 +15,8 @@ import umc.onairmate.data.model.response.CollectionListResponse
 import umc.onairmate.data.model.response.CollectionCreateResponse
 import umc.onairmate.data.model.response.MessageResponse
 import umc.onairmate.data.model.response.RawDefaultResponse
-
+import umc.onairmate.data.model.response.ImportResponse
+import umc.onairmate.data.model.request.ShareRequest
 interface CollectionService {
 
     // 새로운 컬렉션 생성
@@ -60,4 +61,19 @@ interface CollectionService {
         @Header("Authorization") accessToken: String,
         @Path("collectionId") collectionId: Int,
     ): RawDefaultResponse<MessageResponse>
+
+    // 컬렉션을 친구에게 공유하기
+    @POST("collections/{collectionId}/share")
+    suspend fun shareToMyCollection(
+        @Header("Authorization") accessToken: String,
+        @Path("collectionId") collectionId: Int,
+        @Body request: ShareRequest
+    ): RawDefaultResponse<MessageResponse>
+
+    // 타인의 컬렉션을 "내 라운지"로 가져오기
+    @POST("collections/{collectionId}/copy")
+    suspend fun importToMyCollection(
+        @Header("Authorization") accessToken: String,
+        @Path("collectionId") collectionId: Int,
+    ): RawDefaultResponse<ImportResponse>
 }

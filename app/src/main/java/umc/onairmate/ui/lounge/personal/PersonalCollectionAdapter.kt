@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import umc.onairmate.ui.util.ImageLoader
-import umc.onairmate.databinding.RvItemCollectionBinding
 import umc.onairmate.data.model.entity.CollectionData
+import umc.onairmate.databinding.RvItemCollectionBinding
+import umc.onairmate.ui.util.NetworkImageLoader // NetworkImageLoader import
 
 class PersonalCollectionAdapter(
     private val listener: OnCollectionActionListener
-) : ListAdapter<CollectionData, PersonalCollectionAdapter.VH>(Diff()) {
+) : ListAdapter<CollectionData, PersonalCollectionAdapter.VH>(DiffCallback()) {
 
     interface OnCollectionActionListener {
         fun onItemClick(item: CollectionData)
@@ -20,8 +20,11 @@ class PersonalCollectionAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = RvItemCollectionBinding.inflate(inflater, parent, false)
+        val binding = RvItemCollectionBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return VH(binding)
     }
 
@@ -29,35 +32,36 @@ class PersonalCollectionAdapter(
         holder.bind(getItem(position))
     }
 
-    inner class VH(private val b: RvItemCollectionBinding) : RecyclerView.ViewHolder(b.root) {
-        fun bind(item: CollectionData) = with(b) {
+    inner class VH(private val binding: RvItemCollectionBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: CollectionData) {
+            with(binding) {
+                // NetworkImageLoader를 사용하여 썸네일 이미지 로드
+                NetworkImageLoader.thumbnailLoad(ivThumbnail, item.coverImage)
 
-            // 썸네일
-            Glide.with(root).load(item.thumbnailUrl)
-                .into(ivThumbnail)
+                // 텍스트 데이터 설정
+                tvTitle.text = item.title
+                tvGeneratedDate.text = "생성일 : ${item.createdAt}"
+                tvLatestModifiedDate.text = "마지막 수정일 : ${item.updatedAt}"
 
-            // 제목
-            tvTitle.text = item.title
+                //공개범위
+                tvPrivacy.text = item.visibility
 
-            // 생성/수정일
-            tvGeneratedDate.text = "생성일 : ${item.createdAt}"
-            tvLatestModifiedDate.text = "마지막 수정일 : ${item.updatedAt}"
-
-            // 공개범위
-            tvPrivacy.text = item.visibility
-
-            // ex) 더보기
-            ivMore.setOnClickListener { listener.onMoreClick(it, item) }
-
-            root.setOnClickListener { listener.onItemClick(item) }
+                // 클릭 리스너 설정
+                root.setOnClickListener { listener.onItemClick(item) }
+                ivMore.setOnClickListener { listener.onMoreClick(it, item) }
+            }
         }
     }
 
-    private class Diff : DiffUtil.ItemCallback<CollectionData>() {
-        override fun areItemsTheSame(oldItem: CollectionData, newItem: CollectionData) =
-            oldItem == newItem
+    private class DiffCallback : DiffUtil.ItemCallback<CollectionData>() {
+        override fun areItemsTheSame(oldItem: CollectionData, newItem: CollectionData): Boolean {
+            // 'id'가 고유 식별자라고 가정합니다.
+            return oldItem == newItem
+        }
 
-        override fun areContentsTheSame(oldItem: CollectionData, newItem:CollectionData) =
-            oldItem == newItem
+        override fun areContentsTheSame(oldItem: CollectionData, newItem: CollectionData): Boolean {
+            // data class의 equals()를 사용하여 내용이 같은지 확인합니다.
+            return oldItem == newItem
+        }
     }
 }

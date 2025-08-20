@@ -1,13 +1,20 @@
 package umc.onairmate.data.repository.repository
 
+import retrofit2.http.Body
+import retrofit2.http.Header
+import retrofit2.http.POST
+import retrofit2.http.Path
 import umc.onairmate.data.model.entity.CollectionDetailData
 import umc.onairmate.data.model.request.CollectionCreateRequest
 import umc.onairmate.data.model.request.CollectionModifyRequest
 import umc.onairmate.data.model.request.CollectionShareRequest
+import umc.onairmate.data.model.request.ShareRequest
 import umc.onairmate.data.model.response.CollectionListResponse
 import umc.onairmate.data.model.response.CollectionCreateResponse
 import umc.onairmate.data.model.response.DefaultResponse
+import umc.onairmate.data.model.response.ImportResponse
 import umc.onairmate.data.model.response.MessageResponse
+import umc.onairmate.data.model.response.RawDefaultResponse
 
 interface CollectionRepository {
 
@@ -47,4 +54,17 @@ interface CollectionRepository {
         accessToken: String,
         collectionId: Int,
     ): DefaultResponse<MessageResponse>
+
+    // 컬렉션을 친구에게 공유하기
+    suspend fun shareToMyCollection(
+        accessToken: String,
+        collectionId: Int,
+        request: ShareRequest
+    ): DefaultResponse<MessageResponse>
+
+    // 타인의 컬렉션을 "내 라운지"로 가져오기
+    suspend fun importToMyCollection(
+        accessToken: String,
+        collectionId: Int,
+    ): DefaultResponse<ImportResponse>
 }

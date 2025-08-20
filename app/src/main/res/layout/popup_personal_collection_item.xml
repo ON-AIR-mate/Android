@@ -10,7 +10,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/tv_delete_bookmark"
+        android:id="@+id/tv_import_colletion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="3dp"

@@ -19,23 +19,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="[닉네임]의 웃긴장면"
+            android:text="컬렉션 공유하기"
             android:textAppearance="@style/TextAppearance.App.Medium.14sp"
             />
 
-        <TextView
-            android:id="@+id/tv_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:background="@drawable/bg_count_badge"
-            android:paddingHorizontal="6dp"
-            android:paddingVertical="2dp"
-            android:layout_marginEnd="5dp"
-            tools:text="45"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
-            android:textColor="@color/white" />
 
     </LinearLayout>
 
@@ -46,35 +33,19 @@
         android:gravity="center_vertical"
         >
 
-
-        <ImageView
-            android:id="@+id/iv_profile"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:src="@drawable/ic_empty_profile" />
-
-        <TextView
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_item_collection_shard_list"
             android:layout_height="wrap_content"
-            android:text="[사용자 닉네임]"
-            android:textAppearance="@style/TextAppearance.App.Medium.14sp" />
+            android:layout_width="wrap_content"/>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
 
-        <ImageView
-            android:id="@+id/iv_send"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:src="@drawable/ic_send" />
+
 
     </LinearLayout>
 
 
     <TextView
-        android:id="@+id/btn_change_title"
+        android:id="@+id/btn_confrim"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:background="@drawable/background_box_5dp"
