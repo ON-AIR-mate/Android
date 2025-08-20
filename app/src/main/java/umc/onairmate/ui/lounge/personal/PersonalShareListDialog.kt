@@ -38,15 +38,15 @@ class PersonalShareListDialog(
 
     private fun initAdapter() {
         adapter = PersonalShareListAdapter()
-        binding.rvItemCollectionShardList.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvItemCollectionShardList.adapter = adapter
+        binding.rvItemCollectionShareList.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvItemCollectionShareList.adapter = adapter
 
         // ⭐️ 전달받은 실제 친구 목록을 어댑터에 제출
         adapter.submitList(friendList)
     }
 
     private fun setClickListener() {
-        binding.btnConfrim.setOnClickListener {
+        binding.btnConfirm.setOnClickListener {
             // TODO: 선택된 친구들의 ID를 가져와서 콜백에 전달
             val selectedFriendIds = listOf(456, 789) // 예시
             shareCallback(collectionId, selectedFriendIds)
