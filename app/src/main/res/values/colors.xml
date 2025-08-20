@@ -23,5 +23,17 @@
     <color name="text8">#F7F8F9</color>
     <color name="text9">#595959</color>
     <color name="text10">#717171</color>
+    
+    
+    <color name="happy">#FFC107</color>
+    <color name="sadness">#42A5F5</color>
+    <color name="anger">#EF5350</color>
+    <color name="surprise">#FFA726</color>
+    <color name="touched">#EC407A</color>
+    <color name="empathy">#26A69A</color>
+    <color name="fear">#7E57C2</color>
+    <color name="frustration">#78909C</color>
+    <color name="despair">#546E7A</color>
+    <color name="embarrassment">#AB47BC</color>
 
 </resources>

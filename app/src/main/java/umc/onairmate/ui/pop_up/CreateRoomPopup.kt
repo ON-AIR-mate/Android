@@ -25,7 +25,7 @@ private val createRoomCallback : CreateRoomCallback
 ): DialogFragment() {
     lateinit var binding: PopupCreateRoomBinding
 
-    var isPrivate : Boolean = false
+    var isPrivate : Boolean = true
     var roomTitle: String = ""
     var textLength: Int = 0
 
