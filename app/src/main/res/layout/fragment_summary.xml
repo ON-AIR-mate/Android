@@ -138,12 +138,12 @@
                 android:src="@drawable/ic_thumbs_up" />
 
             <View
-                android:id="@+id/iv_dislike"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
 
             <ImageView
+                android:id="@+id/iv_dislike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_thumbs_down"/>
@@ -152,7 +152,7 @@
 
         <TextView
             android:id="@+id/tv_done"
-            android:layout_width="100dp"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:background="@drawable/background_box_5dp"
             android:backgroundTint="@color/main"
@@ -162,7 +162,8 @@
             android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
             android:textColor="@color/white"
             android:layout_marginTop="20dp"
-            android:paddingVertical="2dp" />
+            android:paddingVertical="3dp"
+            android:layout_marginBottom="40dp"/>
 
 
     </LinearLayout>
