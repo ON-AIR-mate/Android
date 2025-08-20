@@ -34,9 +34,10 @@
         >
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_item_collection_shard_list"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"/>
+            android:id="@+id/rv_item_collection_share_list"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            tools:listitem="@layout/rv_item_collection_share_friend" />
 
 
 
@@ -45,7 +46,7 @@
 
 
     <TextView
-        android:id="@+id/btn_confrim"
+        android:id="@+id/btn_confirm"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:background="@drawable/background_box_5dp"

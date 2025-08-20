@@ -7,14 +7,20 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.databinding.DialogPersonalShareListBinding
+import umc.onairmate.databinding.RvItemCollectionShareFriendBinding
 
 class PersonalShareListAdapter : ListAdapter<FriendData, PersonalShareListAdapter.VH>(DiffCallback()) {
+
+    private var _binding: DialogPersonalShareListBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var adapter: PersonalShareListAdapter
 
     // 선택된 친구들의 ID를 저장하는 Set
     private val selectedFriendIds = mutableSetOf<Int>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val binding = DialogPersonalShareListBinding.inflate(
+        val binding = RvItemCollectionShareFriendBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
@@ -32,15 +38,15 @@ class PersonalShareListAdapter : ListAdapter<FriendData, PersonalShareListAdapte
         return selectedFriendIds.toList()
     }
 
-    inner class VH(private val binding: DialogPersonalShareListBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class VH(val binding: RvItemCollectionShareFriendBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: FriendData) {
             with(binding) {
                 // 친구 이름 설정
-                tvFriendName.text = item.nickname
+                tvUserNickname.text = item.nickname
 
                 // 선택 상태에 따라 UI 업데이트
                 // isSelected 속성을 사용하여 선택 상태를 시각적으로 표시할 수 있습니다.
-                root.isSelected = selectedFriendIds.contains(item.userId)
+                root.isSelected = item.userId in selectedFriendIds
 
                 // 클릭 리스너 설정
                 root.setOnClickListener {

@@ -21,8 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CollectionViewModel @Inject constructor(
-    private val collectionrepository: CollectionRepository,
-    private val friendrepository: FriendRepository,
+    private val collectionRepository: CollectionRepository,
+    private val friendRepository: FriendRepository,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
     private val TAG = this.javaClass.simpleName
@@ -61,7 +61,7 @@ class CollectionViewModel @Inject constructor(
 
             if (token != null) {
                 val request = ShareRequest(friendIds)
-                val result = collectionrepository.shareToMyCollection(token, collectionId, request)
+                val result = collectionRepository.shareToMyCollection(token, collectionId, request)
                 Log.d(TAG, "shareToMyCollection API 호출")
 
                 _shareResponse.postValue(result)
@@ -90,7 +90,7 @@ class CollectionViewModel @Inject constructor(
             val token = getToken()
 
             if (token != null) {
-                val result = collectionrepository.importToMyCollection(token, collectionId)
+                val result = collectionRepository.importToMyCollection(token, collectionId)
                 Log.d(TAG, "importToMyCollection API 호출")
 
                 _importResponse.postValue(result)
@@ -120,7 +120,7 @@ class CollectionViewModel @Inject constructor(
 
             if (token != null) {
                 // TODO: 컬렉션 리포지토리의 컬렉션 가져오기 API 함수 호출
-                val result = collectionrepository.getCollections(token)
+                val result = collectionRepository.getCollections(token)
                 // ⭐️ 응답이 성공(Success)인 경우에만 데이터를 처리
                 when (result) {
                     is DefaultResponse.Success -> {
@@ -149,12 +149,12 @@ class CollectionViewModel @Inject constructor(
             val token = getToken()
 
             if (token != null) {
-                val result = FriendRepository.getFriendList(token)
+                val result = friendRepository.getFriendList(token)
 
                 when (result) {
                     is DefaultResponse.Success -> {
                         // ⭐️ FriendListResponse 객체에서 리스트 필드명을 찾아 직접 접근
-                        _friends.postValue(result.data.friends)
+                        _friends.postValue(result.data)
                     }
                     is DefaultResponse.Error -> {
                         Log.e(TAG, "친구 목록 가져오기 실패: ${result.message}")
