@@ -199,29 +199,6 @@
                     android:src="@drawable/ic_arrow"/>
             </LinearLayout>
 
-            <!-- 차단 리스트 -->
-            <LinearLayout
-                android:id="@+id/layout_block"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginVertical="5dp"
-                android:paddingVertical="6dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="차단 리스트"
-                    android:textAppearance="@style/TextAppearance.App.Regular.14sp"/>
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/ic_arrow"/>
-            </LinearLayout>
-
             <!-- 의견 보내기 -->
             <LinearLayout
                 android:id="@+id/layout_opinion"

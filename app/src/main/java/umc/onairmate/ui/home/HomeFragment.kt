@@ -15,18 +15,27 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.entity.VideoData
 import umc.onairmate.data.model.request.CreateRoomRequest
 import umc.onairmate.databinding.FragmentHomeBinding
+import umc.onairmate.ui.NavViewModel
 import umc.onairmate.ui.chat_room.ChatRoomLayoutActivity
+import umc.onairmate.ui.home.notification.NotificationViewModel
 import umc.onairmate.ui.home.room.HomeEventListener
 import umc.onairmate.ui.home.room.RoomRVAdapter
 import umc.onairmate.ui.home.video.SearchVideoViewModel
@@ -47,6 +56,8 @@ class HomeFragment : Fragment() {
 
     private val homeViewModel: HomeViewModel by viewModels()
     private val searchVideoViewModel: SearchVideoViewModel by viewModels()
+    private val navViewModel: NavViewModel by activityViewModels()
+    private val notificationViewModel: NotificationViewModel by viewModels()
 
     private var sortBy : String = "latest"
     private var searchType : String = "videoTitle"
@@ -66,6 +77,17 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
+        // 바텀 네비 선택시 데이터 초기화
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
+                navViewModel.events.collect { menuId ->
+                    if (menuId == R.id.navigation_home) {
+                        //resetData()
+                    }
+                }
+            }
+        }
+
         setView()
         setUpObserver()
         setSearchSpinner()
@@ -76,17 +98,26 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        // 초기 데이터 삽입
-        homeViewModel.getRoomList(sortBy, searchType, keyword)
-        Log.d(TAG,"Resume")
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG,"onViewCreated")
+        resetData()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+    private fun resetData() {
+        Log.d(TAG,"reset Home")
+        binding.etInputKeyword.setText("")
+        homeViewModel.getRoomList(sortBy, searchType, "")
+        notificationViewModel.getUnreadCount()
+    }
+
 
     private fun setTextListener(){
         binding.etInputKeyword.addTextChangedListener(object : TextWatcher {
@@ -140,9 +171,12 @@ class HomeFragment : Fragment() {
         homeViewModel.roomListResponse.observe(viewLifecycleOwner){response ->
             if (response == null) return@observe
             if (response.continueWatching.isEmpty() && response.onAirRooms.isEmpty()){
-                val input = binding.etInputKeyword.text.toString()
-                searchVideoViewModel.getRecommendVideoList(input, 10)
                 binding.layoutEmpty.visibility = View.VISIBLE
+                val input = binding.etInputKeyword.text.toString()
+                if (input.isBlank())
+                    binding.layoutRecommendVideo.visibility = View.GONE
+                else
+                    searchVideoViewModel.getRecommendVideoList(input, 10)
             }
             else {
                 binding.layoutEmpty.visibility = View.GONE
@@ -153,7 +187,9 @@ class HomeFragment : Fragment() {
         homeViewModel.roomDetailInfo.observe(viewLifecycleOwner){data ->
             if (data == null) return@observe
             roomData = data
-            showJoinRoomPopup()
+            // 비공개방의 경우 참여 불가
+            if (roomData.isPrivate) Toast.makeText(requireContext(),"비공개 방에는 참여할 수 없습니다", Toast.LENGTH_SHORT).show()
+            else showJoinRoomPopup()
             homeViewModel.clearRoomDetailInfo()
         }
         homeViewModel.smallLoading.observe(viewLifecycleOwner){ smallLoading ->
@@ -162,6 +198,7 @@ class HomeFragment : Fragment() {
 
         searchVideoViewModel.recommendedVideos.observe(viewLifecycleOwner) {videos ->
             if(videos == null) return@observe
+            binding.layoutRecommendVideo.visibility = View.VISIBLE
             recommendVideo(videos)
         }
         searchVideoViewModel.videoDetailInfo.observe(viewLifecycleOwner) { data ->
@@ -195,10 +232,18 @@ class HomeFragment : Fragment() {
             videoFlag = isLoading
             checkRefresh()
         })
+
+        notificationViewModel.count.observe(viewLifecycleOwner){count ->
+            if(count == null) return@observe
+            binding.ivHasChange.visibility =  if(count > 0) View.VISIBLE else View.GONE
+        }
     }
     private fun checkRefresh() {
         val isLoading = roomFlag || videoFlag
-        binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        if(!binding.refreshLayout.isRefreshing)
+            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        if (!isLoading && binding.refreshLayout.isRefreshing)
+            binding.refreshLayout.isRefreshing = false
     }
 
     // 상단 버튼들
@@ -208,7 +253,10 @@ class HomeFragment : Fragment() {
         }
 
         binding.ivNotification.setOnClickListener {
-
+            findNavController().navigate(R.id.action_home_to_notification)
+        }
+        binding.refreshLayout.setOnRefreshListener{
+            resetData()
         }
     }
 
@@ -225,7 +273,6 @@ class HomeFragment : Fragment() {
                 id: Long
             ) {
                 val selectedItem = parent?.getItemAtPosition(position) as String
-                Log.d(TAG,"pos : ${position} / selected Item ${selectedItem}")
                 searchType = when(position) {
                     0 -> "videoTitle"
                     1 -> "roomTitle"

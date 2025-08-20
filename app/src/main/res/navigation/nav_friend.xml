@@ -6,6 +6,7 @@
     app:startDestination="@id/navigation_friend">
 
     <include app:graph="@navigation/nav_search" />
+    <include app:graph="@navigation/nav_notification" />
 
 <fragment
         android:id="@+id/navigation_friend"
@@ -15,6 +16,10 @@
         <action
             android:id="@+id/action_friend_to_search_video"
             app:destination="@id/nav_search" />
+
+     <action
+        android:id="@+id/action_friend_to_notification"
+        app:destination="@id/nav_notification" />
     </fragment>
 
 

@@ -33,12 +33,4 @@
         android:textAppearance="@style/TextAppearance.App.Medium.10sp"
         android:text="친구 추가" />
 
-    <TextView
-        android:id="@+id/tv_block"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="3dp"
-        android:textAppearance="@style/TextAppearance.App.Medium.10sp"
-        android:text="차단하기" />
-
 </LinearLayout>

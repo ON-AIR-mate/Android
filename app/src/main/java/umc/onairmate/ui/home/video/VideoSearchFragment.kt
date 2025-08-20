@@ -3,22 +3,17 @@ package umc.onairmate.ui.home.video
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.entity.VideoData
 import umc.onairmate.data.model.request.CreateRoomRequest
 import umc.onairmate.databinding.FragmentVideoSearchBinding
@@ -43,6 +38,16 @@ class VideoSearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentVideoSearchBinding.inflate(layoutInflater)
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    // 여기서 원하는 동작 실행 (아이콘과 동일하게)
+                    findNavController().popBackStack()
+                }
+            }
+        )
 
         setTextListener()
         setupObserver()
