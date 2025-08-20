@@ -195,9 +195,10 @@ class ChatRoomParticipantsFragment : Fragment() {
         popupWindow.showAsDropDown(anchorView, offsetX, offsetY)
     }
 
+    //방장쪽에도 함수 있다함.
     private fun showReportPopup(){
         val dialogView = LayoutInflater.from(requireContext())
-            .inflate(R.layout.dialog_block, null)
+            .inflate(R.layout.dialog_report, null)
 
         val dialog = android.app.AlertDialog.Builder(requireContext())
             .setView(dialogView)
