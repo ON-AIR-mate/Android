@@ -23,6 +23,7 @@ import umc.onairmate.databinding.FragmentSummaryBinding
 import umc.onairmate.databinding.LlItemTimelineTextBinding
 import umc.onairmate.ui.chat_room.ChatVideoViewModel
 import umc.onairmate.ui.home.HomeViewModel
+import umc.onairmate.ui.lounge.bookmark.BookmarkViewModel
 import umc.onairmate.ui.util.SharedPrefUtil
 
 class SummaryFragment : Fragment() {
@@ -31,6 +32,7 @@ class SummaryFragment : Fragment() {
 
     private val chatVideoViewModel: ChatVideoViewModel by activityViewModels()
     private val homeViewModel: HomeViewModel by activityViewModels()
+    private val bookmarkViewModel: BookmarkViewModel by activityViewModels()
 
     private var roomData: RoomData = RoomData()
     private var isFeedbackClicked = false
@@ -55,6 +57,7 @@ class SummaryFragment : Fragment() {
     private fun initSummaryData() {
         val body = SummaryCreateRequest(roomData.roomId)
         chatVideoViewModel.createChatSummary(body)
+        bookmarkViewModel.getBookmarks(collectionId = null, true)
     }
 
     private fun initScreen() {
@@ -83,22 +86,7 @@ class SummaryFragment : Fragment() {
             }
 
             // 북마크 linearlayout에 data....??? 아이템 추가
-            // 북마크 타임라인 처리 - 북마크가 안와.....
-            binding.llBookmarkText.removeAllViews()
-            val itemBinding = LlItemTimelineTextBinding.inflate(layoutInflater, binding.llBookmarkText, false)
-            itemBinding.tvBookmarkTime.text = data.timestamp
-            binding.llBookmarkText.addView(itemBinding.root)
-
-            /*// 북마크 하이라이트 여러개 받는데....
-            data.timestamp.forEachIndexed { index, bookmark ->
-                val itemBinding =
-                    LlItemTimelineTextBinding.inflate(layoutInflater, binding.llBookmarkText, false)
-                itemBinding.tvBookmarkTime.text = bookmark
-
-                if (index >= 2) itemBinding.root.visibility = View.GONE
-
-                binding.llBookmarkText.addView(itemBinding.root)
-            }*/
+            // 북마크 타임라인 처리 - 북마크가 안와서 따로 북마크 받아옴
 
             binding.ivLike.setOnClickListener {
                 if (isFeedbackClicked == false) {
@@ -132,6 +120,24 @@ class SummaryFragment : Fragment() {
                     // 일반 참가자일 경우 이미 방이 사라졌으므로 화면만 전환
                     requireActivity().finish()
                     homeViewModel.clearRoomDetailInfo()
+                }
+            }
+        }
+
+        // 북마크 찾아 넣기
+        bookmarkViewModel.bookmarkList.observe(viewLifecycleOwner) { data ->
+            if ((data == null) or (data.uncategorized.find { it.roomData.roomId == roomData.roomId } == null)) {
+                // 이번 방의 데이터 없음
+                binding.tvBookmarkEmpty.visibility = View.VISIBLE
+            } else {
+                binding.tvBookmarkEmpty.visibility = View.GONE
+                binding.fbFeelings.removeAllViews()
+                val bookmarks = data.uncategorized.find { it.roomData.roomId == roomData.roomId }!!.bookmarks
+                bookmarks.forEachIndexed { index, bookmark ->
+                    val itemBinding =
+                        LlItemTimelineTextBinding.inflate(layoutInflater, binding.llBookmarkText, false)
+                    itemBinding.tvBookmarkTime.text = bookmark!!.message
+                    binding.llBookmarkText.addView(itemBinding.root)
                 }
             }
         }
