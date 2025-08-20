@@ -48,10 +48,13 @@ class SummaryFragment : Fragment() {
         binding = FragmentSummaryBinding.inflate(layoutInflater)
         roomData = arguments?.getParcelable("roomData", RoomData::class.java)!!
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initSummaryData()
         initScreen()
-
-        return binding.root
     }
 
     private fun initSummaryData() {
