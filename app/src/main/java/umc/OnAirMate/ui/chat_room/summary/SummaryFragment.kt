@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.Emotion
 import umc.onairmate.data.model.entity.RoomData
@@ -36,6 +37,9 @@ class SummaryFragment : Fragment() {
 
     private var roomData: RoomData = RoomData()
     private var isFeedbackClicked = false
+
+    private var summaryFlag : Boolean = false
+    private var bookmarkFlag : Boolean = false
 
     val user = SharedPrefUtil.getData("user_info") ?: UserData()
 
@@ -144,5 +148,20 @@ class SummaryFragment : Fragment() {
                 }
             }
         }
+
+        homeViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            summaryFlag = isLoading
+            checkRefresh()
+        })
+        bookmarkViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            bookmarkFlag = isLoading
+            checkRefresh()
+        })
+    }
+
+    private fun checkRefresh() {
+        val isLoading = summaryFlag || bookmarkFlag
+        binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.llSummaryContent.visibility = if (isLoading) View.GONE else View.VISIBLE
     }
 }
