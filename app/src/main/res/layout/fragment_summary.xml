@@ -78,7 +78,8 @@
         android:paddingVertical="4dp"
         app:justifyContent="flex_start">
 
-        <TextView
+        <!--<TextView
+            android:id="@+id/tv_feeling"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="즐거움 45%"
@@ -87,7 +88,7 @@
             android:background="@drawable/background_box_5dp"
             android:textColor="@color/white"
             android:paddingHorizontal="8dp"
-            android:paddingVertical="2dp"/>
+            android:paddingVertical="2dp"/>-->
 
     </com.google.android.flexbox.FlexboxLayout>
 
@@ -105,12 +106,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <TextView
+        <!--<TextView
             android:id="@+id/tv_bookmark_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="16:23 ~~~~"
-            android:textAppearance="@style/TextAppearance.App.Regular.12sp" />
+            android:textAppearance="@style/TextAppearance.App.Regular.12sp" />-->
         
     </LinearLayout>
 
@@ -123,11 +124,13 @@
         android:gravity="center">
 
         <ImageView
+            android:id="@+id/iv_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_thumbs_up" />
 
         <View
+            android:id="@+id/iv_dislike"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1"/>
@@ -140,7 +143,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/btn_left"
+        android:id="@+id/tv_done"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:background="@drawable/background_box_5dp"
