@@ -66,10 +66,6 @@ class FriendViewHolder(
             itemClick.clickDelete(data)
             popupWindow.dismiss()
         }
-        popupBinding.tvBlock.setOnClickListener {
-            itemClick.clickBlock(data)
-            popupWindow.dismiss()
-        }
         popupBinding.tvReport.setOnClickListener {
             itemClick.clickReport(data)
             popupWindow.dismiss()

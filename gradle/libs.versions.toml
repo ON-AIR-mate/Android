@@ -21,6 +21,7 @@ retrofit = "2.9.0"
 core = "12.1.2"
 customUi = "12.1.2"
 flexbox = "3.0.0"
+swiperefreshlayout = "1.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -47,6 +48,7 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 core = { group = "com.pierfrancescosoffritti.androidyoutubeplayer", name = "core", version.ref = "core" }
 custom-ui = { group = "com.pierfrancescosoffritti.androidyoutubeplayer", name = "custom-ui", version.ref = "core" }
 flexbox = { group = "com.google.android.flexbox", name = "flexbox", version.ref = "flexbox" }
+androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
