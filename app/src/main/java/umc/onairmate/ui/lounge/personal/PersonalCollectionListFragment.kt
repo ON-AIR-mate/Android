@@ -34,11 +34,15 @@ class PersonalCollectionListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // API 연결
+        vm.fetchCollections()
+
         // 어댑터 및 리사이클러뷰 설정
         setupRecyclerView()
 
         // 데이터 관찰 및 바인딩
         bindObservers()
+
     }
 
     private fun setupRecyclerView() {

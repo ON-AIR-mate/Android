@@ -25,6 +25,7 @@ import umc.onairmate.ui.chat_room.message.VideoChatViewModel
 import umc.onairmate.ui.home.HomeViewModel
 import kotlin.getValue
 import androidx.fragment.app.commit
+import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.ui.lounge.bookmark.BookmarkViewModel
 
 
@@ -42,7 +43,7 @@ import umc.onairmate.ui.lounge.bookmark.BookmarkViewModel
 @AndroidEntryPoint
 class PersonalLoungeLayoutActivity : AppCompatActivity() {
     private val TAG = javaClass.simpleName
-    lateinit var roomData: RoomData
+    lateinit var friendData: FriendData
     private lateinit var binding: ActivityMainBinding
 
     // 하위 프래그먼트에서 activtyViewModels를 사용하므로 하위 프래그먼트에서 쓰는 뷰모델을 여기서 선언
@@ -55,17 +56,16 @@ class PersonalLoungeLayoutActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // "FRIEND_ID" 키로 전달된 친구 ID를 가져옵니다.
-        // 만약 null이 아니라면, 이 Activity는 개인 라운지용으로 사용되는 것입니다.
-        val friendId = intent.getStringExtra("FRIEND_ID")
-
-        // PersonalLoungeFragment에 친구 ID를 전달하기 위해 Bundle을 사용합니다.
-        val bundle = Bundle().apply {
-            putString("FRIEND_ID", friendId)
+        // fragment_container ID를 사용하여 프래그먼트 추가
+        if (supportFragmentManager.findFragmentById(R.id.fragment_container) == null) {
+            supportFragmentManager.commit {
+                replace(R.id.activity_fragment_container, PersonalLoungeFragment())
+            }
         }
+            // "FRIEND_ID" 키로 전달된 친구 ID를 가져옵니다.
+        // 만약 null이 아니라면, 이 Activity는 개인 라운지용으로 사용되는 것입니다.
+        val friendId : Int = intent.getIntExtra("FRIEND_ID",0)
 
-        // roomData 받아오기
-        roomData = intent.getParcelableExtra("room_data", RoomData::class.java)!!
 
         // 초기화 로직
         initScreen()

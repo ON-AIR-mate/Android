@@ -82,7 +82,7 @@
 
     <!--자식 프래그먼트(전체 목록, 컬렉션별 목록)가 들어갈 부분-->
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/personal_lounge_content_container"
+        android:id="@+id/activity_fragment_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
