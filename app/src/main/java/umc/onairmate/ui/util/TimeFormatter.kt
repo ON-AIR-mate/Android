@@ -71,4 +71,28 @@ object TimeFormatter {
             isoString
         }
     }
+
+    fun formatSecond(time: String): Int {
+        // 1. ':'를 기준으로 문자열을 분리합니다. (예: "00:02:10" -> ["00", "02", "10"])
+        val parts = time.split(":")
+
+        // 2. 형식이 잘못된 경우를 대비한 안전장치
+        if (parts.size != 3) {
+            println("잘못된 시간 형식입니다.")
+            return 0
+        }
+
+        try {
+            // 3. 각 부분을 정수(Int)로 변환합니다.
+            val hours = parts[0].toInt()
+            val minutes = parts[1].toInt()
+            val seconds = parts[2].toInt()
+
+            // 4. 시간과 분을 초로 변환하여 모두 더합니다.
+            return (hours * 3600) + (minutes * 60) + seconds
+        } catch (e: NumberFormatException) {
+            println("숫자로 변환할 수 없는 값이 포함되어 있습니다.")
+            return 0
+        }
+    }
 }

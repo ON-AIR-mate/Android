@@ -51,6 +51,10 @@ class CollectionMoveDialog(
         adapter = CollectionMoveRVAdapter(collectionList)
         binding.rvCollectionList.layoutManager = LinearLayoutManager(requireContext())
         binding.rvCollectionList.adapter = adapter
+
+        binding.ivClose.setOnClickListener {
+            dismiss()
+        }
     }
 
     // 팝업 클릭 리스너

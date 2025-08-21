@@ -28,6 +28,7 @@ import umc.onairmate.ui.chat_room.summary.SummaryFragment
 import umc.onairmate.ui.home.HomeViewModel
 import umc.onairmate.ui.pop_up.PopupClick
 import umc.onairmate.ui.util.SharedPrefUtil
+import umc.onairmate.ui.util.TimeFormatter
 
 /**
  * ChatRoomFragment: ChatRoomLayoutActivity의 배경 프래그먼트
@@ -209,7 +210,11 @@ class ChatRoomFragment : Fragment() {
 
                 // 방 데이터의 동영상 정보를 플레이어에 연동
                 val videoId = roomData.videoId ?: "CgCVZdcKcqY"
-                youTubePlayer.loadVideo(videoId, currentSecond)
+                val startTime = if (user.nickname == roomData.hostNickname) TimeFormatter.formatSecond(roomData.duration).toFloat() else currentSecond
+                youTubePlayer.loadVideo(
+                    videoId,
+                    startTime
+                )
 
                 // 프래그먼트에서 플레이어 조작할 수 있게 지정
                 this@ChatRoomFragment.player = youTubePlayer

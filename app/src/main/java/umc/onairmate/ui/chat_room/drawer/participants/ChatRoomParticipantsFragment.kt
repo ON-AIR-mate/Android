@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.data.model.entity.ParticipantData
 import umc.onairmate.data.model.entity.RoomData
+import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.databinding.FragmentChatRoomParticipantsBinding
 import umc.onairmate.databinding.PopupParticipantOptionsBinding
 import umc.onairmate.ui.chat_room.ChatVideoViewModel
@@ -24,6 +25,7 @@ import umc.onairmate.ui.friend.FriendViewModel
 import umc.onairmate.ui.pop_up.PopupClick
 import umc.onairmate.ui.pop_up.TwoButtonPopup
 import umc.onairmate.ui.util.NetworkImageLoader
+import umc.onairmate.ui.util.SharedPrefUtil
 
 // 채팅방 참가자 목록 프래그먼트
 @AndroidEntryPoint
@@ -38,6 +40,7 @@ class ChatRoomParticipantsFragment : Fragment() {
     private lateinit var adapter: ChatRoomParticipantRVAdapter
     var roomData: RoomData? = null
     private var hostData : ParticipantData? = null
+    private val user = SharedPrefUtil.getData("user_info") ?: UserData()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreateView(
@@ -64,7 +67,6 @@ class ChatRoomParticipantsFragment : Fragment() {
         // host 정보 주입
         binding.itemRoomManager.tvUserNickname.text = roomData!!.hostNickname
         binding.itemRoomManager.tvUserTier.text = roomData!!.hostPopularity.toString()
-        binding.itemRoomManager.ivMore.setOnClickListener { showPopupMenu( binding.itemRoomManager.ivMore,hostData!! ) }
         NetworkImageLoader.profileLoad(binding.itemRoomManager.ivUserProfile, roomData!!.hostProfileImage)
     }
 
@@ -109,8 +111,21 @@ class ChatRoomParticipantsFragment : Fragment() {
     private fun setParticipants() {
         // 초기 userList 삽입
         chatRoomViewModel.participantDataInfo.observe(viewLifecycleOwner) { data ->
-            val userList = data?.filter { !it.isHost } ?: emptyList()
-            hostData = data?.firstOrNull { it.isHost }
+            if (data == null) return@observe
+
+            val userList = data.filter { !it.isHost } ?: emptyList()
+            hostData = data.firstOrNull { it.isHost }
+
+            // host 데이터 주입 후 더보기 버튼 관리
+            if (user.nickname == roomData!!.hostNickname) {
+                // host일 경우 host item 더보기 버튼 빼기
+                binding.itemRoomManager.ivMore.visibility = View.GONE
+            } else {
+                // host가 아닐 경우 host item 더보기 버튼-팝업 연결
+                binding.itemRoomManager.ivMore.visibility = View.VISIBLE
+                binding.itemRoomManager.ivMore.setOnClickListener { showPopupMenu( binding.itemRoomManager.ivMore, hostData!! ) }
+            }
+
             adapter.submitList(userList)
         }
 

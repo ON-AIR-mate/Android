@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    card_view:cardCornerRadius="18dp"
+    card_view:cardCornerRadius="12dp"
     card_view:cardElevation="0dp"
     android:layout_marginVertical="8dp">
 
@@ -16,9 +16,9 @@
         <ImageView
             android:id="@+id/iv_thumbnail"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="185dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/sample_image" />
+            android:background="@color/login"/>
 
         <!-- 내용 + 메뉴 -->
         <LinearLayout
@@ -28,7 +28,7 @@
             android:gravity="center_vertical"
             android:paddingHorizontal="12dp"
             android:paddingVertical="8dp"
-            android:background="#F5F5F5">
+            android:background="@color/text8">
 
             <!-- 왼쪽 정보 칼럼 -->
             <LinearLayout
@@ -41,7 +41,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="4dp"
                     android:gravity="center_vertical">
 
                     <TextView
@@ -75,7 +74,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginRight="3dp"
+                        android:padding="3dp"
                         android:src="@drawable/ic_more" />
                 </LinearLayout>
 

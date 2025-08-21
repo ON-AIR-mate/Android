@@ -20,6 +20,7 @@
         android:clickable="true"
         android:focusable="true"
         android:translationZ="1dp">
+
         <ProgressBar
             style="?android:attr/progressBarStyle"
             android:layout_width="40dp"
@@ -27,6 +28,7 @@
             android:layout_gravity="center"
             android:translationZ="1dp"
             android:indeterminateTint="@color/main"/>
+
     </LinearLayout>
 
 
@@ -85,7 +87,7 @@
         <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/ic_empty_collection" />
+            android:src="@drawable/ic_empty" />
 
         <TextView
             android:layout_marginTop="16dp"
