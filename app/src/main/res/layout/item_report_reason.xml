@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingVertical="8dp">
+
+    <CheckBox
+        android:id="@+id/cbReason"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="@color/main"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingStart="8dp">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="스팸, 도배"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/pretendard_medium"/>
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="반복적이거나 무의미한 메시지로 채팅 흐름을 방해하는 경우"
+            android:textSize="10sp"
+            android:textColor="@color/text4"
+            android:fontFamily="@font/pretendard_regular"/>
+    </LinearLayout>
+
+</LinearLayout>

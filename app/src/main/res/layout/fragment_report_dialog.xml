@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="320dp"
+    android:layout_height="494dp"
+    android:padding="20dp">
+
+    <!-- 타이틀 -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="[닉네임]의 신고 사유"
+        android:textAppearance="@style/TextAppearance.App.SemiBold.16sp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 닫기 버튼 -->
+    <ImageView
+        android:id="@+id/btnClose"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:src="@drawable/btn_close"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"/>
+
+    <!-- 신고 사유 리스트 -->
+    <LinearLayout
+        android:id="@+id/layoutReasons"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:showDividers="middle"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintBottom_toTopOf="@id/etDetail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp">
+
+        <!-- 하나의 항목 예시 (스팸, 도배) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingVertical="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <CheckBox
+                    android:id="@+id/cbSpam"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="스팸, 도배"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_medium"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arrow" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="반복적이거나 무의미한 메시지로 채팅 흐름을 방해하는 경우"
+                android:textSize="10sp"
+                android:textColor="@color/text4"
+                android:fontFamily="@font/pretendard_regular"/>
+        </LinearLayout>
+
+        <!-- 스포성 채팅 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingVertical="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <CheckBox
+                    android:id="@+id/cbSpoiler"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="스포성 채팅"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_medium"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arrow" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="콘텐츠의 즐거리, 결말 등을 미리 언급해 시청 경험을 방해하는 경우"
+                android:textSize="10sp"
+                android:textColor="@color/text4"
+                android:fontFamily="@font/pretendard_regular"/>
+        </LinearLayout>
+
+        <!-- 욕설 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingVertical="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <CheckBox
+                    android:id="@+id/cbAbuse"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="욕설"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_medium"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arrow" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="상대방을 향한 비속어 또는 공격적인 언어를 사용하는 경우"
+                android:textSize="10sp"
+                android:textColor="@color/text4"
+                android:fontFamily="@font/pretendard_regular"/>
+        </LinearLayout>
+
+        <!-- 혐오 발언 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingVertical="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <CheckBox
+                    android:id="@+id/cbHate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="혐오 발언"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_medium"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arrow" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="성별, 인종, 외모 등 특정 대상에 대한 차별적 발언을 하는 경우"
+                android:textSize="10sp"
+                android:textColor="@color/text4"
+                android:fontFamily="@font/pretendard_regular"/>
+        </LinearLayout>
+
+        <!-- 부적절한 닉네임 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingVertical="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <CheckBox
+                    android:id="@+id/cbNickname"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="부적절한 닉네임 사용"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pretendard_medium"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arrow" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="불쾌감을 줄 수 있는 닉네임이나 선정적/모욕적인 표현을 사용하는 경우"
+                android:textSize="10sp"
+                android:textColor="@color/text4"
+                android:fontFamily="@font/pretendard_regular"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- 추가 사유 입력 -->
+    <EditText
+        android:id="@+id/etDetail"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:hint="추가적인 신고 사유를 작성해주세요."
+        android:background="@drawable/background_input_text"
+        android:textSize="14sp"
+        android:fontFamily="@font/pretendard_regular"
+        android:padding="10dp"
+        android:gravity="top|start"
+        android:inputType="textMultiLine"
+        app:layout_constraintBottom_toTopOf="@id/btnSubmit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 제출 버튼 -->
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:text="제출"
+        android:textSize="12sp"
+        android:fontFamily="@font/pretendard_semi_bold"
+        android:backgroundTint="@color/disable"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
