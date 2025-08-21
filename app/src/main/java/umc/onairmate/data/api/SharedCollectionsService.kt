@@ -16,6 +16,8 @@ interface SharedCollectionsService {
     @GET("friends/{userId}/lounge")
     suspend fun  getFriendPublicCollections(
         @Header("Authorization") accessToken: String,
-        @Path("userId") userId : Int
+        @Path("userId") userId: Int
     ) :  RawDefaultResponse<List<CollectionData>>
+
+
 }

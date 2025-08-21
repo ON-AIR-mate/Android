@@ -71,7 +71,7 @@
 
 
             <TextView
-                android:id="@+id/personal_tv_collection_list"
+                android:id="@+id/btn_collection_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingVertical="5dp"

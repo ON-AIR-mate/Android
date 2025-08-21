@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -15,6 +16,7 @@ import umc.onairmate.data.model.entity.CollectionData
 import umc.onairmate.databinding.FragmentCollectionListBinding
 import umc.onairmate.ui.lounge.collection.CollectionEventListener
 import umc.onairmate.ui.lounge.collection.CollectionRVAdapter
+import umc.onairmate.ui.lounge.collection.CollectionViewModel
 import umc.onairmate.ui.lounge.collection.detail.CollectionDetailFragment
 import umc.onairmate.ui.lounge.personal.dialog.PersonalLoungeImportDialog
 
@@ -28,6 +30,7 @@ class PersonalLoungeFragment : Fragment() {
 
     private var friendNickname : String = ""
     private val sharedCollectionsViewModel: SharedCollectionsViewModel by activityViewModels()
+    private val collectionViewModel: CollectionViewModel by  activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -56,14 +59,17 @@ class PersonalLoungeFragment : Fragment() {
             if (list.isEmpty()) {
                 binding.emptyCollectionLayout.visibility = View.VISIBLE
                 binding.rvCollections.visibility = View.GONE
-
             }
             else{
                 binding.emptyCollectionLayout.visibility = View.GONE
                 binding.rvCollections.visibility = View.VISIBLE
                 adapter.submitList(list)
             }
+        }
 
+        collectionViewModel.importResponse.observe(viewLifecycleOwner){data ->
+            if(data == null )return@observe
+            Toast.makeText(requireContext(),data.message, Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -73,7 +79,7 @@ class PersonalLoungeFragment : Fragment() {
             override fun deleteCollection(collection: CollectionData) {
                 val title = "[${friendNickname}]의 " + collection.title
                 val dialog = PersonalLoungeImportDialog(collectionId = collection.collectionId, { collectionId ->
-                   //.importToMyCollection(collectionId)
+                    collectionViewModel.importToMyCollection(collectionId)
                 }, title )
                 dialog.show(childFragmentManager, "ImportDialog")
             }

@@ -16,6 +16,7 @@ import umc.onairmate.data.model.request.CollectionShareRequest
 import umc.onairmate.data.model.response.CollectionListResponse
 import umc.onairmate.data.model.response.CollectionCreateResponse
 import umc.onairmate.data.model.response.DefaultResponse
+import umc.onairmate.data.model.response.ImportResponse
 import umc.onairmate.data.model.response.MessageResponse
 import umc.onairmate.data.repository.repository.CollectionRepository
 import javax.inject.Inject
@@ -53,6 +54,10 @@ class CollectionViewModel @Inject constructor(
     // 삭제 성공 여부
     private val _deleteCollectionMessage = MutableLiveData<MessageResponse>()
     val deleteCollectionMessage : LiveData<MessageResponse> get() = _deleteCollectionMessage
+
+    // 친구 컬렉션 가져오기
+    private val _importResponse = MutableLiveData<ImportResponse>()
+    val importResponse: LiveData<ImportResponse> get() = _importResponse
 
 
     // 서버 로딩중 - 프로그래스바
@@ -224,6 +229,37 @@ class CollectionViewModel @Inject constructor(
                 is DefaultResponse.Error -> {
                     Log.d(TAG, "에러: ${result.code} - ${result.message}")
                 }
+            }
+
+            _isLoading.value = false
+        }
+    }
+
+    // 친구 컬렉션 가져오기
+    fun importToMyCollection(collectionId: Int) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            val token = getToken()
+            if (token == null) {
+                Log.e(TAG, "토큰이 없습니다")
+                _isLoading.value = false
+                return@launch
+            }
+            if (token != null) {
+                val result = repository.importToMyCollection(token, collectionId)
+                Log.d(TAG, "importToMyCollection API 호출")
+                when (result) {
+                    is DefaultResponse.Success -> {
+                        Log.d(TAG, "컬렉션 가져오기 성공: ${result.data}")
+                        _importResponse.postValue(result.data)
+                    }
+                    is DefaultResponse.Error -> {
+                        Log.e(TAG, "컬렉션 가져오기 실패: ${result.code} - ${result.message}")
+                    }
+                }
+            } else {
+                Log.e(TAG, "토큰이 없습니다.")
+                // 토큰이 없을 경우의 오류 처리
             }
 
             _isLoading.value = false
