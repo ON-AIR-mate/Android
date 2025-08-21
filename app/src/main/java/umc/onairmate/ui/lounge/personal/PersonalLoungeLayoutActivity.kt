@@ -27,7 +27,7 @@ class PersonalLoungeLayoutActivity : AppCompatActivity() {
     lateinit var friendData: FriendData
     private lateinit var binding: FragmentPersonalLoungeBinding
 
-    private val bookmarkViewModel: BookmarkViewModel by viewModels()
+    private val sharedCollectionsViewModel: SharedCollectionsViewModel by viewModels()
     private val collectionViewModel: PersonalCollectionViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -40,7 +40,6 @@ class PersonalLoungeLayoutActivity : AppCompatActivity() {
         val friendId : Int = intent.getIntExtra("FRIEND_ID", 0)
 
         // RecyclerView 설정
-        // PersonalCollectionAdapter의 생성자에 OnCollectionActionListener를 익명 객체로 구현하여 전달합니다.
         val adapter = PersonalCollectionAdapter(object : PersonalCollectionAdapter.OnCollectionActionListener {
             override fun onItemClick(item: CollectionData) {
                 // 아이템 전체를 클릭했을 때의 동작
@@ -59,8 +58,20 @@ class PersonalLoungeLayoutActivity : AppCompatActivity() {
         binding.rvCollections.adapter = adapter
 
         // LiveData 관찰 및 어댑터에 데이터 제출
+        // 1. 개인 컬렉션 LiveData 관찰
         collectionViewModel.collections.observe(this) { collections ->
+            // collections는 List<CollectionData> 타입이어야 합니다.
             adapter.submitList(collections)
+        }
+
+        // 2. 공유 컬렉션 LiveData 관찰 - 오류 수정
+        // sharedCollectionsViewModel.sharedCollections의 LiveData는 List<CollectionData>를 방출해야 합니다.
+        // 따라서 Observer의 람다 파라미터도 List<CollectionData> 타입으로 받도록 수정하고,
+        // 변수명을 'collections'처럼 의미있게 변경했습니다.
+        sharedCollectionsViewModel.sharedCollections.observe(this) { sharedCollections ->
+            // sharedCollectionsList는 List<CollectionData> 타입입니다.
+            // 이 리스트를 adapter.submitList()에 전달합니다.
+            adapter.submitList(sharedCollections)
         }
     }
 

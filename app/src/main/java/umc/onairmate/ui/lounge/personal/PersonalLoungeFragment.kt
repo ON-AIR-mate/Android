@@ -22,6 +22,8 @@ import umc.onairmate.ui.lounge.personal.dialog.PersonalShareListDialog // 새로
 import umc.onairmate.ui.lounge.personal.dialog.PersonalLoungePrivacyInfoDialog
 import androidx.fragment.app.commit
 import umc.onairmate.data.model.entity.RoomData
+import androidx.fragment.app.viewModels
+import umc.onairmate.ui.lounge.personal.SharedCollectionsViewModel
 
 @AndroidEntryPoint
 class PersonalLoungeFragment : Fragment() {
@@ -38,6 +40,8 @@ class PersonalLoungeFragment : Fragment() {
     // 친구 목록 데이터를 저장할 변수
     private var friendList: List<FriendData> = emptyList()
 
+    private val sharedCollectionsViewModel: SharedCollectionsViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -51,6 +55,9 @@ class PersonalLoungeFragment : Fragment() {
         // API 연결
         vm.fetchCollections() // 컬렉션 목록을 가져오는 함수를 호출
         vm.fetchFriends() // ⭐️ 친구 목록도 함께 가져오도록 API 호출
+        // API 연결
+        sharedCollectionsViewModel.getSharedCollections() //공유받은 컬렉션 목록 API 호출
+
 
 
         // LiveData 관찰 로직
