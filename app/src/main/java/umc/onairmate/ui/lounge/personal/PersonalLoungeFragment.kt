@@ -31,7 +31,7 @@ class PersonalLoungeFragment : Fragment() {
     private val binding get() = _binding!!
 
     // viewModel 초기화
-    private val vm: CollectionViewModel by viewModels()
+    private val vm: PersonalCollectionViewModel by viewModels()
     lateinit var friendData: FriendData
     private lateinit var adapter: PersonalCollectionAdapter
 

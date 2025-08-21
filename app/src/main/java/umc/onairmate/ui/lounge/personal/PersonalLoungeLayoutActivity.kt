@@ -28,7 +28,7 @@ class PersonalLoungeLayoutActivity : AppCompatActivity() {
     private lateinit var binding: FragmentPersonalLoungeBinding
 
     private val bookmarkViewModel: BookmarkViewModel by viewModels()
-    private val collectionViewModel: CollectionViewModel by viewModels()
+    private val collectionViewModel: PersonalCollectionViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {

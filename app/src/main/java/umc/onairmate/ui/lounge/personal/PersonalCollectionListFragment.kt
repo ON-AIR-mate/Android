@@ -20,7 +20,7 @@ class PersonalCollectionListFragment : Fragment() {
     private var _binding: FragmentPersonalCollectionListBinding? = null
     private val binding get() = _binding!!
 
-    private val vm: CollectionViewModel by viewModels({ requireParentFragment() })
+    private val vm: PersonalCollectionViewModel by viewModels({ requireParentFragment() })
 
     private lateinit var adapter: PersonalCollectionAdapter
 

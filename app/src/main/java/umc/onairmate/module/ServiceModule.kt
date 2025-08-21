@@ -13,6 +13,7 @@ import umc.onairmate.data.api.FriendService
 import umc.onairmate.data.api.HomeService
 import umc.onairmate.data.api.JoinService
 import umc.onairmate.data.api.ImageService
+import umc.onairmate.data.api.SharedCollectionsService
 import javax.inject.Singleton
 
 
@@ -70,6 +71,12 @@ object ServiceModule {
     @Provides
     @Singleton
     fun imageApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): ImageService {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun sharedCollectionsApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): SharedCollectionsService {
         return retrofit.buildService()
     }
 }

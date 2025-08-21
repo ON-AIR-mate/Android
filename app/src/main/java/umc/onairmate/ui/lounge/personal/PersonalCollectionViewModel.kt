@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CollectionViewModel @Inject constructor(
+class PersonalCollectionViewModel @Inject constructor(
     private val collectionRepository: CollectionRepository,
     private val friendRepository: FriendRepository,
     @ApplicationContext private val context: Context

@@ -13,14 +13,14 @@ import umc.onairmate.databinding.FragmentPersonalLoungeBinding // Fragment용 �
 import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.ui.lounge.personal.PersonalCollectionAdapter
-import umc.onairmate.ui.lounge.personal.CollectionViewModel
+import umc.onairmate.ui.lounge.personal.PersonalCollectionViewModel
 import umc.onairmate.ui.lounge.personal.PersonalLoungeLayoutActivity
 @AndroidEntryPoint
 class PersonalLoungeActivity : AppCompatActivity() {
 
     // Fragment용 바인딩 클래스를 그대로 사용
     private lateinit var binding: FragmentPersonalLoungeBinding
-    private val vm: CollectionViewModel by viewModels()
+    private val vm: PersonalCollectionViewModel by viewModels()
     private lateinit var adapter: PersonalCollectionAdapter
     private var friendList: List<FriendData> = emptyList()
 

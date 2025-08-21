@@ -113,8 +113,8 @@
         android:visibility="visible"
         android:overScrollMode="never"
         android:nestedScrollingEnabled="false"
-        app:layout_constraintTop_toTopOf="@+id/cl_bottom"
-        app:layout_constraintBottom_toTopOf="@id/loungeHeaderLayout"
+        app:layout_constraintTop_toBottomOf="@+id/loungeHeaderLayout"
+        app:layout_constraintBottom_toTopOf="@id/cl_bottom"
         />
 
 
@@ -127,8 +127,8 @@
         android:gravity="center"
         android:padding="24dp"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="@+id/cl_bottom"
-        app:layout_constraintBottom_toBottomOf="@id/loungeHeaderLayout"
+        app:layout_constraintTop_toBottomOf="@+id/loungeHeaderLayout"
+        app:layout_constraintBottom_toTopOf="@id/cl_bottom"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
