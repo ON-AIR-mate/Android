@@ -4,22 +4,21 @@
     android:layout_height="wrap_content">
 
     <View
-        android:layout_width="10dp"
-        android:layout_height="10dp"
+        android:layout_width="6dp"
+        android:layout_height="8dp"
         android:layout_gravity="top|end"
-        android:background="@drawable/bg_tooltip"
-        android:rotation="270"
-        android:translationX="-20dp"
-        android:translationY="-5dp"/>
+        android:background="@drawable/ic_speech_bubble_top"
+        android:translationX="-5dp" />
 
     <LinearLayout
         android:id="@+id/body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="6dp"
         android:orientation="vertical"
-        android:background="@drawable/bg_tooltip"
-        android:padding="10dp">
+        android:background="@drawable/background_box_5dp"
+        android:backgroundTint="@color/text4"
+        android:padding="4dp">
 
         <TextView
             android:id="@+id/tooltip_text"
@@ -27,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="추천 및 제재에 따라 인기도가 조정됩니다."
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textAppearance="@style/TextAppearance.App.Regular.10sp" />
     </LinearLayout>
 
 </FrameLayout>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="30dp">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ON AIR mate"
+        android:textColor="@color/main"
+        android:textAppearance="@style/TextAppearance.App.Bold.26sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/layout_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="5dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/tv_title">
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="40dp"
+            android:layout_height="15dp"
+            android:src="@drawable/ic_back_arrow" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="알림"
+            android:textAppearance="@style/TextAppearance.App.SemiBold.16sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/progressbar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintTop_toBottomOf="@id/layout_info"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        android:gravity="center"
+        android:background="@color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:translationZ="1dp">
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:translationZ="1dp"
+            android:indeterminateTint="@color/main"/>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_today"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="오늘"
+        android:layout_marginTop="25dp"
+        android:paddingHorizontal="10dp"
+        android:textAppearance="@style/TextAppearance.App.Medium.16sp"
+        app:layout_constraintTop_toBottomOf="@id/layout_info"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_today"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:overScrollMode="never"
+        android:nestedScrollingEnabled="false"
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="10dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_today"
+        app:layout_constraintBottom_toTopOf="@id/tv_yesterday"/>
+
+    <TextView
+        android:id="@+id/tv_yesterday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="어제"
+        android:layout_marginTop="25dp"
+        android:paddingHorizontal="10dp"
+        android:textAppearance="@style/TextAppearance.App.Medium.16sp"
+        app:layout_constraintTop_toBottomOf="@id/rv_today"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_yesterday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:overScrollMode="never"
+        android:nestedScrollingEnabled="false"
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="10dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_yesterday"
+        app:layout_constraintBottom_toTopOf="@id/tv_recent_days"/>
+
+    <TextView
+        android:id="@+id/tv_recent_days"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="최근 7일"
+        android:layout_marginTop="25dp"
+        android:paddingHorizontal="10dp"
+        android:textAppearance="@style/TextAppearance.App.Medium.16sp"
+        app:layout_constraintTop_toBottomOf="@id/rv_yesterday"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_recent_days"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:overScrollMode="never"
+        android:nestedScrollingEnabled="false"
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="10dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_recent_days"
+        app:layout_constraintBottom_toTopOf="@id/iv_logo"/>
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_onairmate_logo_bottom"
+        android:layout_marginTop="60dp"
+        app:layout_constraintTop_toBottomOf="@id/rv_recent_days"
+        app:layout_constraintBottom_toTopOf="@id/cl_bottom"/>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
