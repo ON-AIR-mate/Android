@@ -20,6 +20,6 @@ data class CollectionDetailData(
     val updatedAt: String,
     @SerializedName("visibility")
     val visibility: String,
-    @SerializedName("bookmarks")
-    var bookmarks: List<RoomArchiveData>
+    @SerializedName("rooms")
+    val rooms: List<RoomArchiveData>
 ): Serializable
