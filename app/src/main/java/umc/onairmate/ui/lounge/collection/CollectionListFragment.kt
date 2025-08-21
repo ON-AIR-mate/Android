@@ -73,7 +73,12 @@ class CollectionListFragment : Fragment() {
                 showDeleteDialog(collection)
             }
             override fun shareCollection(collection: CollectionData) {
-                showShareDialog(collection)
+                if (collection.visibility == "private") {
+                    // 컬렉션이 비공개인 경우 공유 불가 메시지
+                    Toast.makeText(context, "비공개인 컬렉션은 공유할 수 없습니다.", Toast.LENGTH_SHORT).show()
+                } else {
+                    showShareDialog(collection)
+                }
             }
 
             override fun clickCollectionItem(collection: CollectionData) {

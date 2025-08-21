@@ -82,11 +82,6 @@ class ChatRoomParticipantRVAdapter(
                 itemClick.clickAddFriend(data)
                 popupWindow.dismiss()
             }
-            popupBinding.tvBlock.setOnClickListener {
-                itemClick.clickBlock(data)
-                popupWindow.dismiss()
-            }
-
             popupWindow.showAsDropDown(anchorView, offsetX, offsetY)
         }
     }

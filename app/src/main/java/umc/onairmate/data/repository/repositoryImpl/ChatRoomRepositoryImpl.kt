@@ -4,9 +4,12 @@ import umc.onairmate.data.api.ChatRoomService
 import umc.onairmate.data.model.entity.ChatMessageData
 import umc.onairmate.data.model.entity.ParticipantData
 import umc.onairmate.data.model.entity.RoomSettingData
+import umc.onairmate.data.model.request.SummaryCreateRequest
+import umc.onairmate.data.model.request.SummaryFeedbackRequest
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.model.response.MessageResponse
 import umc.onairmate.data.model.response.RawDefaultResponse
+import umc.onairmate.data.model.response.SummaryCreateResponse
 import umc.onairmate.data.repository.repository.ChatRoomRepository
 import umc.onairmate.data.util.safeApiCall
 import javax.inject.Inject
@@ -53,6 +56,27 @@ class ChatRoomRepositoryImpl @Inject constructor(
     ): DefaultResponse<List<ChatMessageData>> {
         return safeApiCall {
             api.getChatHistory(accessToken, roomId)
+        }
+    }
+
+    // 방 종료시 채팅 요약 생성
+    override suspend fun createChatSummary(
+        accessToken: String,
+        body: SummaryCreateRequest
+    ): DefaultResponse<SummaryCreateResponse> {
+        return safeApiCall {
+            api.createChatSummary(accessToken, body)
+        }
+    }
+
+    // 요약에 대한 피드백 제출
+    override suspend fun sendFeedbackForSummary(
+        accessToken: String,
+        summaryId: String,
+        body: SummaryFeedbackRequest
+    ): DefaultResponse<MessageResponse> {
+        return safeApiCall {
+            api.sendFeedbackForSummary(accessToken, summaryId, body)
         }
     }
 

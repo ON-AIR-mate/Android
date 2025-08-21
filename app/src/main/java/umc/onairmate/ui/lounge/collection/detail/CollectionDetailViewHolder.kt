@@ -93,7 +93,6 @@ class CollectionDetailViewHolder (
         binding.etInputDescription.addTextChangedListener(textWatcher)
 
     }
-
 }
 
 interface CollectionDetailEventListener {

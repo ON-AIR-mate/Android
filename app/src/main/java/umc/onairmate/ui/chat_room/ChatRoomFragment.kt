@@ -20,12 +20,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.RoomData
 import umc.onairmate.data.model.entity.UserData
+import umc.onairmate.data.model.request.SummaryCreateRequest
 import umc.onairmate.databinding.FragmentChatRoomBinding
 import umc.onairmate.ui.chat_room.message.VideoChatFragment
 import umc.onairmate.ui.chat_room.message.VideoChatViewModel
+import umc.onairmate.ui.chat_room.summary.SummaryFragment
 import umc.onairmate.ui.home.HomeViewModel
 import umc.onairmate.ui.pop_up.PopupClick
 import umc.onairmate.ui.util.SharedPrefUtil
+import umc.onairmate.ui.util.TimeFormatter
 
 /**
  * ChatRoomFragment: ChatRoomLayoutActivity의 배경 프래그먼트
@@ -87,6 +90,20 @@ class ChatRoomFragment : Fragment() {
 
         childFragmentManager.beginTransaction()
             .replace(R.id.fg_chat_module, chatRoom)
+            .commit()
+    }
+
+    // ai 요약 불러오기
+    fun setupSummaryScreen() {
+        // ai 요약 화면과 연결
+        val bundle = Bundle()
+        bundle.putParcelable("roomData", roomData)
+
+        val summary = SummaryFragment()
+        summary.arguments = bundle
+
+        childFragmentManager.beginTransaction()
+            .replace(R.id.fg_chat_module, summary)
             .commit()
     }
 
@@ -193,7 +210,11 @@ class ChatRoomFragment : Fragment() {
 
                 // 방 데이터의 동영상 정보를 플레이어에 연동
                 val videoId = roomData.videoId ?: "CgCVZdcKcqY"
-                youTubePlayer.loadVideo(videoId, currentSecond)
+                val startTime = if (user.nickname == roomData.hostNickname) TimeFormatter.formatSecond(roomData.duration).toFloat() else currentSecond
+                youTubePlayer.loadVideo(
+                    videoId,
+                    startTime
+                )
 
                 // 프래그먼트에서 플레이어 조작할 수 있게 지정
                 this@ChatRoomFragment.player = youTubePlayer
@@ -269,17 +290,19 @@ class ChatRoomFragment : Fragment() {
     }
 
     // 방이 종료됨 팝업 띄우기
+    // 방 종료 조건: 방장강제종료/영상끝남 -> 요약 화면에서 나가기 처리
     private fun showTerminateRoomPopup() {
+        setupSummaryScreen()
         val dialog = ChatRoomTerminateDialog(object : PopupClick {
             override fun leftClickFunction() {
-                if (user.nickname == roomData.hostNickname) {
+                /*if (user.nickname == roomData.hostNickname) {
                     // host일 경우 api 통신으로 방 삭제
                     homeViewModel.leaveRoom(roomData.roomId)
                 } else {
                     // 일반 참가자일 경우 이미 방이 사라졌으므로 화면만 전환
                     requireActivity().finish()
                     homeViewModel.clearRoomDetailInfo()
-                }
+                }*/
             }
 
             override fun rightClickFunction() {}

@@ -14,80 +14,65 @@ fun BottomNavigationView.setupWithNavController(
     navGraphIds: List<Int>,
     fragmentManager: FragmentManager,
     containerId: Int,
-    intent: Intent
+    intent: Intent,
+    onTabSelected: ((menuId: Int, controller: NavController) -> Unit)? = null,
+    onTabReselected: ((menuId: Int, controller: NavController) -> Unit)? = null
 ): LiveData<NavController> {
 
-    val graphIdToTagMap = mutableMapOf<Int, String>()
-    val selectedController = NavControllerLiveData()
-    var firstGraphTag: String? = null
+    val startIdToTag = mutableMapOf<Int, String>()
+    val selectedController = MutableLiveData<NavController>()
+    var firstTag: String? = null
 
-    // 그래프별 NavHostFragment 생성/재사용 및 초기 표시 설정
+    // 탭별 NavHost 생성: 첫 탭 attach, 나머지 detach(뷰 제거 = 클릭 누수 원천 차단)
     navGraphIds.forEachIndexed { index, navGraphId ->
-        val fragmentTag = "bottomNav#$index"
-        val navHostFragment = obtainNavHostFragment(
-            fragmentManager, fragmentTag, navGraphId, containerId
-        )
+        val tag = "bottomNav#$index"
+        val host = obtainNavHostFragment(fragmentManager, tag, navGraphId, containerId)
+        val startId = host.navController.graph.startDestinationId
+        startIdToTag[startId] = tag
 
-        // 메뉴 itemId와 동일한 startDestinationId를 key로 매핑
-        val startDestinationId = navHostFragment.navController.graph.startDestinationId
-        graphIdToTagMap[startDestinationId] = fragmentTag
-
-        if (index == 0) {
-            fragmentManager.beginTransaction()
-                .setPrimaryNavigationFragment(navHostFragment)
-                .show(navHostFragment)
-                .commitNow()
-            selectedController.value = navHostFragment.navController
-            firstGraphTag = fragmentTag
-        } else {
-            fragmentManager.beginTransaction()
-                .hide(navHostFragment)
-                .commitNow()
-        }
+        fragmentManager.beginTransaction().apply {
+            if (index == 0) {
+                attach(host)
+                setPrimaryNavigationFragment(host)
+                selectedController.value = host.navController
+                firstTag = tag
+            } else {
+                detach(host)
+            }
+        }.setReorderingAllowed(true).commitNow()
     }
 
-    // 탭 전환 시 해당 NavHost로 전환
+    // 탭 선택
     setOnItemSelectedListener { item ->
-        val newlySelectedTag = graphIdToTagMap[item.itemId] ?: return@setOnItemSelectedListener false
-        val currentTag = graphIdToTagMap[selectedController.value?.graph?.startDestinationId] ?: firstGraphTag
+        val newTag = startIdToTag[item.itemId] ?: return@setOnItemSelectedListener false
+        val curTag = startIdToTag[selectedController.value?.graph?.startDestinationId] ?: firstTag
 
-        // 루트로 pop
-        val targetController = (fragmentManager.findFragmentByTag(newlySelectedTag) as NavHostFragment).navController
-        targetController.popBackStack(targetController.graph.startDestinationId, false)
+        val newHost = fragmentManager.findFragmentByTag(newTag) as NavHostFragment
 
-        if (newlySelectedTag == currentTag) {
+        // 대상 탭은 항상 루트로 정리
+        newHost.navController.popBackStack(newHost.navController.graph.startDestinationId, false)
+
+        if (newTag == curTag) {
+            onTabReselected?.invoke(item.itemId, newHost.navController)
             return@setOnItemSelectedListener true
         }
 
-        val newlySelectedFragment = fragmentManager.findFragmentByTag(newlySelectedTag) as NavHostFragment
-        val currentFragment = fragmentManager.findFragmentByTag(currentTag!!) as NavHostFragment
-
-        // 터치 이벤트 제어
-        currentFragment.view?.apply {
-            isClickable = false
-            isFocusable = false
-        }
-        newlySelectedFragment.view?.apply {
-            isClickable = true
-            isFocusable = true
-        }
+        val curHost = fragmentManager.findFragmentByTag(curTag!!) as NavHostFragment
 
         fragmentManager.beginTransaction()
-            .hide(currentFragment)
-            .show(newlySelectedFragment)
-            .setPrimaryNavigationFragment(newlySelectedFragment)
+            .detach(curHost)          // 뷰 제거 → 뒤 화면 클릭 이슈 없음
+            .attach(newHost)          // 새 탭 뷰 생성
+            .setPrimaryNavigationFragment(newHost)
             .setReorderingAllowed(true)
-            .commit()
+            .commitNow()
 
-        selectedController.value = newlySelectedFragment.navController
+        selectedController.value = newHost.navController
+        onTabSelected?.invoke(item.itemId, newHost.navController)
         true
     }
 
-
-    // 딥링크 처리(선택적)
-    setupDeepLinks(
-        navGraphIds, fragmentManager, graphIdToTagMap, containerId, intent
-    ) { controller ->
+    // (옵션) 딥링크
+    setupDeepLinks(navGraphIds, fragmentManager, startIdToTag, containerId, intent) { controller ->
         selectedController.value = controller
         this.selectedItemId = controller.graph.startDestinationId
     }
@@ -96,42 +81,44 @@ fun BottomNavigationView.setupWithNavController(
 }
 
 private fun obtainNavHostFragment(
-    fragmentManager: FragmentManager,
-    fragmentTag: String,
+    fm: FragmentManager,
+    tag: String,
     navGraphId: Int,
     containerId: Int
 ): NavHostFragment {
-    val existing = fragmentManager.findFragmentByTag(fragmentTag) as? NavHostFragment
+    val existing = fm.findFragmentByTag(tag) as? NavHostFragment
     if (existing != null) return existing
-    val navHost = NavHostFragment.create(navGraphId)
-    fragmentManager.beginTransaction()
-        .add(containerId, navHost, fragmentTag)
+    val host = NavHostFragment.create(navGraphId)
+    fm.beginTransaction()
+        .add(containerId, host, tag)
+        .setReorderingAllowed(true)
         .commitNow()
-    return navHost
+    return host
 }
 
 private fun BottomNavigationView.setupDeepLinks(
     navGraphIds: List<Int>,
-    fragmentManager: FragmentManager,
-    graphIdToTagMap: Map<Int, String>,
+    fm: FragmentManager,
+    startIdToTag: Map<Int, String>,
     containerId: Int,
     intent: Intent,
-    onControllerReady: (NavController) -> Unit
+    onReady: (NavController) -> Unit
 ) {
     navGraphIds.forEachIndexed { index, navGraphId ->
-        val fragmentTag = "bottomNav#$index"
-        val navHostFragment = obtainNavHostFragment(fragmentManager, fragmentTag, navGraphId, containerId)
-        val controller = navHostFragment.navController
+        val tag = "bottomNav#$index"
+        val host = obtainNavHostFragment(fm, tag, navGraphId, containerId)
+        val controller = host.navController
         if (controller.handleDeepLink(intent)) {
-            fragmentManager.beginTransaction()
-                .setPrimaryNavigationFragment(navHostFragment)
-                .show(navHostFragment)
+            fm.beginTransaction()
+                .setPrimaryNavigationFragment(host)
                 .apply {
-                    graphIdToTagMap.values.filter { it != fragmentTag }
-                        .forEach { hide(fragmentManager.findFragmentByTag(it)!!) }
+                    startIdToTag.values.filter { it != tag }
+                        .forEach { detach(fm.findFragmentByTag(it)!!) }
+                    attach(host)
                 }
+                .setReorderingAllowed(true)
                 .commitNow()
-            onControllerReady(controller)
+            onReady(controller)
         }
     }
 }

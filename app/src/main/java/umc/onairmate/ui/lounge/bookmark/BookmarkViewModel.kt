@@ -30,7 +30,6 @@ class BookmarkViewModel @Inject constructor(
     // token
     private val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
-
     // 만들어진 북마크 정보
     private val _createdBookmarkDataInfo = MutableLiveData<BookmarkCreateResponse>()
     val createdBookmarkDataInfo : LiveData<BookmarkCreateResponse> get() = _createdBookmarkDataInfo

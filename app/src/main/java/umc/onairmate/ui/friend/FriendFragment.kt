@@ -17,6 +17,7 @@ import umc.onairmate.R
 import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.databinding.FragmentFriendBinding
 import umc.onairmate.ui.friend.chat.FriendChatActivity
+import umc.onairmate.ui.home.notification.NotificationViewModel
 import kotlin.getValue
 
 @AndroidEntryPoint
@@ -26,6 +27,8 @@ class FriendFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val tabList = arrayListOf("친구 목록", "받은 요청", "친구 찾기")
+
+    private val notificationViewModel: NotificationViewModel by viewModels()
 
     // 결과 콜백 -> 영상검색으로 전환여부 결정
     private val  friendChatActivityLauncher =
@@ -52,6 +55,8 @@ class FriendFragment : Fragment() {
             }
             friendChatActivityLauncher.launch(intent)
         }
+
+
     }
 
     override fun onCreateView(
@@ -70,8 +75,20 @@ class FriendFragment : Fragment() {
                 tab, position ->
             tab.text = tabList[position]
         }.attach()
+
+        setObserver()
         initClickListener()
+
+
+        notificationViewModel.getUnreadCount()
         return root
+    }
+
+    private fun setObserver(){
+        notificationViewModel.count.observe(viewLifecycleOwner){count ->
+            if(count == null) return@observe
+            binding.ivHasChange.visibility =  if(count > 0) View.VISIBLE else View.GONE
+        }
     }
 
     private fun initClickListener(){
@@ -79,6 +96,8 @@ class FriendFragment : Fragment() {
             findNavController().navigate(R.id.action_friend_to_search_video)
         }
         binding.ivNotification.setOnClickListener {
+            findNavController().navigate(R.id.action_friend_to_notification)
+
         }
     }
 

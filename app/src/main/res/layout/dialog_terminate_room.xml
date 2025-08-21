@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/background_box_5dp"
         android:backgroundTint="@color/main"
-        android:text="퇴장하기"
+        android:text="확인"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
         android:textColor="@color/white"

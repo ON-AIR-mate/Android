@@ -1,5 +1,6 @@
 package umc.onairmate.ui.lounge.collection.detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,15 +15,19 @@ import umc.onairmate.data.model.entity.BookmarkData
 import umc.onairmate.data.model.entity.CollectionDetailData
 import umc.onairmate.data.model.entity.CollectionVisibility
 import umc.onairmate.data.model.entity.RoomArchiveData
+import umc.onairmate.data.model.entity.VideoData
 import umc.onairmate.data.model.request.CreateRoomRequest
 import umc.onairmate.data.model.request.RoomWithBookmarkCreateRequest
 import umc.onairmate.data.model.request.CollectionModifyRequest
 import umc.onairmate.data.model.request.CollectionMoveRequest
 import umc.onairmate.data.model.request.RoomStartOption
 import umc.onairmate.databinding.FragmentCollectionDetailBinding
+import umc.onairmate.ui.chat_room.ChatRoomLayoutActivity
+import umc.onairmate.ui.home.HomeViewModel
 import umc.onairmate.ui.lounge.bookmark.BookmarkEventListener
 import umc.onairmate.ui.lounge.bookmark.BookmarkViewModel
 import umc.onairmate.ui.lounge.bookmark.move.CollectionMoveDialog
+import umc.onairmate.ui.lounge.bookmark.select.BookmarkSelectDialog
 import umc.onairmate.ui.lounge.collection.CollectionViewModel
 import umc.onairmate.ui.pop_up.CreateRoomCallback
 import umc.onairmate.ui.pop_up.CreateRoomPopup
@@ -39,13 +44,14 @@ class CollectionDetailFragment : Fragment() {
 
     private val collectionViewModel: CollectionViewModel by viewModels()
     private val bookmarkViewModel: BookmarkViewModel by viewModels()
+    private val searchRoomViewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCollectionDetailBinding.inflate(inflater, container, false)
-        collectionId = arguments?.getInt("collectionId")!!
+        collectionId = requireArguments().getInt("collectionId")
 
         setAdapter()
         setupObserver()
@@ -66,6 +72,32 @@ class CollectionDetailFragment : Fragment() {
         collectionViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
            binding.progressbar.visibility = if (isLoading) View.VISIBLE else View.GONE
         })
+
+        bookmarkViewModel.createdRoomDataInfo.observe(viewLifecycleOwner) { data ->
+            if (data == null) return@observe
+            else {
+                (activity?.supportFragmentManager?.findFragmentByTag("SelectBookmarkPopup")
+                        as? androidx.fragment.app.DialogFragment
+                        )?.dismissAllowingStateLoss()
+                searchRoomViewModel.getRoomDetailInfo(data.roomId)
+            }
+        }
+        searchRoomViewModel.roomDetailInfo.observe(viewLifecycleOwner) { data ->
+            if (data == null) return@observe
+            else {
+                (activity?.supportFragmentManager?.findFragmentByTag("CreateRoomPopup")
+                        as? androidx.fragment.app.DialogFragment
+                        )?.dismissAllowingStateLoss()
+
+                // 방 액티비티로 전환
+                val intent = Intent(requireActivity(), ChatRoomLayoutActivity::class.java).apply {
+                    putExtra("room_data", data)
+                }
+                startActivity(intent)
+            }
+            searchRoomViewModel.clearJoinRoom()
+            searchRoomViewModel.clearRoomDetailInfo()
+        }
 
         // 컬렉션 정보 + 북마크 리사이클러뷰 어댑터 연결
         collectionViewModel.collectionDetailDataInfo.observe(viewLifecycleOwner) { data ->
@@ -102,16 +134,22 @@ class CollectionDetailFragment : Fragment() {
                 },
                 object : BookmarkEventListener {
                     override fun createRoomWithBookmark(roomArchiveData: RoomArchiveData) {
-                        //showCreateRoomPopup(bookmark)
+                        showSelectBookmarkPopup(roomArchiveData, { selectedBookmark ->
+                            showCreateRoomPopup(selectedBookmark, roomArchiveData)
+                        })
                     }
 
                     override fun deleteBookmark(roomArchiveData: RoomArchiveData) {
-                        //bookmarkViewModel.deleteBookmark(bookmark.bookmarkId)
-                        Toast.makeText(context, "북마크가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                        showSelectBookmarkPopup(roomArchiveData, { selectedBookmark ->
+                            bookmarkViewModel.deleteBookmark(selectedBookmark.bookmarkId)
+                            Toast.makeText(context, "북마크가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                        })
                     }
 
                     override fun moveCollection(roomArchiveData: RoomArchiveData) {
-                        //showMoveCollectionPopup(bookmark)
+                        showSelectBookmarkPopup(roomArchiveData, { selectedBookmark ->
+                            showMoveCollectionPopup(selectedBookmark)
+                        })
                     }
                 }
             )
@@ -132,7 +170,7 @@ class CollectionDetailFragment : Fragment() {
                     collectionId,
                     request = CollectionModifyRequest(
                         title = modifiedTitle ?: "",
-                        description = data.description,
+                        description = data.description ?: "",
                         visibility = data.visibility
                     )
                 )
@@ -143,16 +181,33 @@ class CollectionDetailFragment : Fragment() {
         }
     }
 
-    // 방 생성 팝업 띄우기
-    private fun showCreateRoomPopup(data: BookmarkData){
+    // 어디서 시작할지 팝업 띄우기
+    private fun showSelectBookmarkPopup(roomArchiveData: RoomArchiveData, afterAction: (BookmarkData) -> Unit) {
+        val dialog = BookmarkSelectDialog(roomArchiveData.bookmarks, { selectedItem ->
+            afterAction(selectedItem)
+        })
+        activity?.supportFragmentManager?.let { fm ->
+            dialog.show(fm, "SelectBookmarkPopup")
+        }
+    }
 
-        val dialog = CreateRoomPopup(null, object : CreateRoomCallback {
+    // 방 생성 팝업 띄우기
+    private fun showCreateRoomPopup(data: BookmarkData, roomArchiveData: RoomArchiveData){
+        val videoData = VideoData(
+            channelName = "",
+            thumbnail = roomArchiveData.roomData.videoThumbnail ?: "",
+            title = roomArchiveData.roomData.videoTitle,
+            uploadTime = "",
+            viewCount = 0L
+        )
+
+        val dialog = CreateRoomPopup(videoData, object : CreateRoomCallback {
             override fun onCreateRoom(body: CreateRoomRequest) {
                 val requestBody = RoomWithBookmarkCreateRequest(
                     roomTitle = body.roomName,
                     maxParticipants = body.maxParticipants,
                     isPrivate = body.isPrivate,
-                    startFrom = RoomStartOption.BEGINNING.apiName
+                    startFrom = RoomStartOption.BOOKMARK.apiName
                 )
 
                 // 북마크로 방 생성 api 호출
@@ -165,14 +220,18 @@ class CollectionDetailFragment : Fragment() {
     }
 
     // 컬렉션 이동 팝업 띄우기
-    private fun showMoveCollectionPopup(bookmark: BookmarkData) {
+    private fun showMoveCollectionPopup(bookmarkData: BookmarkData) {
         collectionViewModel.getCollections()
+
+        (activity?.supportFragmentManager?.findFragmentByTag("SelectBookmarkPopup")
+                as? androidx.fragment.app.DialogFragment
+                )?.dismissAllowingStateLoss()
 
         collectionViewModel.collectionList.observe(viewLifecycleOwner) { data ->
             val collectionList = data.collections ?: emptyList()
 
             val dialog = CollectionMoveDialog(collectionList, { collection ->
-                bookmarkViewModel.moveCollectionOfBookmark(bookmark.bookmarkId, CollectionMoveRequest(collection.collectionId))
+                bookmarkViewModel.moveCollectionOfBookmark(bookmarkData.bookmarkId, CollectionMoveRequest(collection.collectionId))
             })
             activity?.supportFragmentManager?.let { fm ->
                 dialog.show(fm, "CollectionMoveDialog")

@@ -13,7 +13,8 @@ import umc.onairmate.data.api.CollectionService
 import umc.onairmate.data.api.HomeService
 import umc.onairmate.data.api.ImageService
 import umc.onairmate.data.api.JoinService
-import umc.onairmate.data.api.SharedCollectionsService
+import umc.onairmate.data.api.NotificationService
+import umc.onairmate.data.api.UserService
 import umc.onairmate.data.repository.repository.BookmarkRepository
 import umc.onairmate.data.repository.repository.FriendRepository
 import umc.onairmate.data.repository.repository.ChatRoomRepository
@@ -22,7 +23,9 @@ import umc.onairmate.data.repository.repository.HomeRepository
 import umc.onairmate.data.repository.repository.ImageRepository
 import umc.onairmate.data.repository.repository.JoinRepository
 import umc.onairmate.data.repository.repository.AuthRepository
-import umc.onairmate.data.repository.repository.SharedCollectionsRepository
+import umc.onairmate.data.repository.repository.NotificationRepository
+import umc.onairmate.data.repository.repository.UserRepository
+import umc.onairmate.data.repository.repositoryImpl.AuthRepositoryImpl
 import umc.onairmate.data.repository.repositoryImpl.BookmarkRepositoryImpl
 import umc.onairmate.data.repository.repositoryImpl.FriendRepositoryImpl
 import umc.onairmate.data.repository.repositoryImpl.ChatRoomRepositoryImpl
@@ -30,8 +33,8 @@ import umc.onairmate.data.repository.repositoryImpl.CollectionRepositoryImpl
 import umc.onairmate.data.repository.repositoryImpl.HomeRepositoryImpl
 import umc.onairmate.data.repository.repositoryImpl.ImageRepositoryImpl
 import umc.onairmate.data.repository.repositoryImpl.JoinRepositoryImpl
-import umc.onairmate.data.repository.repositoryImpl.AuthRepositoryImpl
-import umc.onairmate.data.repository.repositoryImpl.SharedCollectionRepositoryImpl
+import umc.onairmate.data.repository.repositoryImpl.NotificationRepositoryImpl
+import umc.onairmate.data.repository.repositoryImpl.UserRepositoryImpl
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -78,6 +81,11 @@ object RepositoryModule {
         imageService: ImageService
     ) : ImageRepository = ImageRepositoryImpl(imageService)
 
+    @ViewModelScoped
+    @Provides
+    fun providesUserRepository(
+        userService: UserService
+    ) : UserRepository = UserRepositoryImpl(userService)
     @Provides
     @ViewModelScoped
     fun provideJoinRepository(
@@ -86,7 +94,14 @@ object RepositoryModule {
 
     @Provides
     @ViewModelScoped
+    fun provideNotificationRepository(
+        notificationService: NotificationService
+    ): NotificationRepository = NotificationRepositoryImpl(notificationService)
+
+    @Provides
+    @ViewModelScoped
     fun provideSharedCollectionsRepository(
         sharedCollectionsService: SharedCollectionsService
     ): SharedCollectionsRepository = SharedCollectionRepositoryImpl(sharedCollectionsService)
 }
+
