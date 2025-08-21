@@ -7,76 +7,65 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import umc.onairmate.R
-import umc.onairmate.data.model.entity.CollectionDetailData
-import umc.onairmate.data.model.entity.RoomData
-import umc.onairmate.data.socket.SocketDispatcher
-import umc.onairmate.data.socket.SocketManager
-import umc.onairmate.databinding.ActivityChatRoomLayoutBinding
-import umc.onairmate.databinding.ActivityMainBinding
-import umc.onairmate.ui.chat_room.ChatRoomFragment
-import umc.onairmate.ui.chat_room.ChatVideoViewModel
-import umc.onairmate.ui.chat_room.drawer.ChatRoomDrawerFragment
-import umc.onairmate.ui.chat_room.message.VideoChatViewModel
-import umc.onairmate.ui.home.HomeViewModel
-import kotlin.getValue
-import androidx.fragment.app.commit
 import umc.onairmate.data.model.entity.FriendData
+import umc.onairmate.data.model.entity.CollectionData
+import umc.onairmate.databinding.FragmentPersonalLoungeBinding
 import umc.onairmate.ui.lounge.bookmark.BookmarkViewModel
 
-
 /**
- * PersonalLoungeLayoutActivity: 개인 라운지 화면의 메인 컨테이너 액티비티.
+ * PersonalLoungeLayoutActivity: 개인 라운지 화면의 메인 액티비티.
  *
- * 이 액티비티는 DrawerLayout을 사용하지 않습니다.
- * - 하위 프래그먼트: PersonalLoungeFragment
- *
- * Activity의 역할: 하나의 메인 프래그먼트(PersonalLoungeFragment)를 담는 컨테이너.
- * 화면 전환(PersonalLoungeFragment -> PersonalCollectionDetailFragment)은
- * PersonalLoungeFragment 내부에서 처리됩니다.
+ * 이 액티비티는 더 이상 Fragment를 담는 컨테이너가 아니며,
+ * lounge 레이아웃의 뷰들을 직접 관리합니다.
  */
 
 @AndroidEntryPoint
 class PersonalLoungeLayoutActivity : AppCompatActivity() {
     private val TAG = javaClass.simpleName
     lateinit var friendData: FriendData
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: FragmentPersonalLoungeBinding
 
-    // 하위 프래그먼트에서 activtyViewModels를 사용하므로 하위 프래그먼트에서 쓰는 뷰모델을 여기서 선언
     private val bookmarkViewModel: BookmarkViewModel by viewModels()
     private val collectionViewModel: CollectionViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+
+        binding = FragmentPersonalLoungeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // fragment_container ID를 사용하여 프래그먼트 추가
-        if (supportFragmentManager.findFragmentById(R.id.fragment_container) == null) {
-            supportFragmentManager.commit {
-                replace(R.id.activity_fragment_container, PersonalLoungeFragment())
+        val friendId : Int = intent.getIntExtra("FRIEND_ID", 0)
+
+        // RecyclerView 설정
+        // PersonalCollectionAdapter의 생성자에 OnCollectionActionListener를 익명 객체로 구현하여 전달합니다.
+        val adapter = PersonalCollectionAdapter(object : PersonalCollectionAdapter.OnCollectionActionListener {
+            override fun onItemClick(item: CollectionData) {
+                // 아이템 전체를 클릭했을 때의 동작
+                Log.d("PersonalLoungeLayout", "아이템 클릭: ${item.collectionId}")
             }
+
+            override fun onMoreClick(view: View, item: CollectionData) {
+                // '더보기' 버튼을 클릭했을 때의 동작
+                Log.d("PersonalLoungeLayout", "더보기 클릭: ${item.collectionId}")
+                // TODO: 팝업 메뉴를 띄우거나 다른 동작을 수행하는 코드를 여기에 작성하세요.
+            }
+        })
+
+        // RecyclerView에 어댑터와 레이아웃 매니저를 설정합니다.
+        binding.rvCollections.layoutManager = LinearLayoutManager(this)
+        binding.rvCollections.adapter = adapter
+
+        // LiveData 관찰 및 어댑터에 데이터 제출
+        collectionViewModel.collections.observe(this) { collections ->
+            adapter.submitList(collections)
         }
-            // "FRIEND_ID" 키로 전달된 친구 ID를 가져옵니다.
-        // 만약 null이 아니라면, 이 Activity는 개인 라운지용으로 사용되는 것입니다.
-        val friendId : Int = intent.getIntExtra("FRIEND_ID",0)
-
-
-        // 초기화 로직
-        initScreen()
     }
 
-    private fun initScreen() {
-        if (supportFragmentManager.findFragmentById(R.id.fragment_container) == null) {
-            supportFragmentManager.commit {
-                replace(R.id.fragment_container, PersonalLoungeFragment())
-            }
-
-        }
+    private fun bindObservers() {
+        // 이미 onCreate에서 옵저버를 설정했으므로, 이 메서드는 필요하지 않을 수 있습니다.
+        // TODO: 만약 bindObservers()가 호출되는 다른 곳이 있다면 그에 맞게 코드를 수정하세요.
     }
 }

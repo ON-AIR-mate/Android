@@ -52,12 +52,6 @@ class PersonalLoungeFragment : Fragment() {
         vm.fetchCollections() // 컬렉션 목록을 가져오는 함수를 호출
         vm.fetchFriends() // ⭐️ 친구 목록도 함께 가져오도록 API 호출
 
-        // 리스트 프래그먼트를 컨테이너에 추가 (한 번만 추가)
-        if (childFragmentManager.findFragmentById(binding.activityFragmentContainer.id) == null) {
-            childFragmentManager.commit {
-                replace(binding.activityFragmentContainer.id, PersonalCollectionListFragment())
-            }
-        }
 
         // LiveData 관찰 로직
         bindObservers()

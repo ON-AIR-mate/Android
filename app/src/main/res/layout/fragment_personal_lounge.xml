@@ -81,16 +81,79 @@
     </LinearLayout>
 
     <!--자식 프래그먼트(전체 목록, 컬렉션별 목록)가 들어갈 부분-->
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/activity_fragment_container"
+    <LinearLayout
+        android:id="@+id/progressbar"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        tools:layout="@layout/fragment_personal_collection_list"
-        app:layout_constraintTop_toBottomOf="@+id/loungeHeaderLayout"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        android:gravity="center"
+        android:background="@color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:translationZ="1dp">
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:translationZ="1dp"
+            android:indeterminateTint="@color/main"/>
+    </LinearLayout>
+
+
+    <!-- 컬렉션 리스트 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_collections"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        android:overScrollMode="never"
+        android:nestedScrollingEnabled="false"
+        app:layout_constraintTop_toTopOf="@+id/cl_bottom"
+        app:layout_constraintBottom_toTopOf="@id/loungeHeaderLayout"
+        />
+
+
+    <!-- 개별라운지 컬렉션 없음 뷰 -->
+    <LinearLayout
+        android:id="@+id/personal_lounge_emptyCollectionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="24dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@+id/cl_bottom"
+        app:layout_constraintBottom_toBottomOf="@id/loungeHeaderLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_empty_collection" />
+
+        <TextView
+            android:layout_marginTop="16dp"
+            android:text="[닉네임]의 컬렉션이 존재하지 않습니다."
+            android:textAppearance="@style/TextAppearance.App.Medium.12sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <!-- 바텀뷰만큼 띄우기위한 코드입니다 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 
 
