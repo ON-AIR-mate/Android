@@ -68,10 +68,10 @@ class PersonalLoungeLayoutActivity : AppCompatActivity() {
         // sharedCollectionsViewModel.sharedCollections의 LiveData는 List<CollectionData>를 방출해야 합니다.
         // 따라서 Observer의 람다 파라미터도 List<CollectionData> 타입으로 받도록 수정하고,
         // 변수명을 'collections'처럼 의미있게 변경했습니다.
-        sharedCollectionsViewModel.sharedCollections.observe(this) { sharedCollections ->
+        sharedCollectionsViewModel.sharedCollections.observe(this) { sharedCollectionsList ->
             // sharedCollectionsList는 List<CollectionData> 타입입니다.
             // 이 리스트를 adapter.submitList()에 전달합니다.
-            adapter.submitList(sharedCollections)
+            adapter.submitList(sharedCollectionsList as MutableList<CollectionData>)
         }
     }
 

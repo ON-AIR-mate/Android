@@ -11,7 +11,9 @@ import kotlinx.coroutines.launch
 import umc.onairmate.data.model.response.DefaultResponse
 import umc.onairmate.data.repository.repository.SharedCollectionsRepository
 import umc.onairmate.data.model.entity.SharedCollectionData
+import umc.onairmate.data.model.entity.CollectionData
 import umc.onairmate.data.api.SharedCollectionsService
+
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,6 +31,10 @@ class SharedCollectionsViewModel @Inject constructor(
     // LiveData는 외부(액티비티 등)에서 읽기전용 -> 둘이 세트로 구현
     private val _sharedCollections = MutableLiveData<List<SharedCollectionData>>()
     val sharedCollections: LiveData<List<SharedCollectionData>> get() = _sharedCollections
+
+    // 친구의 공개 컬렉션 리스트 LiveData (새로 추가)
+    private val _friendPublicCollections = MutableLiveData<List<CollectionData>>()
+    val friendPublicCollections: LiveData<List<CollectionData>> get() = _friendPublicCollections
 
     // UX 향상을 위해 서버가 로딩 중임을 프로그레스바로 표시할 때 사용 예정
     // api 호출 시 true, 응답이 오면 false로 한다 정도로만 생각해주세요
@@ -70,4 +76,40 @@ class SharedCollectionsViewModel @Inject constructor(
             _isLoading.value = false
         }
     }
+
+    // 친구의 공개 컬렉션 정보를 받아오는 함수
+            fun getFriendPublicCollections() {
+                viewModelScope.launch {
+                    _isLoading.value = true
+                    val token = getToken()
+
+                    // 토큰이 null이 아닐 때만 API를 호출합니다.
+                    if (token != null) {
+                        val result = repository.getFriendPublicCollections(token)
+                        Log.d(TAG, "getFriendPublicCollections api 호출")
+
+                        when (result) {
+                            is DefaultResponse.Success -> {
+                                Log.d(TAG, "응답 성공: ${result.data}")
+                                // _friendPublicCollections LiveData에 데이터를 할당합니다.
+                                _friendPublicCollections.postValue(result.data)
+                            }
+
+                            is DefaultResponse.Error -> {
+                                Log.e(TAG, "에러: ${result.code} - ${result.message}")
+                                _friendPublicCollections.value = emptyList()
+                            }
+                        }
+                    } else {
+                        // 토큰이 null일 경우, 에러를 로그에 기록하고 빈 리스트를 할당합니다.
+                        Log.e(TAG, "토큰이 없습니다.")
+                        _friendPublicCollections.value = emptyList()
+                    }
+
+                    _isLoading.value = false
+                }
+            }
+
+
+
 }
