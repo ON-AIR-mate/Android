@@ -40,6 +40,7 @@ class CollectionDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var collectionId: Int = 0
+    private lateinit var collectionDetailData: CollectionDetailData
     private lateinit var adapter: CollectionDetailRVAdapter
 
     private val collectionViewModel: CollectionViewModel by viewModels()
@@ -105,6 +106,8 @@ class CollectionDetailFragment : Fragment() {
                 Toast.makeText(context, "오류가 발생했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
                 return@observe
             }
+            collectionDetailData = data
+            bookmarkViewModel.getBookmarks(collectionId, false)
 
             adapter = CollectionDetailRVAdapter(
                 object : CollectionDetailEventListener {
@@ -154,8 +157,15 @@ class CollectionDetailFragment : Fragment() {
                 }
             )
 
-            adapter.initData(data)
             binding.rvBookmarks.adapter = adapter
+        }
+
+        bookmarkViewModel.bookmarkList.observe(viewLifecycleOwner) { data ->
+            if (data == null) return@observe
+
+            collectionDetailData.bookmarks = data.all
+
+            adapter.initData(collectionDetailData)
         }
 
     }
