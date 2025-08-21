@@ -51,7 +51,7 @@ class CollectionDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCollectionDetailBinding.inflate(inflater, container, false)
-        collectionId = arguments?.getInt("collectionId")!!
+        collectionId = requireArguments().getInt("collectionId")
 
         setAdapter()
         setupObserver()
@@ -215,7 +215,7 @@ class CollectionDetailFragment : Fragment() {
             }
         })
         activity?.supportFragmentManager?.let { fm ->
-            dialog.show(fm, "SelectBookmarkPopup")
+            dialog.show(fm, "CreateRoomPopup")
         }
     }
 

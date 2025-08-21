@@ -67,14 +67,6 @@ class ChatRoomParticipantsFragment : Fragment() {
         // host 정보 주입
         binding.itemRoomManager.tvUserNickname.text = roomData!!.hostNickname
         binding.itemRoomManager.tvUserTier.text = roomData!!.hostPopularity.toString()
-        if (user.nickname == roomData!!.hostNickname) {
-            // host일 경우 host item 더보기 버튼 빼기
-            binding.itemRoomManager.ivMore.visibility = View.GONE
-        } else {
-            // host가 아닐 경우 host item 더보기 버튼-팝업 연결
-            binding.itemRoomManager.ivMore.setOnClickListener { showPopupMenu( binding.itemRoomManager.ivMore, hostData!! ) }
-        }
-
         NetworkImageLoader.profileLoad(binding.itemRoomManager.ivUserProfile, roomData!!.hostProfileImage)
     }
 
@@ -123,6 +115,16 @@ class ChatRoomParticipantsFragment : Fragment() {
 
             val userList = data.filter { !it.isHost } ?: emptyList()
             hostData = data.firstOrNull { it.isHost }
+
+            // host 데이터 주입 후 더보기 버튼 관리
+            if (user.nickname == roomData!!.hostNickname) {
+                // host일 경우 host item 더보기 버튼 빼기
+                binding.itemRoomManager.ivMore.visibility = View.GONE
+            } else {
+                // host가 아닐 경우 host item 더보기 버튼-팝업 연결
+                binding.itemRoomManager.ivMore.visibility = View.VISIBLE
+                binding.itemRoomManager.ivMore.setOnClickListener { showPopupMenu( binding.itemRoomManager.ivMore, hostData!! ) }
+            }
 
             adapter.submitList(userList)
         }
