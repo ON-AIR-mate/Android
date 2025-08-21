@@ -15,7 +15,7 @@ class SharedCollectionRepositoryImpl @Inject constructor (
         return safeApiCall { api.getSharedCollection(accessToken) }
     }
 
-    override suspend fun getFriendPublicCollections(accessToken: String): DefaultResponse<List<CollectionData>> {
-        return safeApiCall { api.getFriendPublicCollections(accessToken) }
+    override suspend fun getFriendPublicCollections(accessToken: String, userId : Int): DefaultResponse<List<CollectionData>> {
+        return safeApiCall { api.getFriendPublicCollections(accessToken, userId) }
     }
 }

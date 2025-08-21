@@ -78,14 +78,14 @@ class SharedCollectionsViewModel @Inject constructor(
     }
 
     // 친구의 공개 컬렉션 정보를 받아오는 함수
-            fun getFriendPublicCollections() {
+            fun getFriendPublicCollections(userId : Int ){
                 viewModelScope.launch {
                     _isLoading.value = true
                     val token = getToken()
 
                     // 토큰이 null이 아닐 때만 API를 호출합니다.
                     if (token != null) {
-                        val result = repository.getFriendPublicCollections(token)
+                        val result = repository.getFriendPublicCollections(token, userId)
                         Log.d(TAG, "getFriendPublicCollections api 호출")
 
                         when (result) {

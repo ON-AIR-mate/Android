@@ -14,7 +14,8 @@ interface SharedCollectionsRepository {
     ) : DefaultResponse<List<SharedCollectionData>>
 
     suspend fun  getFriendPublicCollections(
-        accessToken: String
+        accessToken: String,
+        userId : Int
     ) : DefaultResponse<List<CollectionData>>
 
 }

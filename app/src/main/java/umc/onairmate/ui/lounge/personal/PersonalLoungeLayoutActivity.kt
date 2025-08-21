@@ -53,6 +53,8 @@ class PersonalLoungeLayoutActivity : AppCompatActivity() {
             }
         })
 
+        sharedCollectionsViewModel.getFriendPublicCollections(friendId)
+
         // RecyclerView에 어댑터와 레이아웃 매니저를 설정합니다.
         binding.rvCollections.layoutManager = LinearLayoutManager(this)
         binding.rvCollections.adapter = adapter
