@@ -6,11 +6,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
-import umc.onairmate.data.model.entity.FriendData
 import umc.onairmate.databinding.ActivityPersonalLoungeBinding
-import umc.onairmate.ui.chat_room.message.VideoChatFragment
-import umc.onairmate.ui.lounge.bookmark.BookmarkListFragment
-import umc.onairmate.ui.lounge.collection.CollectionListFragment
+
 
 @AndroidEntryPoint
 class PersonalLoungeActivity : AppCompatActivity() {
@@ -19,23 +16,33 @@ class PersonalLoungeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPersonalLoungeBinding
     private val viewModel: SharedCollectionsViewModel by viewModels()
     private var friendId : Int = 0
-
+    private var friendNickname  = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPersonalLoungeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         friendId  = intent.getIntExtra("FRIEND_ID", 0)
-//        val bundle = Bundle()
-//        bundle.putInt("friendId", 0)
-//        val fragment =
-//        fragment.arguments = bundle
-
+        friendNickname = intent.getStringExtra("friend_nickname").toString()
         viewModel.getFriendPublicCollections(friendId)
 
+
+        val bundle = Bundle()
+        bundle.putString("friend_nickname", friendNickname)
+
+        val fragment = PersonalLoungeFragment()
+        fragment.arguments = bundle
         supportFragmentManager.beginTransaction()
-            .replace(R.id.personal_lounge_content_container,  PersonalLoungeFragment())
+            .replace(R.id.personal_lounge_content_container, fragment )
             .commit()
+
+
+        binding.tvFriendNickname.text = "[${friendNickname}]'s Lounge"
+
+
+        binding.btnExit.setOnClickListener {
+            finish()
+        }
     }
 
 

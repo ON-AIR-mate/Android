@@ -14,10 +14,11 @@ import umc.onairmate.ui.util.TimeFormatter
 
 class CollectionViewHolder(
     private val binding: RvItemCollectionBinding,
-    private val collectionEventListener: CollectionEventListener
+    private val collectionEventListener: CollectionEventListener,
+    private val isOthers : Boolean
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: CollectionData) {
+    fun bind(item: CollectionData ) {
         binding.root.setOnClickListener { collectionEventListener.clickCollectionItem(item) }
 
         binding.tvTitle.text = item.title
@@ -51,6 +52,13 @@ class CollectionViewHolder(
             View.MeasureSpec.UNSPECIFIED,
             View.MeasureSpec.UNSPECIFIED
         )
+
+
+        // 남의 라운지에서 재활용 하기 위한 임시 로짇
+        if (isOthers){
+            popupBinding.tvDeleteCollection.text = "내 라운지에 가져오기"
+        }
+
 
         val popupWidth = popupBinding.root.measuredWidth
 

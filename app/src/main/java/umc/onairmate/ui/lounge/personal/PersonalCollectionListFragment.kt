@@ -57,12 +57,12 @@ class PersonalCollectionListFragment : Fragment() {
                 val popupView = inflater.inflate(umc.onairmate.R.layout.popup_personal_collection_item, null)
 
                 // ID 오류 수정
-                popupView.findViewById<TextView>(umc.onairmate.R.id.tv_import_collection).setOnClickListener {
-                    val dialog = PersonalLoungeImportDialog(item.collectionId) { collectionId ->
-                        vm.importToMyCollection(collectionId)
-                    }
-                    dialog.show(childFragmentManager, "ImportDialog")
-                }
+//                popupView.findViewById<TextView>(umc.onairmate.R.id.tv_import_collection).setOnClickListener {
+//                    val dialog = PersonalLoungeImportDialog(item.collectionId) { collectionId ->
+//                        vm.importToMyCollection(collectionId)
+//                    }
+//                    dialog.show(childFragmentManager, "ImportDialog")
+//                }
                 popupView.findViewById<TextView>(umc.onairmate.R.id.tv_move_collection).setOnClickListener {
                     when (item.visibility) {
                         "전체 공개" -> showShareDialog(item)

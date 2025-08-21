@@ -12,12 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.CollectionData
-import umc.onairmate.data.model.entity.FriendData
-import umc.onairmate.data.model.response.DefaultResponse // DefaultResponse import
 import umc.onairmate.databinding.FragmentCollectionListBinding
 import umc.onairmate.ui.lounge.collection.CollectionEventListener
 import umc.onairmate.ui.lounge.collection.CollectionRVAdapter
 import umc.onairmate.ui.lounge.collection.detail.CollectionDetailFragment
+import umc.onairmate.ui.lounge.personal.dialog.PersonalLoungeImportDialog
 
 @AndroidEntryPoint
 class PersonalLoungeFragment : Fragment() {
@@ -27,7 +26,7 @@ class PersonalLoungeFragment : Fragment() {
 
     private lateinit var adapter: CollectionRVAdapter
 
-    private var friendId : Int = 0
+    private var friendNickname : String = ""
     private val sharedCollectionsViewModel: SharedCollectionsViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -35,7 +34,7 @@ class PersonalLoungeFragment : Fragment() {
     ): View {
         _binding = FragmentCollectionListBinding.inflate(inflater, container, false)
 
-        //friendId = arguments?.getInt("friendId", 0)!!
+        friendNickname = arguments?.getString("friend_nickname", "").toString()
 
         binding.llCreateCollection.visibility = View.GONE
 
@@ -70,10 +69,13 @@ class PersonalLoungeFragment : Fragment() {
     }
 
     fun initAdapter() {
-
         adapter = CollectionRVAdapter(object : CollectionEventListener {
             override fun deleteCollection(collection: CollectionData) {
-                //showDeleteDialog(collection)
+                val title = "[${friendNickname}]의 " + collection.title
+                val dialog = PersonalLoungeImportDialog(collectionId = collection.collectionId, { collectionId ->
+                   //.importToMyCollection(collectionId)
+                }, title )
+                dialog.show(childFragmentManager, "ImportDialog")
             }
             override fun shareCollection(collection: CollectionData) {
                 //showShareDialog(collection)
@@ -89,7 +91,7 @@ class PersonalLoungeFragment : Fragment() {
                     .replace(R.id.personal_lounge_content_container, detail)
                     .commit()
             }
-        })
+        }, isOthers = true)
         binding.rvCollections.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvCollections.adapter = adapter
     }

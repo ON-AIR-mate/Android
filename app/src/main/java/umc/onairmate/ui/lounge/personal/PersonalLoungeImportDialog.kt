@@ -13,7 +13,8 @@ import umc.onairmate.databinding.DialogPersonalLoungeImportBinding // 레이아�
 // 내 라운지에 컬렉션 가져오기 다이얼로그
 class PersonalLoungeImportDialog(
     private val collectionId: Int,
-    private val importCallback: (Int) -> Unit // 가져오기 완료 후 호출할 콜백
+    private val importCallback: (Int) -> Unit, // 가져오기 완료 후 호출할 콜백
+    private val title: String= ""
 ) : DialogFragment() {
 
     private lateinit var binding: DialogPersonalLoungeImportBinding
@@ -23,6 +24,8 @@ class PersonalLoungeImportDialog(
         val builder = AlertDialog.Builder(requireContext())
         builder.setView(binding.root)
         val dialog = builder.create()
+
+        if (!title.isBlank()) binding.tvCollectionTitle.text = title
 
         setClickListener()
         setupDialogWindow(dialog)
@@ -42,6 +45,7 @@ class PersonalLoungeImportDialog(
             dismiss()
         }
     }
+
 
     private fun setupDialogWindow(dialog: Dialog) {
         dialog.window?.let { window ->

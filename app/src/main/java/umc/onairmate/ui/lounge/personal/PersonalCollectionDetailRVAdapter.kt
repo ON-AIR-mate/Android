@@ -103,11 +103,11 @@ class PersonalCollectionDetailRVAdapter(
         val itemList = mutableListOf<RecyclerItem>()
 
         itemList.add(RecyclerItem.Card(collectionDetailData))
-        if (collectionDetailData.bookmarks.isEmpty()) {
-            itemList.add(RecyclerItem.Empty)
-        } else {
-            itemList.addAll(collectionDetailData.bookmarks.map { RecyclerItem.Bookmark(it) })
-        }
+//        if (collectionDetailData.bookmarks.isEmpty()) {
+//            itemList.add(RecyclerItem.Empty)
+//        } else {
+//            itemList.addAll(collectionDetailData.bookmarks.map { RecyclerItem.Bookmark(it) })
+//        }
 
         submitList(emptyList())
         submitList(itemList)
