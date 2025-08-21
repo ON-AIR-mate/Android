@@ -18,9 +18,8 @@ import umc.onairmate.data.model.entity.RequestedFriendData
 import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.databinding.FragmentFriendListTabBinding
 import umc.onairmate.ui.friend.FriendViewModel
-import umc.onairmate.ui.friend.chat.FriendChatActivity
 import umc.onairmate.ui.friend.chat.FriendChatViewModel
-import umc.onairmate.ui.lounge.personal.PersonalLoungeLayoutActivity
+import umc.onairmate.ui.lounge.personal.PersonalLoungeActivity
 import umc.onairmate.ui.pop_up.PopupClick
 import umc.onairmate.ui.pop_up.TwoButtonPopup
 import umc.onairmate.ui.util.SharedPrefUtil
@@ -144,7 +143,7 @@ class FriendListTabFragment() : Fragment() {
 
                 // 1. 새 Activity로 이동하기 위한 Intent 생성
                 // Intent의 첫 번째 인자는 현재 컨텍스트(context), 두 번째 인자는 이동할 Activity의 클래스입니다.
-                val intent = Intent(context, PersonalLoungeLayoutActivity::class.java).apply {
+                val intent = Intent(context, PersonalLoungeActivity::class.java).apply {
                     // 2. 새 Activity에 데이터 전달
                     // putExtra()를 사용하여 데이터를 key-value 쌍으로 전달합니다.
                     // 여기서는 친구의 ID(userId)를 "FRIEND_ID"라는 키로 전달합니다.

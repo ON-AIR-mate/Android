@@ -5,92 +5,93 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
-import android.widget.PopupWindow
-import android.widget.TextView
-import umc.onairmate.databinding.FragmentPersonalLoungeBinding
+import umc.onairmate.data.model.entity.CollectionData
 import umc.onairmate.data.model.entity.FriendData
-import umc.onairmate.data.model.entity.CollectionData // CollectionData import
 import umc.onairmate.data.model.response.DefaultResponse // DefaultResponse import
-import umc.onairmate.ui.lounge.personal.dialog.PersonalLoungeImportDialog // 새로 만든 다이얼로그 import
-import umc.onairmate.ui.lounge.personal.dialog.PersonalShareListDialog // 새로 만든 다이얼로그 import
-import umc.onairmate.ui.lounge.personal.dialog.PersonalLoungePrivacyInfoDialog
-import androidx.fragment.app.commit
-import umc.onairmate.data.model.entity.RoomData
-import androidx.fragment.app.viewModels
-import umc.onairmate.ui.lounge.personal.SharedCollectionsViewModel
+import umc.onairmate.databinding.FragmentCollectionListBinding
+import umc.onairmate.ui.lounge.collection.CollectionEventListener
+import umc.onairmate.ui.lounge.collection.CollectionRVAdapter
+import umc.onairmate.ui.lounge.collection.detail.CollectionDetailFragment
 
 @AndroidEntryPoint
 class PersonalLoungeFragment : Fragment() {
 
-    private var _binding: FragmentPersonalLoungeBinding? = null
-    // 1. 변수명을 binding으로 변경하여 가독성 향상
+    private var _binding: FragmentCollectionListBinding? = null
     private val binding get() = _binding!!
 
-    // viewModel 초기화
-    private val vm: PersonalCollectionViewModel by viewModels()
-    lateinit var friendData: FriendData
-    private lateinit var adapter: PersonalCollectionAdapter
+    private lateinit var adapter: CollectionRVAdapter
 
-    // 친구 목록 데이터를 저장할 변수
-    private var friendList: List<FriendData> = emptyList()
-
-    private val sharedCollectionsViewModel: SharedCollectionsViewModel by viewModels()
+    private var friendId : Int = 0
+    private val sharedCollectionsViewModel: SharedCollectionsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentPersonalLoungeBinding.inflate(inflater, container, false)
+        _binding = FragmentCollectionListBinding.inflate(inflater, container, false)
+
+        //friendId = arguments?.getInt("friendId", 0)!!
+
+        binding.llCreateCollection.visibility = View.GONE
+
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // API 연결
-        vm.fetchCollections() // 컬렉션 목록을 가져오는 함수를 호출
-        vm.fetchFriends() // ⭐️ 친구 목록도 함께 가져오도록 API 호출
-        // API 연결
-        sharedCollectionsViewModel.getSharedCollections() //공유받은 컬렉션 목록 API 호출
-
-
-
-        // LiveData 관찰 로직
-        bindObservers()
+        initAdapter()
+        setObservers()
 
     }
 
-    private fun bindObservers() {
-        // 컬렉션 목록을 LiveData로 관찰
-        vm.collections.observe(viewLifecycleOwner) { list ->
-            adapter.submitList(list)
-        }
+    private fun setObservers() {
+        sharedCollectionsViewModel.friendPublicCollections.observe(viewLifecycleOwner){list->
+            if (list == null )return@observe
+            if (list.isEmpty()) {
+                binding.emptyCollectionLayout.visibility = View.VISIBLE
+                binding.rvCollections.visibility = View.GONE
 
-        // ⭐️ 친구 목록을 LiveData로 관찰하고 변수에 저장
-        vm.friends.observe(viewLifecycleOwner) { friends ->
-            friendList = friends
-        }
-
-        // API 호출 결과(공유)를 LiveData로 관찰
-        vm.shareResponse.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is DefaultResponse.Success -> Log.d("Fragment", "컬렉션 공유 성공")
-                is DefaultResponse.Error -> Log.e("Fragment", "컬렉션 공유 실패: ${result.message}")
             }
+            else{
+                binding.emptyCollectionLayout.visibility = View.GONE
+                binding.rvCollections.visibility = View.VISIBLE
+                adapter.submitList(list)
+            }
+
         }
 
-        // API 호출 결과(가져오기)를 LiveData로 관찰
-        vm.importResponse.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is DefaultResponse.Success -> Log.d("Fragment", "컬렉션 가져오기 성공")
-                is DefaultResponse.Error -> Log.e("Fragment", "컬렉션 가져오기 실패: ${result.message}")
+    }
+
+    fun initAdapter() {
+
+        adapter = CollectionRVAdapter(object : CollectionEventListener {
+            override fun deleteCollection(collection: CollectionData) {
+                //showDeleteDialog(collection)
             }
-        }
+            override fun shareCollection(collection: CollectionData) {
+                //showShareDialog(collection)
+            }
+
+            override fun clickCollectionItem(collection: CollectionData) {
+                val bundle = Bundle()
+                bundle.putInt("collectionId", collection.collectionId)
+                val detail = CollectionDetailFragment()
+                detail.arguments = bundle
+
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.personal_lounge_content_container, detail)
+                    .commit()
+            }
+        })
+        binding.rvCollections.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rvCollections.adapter = adapter
     }
 
     override fun onDestroyView() {
