@@ -52,6 +52,7 @@ class CollectionDetailViewHolder (
 
         // 내 컬렉션만 수정가능
         binding.etInputDescription.isFocusable = isOwner
+        binding.spVisibility.isEnabled = isOwner
 
         // --- 텍스트 리스너 설정 (생성 시 한 번만) ---
         textWatcher = object : TextWatcher {

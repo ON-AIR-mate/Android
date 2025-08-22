@@ -89,7 +89,7 @@ class PersonalLoungeFragment : Fragment() {
             }
             override fun shareCollection(collection: CollectionData) {
                 // 친구공개일경우
-                if(collection.visibility == "friend"){
+                if(collection.visibility == "FRIENDS_ONLY"){
                     val privacyDialog = PersonalLoungePrivacyInfoDialog(
                         onConfirmCallback = {
 
