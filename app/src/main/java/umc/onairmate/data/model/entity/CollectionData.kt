@@ -24,7 +24,8 @@ data class CollectionData(
 
 enum class CollectionVisibility(val apiName: String, val displayName: String) {
     PRIVATE("private", "비공개"),
-    FRIENDS_ONLY("friends", "친구만 공개"),
+    FRIENDS("friends", "친구만 공개"),
+    FRIENDS_ONLY("FRIENDS_ONLY", "친구만 공개"),
     PUBLIC("public", "전체공개");
 
     companion object {

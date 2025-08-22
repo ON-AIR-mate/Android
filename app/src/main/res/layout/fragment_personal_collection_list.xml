@@ -53,7 +53,7 @@
         android:padding="24dp"
         android:visibility="visible"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/cl_bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -73,11 +73,5 @@
 
     </LinearLayout>
 
-    <!-- 바텀뷰만큼 띄우기위한 코드입니다 -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
