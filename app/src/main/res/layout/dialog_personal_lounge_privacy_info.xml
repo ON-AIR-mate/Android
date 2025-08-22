@@ -17,6 +17,7 @@
         android:layout_marginBottom="18dp">
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="[닉네임]의 웃긴장면"
@@ -58,6 +59,7 @@
         android:textAppearance="@style/TextAppearance.App.Medium.14sp" />
 
     <TextView
+        android:id="@+id/tv_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="현재 공개범위:친구만 공개"

@@ -77,7 +77,7 @@ class PersonalCollectionDetailFragment : Fragment() {
                 return@observe
             }
 
-            adapter = PersonalCollectionDetailRVAdapter(
+            adapter = PersonalCollectionDetailRVAdapter(false,
                 object : CollectionDetailEventListener {
                     override fun onVisibilitySelected(selectedVisibility: String) {
                         collectionViewModel.modifyCollection(

@@ -183,11 +183,9 @@ class CollectionViewModel @Inject constructor(
 
     fun modifyCollection(collectionId: Int, request: CollectionModifyRequest) {
         viewModelScope.launch {
-            _isLoading.value = true
             val token = getToken()
             if (token == null) {
                 Log.e(TAG, "토큰이 없습니다")
-                _isLoading.value = false
                 return@launch
             }
 
@@ -203,8 +201,6 @@ class CollectionViewModel @Inject constructor(
                     Log.d(TAG, "에러: ${result.code} - ${result.message}")
                 }
             }
-
-            _isLoading.value = false
         }
     }
 

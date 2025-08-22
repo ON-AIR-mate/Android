@@ -10,8 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import umc.onairmate.data.model.entity.CollectionData
 import umc.onairmate.databinding.FragmentPersonalCollectionListBinding
-import umc.onairmate.ui.lounge.personal.dialog.PersonalLoungeImportDialog
-import umc.onairmate.ui.lounge.personal.dialog.PersonalLoungePrivacyInfoDialog
 import umc.onairmate.ui.lounge.personal.dialog.PersonalShareListDialog
 import android.widget.TextView
 
@@ -64,15 +62,15 @@ class PersonalCollectionListFragment : Fragment() {
 //                    dialog.show(childFragmentManager, "ImportDialog")
 //                }
                 popupView.findViewById<TextView>(umc.onairmate.R.id.tv_move_collection).setOnClickListener {
-                    when (item.visibility) {
-                        "전체 공개" -> showShareDialog(item)
-                        "친구만 공개", "나만 보기" -> {
-                            val privacyDialog = PersonalLoungePrivacyInfoDialog {
-                                showShareDialog(item)
-                            }
-                            privacyDialog.show(childFragmentManager, "PrivacyDialog")
-                        }
-                    }
+//                    when (item.visibility) {
+//                        "전체 공개" -> showShareDialog(item)
+//                        "친구만 공개", "나만 보기" -> {
+//                            val privacyDialog = PersonalLoungePrivacyInfoDialog {
+//                                showShareDialog(item)
+//                            }
+//                            privacyDialog.show(childFragmentManager, "PrivacyDialog")
+//                        }
+//                    }
                 }
             }
         })

@@ -14,6 +14,7 @@ import umc.onairmate.ui.util.TimeFormatter
 
 class CollectionDetailViewHolder (
     private val binding: RvItemCollectionDetailBinding,
+    private val isOwner : Boolean,
     private val collectionDetailEventListener: CollectionDetailEventListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -49,6 +50,9 @@ class CollectionDetailViewHolder (
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
+        // 내 컬렉션만 수정가능
+        binding.etInputDescription.isFocusable = isOwner
+
         // --- 텍스트 리스너 설정 (생성 시 한 번만) ---
         textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -73,7 +77,7 @@ class CollectionDetailViewHolder (
         NetworkImageLoader.thumbnailLoad(binding.ivThumbnail, item.coverImage)
 
         binding.tvModifyTitle.setOnClickListener {
-            collectionDetailEventListener.onTitleModifyClicked()
+            if(isOwner) collectionDetailEventListener.onTitleModifyClicked()
         }
 
         // --- 스피너 상태 업데이트 로직 ---

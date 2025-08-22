@@ -13,11 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import umc.onairmate.R
 import umc.onairmate.data.model.entity.CollectionData
+import umc.onairmate.data.model.request.CollectionShareRequest
 import umc.onairmate.databinding.FragmentCollectionListBinding
+import umc.onairmate.ui.friend.FriendViewModel
 import umc.onairmate.ui.lounge.collection.CollectionEventListener
 import umc.onairmate.ui.lounge.collection.CollectionRVAdapter
 import umc.onairmate.ui.lounge.collection.CollectionViewModel
 import umc.onairmate.ui.lounge.collection.detail.CollectionDetailFragment
+import umc.onairmate.ui.lounge.collection.share.CollectionShareDialog
 import umc.onairmate.ui.lounge.personal.dialog.PersonalLoungeImportDialog
 
 @AndroidEntryPoint
@@ -31,6 +34,7 @@ class PersonalLoungeFragment : Fragment() {
     private var friendNickname : String = ""
     private val sharedCollectionsViewModel: SharedCollectionsViewModel by activityViewModels()
     private val collectionViewModel: CollectionViewModel by  activityViewModels()
+    private val friendViewModel: FriendViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -84,12 +88,25 @@ class PersonalLoungeFragment : Fragment() {
                 dialog.show(childFragmentManager, "ImportDialog")
             }
             override fun shareCollection(collection: CollectionData) {
-                //showShareDialog(collection)
-            }
+                // 친구공개일경우
+                if(collection.visibility == "friend"){
+                    val privacyDialog = PersonalLoungePrivacyInfoDialog(
+                        onConfirmCallback = {
 
+                        },
+                        collection = collection,
+                        friendNickname =friendNickname
+                    )
+                    privacyDialog.show(childFragmentManager, "PrivacyDialog")
+                }
+                else {
+                    showShareDialog(collection)
+                }
+            }
             override fun clickCollectionItem(collection: CollectionData) {
                 val bundle = Bundle()
                 bundle.putInt("collectionId", collection.collectionId)
+                bundle.putBoolean("isOwner",false)
                 val detail = CollectionDetailFragment()
                 detail.arguments = bundle
 
@@ -105,5 +122,24 @@ class PersonalLoungeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showShareDialog(collectionData: CollectionData) {
+        friendViewModel.getFriendList()
+
+        friendViewModel.friendList.observe(viewLifecycleOwner) { list ->
+            val friendList = list ?: emptyList()
+
+            val dialog = CollectionShareDialog(friendList, { friend ->
+                val request = CollectionShareRequest(
+                    listOf(friend.userId)
+                )
+
+                collectionViewModel.shareCollection(collectionData.collectionId ,request)
+            })
+            activity?.supportFragmentManager?.let { fm ->
+                dialog.show(fm, "ShareCollectionPopup")
+            }
+        }
     }
 }

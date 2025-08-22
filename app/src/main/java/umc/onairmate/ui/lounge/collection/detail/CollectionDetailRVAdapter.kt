@@ -14,6 +14,7 @@ import umc.onairmate.ui.lounge.bookmark.BookmarkEventListener
 import umc.onairmate.ui.lounge.bookmark.BookmarkViewHolder
 
 class CollectionDetailRVAdapter(
+    private val isOwner : Boolean,
     private val collectionDetailEventListener: CollectionDetailEventListener,
     private val bookmarkItemEventListener: BookmarkEventListener
 ): ListAdapter<CollectionDetailRVAdapter.RecyclerItem, RecyclerView.ViewHolder>(CollectionDetailDiffCallback) {
@@ -51,7 +52,7 @@ class CollectionDetailRVAdapter(
         return when (viewType) {
             VIEW_TYPE_COLLECTION_CARD -> {
                 val binding = RvItemCollectionDetailBinding.inflate(inflater, parent, false)
-                CollectionDetailViewHolder(binding, collectionDetailEventListener)
+                CollectionDetailViewHolder(binding, isOwner , collectionDetailEventListener)
             }
             VIEW_TYPE_BOOKMARK -> {
                 val binding = RvItemBookmarkBinding.inflate(inflater, parent, false)

@@ -46,12 +46,16 @@ class CollectionDetailFragment : Fragment() {
     private val bookmarkViewModel: BookmarkViewModel by viewModels()
     private val searchRoomViewModel: HomeViewModel by viewModels()
 
+    private var isOwner : Boolean = true
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCollectionDetailBinding.inflate(inflater, container, false)
         collectionId = requireArguments().getInt("collectionId")
+        isOwner = requireArguments().getBoolean("isOwner",true)
+
 
         setAdapter()
         setupObserver()
@@ -106,7 +110,7 @@ class CollectionDetailFragment : Fragment() {
                 return@observe
             }
 
-            adapter = CollectionDetailRVAdapter(
+            adapter = CollectionDetailRVAdapter(isOwner,
                 object : CollectionDetailEventListener {
                     override fun onVisibilitySelected(selectedVisibility: String) {
                         collectionViewModel.modifyCollection(
