@@ -19,7 +19,8 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 
 class CollectionRVAdapter(
-    private val collectionEventListener: CollectionEventListener
+    private val collectionEventListener: CollectionEventListener,
+    private val isOthers : Boolean = false
 ) : ListAdapter<CollectionData, CollectionViewHolder>(CollectionDiffCallback) {
 
 
@@ -30,7 +31,7 @@ class CollectionRVAdapter(
             parent,
             false
         )
-        return CollectionViewHolder(binding, collectionEventListener)
+        return CollectionViewHolder(binding, collectionEventListener, isOthers)
     }
 
     override fun onBindViewHolder(holder: CollectionViewHolder, position: Int) {

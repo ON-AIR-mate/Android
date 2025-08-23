@@ -1,4 +1,4 @@
-package umc.onairmate.ui.lounge.collection.detail
+package umc.onairmate.ui.lounge.personal
 
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,9 +12,8 @@ import umc.onairmate.ui.chat_room.drawer.setting.RoomSettingSpAdapter
 import umc.onairmate.ui.util.NetworkImageLoader
 import umc.onairmate.ui.util.TimeFormatter
 
-class CollectionDetailViewHolder (
+class PersonalCollectionDetailViewHolder (
     private val binding: RvItemCollectionDetailBinding,
-    private val isOwner : Boolean,
     private val collectionDetailEventListener: CollectionDetailEventListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -50,10 +49,6 @@ class CollectionDetailViewHolder (
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        // 내 컬렉션만 수정가능
-        binding.etInputDescription.isFocusable = isOwner
-        binding.spVisibility.isEnabled = isOwner
-
         // --- 텍스트 리스너 설정 (생성 시 한 번만) ---
         textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -78,7 +73,7 @@ class CollectionDetailViewHolder (
         NetworkImageLoader.thumbnailLoad(binding.ivThumbnail, item.coverImage)
 
         binding.tvModifyTitle.setOnClickListener {
-            if(isOwner) collectionDetailEventListener.onTitleModifyClicked()
+            collectionDetailEventListener.onTitleModifyClicked()
         }
 
         // --- 스피너 상태 업데이트 로직 ---
@@ -98,6 +93,7 @@ class CollectionDetailViewHolder (
         binding.etInputDescription.addTextChangedListener(textWatcher)
 
     }
+
 }
 
 interface CollectionDetailEventListener {

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginHorizontal="30dp"
+    android:paddingHorizontal="13dp"
+    android:paddingVertical="24dp"
+    android:orientation="vertical"
+    android:background="@drawable/bg_dialog"
+    android:elevation="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="컬렉션 공유하기"
+            android:textAppearance="@style/TextAppearance.App.Medium.14sp"
+            />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_item_collection_share_list"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            tools:listitem="@layout/rv_item_collection_share_friend" />
+
+
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/btn_confirm"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_box_5dp"
+        android:backgroundTint="@color/main"
+        android:text="완료"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:paddingVertical="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</LinearLayout>
+

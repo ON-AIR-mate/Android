@@ -15,6 +15,7 @@ import umc.onairmate.data.api.JoinService
 import umc.onairmate.data.api.UserService
 import umc.onairmate.data.api.ImageService
 import umc.onairmate.data.api.NotificationService
+import umc.onairmate.data.api.SharedCollectionsService
 import javax.inject.Singleton
 
 
@@ -85,6 +86,12 @@ object ServiceModule {
     @Provides
     @Singleton
     fun notificationApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): NotificationService {
+        return retrofit.buildService()
+    }
+
+    @Provides
+    @Singleton
+    fun sharedCollectionsApi(@NetworkModule.BaseRetrofit retrofit: Retrofit): SharedCollectionsService {
         return retrofit.buildService()
     }
 }

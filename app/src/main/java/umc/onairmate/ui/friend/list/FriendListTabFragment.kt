@@ -18,8 +18,8 @@ import umc.onairmate.data.model.entity.RequestedFriendData
 import umc.onairmate.data.model.entity.UserData
 import umc.onairmate.databinding.FragmentFriendListTabBinding
 import umc.onairmate.ui.friend.FriendViewModel
-import umc.onairmate.ui.friend.chat.FriendChatActivity
 import umc.onairmate.ui.friend.chat.FriendChatViewModel
+import umc.onairmate.ui.lounge.personal.PersonalLoungeActivity
 import umc.onairmate.ui.pop_up.PopupClick
 import umc.onairmate.ui.pop_up.TwoButtonPopup
 import umc.onairmate.ui.util.SharedPrefUtil
@@ -139,7 +139,11 @@ class FriendListTabFragment() : Fragment() {
 
             // 친구 콜렉션 방문
             override fun clickCollection(data: FriendData) {
-                // 인탠트 필요
+                val intent = Intent(context, PersonalLoungeActivity::class.java).apply {
+                    putExtra("FRIEND_ID", data.userId)
+                    putExtra("friend_nickname", data.nickname)
+                }
+                startActivity(intent)
             }
 
             // 삭제하기

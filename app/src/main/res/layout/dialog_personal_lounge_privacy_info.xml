@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginHorizontal="30dp"
+    android:paddingHorizontal="13dp"
+    android:paddingVertical="24dp"
+    android:orientation="vertical"
+    android:background="@drawable/bg_dialog"
+    android:elevation="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="[닉네임]의 웃긴장면"
+            android:textAppearance="@style/TextAppearance.App.Medium.14sp"
+            />
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/bg_count_badge"
+            android:paddingHorizontal="6dp"
+            android:paddingVertical="2dp"
+            android:layout_marginEnd="5dp"
+            tools:text="45"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
+            android:textColor="@color/white" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/btn_close" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="공유할 수 없는 공개범위입니다."
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.App.Medium.14sp" />
+
+    <TextView
+        android:id="@+id/tv_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="현재 공개범위:친구만 공개"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.App.Regular.12sp"
+        android:layout_marginBottom="15dp"/>
+
+    <TextView
+        android:id="@+id/btn_confirm"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_box_5dp"
+        android:backgroundTint="@color/main"
+        android:text="확인"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:paddingVertical="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</LinearLayout>
+

@@ -5,11 +5,15 @@ import umc.onairmate.data.model.entity.CollectionDetailData
 import umc.onairmate.data.model.request.CollectionCreateRequest
 import umc.onairmate.data.model.request.CollectionModifyRequest
 import umc.onairmate.data.model.request.CollectionShareRequest
+import umc.onairmate.data.model.request.ShareRequest
 import umc.onairmate.data.model.response.CollectionListResponse
 import umc.onairmate.data.model.response.CollectionCreateResponse
 import umc.onairmate.data.model.response.DefaultResponse
+import umc.onairmate.data.model.response.ImportResponse
 import umc.onairmate.data.model.response.MessageResponse
+import umc.onairmate.data.model.response.RawDefaultResponse
 import umc.onairmate.data.repository.repository.CollectionRepository
+
 import umc.onairmate.data.util.safeApiCall
 import javax.inject.Inject
 
@@ -66,6 +70,25 @@ class CollectionRepositoryImpl @Inject constructor(
     ): DefaultResponse<MessageResponse> {
         return safeApiCall {
             api.deleteCollection(accessToken, collectionId)
+        }
+    }
+
+    override suspend fun shareToMyCollection(
+        accessToken: String,
+        collectionId: Int,
+        request: ShareRequest
+    ): DefaultResponse<MessageResponse> {
+        return safeApiCall {
+            api.shareToMyCollection(accessToken, collectionId ,request)
+        }
+    }
+
+    override suspend fun importToMyCollection(
+        accessToken: String,
+        collectionId: Int
+    ): DefaultResponse<ImportResponse> {
+        return safeApiCall {
+            api.importToMyCollection(accessToken, collectionId)
         }
     }
 

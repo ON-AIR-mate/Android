@@ -1,5 +1,7 @@
-package umc.onairmate.ui.lounge.collection.detail
+package umc.onairmate.ui.lounge.personal
 
+import umc.onairmate.ui.lounge.collection.detail.CollectionDetailEventListener
+import umc.onairmate.ui.lounge.collection.detail.CollectionDetailViewHolder
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -13,11 +15,11 @@ import umc.onairmate.databinding.RvItemCollectionDetailEmptyBinding
 import umc.onairmate.ui.lounge.bookmark.BookmarkEventListener
 import umc.onairmate.ui.lounge.bookmark.BookmarkViewHolder
 
-class CollectionDetailRVAdapter(
-    private val isOwner : Boolean,
+class PersonalCollectionDetailRVAdapter(
+    private val isOwner: Boolean = false,
     private val collectionDetailEventListener: CollectionDetailEventListener,
     private val bookmarkItemEventListener: BookmarkEventListener
-): ListAdapter<CollectionDetailRVAdapter.RecyclerItem, RecyclerView.ViewHolder>(CollectionDetailDiffCallback) {
+): ListAdapter<PersonalCollectionDetailRVAdapter.RecyclerItem, RecyclerView.ViewHolder>(CollectionDetailDiffCallback) {
 
     // 뷰 타입 구분
     companion object {
@@ -52,7 +54,7 @@ class CollectionDetailRVAdapter(
         return when (viewType) {
             VIEW_TYPE_COLLECTION_CARD -> {
                 val binding = RvItemCollectionDetailBinding.inflate(inflater, parent, false)
-                CollectionDetailViewHolder(binding, isOwner , collectionDetailEventListener)
+                CollectionDetailViewHolder(binding, isOwner, collectionDetailEventListener)
             }
             VIEW_TYPE_BOOKMARK -> {
                 val binding = RvItemBookmarkBinding.inflate(inflater, parent, false)
@@ -102,11 +104,11 @@ class CollectionDetailRVAdapter(
         val itemList = mutableListOf<RecyclerItem>()
 
         itemList.add(RecyclerItem.Card(collectionDetailData))
-        if (collectionDetailData.rooms.isNullOrEmpty()) {
-            itemList.add(RecyclerItem.Empty)
-        } else {
-            itemList.addAll(collectionDetailData.rooms.map { RecyclerItem.Bookmark(it) })
-        }
+//        if (collectionDetailData.bookmarks.isEmpty()) {
+//            itemList.add(RecyclerItem.Empty)
+//        } else {
+//            itemList.addAll(collectionDetailData.bookmarks.map { RecyclerItem.Bookmark(it) })
+//        }
 
         submitList(emptyList())
         submitList(itemList)

@@ -25,6 +25,7 @@ import umc.onairmate.databinding.FragmentVideoChatBinding
 import umc.onairmate.ui.chat_room.ChatRoomLayoutActivity
 import umc.onairmate.ui.friend.FriendViewModel
 import umc.onairmate.ui.home.HomeViewModel
+import umc.onairmate.ui.lounge.personal.PersonalLoungeActivity
 import umc.onairmate.ui.pop_up.JoinRoomPopup
 import umc.onairmate.ui.pop_up.PopupClick
 import umc.onairmate.ui.util.SharedPrefUtil
@@ -86,7 +87,11 @@ class FriendChatFragment: Fragment() {
     private fun initAdapter(){
         adapter = FriendChatRVAdapter(user, friend, object : FriendChatEventListener{
             override fun collectionClick(data: CollectionData) {
-                TODO("Not yet implemented")
+                val intent = Intent(context, PersonalLoungeActivity::class.java).apply {
+                    putExtra("FRIEND_ID", friend.userId)
+                    putExtra("friend_nickname", friend.nickname)
+                }
+                startActivity(intent)
             }
 
             override fun invite(data: RoomData) {

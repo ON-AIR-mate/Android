@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    card_view:cardCornerRadius="12dp"
+    card_view:cardCornerRadius="18dp"
     card_view:cardElevation="0dp"
     android:layout_marginVertical="8dp">
 
@@ -16,9 +16,9 @@
         <ImageView
             android:id="@+id/iv_thumbnail"
             android:layout_width="match_parent"
-            android:layout_height="185dp"
+            android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:background="@color/login" />
+            android:src="@drawable/sample_image" />
 
         <!-- 내용 + 메뉴 -->
         <LinearLayout
@@ -41,6 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginTop="4dp"
                     android:gravity="center_vertical">
 
                     <TextView
@@ -49,6 +50,7 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
+
                         tools:text="웃긴 장면"
                         android:textAppearance="@style/TextAppearance.App.SemiBold.20sp" />
 
@@ -63,19 +65,6 @@
                         tools:text="45"
                         android:textAppearance="@style/TextAppearance.App.SemiBold.12sp"
                         android:textColor="@android:color/white" />
-
-                    <TextView
-                        android:id="@+id/tv_modify_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:background="@drawable/bg_button_outline_pink"
-                        android:paddingHorizontal="6dp"
-                        android:paddingVertical="2dp"
-                        android:text="@string/edit_title"
-                        android:textAppearance="@style/TextAppearance.App.Medium.12sp"
-                        android:textColor="@color/black" />
-
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"

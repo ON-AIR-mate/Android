@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_popup"
+    android:orientation="vertical"
+    android:background="@color/sub"
+    android:paddingVertical="5dp"
+    android:paddingHorizontal="10dp"
+    android:layout_width="wrap_content"
+    android:minWidth="100dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_import_collection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="3dp"
+        android:textAppearance="@style/TextAppearance.App.Medium.10sp"
+        android:text="내 라운지에 가져오기" />
+
+    <TextView
+        android:id="@+id/tv_move_collection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="3dp"
+        android:textAppearance="@style/TextAppearance.App.Medium.10sp"
+        android:text="공유하기" />
+
+</LinearLayout>
